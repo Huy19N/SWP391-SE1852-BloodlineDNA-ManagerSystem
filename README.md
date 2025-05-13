@@ -4,7 +4,7 @@
 
 # Mục đích hệ thống là gì?
 
-### Mục đích: Bán sản phẩm thời trang cho những anh chàng không hi vọng.
+### Mục đích: Quản lý dịch vụ xét nghiệm ADN huyết thống của những anh chàng không hi vọng.
 - Phần mềm quản lý dịch vụ xét nghiệm ADN huyết thống của 01 cơ sở y tế.
 
 # Ai là người sử dụng?
