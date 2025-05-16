@@ -25,7 +25,7 @@
  - Quản lý quá trình thực hiện xét nghiệm tại cơ sở y tế
   << Đăng ký đặt hẹn dịch vụ xét nghiệm --> Nhân viên cơ sở y tế thu thập mẫu và cập nhật đơn yêu cầu xét nghiệm --> Thực hiện xét nghiệm tại cơ sở y tế và ghi nhận kết quả --> Trả kết quả xét nghiệm >>
  - Chức năng cho phép người dùng xem kết quả xét nghiệm trên hệ thống
- - Khai báo thông tin dịch vụ xét nghiệm, bảng giá, ...
+ - Khai báo thông tin dịch vụ xét nghiệm, bảng giá, ....
  - Quản lý rating, feedback.
  - Quản lý hồ sơ người dùng, lịch sử đặt xét nghiệm.
  - Dashboard & Report.
