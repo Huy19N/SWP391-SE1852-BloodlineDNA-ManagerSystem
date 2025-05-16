@@ -1,6 +1,6 @@
 
 # Tên của hệ thống
-### Tên của hệ thống:  Bloodline DNA Testing Service Management System
+### Tên của hệ thống:  Bloodline DNA Testing Service Management System.
 
 # Mục đích hệ thống là gì?
 
