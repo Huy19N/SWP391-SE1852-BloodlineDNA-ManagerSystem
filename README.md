@@ -1,9 +1,13 @@
-
 # Tên của hệ thống
 ### Tên của hệ thống:  Bloodline DNA Testing Service Management System.
 
-# Mục đích hệ thống là gì?
+# Thành Viên:
+- Nguyễn Gia Huy
+- Huỳnh Trung Kiên
+- Nguyễn Văn Thành Đạt
+- Trần Nguyễn Hiếu Thuận
 
+# Mục đích hệ thống là gì?
 ### Mục đích: Quản lý dịch vụ xét nghiệm ADN huyết thống của những anh chàng không hi vọng.
 - Phần mềm quản lý dịch vụ xét nghiệm ADN huyết thống của 01 cơ sở y tế.
 
