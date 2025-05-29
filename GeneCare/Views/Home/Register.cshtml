@@ -1,0 +1,23 @@
+﻿@{
+	ViewData["Title"] = "Register";
+}
+
+<div class="container">
+	<h1>Register</h1>
+	@if (ViewBag.errorregister == true)
+	{
+		<div>
+			<p class="text-danger">Have account linking with this mail</p>
+		</div>
+	}
+
+	<p>Welcome to the register. Please fill form below:</p>
+	<form action="" method="get">
+		<input name="username" type="email" required>
+		<input name="password" type="password" required>
+		<input name="confpassword" type="password" required>
+		<button type="submit">register</button>
+
+		<p>Already have an account? <a href="Login">Login now!</a></p>
+	</form>
+</div>
