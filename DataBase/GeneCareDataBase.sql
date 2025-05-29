@@ -1,7 +1,16 @@
-﻿-- Tạo database
+﻿USE master;
+GO
+
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'GeneCare')
+DROP DATABASE GeneCare;
+GO
+
+-- Tạo database
 CREATE DATABASE GeneCare;
+go
 
 USE GeneCare;
+go
 
 -- Bảng Role
 CREATE TABLE Role (
