@@ -1,5 +1,7 @@
 
 
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.  
@@ -12,7 +14,10 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
     options.Cookie.IsEssential = true; // Make the session cookie essential for the app to function
 });
+// Add database
 
+builder.Services.AddDbContext<GeneCare>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GeneCare")));
 
 
 var app = builder.Build();

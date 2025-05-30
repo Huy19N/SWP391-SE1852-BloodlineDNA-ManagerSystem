@@ -3,6 +3,7 @@
 using Microsoft.Data.SqlClient;
 using GeneCare.Models.DTO;
 using GeneCare.Models.Utils;
+using System.Collections.Generic;
 
 namespace GeneCare.Models.DAO
 {
@@ -17,8 +18,8 @@ namespace GeneCare.Models.DAO
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
-                    cmd.Parameters.AddWithValue("@Email", $"N\"{email}\"");
-                    cmd.Parameters.AddWithValue("@Password", $"N\"{password}\"");
+                    cmd.Parameters.AddWithValue("@Email", $"N'{email}'");
+                    cmd.Parameters.AddWithValue("@Password", $"N'{password}'");
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -41,21 +42,20 @@ namespace GeneCare.Models.DAO
 
         public Boolean addUser(String email, String password)
         {
-            SqlConnection con = new DBUtils().getConnection();
-            con.Open();
-            SqlCommand cmd = new SqlCommand("INSERT INTO Users (Email, Password) VALUES (@Email, @Password)", con);
+            String sql = "INSERT INTO Users(Email, Password) VALUES(@Email, @Password)";
             
-            cmd.Parameters.AddWithValue("@Email", $"N\"{email}\"");
-            cmd.Parameters.AddWithValue("@Password", $"N\"{password}\"");
-            
-            int rowsAffected = cmd.ExecuteNonQuery();
-            if (rowsAffected > 0)
+            using(SqlConnection con = new DBUtils().getConnection())
             {
-                con.Close();
-                return true;
-            }
-            con.Close();
-            return false;
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@Email", $"N\"{email}\"");
+                    cmd.Parameters.AddWithValue("@Password", $"N\"{password}\"");
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }   
         }
     }
 }

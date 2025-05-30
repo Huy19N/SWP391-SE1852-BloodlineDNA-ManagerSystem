@@ -1,10 +1,12 @@
-﻿@{
+﻿@Model ErrorViewModel
+
+@{
 	ViewData["Title"] = "Register";
 }
 
 <div class="container">
 	<h1>Register</h1>
-	@if (ViewBag.errorregister == true)
+	@if (!String.IsNullOrWhiteSpace(Model?.ErrorRegister))
 	{
 		<div>
 			<p class="text-danger">Have account linking with this mail</p>
@@ -12,7 +14,7 @@
 	}
 
 	<p>Welcome to the register. Please fill form below:</p>
-	<form action="" method="get">
+	<form action="Register" method="post">
 		<input name="username" type="email" required>
 		<input name="password" type="password" required>
 		<input name="confpassword" type="password" required>
@@ -20,4 +22,11 @@
 
 		<p>Already have an account? <a href="Login">Login now!</a></p>
 	</form>
+	<a asp-action="Login" asp-controller="Home">
+		<button>
+			Login
+		</button>
+	</a>
+	
+	
 </div>
