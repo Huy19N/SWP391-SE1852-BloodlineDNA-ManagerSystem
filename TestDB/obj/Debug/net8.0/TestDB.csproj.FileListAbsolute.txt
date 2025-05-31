@@ -1,3 +1,9 @@
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.AssemblyInfo.cs
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.sourcelink.json
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\TestDB.exe
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\TestDB.deps.json
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\TestDB.runtimeconfig.json
@@ -51,12 +57,6 @@ C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\Tes
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.Messages.dll
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.csproj.AssemblyReference.cache
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.AssemblyInfoInputs.cache
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.AssemblyInfo.cs
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.csproj.CoreCompileInputs.cache
-C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.sourcelink.json
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.csproj.Up2Date
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\TestDB.dll
 C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\TestDB\obj\Debug\net8.0\refint\TestDB.dll

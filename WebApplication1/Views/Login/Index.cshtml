@@ -1,0 +1,15 @@
+﻿@model GeneCare.Models.DTO.UserDTO;
+
+<form asp-action="Login" method="post">
+	<div class="mb-3">
+		<label asp-for="Email" for="exampleInputEmail1" class="form-label">Email address</label>
+		<input asp-for="Email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+		<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Password" for="exampleInputPassword1" class="form-label">Password</label>
+		<input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1">
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+	<a asp-action="LoginWithGoogle" asp-controller="Login" class="btn btn-primary">Login with Google</a>
+</form>

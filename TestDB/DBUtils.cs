@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace GeneCare.Models.Utils
+namespace TestDB
 {
     public class DBUtils
     {

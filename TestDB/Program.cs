@@ -1,30 +1,6 @@
-﻿using System;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using System.Threading.Tasks;
-using GeneCare.Models.Utils;
-using Microsoft.Identity.Client;
-using TestDB;
+﻿using TestDB;
+UserDAO userDAO = new UserDAO();
 
-class Program
-{
-
-    static class SqlHelper
-    {
-       public static UserDTO GetUser()
-        {
-            String sql = "SELECT * FROM Users WHERE UserId = @UserId";
-            using (SqlConnection con = new DBUtils().getConnection())
-            {
-                SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.add
-            }
-
-                return null;
-        } 
-       static void main(String[] arg)
-        {
-
-        }
-    }
-}
+UserDTO user = userDAO.GetUser(1);
+Console.WriteLine("User retrieval completed. Check the console for any errors or results.");
+Console.WriteLine(user);

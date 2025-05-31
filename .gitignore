@@ -1,2 +1,4 @@
 # Visual Studio cache/settings
 .vs/
+# Secret.json
+Secret.json

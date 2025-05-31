@@ -19,7 +19,7 @@ CREATE TABLE Role (
 );
 
 -- Bảng User
-CREATE TABLE [User] (
+CREATE TABLE Users (
 	UserID INT PRIMARY KEY,
 	RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
 	FullName NVARCHAR(150),
@@ -55,7 +55,7 @@ CREATE TABLE ServicePrice (
 -- Bảng Booking
 CREATE TABLE Booking (
 	BookingID INT PRIMARY KEY,
-	UserID INT FOREIGN KEY REFERENCES [User](UserID),
+	UserID INT FOREIGN KEY REFERENCES Users(UserID),
 	DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
 	ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
 	[Status] INT,
@@ -66,7 +66,7 @@ CREATE TABLE Booking (
 -- Bảng Feedback
 CREATE TABLE Feedback (
 	FeedbackID INT PRIMARY KEY,
-	UserID INT FOREIGN KEY REFERENCES [User](UserID),
+	UserID INT FOREIGN KEY REFERENCES Users(UserID),
 	ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
 	CreatedAt DATETIME,
 	Comment NVARCHAR(MAX),
@@ -82,7 +82,7 @@ CREATE TABLE TestResult (
 );
 
 -- Bảng Sample
-CREATE TABLE [Sample] (
+CREATE TABLE Samples (
 	SampleID INT PRIMARY KEY,
 	BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
 	[Date] DATETIME,
@@ -95,7 +95,7 @@ CREATE TABLE [Sample] (
 -- Bảng Blog
 CREATE TABLE Blog (
 	BlogID INT PRIMARY KEY,
-	UserID INT FOREIGN KEY REFERENCES [User](UserID),
+	UserID INT FOREIGN KEY REFERENCES Users(UserID),
 	Title NVARCHAR(200),
 	Content NVARCHAR(MAX),
 	CreatedAt DATETIME

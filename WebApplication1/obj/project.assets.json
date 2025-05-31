@@ -47,6 +47,22 @@
           }
         }
       },
+      "Microsoft.AspNetCore.Authentication.Google/8.0.16": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
         "type": "package",
         "compile": {
@@ -682,6 +698,21 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.Google/8.0.16": {
+      "sha512": "X4jGB9ebljVss21KqEgDZkHENMFw3gFKBWpnPcNtCvGbOqncO0HZG1yZE8rSwPS449HVoyv+2STs/MJqrw8nJQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.google/8.0.16",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll",
+        "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.xml",
+        "microsoft.aspnetcore.authentication.google.8.0.16.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.google.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -1662,6 +1693,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Microsoft.AspNetCore.Authentication.Google >= 8.0.16",
       "Microsoft.Data.SqlClient >= 6.0.2"
     ]
   },
@@ -1716,6 +1748,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": {
+            "target": "Package",
+            "version": "[8.0.16, )"
+          },
           "Microsoft.Data.SqlClient": {
             "target": "Package",
             "version": "[6.0.2, )"
