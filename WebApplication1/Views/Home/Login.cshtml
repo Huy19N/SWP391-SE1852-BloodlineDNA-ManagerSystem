@@ -1,0 +1,29 @@
+﻿@model ErrorViewModel
+
+@{
+	ViewData["Title"] = "Login";
+	
+}
+
+
+<p>Welcome to the login page. Please enter your email and password to log in.</p>
+<div class="container">
+	@if (Model != null && Model?.ErrorLoginEmaiPassword != null && Model.ErrorLoginEmaiPassword)
+	{
+		<div>
+			<p class="text-danger">Invalid email or password. Please try again.</p>
+		</div>
+	}
+	
+	<form action="Login" method="post">
+		
+		<input name="email" type="email" required>
+		<input name="password" type="password" required>
+		<button type="submit">Login</button>
+	</form>
+
+	<form action="Register" method="get">
+		<p>Don't have an account? Register now!</p>
+		<button class="register-at-login" type="submit">Register</button>
+	</form>
+</div>

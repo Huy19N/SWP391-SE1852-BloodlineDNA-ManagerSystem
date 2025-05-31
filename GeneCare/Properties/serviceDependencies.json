@@ -1,13 +1,9 @@
 {
   "dependencies": {
-    "secrets1": {
-      "type": "secrets",
-      "dynamicId": null
-    },
-    "mssql1": {
+    "mssql2": {
+      "ignored": "true",
       "type": "mssql",
-      "connectionId": "ConnectionStrings:MyDb",
-      "dynamicId": null
+      "connectionId": "ConnectionStrings:GeneCare"
     }
   }
 }

@@ -1,0 +1,8 @@
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.AssemblyInfo.cs
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.RazorAssemblyInfo.cache
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.RazorAssemblyInfo.cs
+C:\Users\Admin\Desktop\myrepository\SWP391-SE1852-BloodlineDNA-ManagerSystem\WebApplication1\obj\Debug\net8.0\GeneCare.sourcelink.json
