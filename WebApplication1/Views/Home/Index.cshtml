@@ -1,7 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using GeneCare.Models.DTO
+@using GeneCare.Models.Utils
+@{
+    ViewData["Title"] = "Home";
+    var user = Context.Session.getObject<UserDTO>("user") ?? new UserDTO();
 }
 <br />
+
+@user.Email
 
 @if (Context.User.Identity.IsAuthenticated)
 {

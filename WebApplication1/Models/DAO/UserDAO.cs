@@ -13,41 +13,65 @@ namespace GeneCare.Models.DAO
             String sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
             using (SqlConnection con = new DBUtils().getConnection())
             {
-                SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
-                cmd.Parameters["@Email"].Value = Password;
 
-                cmd.Parameters.Add("@Password", SqlDbType.NVarChar);
-                cmd.Parameters["@Password"].Value = Password;
-
-                try
+                using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
-                    con.Open();
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                    cmd.Parameters["@Email"].Value = Password;
+
+                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar);
+                    cmd.Parameters["@Password"].Value = Password;
+
+                    try
                     {
-                        while (reader.Read())
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            UserDTO user = new UserDTO();
-                            user.UserId = Convert.ToInt32(reader["UserId"]);
-                            user.RoleId = Convert.ToInt32(reader["RoleId"]);
-                            user.FullName = reader["FullName"].ToString();
-                            user.Address = reader["Address"].ToString();
-                            user.Email = reader["Email"].ToString();
-                            user.Phone = reader["Phone"].ToString();
-                            user.Password = reader["Password"].ToString();
-                            return user;
+                            while (reader.Read())
+                            {
+                                UserDTO user = new UserDTO();
+                                user.UserId = Convert.ToInt32(reader["UserId"]);
+                                user.Role = new RoleDAO().getRole(Convert.ToInt32(reader["RoleId"]), null);
+                                user.FullName = reader["FullName"].ToString();
+                                user.Address = reader["Address"].ToString();
+                                user.Email = reader["Email"].ToString();
+                                user.Phone = reader["Phone"].ToString();
+                                user.Password = reader["Password"].ToString();
+                                return user;
+                            }
                         }
                     }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine("Error connecting to database: " + ex.Message);
+                        return null;
+                    }
                 }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("Error connecting to database: " + ex.Message);
-                    return null;
-                }
-
                 return null;
             }
         }
+
+        public Boolean containsUser(String email)
+        {
+            String sql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+
+            using (SqlConnection con = new DBUtils().getConnection())
+            {
+                
+
+
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                    cmd.Parameters["@Email"].Value = email;
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
         public Boolean addUser(String email, String password)
         {
             String sql = "INSERT INTO Users(Email, Password) VALUES(@Email, @Password)";

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using GeneCare.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using GeneCare.Models.Utils;
 namespace GeneCare.Controllers
 {
     public class LoginController : Controller
@@ -19,8 +20,8 @@ namespace GeneCare.Controllers
         public IActionResult Login(UserDTO user)
         {
 
-
-            return View("Index");
+            HttpContext.Session.setObject("user", user);
+            return RedirectToAction("Index", "Home");
         }
         public async Task LoginWithGoogle()
         {
@@ -43,7 +44,6 @@ namespace GeneCare.Controllers
                 claim.Type,
                 claim.Value
             });
-            
             //return Json(claims);
             return RedirectToAction("Index", "Home", new { area = "" });
         }
