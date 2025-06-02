@@ -9,7 +9,7 @@ namespace GeneCare.Models.DAO
     {
         public RoleDTO getRole(int roleId, String? roleName)
         {
-            var sql = "SELECT * FROM Roles WHERE RoleId = @RoleId OR RoleName = @RoleName";
+            var sql = "SELECT * FROM Role WHERE RoleId = @RoleId OR RoleName = @RoleName";
             using (SqlConnection con = new DBUtils().getConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(sql, con))
@@ -20,9 +20,10 @@ namespace GeneCare.Models.DAO
                     cmd.Parameters.Add("@RoleName", SqlDbType.NVarChar);
                     cmd.Parameters["@RoleName"].Value = roleName ?? string.Empty;
 
+                    con.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        con.Open();
+                        
                         try
                         {
                             if (reader.Read())

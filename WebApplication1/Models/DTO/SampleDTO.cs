@@ -1,17 +1,17 @@
 ﻿namespace GeneCare.Models.DTO
 {
-    public class SampleDTO
+    public class SampleDAO
     {
         private int sampleId;
-        private BookingDTO booking;
+        private BookingDAO booking;
         private DateTime date;
         private String sampleVariant;
         private String collectBy;
         private String deliveryMethod;
         private String status;
 
-        public SampleDTO() { }
-        public SampleDTO(int sampleId, BookingDTO booking, DateTime date, String sampleVariant, String collectBy, String deliveryMethod, String status)
+        public SampleDAO() { }
+        public SampleDAO(int sampleId, BookingDAO booking, DateTime date, String sampleVariant, String collectBy, String deliveryMethod, String status)
         {
             this.sampleId = sampleId;
             this.booking = booking;
@@ -26,7 +26,7 @@
             get { return sampleId; }
             set { sampleId = value; }
         }
-        public BookingDTO Booking
+        public BookingDAO Booking
         {
             get { return booking; }
             set { booking = value; }

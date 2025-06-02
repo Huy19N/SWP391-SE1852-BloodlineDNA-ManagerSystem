@@ -11,14 +11,17 @@ namespace TestDB
 {
     internal class UserDAO
     {
-        public UserDTO GetUser(int UserId)
+        public UserDTO getUser(String Email, String Password)
         {
-            String sql = "SELECT * FROM [User] WHERE UserId = @UserId";
+            var sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
             using (SqlConnection con = new DBUtils().getConnection())
             {
                 SqlCommand cmd = new SqlCommand(sql, con);
-                cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                cmd.Parameters["@UserId"].Value = UserId;
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                cmd.Parameters["@Email"].Value = Email;
+
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar);
+                cmd.Parameters["@Password"].Value = Password;
                 try
                 {
                     con.Open();

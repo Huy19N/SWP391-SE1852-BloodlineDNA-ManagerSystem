@@ -10,14 +10,14 @@ namespace GeneCare.Models.DAO
     {
         public UserDTO getUser(String Email, String Password)
         {
-            String sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
+            var sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
             using (SqlConnection con = new DBUtils().getConnection())
             {
 
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
-                    cmd.Parameters["@Email"].Value = Password;
+                    cmd.Parameters["@Email"].Value = Email;
 
                     cmd.Parameters.Add("@Password", SqlDbType.NVarChar);
                     cmd.Parameters["@Password"].Value = Password;
@@ -53,41 +53,66 @@ namespace GeneCare.Models.DAO
 
         public Boolean containsUser(String email)
         {
-            String sql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+            var sql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
 
             using (SqlConnection con = new DBUtils().getConnection())
             {
-                
-
-
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
                     cmd.Parameters["@Email"].Value = email;
-                    cmd.Parameters.AddWithValue("@Email", email);
+
                     int count = (int)cmd.ExecuteScalar();
                     return count > 0;
                 }
             }
+            return false;
         }
+
 
         public Boolean addUser(String email, String password)
         {
-            String sql = "INSERT INTO Users(Email, Password) VALUES(@Email, @Password)";
-            
-            using(SqlConnection con = new DBUtils().getConnection())
+            var sql = "INSERT INTO Users(Email, Password) VALUES(@Email, @Password)";
+
+            using (SqlConnection con = new DBUtils().getConnection())
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
-                    cmd.Parameters.AddWithValue("@Email", $"N\"{email}\"");
-                    cmd.Parameters.AddWithValue("@Password", $"N\"{password}\"");
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar);
+
+                    cmd.Parameters["@Email"].Value = email;
+                    cmd.Parameters["@Password"].Value = password;
 
                     int rowsAffected = cmd.ExecuteNonQuery();
                     return rowsAffected > 0;
                 }
-            }   
+            }
+        }
+        public Boolean updateUser(UserDTO user)
+        {
+            var sql = "UPDATE Users SET FullName = @FullName, Address = @Address, Phone = @Phone WHERE UserId = @UserId";
+            using (SqlConnection con = new DBUtils().getConnection())
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.Add("@FullName", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@Address", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@Phone", SqlDbType.NVarChar);
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
+
+
+                    cmd.Parameters["@FullName"].Value = user.FullName;
+                    cmd.Parameters["@Address"].Value = user.Address;
+                    cmd.Parameters["@Phone"].Value = user.Phone;
+                    cmd.Parameters["@UserId"].Value = user.UserId;
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
         }
     }
 }
