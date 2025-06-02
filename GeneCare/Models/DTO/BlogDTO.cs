@@ -1,18 +1,18 @@
 ﻿namespace GeneCare.Models.DTO
 {
-    public class BlogDTO
+    public class BlogDAO
     {
         private int blogId;
-        private int userId;
+        private UserDTO user;
         private String title;
         private String content;
         private DateTime createdAt;
 
-        public BlogDTO() { }
-        public BlogDTO(int blogId, int userId, String title, String content, DateTime createdAt)
+        public BlogDAO() { }
+        public BlogDAO(int blogId, UserDTO user, String title, String content, DateTime createdAt)
         {
             this.blogId = blogId;
-            this.userId = userId;
+            this.user = user;
             this.title = title;
             this.content = content;
             this.createdAt = createdAt;
@@ -22,10 +22,10 @@
             get { return blogId; }
             set { blogId = value; }
         }
-        public int UserId
+        public UserDTO User
         {
-            get { return userId; }
-            set { userId = value; }
+            get { return user; }
+            set { user = value; }
         }
         public String Title
         {

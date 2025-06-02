@@ -3,7 +3,7 @@
     public class UserDTO
     {
         private int userid;
-        private int roleid;
+        private RoleDTO role;
         private string fullname;
         private string address;
         private string email;
@@ -12,10 +12,10 @@
 
         public UserDTO() { }
 
-        public UserDTO(int userid, int roleid, string fullname, string address, string email, string phone, string password)
+        public UserDTO(int userid, RoleDTO role, string fullname, string address, string email, string phone, string password)
         {
             this.userid = userid;
-            this.roleid = roleid;
+            this.role = role;
             this.fullname = fullname;
             this.address = address;
             this.email = email;
@@ -27,10 +27,10 @@
             get { return userid; }
             set { userid = value; }
         }
-        public int RoleId
+        public RoleDTO Role
         {
-            get { return roleid; }
-            set { roleid = value; }
+            get { return role; }
+            set { role = value; }
         }
         public string FullName
         {

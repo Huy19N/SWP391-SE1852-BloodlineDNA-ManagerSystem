@@ -1,8 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using GeneCare.Models.DTO
+@using GeneCare.Models.Utils
+@{
+    ViewData["Title"] = "Home";
+    var user = Context.Session.getObject<UserDTO>("user") ?? new UserDTO();
 }
+<br />
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@user.Email
+
+<h2>hello ae</h2>
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    <br />
+    <h3>Wellcome @User.Identity.Name</h3>
+    <br />
+    <a class="btn-primary" asp-controller="Login" asp-action="Logout">Logout</a>
+
+}

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jm8Y61ROymE8t/QjZzP3RxoxjX0CrowG70aFu+eJ35E=",
+  "Hash": "FxLk6Cxr4FCDxYG2jVwZzoOmwDorGnbBWYq1tqiYW+0=",
   "Source": "GeneCare",
   "BasePath": "_content/GeneCare",
   "Mode": "Default",
@@ -101,6 +101,27 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\ServicesHome.jpg",
+      "SourceId": "GeneCare",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\",
+      "BasePath": "_content/GeneCare",
+      "RelativePath": "Images/ServicesHome#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ul5iiod6t6",
+      "Integrity": "HhHYNs1lJADFR/k98Gt+PEf1dL67XKoLgwK++cOjkls=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ServicesHome.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\js\\site.js",
       "SourceId": "GeneCare",
       "SourceType": "Discovered",
@@ -136,8 +157,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ozu22stjof",
-      "Integrity": "ZMvmWDSU4zY1Z29EQGm5Mubfz/YxF4hiReGqx84o4tA=",
+      "Fingerprint": "mpyigms19s",
+      "Integrity": "xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
@@ -178,8 +199,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6gzpyzhau4",
-      "Integrity": "SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=",
+      "Fingerprint": "bpk8xqwxhs",
+      "Integrity": "z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
@@ -220,8 +241,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "gjcw7pocpk",
-      "Integrity": "hA1uBYAPgKq7OVoXF7sqU9NtylyP0K7AJn0a4zQcTbg=",
+      "Fingerprint": "ve6x09088i",
+      "Integrity": "SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
@@ -262,8 +283,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6l4ir0ityv",
-      "Integrity": "ukKL5IDSyNoXFyp0wkgXeBpBITyM7JsCE6Dp96H1vI8=",
+      "Fingerprint": "9b9oa1qrmt",
+      "Integrity": "22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
@@ -304,8 +325,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "nakmwdwsxp",
-      "Integrity": "P4Ski6RrsG4nxKfPqaVoyRMoesl9UzArmfT+4fLqKHY=",
+      "Fingerprint": "agp80tu62r",
+      "Integrity": "JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
@@ -346,8 +367,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "5p029spbuu",
-      "Integrity": "96ayIUEnpKr7n5BIsFK5vJ3qXMXFgvRl9/CBcHs6/Ts=",
+      "Fingerprint": "unj9p35syc",
+      "Integrity": "ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
@@ -388,8 +409,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "e6q6xbwqzk",
-      "Integrity": "+ugQREUkP4Wnp1VX2L2lvw0Q2mgKYvYAZr1c2or+ysM=",
+      "Fingerprint": "q2ku51ktnl",
+      "Integrity": "3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
@@ -430,8 +451,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "dy6jgresuo",
-      "Integrity": "9eX2dpELXvYs+6il2MHwf5OOPVOZjxVK1b1GWgL0B0k=",
+      "Fingerprint": "n1oizzvkh6",
+      "Integrity": "O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
@@ -472,8 +493,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "mk8rdyw69w",
-      "Integrity": "Jtl65EICD4ds6dQZbx1ongvMXj8D127HCg5XRBXXYGw=",
+      "Fingerprint": "7na4sro3qu",
+      "Integrity": "4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
@@ -514,8 +535,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "z7kmom2977",
-      "Integrity": "359CMPAICGkV+zve4A4HJMha3bwqTFTjl+QC1KJK5DQ=",
+      "Fingerprint": "f8imaxxbri",
+      "Integrity": "z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
@@ -556,8 +577,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "97yrjpyf9r",
-      "Integrity": "G0PQCDL7ETO6rITRlBIHDKvvSuJFn5p6h+WmbPX5xr4=",
+      "Fingerprint": "0wve5yxp74",
+      "Integrity": "8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
@@ -598,8 +619,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "y53cy5s2zj",
-      "Integrity": "BnHmEJpgor1n0UuwNdXG2VhHdV1r9MibuqBVHsgp9a8=",
+      "Fingerprint": "npxfuf8dg6",
+      "Integrity": "a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
@@ -640,8 +661,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "z9shlbduue",
-      "Integrity": "mcVOHRq7FsWaycSfboGsTpzuQZ3cIOR/GDHYxL6q2Yg=",
+      "Fingerprint": "tey0rigmnh",
+      "Integrity": "NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
@@ -682,8 +703,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "2yn17lgxub",
-      "Integrity": "ekoF4YNq4OUU4BoZ6FG2LTKD68LJvW49arNgykHOZfM=",
+      "Fingerprint": "16095smhkz",
+      "Integrity": "5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
@@ -724,8 +745,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ophe14yye5",
-      "Integrity": "1N1aPW6sTYexHfJCcDS4iElpPdWahP2Fr+Um56w0PjI=",
+      "Fingerprint": "b4skse8du6",
+      "Integrity": "peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
@@ -766,8 +787,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ik6i2hrs65",
-      "Integrity": "wseUsl7uipUzPYc/DBMMTMFA7hBTcxpw29RKOxLzXSc=",
+      "Fingerprint": "u3xrusw2ol",
+      "Integrity": "Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
@@ -808,8 +829,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "f6zq8v6eb3",
-      "Integrity": "l/hyCcHXdGwW6cO0xfobuAMZk3Nh8dsRdWwdaeSn9qo=",
+      "Fingerprint": "l2av4jpuoj",
+      "Integrity": "vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
@@ -850,8 +871,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "89qbw8ngem",
-      "Integrity": "rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM=",
+      "Fingerprint": "25iw1kog22",
+      "Integrity": "KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
@@ -892,8 +913,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "n5w6o92d9r",
-      "Integrity": "SySIctW5IQsq8JoYGrNJU4ZilHaieJru5P0+8vTcfDA=",
+      "Fingerprint": "m39kt2b5c9",
+      "Integrity": "EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
@@ -934,8 +955,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "jqwzsa9uv6",
-      "Integrity": "hVv0IJy8sIv1uIlVQOHnZFNAGprmLfDV+x0anYPmxYU=",
+      "Fingerprint": "um2aeqy4ik",
+      "Integrity": "Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
@@ -976,8 +997,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "1piudyfv7h",
-      "Integrity": "JV8zLOxqX3ENLwiQX8lCiDY3TvQzbeibDAsdYtalZ4w=",
+      "Fingerprint": "o4kw7cc6tf",
+      "Integrity": "6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
@@ -1018,8 +1039,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "4908xmbfjr",
-      "Integrity": "uAMYHAQlaHq1buKLwrk7FF4qxvcLWntS2/DpdKucfmU=",
+      "Fingerprint": "zwph15dxgs",
+      "Integrity": "c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
@@ -1081,8 +1102,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "7s2n0ol71w",
-      "Integrity": "KSI/3xxCrCexCupdzQJRP1B6Iqg+2NA+X2u38cQdqq8=",
+      "Fingerprint": "fwhahm2icz",
+      "Integrity": "H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
@@ -1102,8 +1123,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ehgnz7f14e",
-      "Integrity": "zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs=",
+      "Fingerprint": "dd6z7egasc",
+      "Integrity": "/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
@@ -1207,8 +1228,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6d0lkjaslc",
-      "Integrity": "5qqb5VxQ2t2a6Zx/neW5uppLLvaGn4nn0NdYp6g8Lyg=",
+      "Fingerprint": "pzqfkb6aqo",
+      "Integrity": "m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
@@ -1228,8 +1249,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "l1zq2mitth",
-      "Integrity": "6e0N+WJiVKBeTitK1GKSwPi3rbdPpLtuqaiitZjeD2w=",
+      "Fingerprint": "b7iojwaux1",
+      "Integrity": "JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
@@ -1270,8 +1291,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "03hjc8e09r",
-      "Integrity": "xJbBMLGhYbXlPrrrddrSVmduyF6KEtbxEsYxw7hYZV4=",
+      "Fingerprint": "47otxtyo56",
+      "Integrity": "wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
@@ -1291,8 +1312,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "48y08845bh",
-      "Integrity": "RFWFWIIPsjB4DucR4jqwxTWw13ZmtI+s6tVR2LJmZXk=",
+      "Fingerprint": "4v8eqarkd7",
+      "Integrity": "YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
@@ -1343,7 +1364,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1388,7 +1409,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1425,7 +1446,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1470,7 +1491,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1507,7 +1528,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 21:53:27 GMT"
+          "Value": "Sat, 31 May 2025 16:23:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1544,7 +1565,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 21:53:27 GMT"
+          "Value": "Sat, 31 May 2025 16:23:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1589,7 +1610,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 21:53:27 GMT"
+          "Value": "Sat, 31 May 2025 16:23:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1634,7 +1655,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 21:53:27 GMT"
+          "Value": "Sat, 31 May 2025 16:23:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1645,6 +1666,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-HaEYW9x8qbrF3d8OsAQV1dHT/LBb/LUeVDwks8CVx8U="
+        }
+      ]
+    },
+    {
+      "Route": "Images/ServicesHome.jpg",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\ServicesHome.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HhHYNs1lJADFR/k98Gt+PEf1dL67XKoLgwK++cOjkls=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Jun 2025 14:27:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-HhHYNs1lJADFR/k98Gt+PEf1dL67XKoLgwK++cOjkls="
+        }
+      ]
+    },
+    {
+      "Route": "Images/ServicesHome.ul5iiod6t6.jpg",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\ServicesHome.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"HhHYNs1lJADFR/k98Gt+PEf1dL67XKoLgwK++cOjkls=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 02 Jun 2025 14:27:54 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ul5iiod6t6"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/ServicesHome.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-HhHYNs1lJADFR/k98Gt+PEf1dL67XKoLgwK++cOjkls="
         }
       ]
     },
@@ -1671,7 +1774,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1708,7 +1811,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1741,7 +1844,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "215356"
+          "Value": "204136"
         },
         {
           "Name": "Content-Type",
@@ -1749,11 +1852,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZMvmWDSU4zY1Z29EQGm5Mubfz/YxF4hiReGqx84o4tA=\""
+          "Value": "\"xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1763,7 +1866,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ZMvmWDSU4zY1Z29EQGm5Mubfz/YxF4hiReGqx84o4tA="
+          "Value": "sha256-xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM="
         }
       ]
     },
@@ -1790,7 +1893,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1835,7 +1938,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1850,7 +1953,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.min.6gzpyzhau4.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap.min.bpk8xqwxhs.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -1860,7 +1963,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "162726"
+          "Value": "162720"
         },
         {
           "Name": "Content-Type",
@@ -1868,11 +1971,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+          "Value": "\"z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1882,7 +1985,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "6gzpyzhau4"
+          "Value": "bpk8xqwxhs"
         },
         {
           "Name": "label",
@@ -1890,7 +1993,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+          "Value": "sha256-z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg="
         }
       ]
     },
@@ -1905,7 +2008,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "162726"
+          "Value": "162720"
         },
         {
           "Name": "Content-Type",
@@ -1913,11 +2016,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0=\""
+          "Value": "\"z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1927,7 +2030,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-SiIVMGgRhdXjKSTIddX7mh9IbOXVcwQWc7/p4nS6D/0="
+          "Value": "sha256-z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg="
         }
       ]
     },
@@ -1954,7 +2057,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1999,7 +2102,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2014,7 +2117,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.ozu22stjof.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap.mpyigms19s.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2024,7 +2127,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "215356"
+          "Value": "204136"
         },
         {
           "Name": "Content-Type",
@@ -2032,11 +2135,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZMvmWDSU4zY1Z29EQGm5Mubfz/YxF4hiReGqx84o4tA=\""
+          "Value": "\"xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2046,7 +2149,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ozu22stjof"
+          "Value": "mpyigms19s"
         },
         {
           "Name": "label",
@@ -2054,7 +2157,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ZMvmWDSU4zY1Z29EQGm5Mubfz/YxF4hiReGqx84o4tA="
+          "Value": "sha256-xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM="
         }
       ]
     },
@@ -2069,7 +2172,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "214999"
+          "Value": "203803"
         },
         {
           "Name": "Content-Type",
@@ -2077,11 +2180,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hA1uBYAPgKq7OVoXF7sqU9NtylyP0K7AJn0a4zQcTbg=\""
+          "Value": "\"SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2091,7 +2194,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-hA1uBYAPgKq7OVoXF7sqU9NtylyP0K7AJn0a4zQcTbg="
+          "Value": "sha256-SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY="
         }
       ]
     },
@@ -2118,7 +2221,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2163,7 +2266,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2178,52 +2281,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap.rtl.gjcw7pocpk.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "214999"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"hA1uBYAPgKq7OVoXF7sqU9NtylyP0K7AJn0a4zQcTbg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "gjcw7pocpk"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap.rtl.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-hA1uBYAPgKq7OVoXF7sqU9NtylyP0K7AJn0a4zQcTbg="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap.rtl.min.6l4ir0ityv.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap.rtl.min.9b9oa1qrmt.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2233,7 +2291,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "162831"
+          "Value": "162825"
         },
         {
           "Name": "Content-Type",
@@ -2241,11 +2299,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ukKL5IDSyNoXFyp0wkgXeBpBITyM7JsCE6Dp96H1vI8=\""
+          "Value": "\"22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2255,7 +2313,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "6l4ir0ityv"
+          "Value": "9b9oa1qrmt"
         },
         {
           "Name": "label",
@@ -2263,7 +2321,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ukKL5IDSyNoXFyp0wkgXeBpBITyM7JsCE6Dp96H1vI8="
+          "Value": "sha256-22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU="
         }
       ]
     },
@@ -2278,7 +2336,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "162831"
+          "Value": "162825"
         },
         {
           "Name": "Content-Type",
@@ -2286,11 +2344,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ukKL5IDSyNoXFyp0wkgXeBpBITyM7JsCE6Dp96H1vI8=\""
+          "Value": "\"22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2300,7 +2358,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ukKL5IDSyNoXFyp0wkgXeBpBITyM7JsCE6Dp96H1vI8="
+          "Value": "sha256-22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU="
         }
       ]
     },
@@ -2327,7 +2385,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2372,7 +2430,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2387,6 +2445,96 @@
       ]
     },
     {
+      "Route": "lib/bootstrap/dist/css/bootstrap.rtl.ve6x09088i.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "203803"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ve6x09088i"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap.rtl.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap-grid.agp80tu62r.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "70538"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "agp80tu62r"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap-grid.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4="
+        }
+      ]
+    },
+    {
       "Route": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "Selectors": [],
@@ -2397,7 +2545,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "75534"
+          "Value": "70538"
         },
         {
           "Name": "Content-Type",
@@ -2405,11 +2553,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"P4Ski6RrsG4nxKfPqaVoyRMoesl9UzArmfT+4fLqKHY=\""
+          "Value": "\"JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2419,7 +2567,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-P4Ski6RrsG4nxKfPqaVoyRMoesl9UzArmfT+4fLqKHY="
+          "Value": "sha256-JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4="
         }
       ]
     },
@@ -2446,7 +2594,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2483,7 +2631,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2506,51 +2654,6 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-grid.min.5p029spbuu.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "51325"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"96ayIUEnpKr7n5BIsFK5vJ3qXMXFgvRl9/CBcHs6/Ts=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "5p029spbuu"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap-grid.min.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-96ayIUEnpKr7n5BIsFK5vJ3qXMXFgvRl9/CBcHs6/Ts="
-        }
-      ]
-    },
-    {
       "Route": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "Selectors": [],
@@ -2561,7 +2664,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "51325"
+          "Value": "51319"
         },
         {
           "Name": "Content-Type",
@@ -2569,11 +2672,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"96ayIUEnpKr7n5BIsFK5vJ3qXMXFgvRl9/CBcHs6/Ts=\""
+          "Value": "\"ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2583,7 +2686,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-96ayIUEnpKr7n5BIsFK5vJ3qXMXFgvRl9/CBcHs6/Ts="
+          "Value": "sha256-ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A="
         }
       ]
     },
@@ -2610,7 +2713,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2655,7 +2758,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2670,8 +2773,8 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-grid.nakmwdwsxp.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-grid.min.unj9p35syc.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2680,7 +2783,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "75534"
+          "Value": "51319"
         },
         {
           "Name": "Content-Type",
@@ -2688,11 +2791,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"P4Ski6RrsG4nxKfPqaVoyRMoesl9UzArmfT+4fLqKHY=\""
+          "Value": "\"ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2702,15 +2805,15 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "nakmwdwsxp"
+          "Value": "unj9p35syc"
         },
         {
           "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap-grid.css"
+          "Value": "lib/bootstrap/dist/css/bootstrap-grid.min.css"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-P4Ski6RrsG4nxKfPqaVoyRMoesl9UzArmfT+4fLqKHY="
+          "Value": "sha256-ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A="
         }
       ]
     },
@@ -2725,7 +2828,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "75607"
+          "Value": "70612"
         },
         {
           "Name": "Content-Type",
@@ -2733,11 +2836,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"+ugQREUkP4Wnp1VX2L2lvw0Q2mgKYvYAZr1c2or+ysM=\""
+          "Value": "\"3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2747,7 +2850,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-+ugQREUkP4Wnp1VX2L2lvw0Q2mgKYvYAZr1c2or+ysM="
+          "Value": "sha256-3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo="
         }
       ]
     },
@@ -2774,7 +2877,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2819,7 +2922,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2834,51 +2937,6 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-grid.rtl.e6q6xbwqzk.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "75607"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"+ugQREUkP4Wnp1VX2L2lvw0Q2mgKYvYAZr1c2or+ysM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "e6q6xbwqzk"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-+ugQREUkP4Wnp1VX2L2lvw0Q2mgKYvYAZr1c2or+ysM="
-        }
-      ]
-    },
-    {
       "Route": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "Selectors": [],
@@ -2889,7 +2947,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "51400"
+          "Value": "51394"
         },
         {
           "Name": "Content-Type",
@@ -2897,11 +2955,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"9eX2dpELXvYs+6il2MHwf5OOPVOZjxVK1b1GWgL0B0k=\""
+          "Value": "\"O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2911,7 +2969,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-9eX2dpELXvYs+6il2MHwf5OOPVOZjxVK1b1GWgL0B0k="
+          "Value": "sha256-O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0="
         }
       ]
     },
@@ -2938,7 +2996,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2975,7 +3033,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2998,7 +3056,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.dy6jgresuo.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.n1oizzvkh6.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3008,7 +3066,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "51400"
+          "Value": "51394"
         },
         {
           "Name": "Content-Type",
@@ -3016,11 +3074,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"9eX2dpELXvYs+6il2MHwf5OOPVOZjxVK1b1GWgL0B0k=\""
+          "Value": "\"O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3030,7 +3088,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "dy6jgresuo"
+          "Value": "n1oizzvkh6"
         },
         {
           "Name": "label",
@@ -3038,7 +3096,97 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-9eX2dpELXvYs+6il2MHwf5OOPVOZjxVK1b1GWgL0B0k="
+          "Value": "sha256-O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap-grid.rtl.q2ku51ktnl.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "70612"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "q2ku51ktnl"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.7na4sro3qu.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5850"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7na4sro3qu"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap-reboot.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY="
         }
       ]
     },
@@ -3053,7 +3201,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6276"
+          "Value": "5850"
         },
         {
           "Name": "Content-Type",
@@ -3061,11 +3209,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Jtl65EICD4ds6dQZbx1ongvMXj8D127HCg5XRBXXYGw=\""
+          "Value": "\"4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3075,7 +3223,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Jtl65EICD4ds6dQZbx1ongvMXj8D127HCg5XRBXXYGw="
+          "Value": "sha256-4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY="
         }
       ]
     },
@@ -3102,7 +3250,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3147,7 +3295,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3172,7 +3320,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4653"
+          "Value": "4646"
         },
         {
           "Name": "Content-Type",
@@ -3180,11 +3328,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"359CMPAICGkV+zve4A4HJMha3bwqTFTjl+QC1KJK5DQ=\""
+          "Value": "\"z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3194,7 +3342,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-359CMPAICGkV+zve4A4HJMha3bwqTFTjl+QC1KJK5DQ="
+          "Value": "sha256-z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4="
         }
       ]
     },
@@ -3221,7 +3369,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3258,7 +3406,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3281,7 +3429,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.min.z7kmom2977.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.min.f8imaxxbri.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3291,7 +3439,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4653"
+          "Value": "4646"
         },
         {
           "Name": "Content-Type",
@@ -3299,11 +3447,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"359CMPAICGkV+zve4A4HJMha3bwqTFTjl+QC1KJK5DQ=\""
+          "Value": "\"z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3313,7 +3461,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "z7kmom2977"
+          "Value": "f8imaxxbri"
         },
         {
           "Name": "label",
@@ -3321,57 +3469,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-359CMPAICGkV+zve4A4HJMha3bwqTFTjl+QC1KJK5DQ="
+          "Value": "sha256-z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4="
         }
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.mk8rdyw69w.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "6276"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Jtl65EICD4ds6dQZbx1ongvMXj8D127HCg5XRBXXYGw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "mk8rdyw69w"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap-reboot.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-Jtl65EICD4ds6dQZbx1ongvMXj8D127HCg5XRBXXYGw="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.97yrjpyf9r.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.0wve5yxp74.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3381,7 +3484,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6250"
+          "Value": "5827"
         },
         {
           "Name": "Content-Type",
@@ -3389,11 +3492,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"G0PQCDL7ETO6rITRlBIHDKvvSuJFn5p6h+WmbPX5xr4=\""
+          "Value": "\"8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3403,7 +3506,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "97yrjpyf9r"
+          "Value": "0wve5yxp74"
         },
         {
           "Name": "label",
@@ -3411,7 +3514,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-G0PQCDL7ETO6rITRlBIHDKvvSuJFn5p6h+WmbPX5xr4="
+          "Value": "sha256-8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk="
         }
       ]
     },
@@ -3426,7 +3529,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "6250"
+          "Value": "5827"
         },
         {
           "Name": "Content-Type",
@@ -3434,11 +3537,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"G0PQCDL7ETO6rITRlBIHDKvvSuJFn5p6h+WmbPX5xr4=\""
+          "Value": "\"8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3448,7 +3551,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-G0PQCDL7ETO6rITRlBIHDKvvSuJFn5p6h+WmbPX5xr4="
+          "Value": "sha256-8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk="
         }
       ]
     },
@@ -3475,7 +3578,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3520,7 +3623,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3545,7 +3648,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4725"
+          "Value": "4718"
         },
         {
           "Name": "Content-Type",
@@ -3553,11 +3656,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"BnHmEJpgor1n0UuwNdXG2VhHdV1r9MibuqBVHsgp9a8=\""
+          "Value": "\"a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3567,7 +3670,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-BnHmEJpgor1n0UuwNdXG2VhHdV1r9MibuqBVHsgp9a8="
+          "Value": "sha256-a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ="
         }
       ]
     },
@@ -3594,7 +3697,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3631,7 +3734,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3654,7 +3757,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.y53cy5s2zj.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.npxfuf8dg6.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3664,7 +3767,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4725"
+          "Value": "4718"
         },
         {
           "Name": "Content-Type",
@@ -3672,11 +3775,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"BnHmEJpgor1n0UuwNdXG2VhHdV1r9MibuqBVHsgp9a8=\""
+          "Value": "\"a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3686,7 +3789,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "y53cy5s2zj"
+          "Value": "npxfuf8dg6"
         },
         {
           "Name": "label",
@@ -3694,7 +3797,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-BnHmEJpgor1n0UuwNdXG2VhHdV1r9MibuqBVHsgp9a8="
+          "Value": "sha256-a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ="
         }
       ]
     },
@@ -3709,7 +3812,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "76449"
+          "Value": "71584"
         },
         {
           "Name": "Content-Type",
@@ -3717,11 +3820,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mcVOHRq7FsWaycSfboGsTpzuQZ3cIOR/GDHYxL6q2Yg=\""
+          "Value": "\"NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3731,7 +3834,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-mcVOHRq7FsWaycSfboGsTpzuQZ3cIOR/GDHYxL6q2Yg="
+          "Value": "sha256-NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec="
         }
       ]
     },
@@ -3758,7 +3861,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3803,7 +3906,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3818,7 +3921,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.min.2yn17lgxub.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.min.16095smhkz.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3828,7 +3931,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "53485"
+          "Value": "53479"
         },
         {
           "Name": "Content-Type",
@@ -3836,11 +3939,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ekoF4YNq4OUU4BoZ6FG2LTKD68LJvW49arNgykHOZfM=\""
+          "Value": "\"5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3850,7 +3953,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2yn17lgxub"
+          "Value": "16095smhkz"
         },
         {
           "Name": "label",
@@ -3858,7 +3961,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ekoF4YNq4OUU4BoZ6FG2LTKD68LJvW49arNgykHOZfM="
+          "Value": "sha256-5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg="
         }
       ]
     },
@@ -3873,7 +3976,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "53485"
+          "Value": "53479"
         },
         {
           "Name": "Content-Type",
@@ -3881,11 +3984,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ekoF4YNq4OUU4BoZ6FG2LTKD68LJvW49arNgykHOZfM=\""
+          "Value": "\"5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3895,7 +3998,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ekoF4YNq4OUU4BoZ6FG2LTKD68LJvW49arNgykHOZfM="
+          "Value": "sha256-5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg="
         }
       ]
     },
@@ -3922,7 +4025,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3959,7 +4062,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3982,6 +4085,51 @@
       ]
     },
     {
+      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.b4skse8du6.css",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71451"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b4skse8du6"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ="
+        }
+      ]
+    },
+    {
       "Route": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "Selectors": [],
@@ -3992,7 +4140,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "76307"
+          "Value": "71451"
         },
         {
           "Name": "Content-Type",
@@ -4000,11 +4148,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"1N1aPW6sTYexHfJCcDS4iElpPdWahP2Fr+Um56w0PjI=\""
+          "Value": "\"peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4014,7 +4162,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-1N1aPW6sTYexHfJCcDS4iElpPdWahP2Fr+Um56w0PjI="
+          "Value": "sha256-peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ="
         }
       ]
     },
@@ -4041,7 +4189,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4086,7 +4234,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4111,7 +4259,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "53413"
+          "Value": "53407"
         },
         {
           "Name": "Content-Type",
@@ -4119,11 +4267,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"wseUsl7uipUzPYc/DBMMTMFA7hBTcxpw29RKOxLzXSc=\""
+          "Value": "\"Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4133,7 +4281,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-wseUsl7uipUzPYc/DBMMTMFA7hBTcxpw29RKOxLzXSc="
+          "Value": "sha256-Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4="
         }
       ]
     },
@@ -4160,7 +4308,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4205,7 +4353,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4220,7 +4368,7 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.ik6i2hrs65.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.u3xrusw2ol.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4230,7 +4378,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "53413"
+          "Value": "53407"
         },
         {
           "Name": "Content-Type",
@@ -4238,11 +4386,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"wseUsl7uipUzPYc/DBMMTMFA7hBTcxpw29RKOxLzXSc=\""
+          "Value": "\"Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4252,7 +4400,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ik6i2hrs65"
+          "Value": "u3xrusw2ol"
         },
         {
           "Name": "label",
@@ -4260,57 +4408,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-wseUsl7uipUzPYc/DBMMTMFA7hBTcxpw29RKOxLzXSc="
+          "Value": "sha256-Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4="
         }
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.ophe14yye5.css",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "76307"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"1N1aPW6sTYexHfJCcDS4iElpPdWahP2Fr+Um56w0PjI=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ophe14yye5"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-1N1aPW6sTYexHfJCcDS4iElpPdWahP2Fr+Um56w0PjI="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.z9shlbduue.css",
+      "Route": "lib/bootstrap/dist/css/bootstrap-utilities.tey0rigmnh.css",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4320,7 +4423,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "76449"
+          "Value": "71584"
         },
         {
           "Name": "Content-Type",
@@ -4328,11 +4431,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"mcVOHRq7FsWaycSfboGsTpzuQZ3cIOR/GDHYxL6q2Yg=\""
+          "Value": "\"NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4342,7 +4445,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "z9shlbduue"
+          "Value": "tey0rigmnh"
         },
         {
           "Name": "label",
@@ -4350,97 +4453,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-mcVOHRq7FsWaycSfboGsTpzuQZ3cIOR/GDHYxL6q2Yg="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/js/bootstrap.1piudyfv7h.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "153194"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"JV8zLOxqX3ENLwiQX8lCiDY3TvQzbeibDAsdYtalZ4w=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "1piudyfv7h"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/js/bootstrap.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-JV8zLOxqX3ENLwiQX8lCiDY3TvQzbeibDAsdYtalZ4w="
-        }
-      ]
-    },
-    {
-      "Route": "lib/bootstrap/dist/js/bootstrap.bundle.f6zq8v6eb3.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "215272"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"l/hyCcHXdGwW6cO0xfobuAMZk3Nh8dsRdWwdaeSn9qo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "f6zq8v6eb3"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/js/bootstrap.bundle.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-l/hyCcHXdGwW6cO0xfobuAMZk3Nh8dsRdWwdaeSn9qo="
+          "Value": "sha256-NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec="
         }
       ]
     },
@@ -4455,7 +4468,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "215272"
+          "Value": "208492"
         },
         {
           "Name": "Content-Type",
@@ -4463,11 +4476,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"l/hyCcHXdGwW6cO0xfobuAMZk3Nh8dsRdWwdaeSn9qo=\""
+          "Value": "\"vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4477,7 +4490,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-l/hyCcHXdGwW6cO0xfobuAMZk3Nh8dsRdWwdaeSn9qo="
+          "Value": "sha256-vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk="
         }
       ]
     },
@@ -4504,7 +4517,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4549,7 +4562,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4564,8 +4577,8 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/js/bootstrap.bundle.min.89qbw8ngem.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Route": "lib/bootstrap/dist/js/bootstrap.bundle.l2av4jpuoj.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4574,7 +4587,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "78474"
+          "Value": "208492"
         },
         {
           "Name": "Content-Type",
@@ -4582,11 +4595,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM=\""
+          "Value": "\"vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4596,7 +4609,52 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "89qbw8ngem"
+          "Value": "l2av4jpuoj"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/js/bootstrap.bundle.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/js/bootstrap.bundle.min.25iw1kog22.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "78468"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "25iw1kog22"
         },
         {
           "Name": "label",
@@ -4604,7 +4662,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM="
+          "Value": "sha256-KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M="
         }
       ]
     },
@@ -4619,7 +4677,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "78474"
+          "Value": "78468"
         },
         {
           "Name": "Content-Type",
@@ -4627,11 +4685,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM=\""
+          "Value": "\"KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4641,7 +4699,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM="
+          "Value": "sha256-KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M="
         }
       ]
     },
@@ -4668,7 +4726,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4713,7 +4771,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4738,7 +4796,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "143996"
+          "Value": "139019"
         },
         {
           "Name": "Content-Type",
@@ -4746,11 +4804,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SySIctW5IQsq8JoYGrNJU4ZilHaieJru5P0+8vTcfDA=\""
+          "Value": "\"EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4760,7 +4818,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-SySIctW5IQsq8JoYGrNJU4ZilHaieJru5P0+8vTcfDA="
+          "Value": "sha256-EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo="
         }
       ]
     },
@@ -4787,7 +4845,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4832,7 +4890,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4847,8 +4905,8 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/js/bootstrap.esm.min.jqwzsa9uv6.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Route": "lib/bootstrap/dist/js/bootstrap.esm.m39kt2b5c9.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4857,7 +4915,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "72022"
+          "Value": "139019"
         },
         {
           "Name": "Content-Type",
@@ -4865,11 +4923,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hVv0IJy8sIv1uIlVQOHnZFNAGprmLfDV+x0anYPmxYU=\""
+          "Value": "\"EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4879,15 +4937,15 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "jqwzsa9uv6"
+          "Value": "m39kt2b5c9"
         },
         {
           "Name": "label",
-          "Value": "lib/bootstrap/dist/js/bootstrap.esm.min.js"
+          "Value": "lib/bootstrap/dist/js/bootstrap.esm.js"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-hVv0IJy8sIv1uIlVQOHnZFNAGprmLfDV+x0anYPmxYU="
+          "Value": "sha256-EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo="
         }
       ]
     },
@@ -4902,7 +4960,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "72022"
+          "Value": "72016"
         },
         {
           "Name": "Content-Type",
@@ -4910,11 +4968,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hVv0IJy8sIv1uIlVQOHnZFNAGprmLfDV+x0anYPmxYU=\""
+          "Value": "\"Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4924,7 +4982,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-hVv0IJy8sIv1uIlVQOHnZFNAGprmLfDV+x0anYPmxYU="
+          "Value": "sha256-Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE="
         }
       ]
     },
@@ -4951,7 +5009,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4988,7 +5046,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5011,8 +5069,8 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/js/bootstrap.esm.n5w6o92d9r.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Route": "lib/bootstrap/dist/js/bootstrap.esm.min.um2aeqy4ik.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -5021,7 +5079,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "143996"
+          "Value": "72016"
         },
         {
           "Name": "Content-Type",
@@ -5029,11 +5087,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"SySIctW5IQsq8JoYGrNJU4ZilHaieJru5P0+8vTcfDA=\""
+          "Value": "\"Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5043,15 +5101,15 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "n5w6o92d9r"
+          "Value": "um2aeqy4ik"
         },
         {
           "Name": "label",
-          "Value": "lib/bootstrap/dist/js/bootstrap.esm.js"
+          "Value": "lib/bootstrap/dist/js/bootstrap.esm.min.js"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-SySIctW5IQsq8JoYGrNJU4ZilHaieJru5P0+8vTcfDA="
+          "Value": "sha256-Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE="
         }
       ]
     },
@@ -5066,7 +5124,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "153194"
+          "Value": "148168"
         },
         {
           "Name": "Content-Type",
@@ -5074,11 +5132,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"JV8zLOxqX3ENLwiQX8lCiDY3TvQzbeibDAsdYtalZ4w=\""
+          "Value": "\"6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5088,7 +5146,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-JV8zLOxqX3ENLwiQX8lCiDY3TvQzbeibDAsdYtalZ4w="
+          "Value": "sha256-6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4="
         }
       ]
     },
@@ -5115,7 +5173,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5160,7 +5218,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5175,51 +5233,6 @@
       ]
     },
     {
-      "Route": "lib/bootstrap/dist/js/bootstrap.min.4908xmbfjr.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "59517"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"uAMYHAQlaHq1buKLwrk7FF4qxvcLWntS2/DpdKucfmU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "4908xmbfjr"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/bootstrap/dist/js/bootstrap.min.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-uAMYHAQlaHq1buKLwrk7FF4qxvcLWntS2/DpdKucfmU="
-        }
-      ]
-    },
-    {
       "Route": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "Selectors": [],
@@ -5230,7 +5243,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "59517"
+          "Value": "59511"
         },
         {
           "Name": "Content-Type",
@@ -5238,11 +5251,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"uAMYHAQlaHq1buKLwrk7FF4qxvcLWntS2/DpdKucfmU=\""
+          "Value": "\"c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5252,7 +5265,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-uAMYHAQlaHq1buKLwrk7FF4qxvcLWntS2/DpdKucfmU="
+          "Value": "sha256-c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM="
         }
       ]
     },
@@ -5279,7 +5292,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5316,7 +5329,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5335,6 +5348,96 @@
         {
           "Name": "integrity",
           "Value": "sha256-ui/FQI+y0IUsY8Pbi80b8s3GeEL+PsvdaLTONobpn88="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/js/bootstrap.min.zwph15dxgs.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "59511"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "zwph15dxgs"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/js/bootstrap.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM="
+        }
+      ]
+    },
+    {
+      "Route": "lib/bootstrap/dist/js/bootstrap.o4kw7cc6tf.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "148168"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "o4kw7cc6tf"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/bootstrap/dist/js/bootstrap.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4="
         }
       ]
     },
@@ -5361,7 +5464,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5398,7 +5501,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5421,7 +5524,7 @@
       ]
     },
     {
-      "Route": "lib/jquery/dist/jquery.7s2n0ol71w.js",
+      "Route": "lib/jquery/dist/jquery.fwhahm2icz.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5431,7 +5534,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "299461"
+          "Value": "288580"
         },
         {
           "Name": "Content-Type",
@@ -5439,11 +5542,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"KSI/3xxCrCexCupdzQJRP1B6Iqg+2NA+X2u38cQdqq8=\""
+          "Value": "\"H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5453,7 +5556,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "7s2n0ol71w"
+          "Value": "fwhahm2icz"
         },
         {
           "Name": "label",
@@ -5461,7 +5564,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-KSI/3xxCrCexCupdzQJRP1B6Iqg+2NA+X2u38cQdqq8="
+          "Value": "sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         }
       ]
     },
@@ -5476,7 +5579,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "299461"
+          "Value": "288580"
         },
         {
           "Name": "Content-Type",
@@ -5484,11 +5587,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"KSI/3xxCrCexCupdzQJRP1B6Iqg+2NA+X2u38cQdqq8=\""
+          "Value": "\"H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5498,7 +5601,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-KSI/3xxCrCexCupdzQJRP1B6Iqg+2NA+X2u38cQdqq8="
+          "Value": "sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         }
       ]
     },
@@ -5525,7 +5628,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5548,7 +5651,7 @@
       ]
     },
     {
-      "Route": "lib/jquery/dist/jquery.min.ehgnz7f14e.js",
+      "Route": "lib/jquery/dist/jquery.min.dd6z7egasc.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -5558,7 +5661,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "89503"
+          "Value": "89501"
         },
         {
           "Name": "Content-Type",
@@ -5566,11 +5669,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs=\""
+          "Value": "\"/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5580,7 +5683,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ehgnz7f14e"
+          "Value": "dd6z7egasc"
         },
         {
           "Name": "label",
@@ -5588,7 +5691,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs="
+          "Value": "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         }
       ]
     },
@@ -5603,7 +5706,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "89503"
+          "Value": "89501"
         },
         {
           "Name": "Content-Type",
@@ -5611,11 +5714,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs=\""
+          "Value": "\"/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5625,7 +5728,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs="
+          "Value": "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         }
       ]
     },
@@ -5652,7 +5755,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5689,7 +5792,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5734,7 +5837,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5771,7 +5874,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5816,7 +5919,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5853,7 +5956,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5898,7 +6001,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5913,51 +6016,6 @@
       ]
     },
     {
-      "Route": "lib/jquery-validation/dist/jquery.validate.6d0lkjaslc.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "52831"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"5qqb5VxQ2t2a6Zx/neW5uppLLvaGn4nn0NdYp6g8Lyg=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6d0lkjaslc"
-        },
-        {
-          "Name": "label",
-          "Value": "lib/jquery-validation/dist/jquery.validate.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-5qqb5VxQ2t2a6Zx/neW5uppLLvaGn4nn0NdYp6g8Lyg="
-        }
-      ]
-    },
-    {
       "Route": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "Selectors": [],
@@ -5968,7 +6026,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "52831"
+          "Value": "51171"
         },
         {
           "Name": "Content-Type",
@@ -5976,11 +6034,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"5qqb5VxQ2t2a6Zx/neW5uppLLvaGn4nn0NdYp6g8Lyg=\""
+          "Value": "\"m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -5990,7 +6048,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-5qqb5VxQ2t2a6Zx/neW5uppLLvaGn4nn0NdYp6g8Lyg="
+          "Value": "sha256-m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw="
+        }
+      ]
+    },
+    {
+      "Route": "lib/jquery-validation/dist/jquery.validate.min.b7iojwaux1.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "24601"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "b7iojwaux1"
+        },
+        {
+          "Name": "label",
+          "Value": "lib/jquery-validation/dist/jquery.validate.min.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA="
         }
       ]
     },
@@ -6005,7 +6108,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "24604"
+          "Value": "24601"
         },
         {
           "Name": "Content-Type",
@@ -6013,11 +6116,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"6e0N+WJiVKBeTitK1GKSwPi3rbdPpLtuqaiitZjeD2w=\""
+          "Value": "\"JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6027,13 +6130,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-6e0N+WJiVKBeTitK1GKSwPi3rbdPpLtuqaiitZjeD2w="
+          "Value": "sha256-JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA="
         }
       ]
     },
     {
-      "Route": "lib/jquery-validation/dist/jquery.validate.min.l1zq2mitth.js",
-      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Route": "lib/jquery-validation/dist/jquery.validate.pzqfkb6aqo.js",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -6042,7 +6145,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "24604"
+          "Value": "51171"
         },
         {
           "Name": "Content-Type",
@@ -6050,11 +6153,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"6e0N+WJiVKBeTitK1GKSwPi3rbdPpLtuqaiitZjeD2w=\""
+          "Value": "\"m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6064,15 +6167,15 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "l1zq2mitth"
+          "Value": "pzqfkb6aqo"
         },
         {
           "Name": "label",
-          "Value": "lib/jquery-validation/dist/jquery.validate.min.js"
+          "Value": "lib/jquery-validation/dist/jquery.validate.js"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-6e0N+WJiVKBeTitK1GKSwPi3rbdPpLtuqaiitZjeD2w="
+          "Value": "sha256-m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw="
         }
       ]
     },
@@ -6099,7 +6202,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6136,7 +6239,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6159,7 +6262,7 @@
       ]
     },
     {
-      "Route": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.03hjc8e09r.js",
+      "Route": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.47otxtyo56.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6169,7 +6272,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19820"
+          "Value": "19385"
         },
         {
           "Name": "Content-Type",
@@ -6177,11 +6280,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"xJbBMLGhYbXlPrrrddrSVmduyF6KEtbxEsYxw7hYZV4=\""
+          "Value": "\"wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6191,7 +6294,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "03hjc8e09r"
+          "Value": "47otxtyo56"
         },
         {
           "Name": "label",
@@ -6199,7 +6302,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-xJbBMLGhYbXlPrrrddrSVmduyF6KEtbxEsYxw7hYZV4="
+          "Value": "sha256-wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ="
         }
       ]
     },
@@ -6214,7 +6317,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19820"
+          "Value": "19385"
         },
         {
           "Name": "Content-Type",
@@ -6222,11 +6325,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"xJbBMLGhYbXlPrrrddrSVmduyF6KEtbxEsYxw7hYZV4=\""
+          "Value": "\"wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6236,12 +6339,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-xJbBMLGhYbXlPrrrddrSVmduyF6KEtbxEsYxw7hYZV4="
+          "Value": "sha256-wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ="
         }
       ]
     },
     {
-      "Route": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.48y08845bh.js",
+      "Route": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.4v8eqarkd7.js",
       "AssetFile": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -6251,7 +6354,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5831"
+          "Value": "5824"
         },
         {
           "Name": "Content-Type",
@@ -6259,11 +6362,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RFWFWIIPsjB4DucR4jqwxTWw13ZmtI+s6tVR2LJmZXk=\""
+          "Value": "\"YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6273,7 +6376,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "48y08845bh"
+          "Value": "4v8eqarkd7"
         },
         {
           "Name": "label",
@@ -6281,7 +6384,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-RFWFWIIPsjB4DucR4jqwxTWw13ZmtI+s6tVR2LJmZXk="
+          "Value": "sha256-YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4="
         }
       ]
     },
@@ -6296,7 +6399,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "5831"
+          "Value": "5824"
         },
         {
           "Name": "Content-Type",
@@ -6304,11 +6407,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RFWFWIIPsjB4DucR4jqwxTWw13ZmtI+s6tVR2LJmZXk=\""
+          "Value": "\"YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6318,7 +6421,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-RFWFWIIPsjB4DucR4jqwxTWw13ZmtI+s6tVR2LJmZXk="
+          "Value": "sha256-YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4="
         }
       ]
     },
@@ -6345,7 +6448,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -6390,7 +6493,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 29 May 2025 01:27:24 GMT"
+          "Value": "Fri, 30 May 2025 15:27:33 GMT"
         },
         {
           "Name": "Cache-Control",

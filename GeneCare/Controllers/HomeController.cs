@@ -29,13 +29,36 @@ namespace GeneCare.Controllers
             ViewBag.Title = "Privacy Policy";
             return View();
         }
-
+        public IActionResult About()
+        {
+            ViewBag.Title = "About Us";
+            return View();
+        }
+        public IActionResult Services()
+        {
+            ViewBag.Title = "Services";
+            return View();
+        }
+        public IActionResult Blog()
+        {
+            ViewBag.Title = "Blog";
+            return View();
+        }
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
-
+        public IActionResult CivilServices()
+        {
+            ViewBag.Title = "Civil Services";
+            return View();
+        }
+        public IActionResult LegalServices()
+        {
+            ViewBag.Title = "Legal Services";
+            return View();
+        }
         
         [HttpPost]
         public IActionResult Login(IFormCollection form)
