@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Http;
-using GeneCare.Models.DTO;
-using GeneCare.Models.DAO;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using GeneCare.Models.Utils;
@@ -18,24 +17,6 @@ namespace GeneCare.Controllers
             return View();
         }
 
-        public IActionResult Login(UserDTO user)
-        {           
-            if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
-            {
-                ViewBag.Error = "Email and Password cannot be empty.";
-                return View("Index");
-            }
-            var userDTO = new UserDAO().getUser(user.Email, user.Password);
-
-            if (userDTO == null)
-            {
-                ViewBag.Error = "Invalid email or password.";
-                return View("Index");
-            }
-
-            HttpContext.Session.setObject("user", userDTO);
-            return RedirectToAction("Index", "Home");
-        }
         public async Task LoginWithGoogle()
         {
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,

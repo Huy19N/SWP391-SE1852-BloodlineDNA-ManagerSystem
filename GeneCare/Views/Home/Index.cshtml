@@ -1,10 +1,8 @@
-﻿@using GeneCare.Models.DTO
+﻿
 @using GeneCare.Models.Utils
 @{
     ViewData["Title"] = "Home";
-    var user = Context.Session.getObject<UserDTO>("user") ?? new UserDTO();
 }
-@user.Email
 
 <div class="container-fluid p-0 m-0">
     <div class="position-relative w-100" style="aspect-ratio: 16/6;">

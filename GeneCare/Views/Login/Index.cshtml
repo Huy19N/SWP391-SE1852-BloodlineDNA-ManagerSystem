@@ -1,4 +1,4 @@
-﻿@model GeneCare.Models.DTO.UserDTO;
+﻿
 
 @{
 	ViewData["Title"] = "Login";
@@ -7,11 +7,11 @@
 <form asp-action="Login" method="post">
 	<div class="mb-3">
 		<label class="form-label">Email address</label>
-		<input asp-for="Email" type="email" class="form-control" required>
+		<input  type="email" class="form-control" required>
 	</div>
 	<div class="mb-3">
 		<label class="form-label">Password</label>
-		<input asp-for="Password" type="password" class="form-control" required>
+		<input  type="password" class="form-control" required>
 	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
 	<a asp-action="LoginWithGoogle" asp-controller="Login" class="btn btn-primary">Login with Google</a>

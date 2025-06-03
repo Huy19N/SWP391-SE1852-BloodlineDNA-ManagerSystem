@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using GeneCare.Models;
-using GeneCare.Models.DAO;
-using GeneCare.Models.DTO;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Session;
@@ -71,15 +70,6 @@ namespace GeneCare.Controllers
                 return View();
             }
 
-            UserDTO user = new UserDAO().getUser(email, password);
-            if (user == null)
-            {
-                _logger.LogWarning("Login failed for email: {Email}", email);
-                var ErrorModel = new ErrorViewModel() { ErrorLoginEmaiPassword = true };
-                return View(ErrorModel);
-            }
-
-            HttpContext.Session.SetString("UserEmail", user.Email);
             return RedirectToAction("Index", "Home");
         }
 
