@@ -36,6 +36,18 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"fp5wuz34h5"},{"Name":"integrity","Value":"sha256-HaEYW9x8qbrF3d8OsAQV1dHT/LBb/LUeVDwks8CVx8U="},{"Name":"label","Value":"_content/GeneCare/GeneCare.bundle.scp.css"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1126"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022HaEYW9x8qbrF3d8OsAQV1dHT/LBb/LUeVDwks8CVx8U=\u0022"},{"Name":"Last-Modified","Value":"Tue, 03 Jun 2025 04:03:08 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GeneCare/Images/ServicesHome.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Images\ServicesHome.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-HhHYNs1lJADFR/k98Gt\u002BPEf1dL67XKoLgwK\u002B\u002BcOjkls="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=3600, must-revalidate"},{"Name":"Content-Length","Value":"45510"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022HhHYNs1lJADFR/k98Gt\u002BPEf1dL67XKoLgwK\u002B\u002BcOjkls=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Jun 2025 14:27:54 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/GeneCare/Images/ServicesHome.ul5iiod6t6.jpg">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Images\ServicesHome.jpg'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ul5iiod6t6"},{"Name":"integrity","Value":"sha256-HhHYNs1lJADFR/k98Gt\u002BPEf1dL67XKoLgwK\u002B\u002BcOjkls="},{"Name":"label","Value":"_content/GeneCare/Images/ServicesHome.jpg"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"45510"},{"Name":"Content-Type","Value":"image/jpeg"},{"Name":"ETag","Value":"\u0022HhHYNs1lJADFR/k98Gt\u002BPEf1dL67XKoLgwK\u002B\u002BcOjkls=\u0022"},{"Name":"Last-Modified","Value":"Mon, 02 Jun 2025 14:27:54 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/GeneCare/js/site.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\site.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

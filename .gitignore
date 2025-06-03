@@ -2,3 +2,6 @@
 .vs/
 # Secret.json
 Secret.json
+
+#build Debug Realeas
+bin/
