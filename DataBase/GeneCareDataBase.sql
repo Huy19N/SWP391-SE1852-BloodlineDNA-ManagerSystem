@@ -52,15 +52,31 @@ CREATE TABLE ServicePrice (
 	Price INT
 );
 
+CREATE TABLE CollectionMethod (
+    MethodID INT PRIMARY KEY,
+    MethodName NVARCHAR(100) -- Ví dụ: 'Tự thu tại nhà', 'Thu tại nhà bởi nhân viên', 'Thu tại cơ sở'
+);
+
 -- Bảng Booking
 CREATE TABLE Booking (
 	BookingID INT PRIMARY KEY,
 	UserID INT FOREIGN KEY REFERENCES Users(UserID),
 	DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
 	ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
+	MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
+	AppointmentTime DATETime,
 	[Status] INT,
-	Method NVARCHAR(150),
 	[Date] DATETIME
+);
+
+-- Bảng TestProcess
+CREATE TABLE TestProcess (
+    ProcessID INT PRIMARY KEY,
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+    StepName NVARCHAR(100), -- Ví dụ: "Đăng ký", "Thu mẫu", "Xét nghiệm", "Trả kết quả"
+    Status NVARCHAR(50),    -- Đang chờ, Hoàn tất, ...
+    Description NVARCHAR(MAX),
+    UpdatedAt DATETIME
 );
 
 -- Bảng Feedback
@@ -99,4 +115,13 @@ CREATE TABLE Blog (
 	Title NVARCHAR(200),
 	Content NVARCHAR(MAX),
 	CreatedAt DATETIME
+);
+-- Bảng Payment
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY,
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+    Amount INT,
+    PaymentDate DATETIME,
+    PaymentMethod NVARCHAR(50),
+    Status NVARCHAR(50)
 );
