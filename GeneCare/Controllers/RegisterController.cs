@@ -25,18 +25,22 @@ namespace GeneCare.Controllers
                 return View("Index");
             }
 
-            if (UserDAO.addUser(Email, Password))
+            if (UserDAO.containsUser(Email))
             {
-                ViewBag.Success = "Registration successful. Please log in.";
+                ViewBag.Error = "Email already exists. Please use a different email.";
+                return View("Index");
+            }
+            else if (UserDAO.addUser(Email, Password))
+            {
+                ViewBag.Success = "Registration successful. You can now log in.";
                 return RedirectToAction("Index", "Login");
             }
             else
             {
-                ViewBag.Error = "Registration failed. Please try again.";
+                base.ViewBag.Error = "Registration failed. Please try again later.";
                 return View("Index");
             }
 
-            return RedirectToAction("Index", "Login");
         }
     }
 }
