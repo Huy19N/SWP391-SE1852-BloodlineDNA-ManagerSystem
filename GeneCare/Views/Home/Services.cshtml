@@ -2,8 +2,14 @@
     ViewData["Title"] = "Services";
     Layout = "_Layout"; 
 }
-<div>
+<div class="container-fluid p-5 bg-primary text-white text-center">
     <h1>@ViewData["Title"]</h1>
-    <h3><a asp-controller="Services" asp-action="CivilServices">Civil Services</a></h3>
-    <h3><a asp-controller="Services" asp-action="LegalServices">Legal services</a></h3>
+</div>
+<div>
+    <div>
+        <h3><a asp-controller="Services" asp-action="CivilServices">Civil Services</a></h3>
+    </div>
+    <div>
+        <h3><a asp-controller="Services" asp-action="LegalServices">Legal services</a></h3>
+    </div>
 </div>

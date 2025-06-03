@@ -4,11 +4,22 @@
     ViewData["Title"] = "Home";
     var user = Context.Session.getObject<UserDTO>("user") ?? new UserDTO();
 }
-<br />
-
 @user.Email
 
-<h2>hello ae</h2>
+<div class="container-fluid p-0 m-0">
+    <div class="position-relative w-100" style="aspect-ratio: 16/6;">
+        <img alt="GeneCare Logo"
+             src="~/images/ServicesHome.jpg"
+             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+
+        <!-- Overlay nội dung lên ảnh -->
+        <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+            <h1 class="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
+            <p class="lead text-primary text-opacity-75">We’ll help you confirm if someone is from your hometown</p>
+            <button class="btn btn-primary btn-lg">Join</button>
+        </div>
+    </div>
+</div>
 
 @if (Context.User.Identity.IsAuthenticated)
 {
