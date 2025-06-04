@@ -6,3 +6,5 @@ Secret.json
 #build Debug Realeas
 GeneCare/bin/
 GeneCare/obj/
+GeneCare/obj/Debug/net8.0/GeneCare.AssemblyInfo.cs
+/GeneCare/obj
