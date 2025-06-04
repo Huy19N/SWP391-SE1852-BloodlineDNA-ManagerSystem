@@ -30,6 +30,11 @@
             <div class="carousel-item position-relative w-100" style="aspect-ratio: 16/6;">
                 <img src="~/Images/test2.jpg" alt="New York" class="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style="width:100%">
             </div>
+            <!-- Overlay nội dung lên ảnh -->
+            <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                <h1 class="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
+                <button class="btn btn-primary btn-lg"><i class="bi bi-star-fill"></i> Join</button>
+            </div>
         </div>
 
         <!-- Left and right controls/icons -->
@@ -40,17 +45,97 @@
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
+</div>
+<!--part2-->
+<div class="container text-center mt-20 mb-10 bg-light vw-100">
+    <h2 class="fw-bold display-6 py-5">
+        We’ll <span class="text-primary">help you confirm</span><br />
+        if <span class="text-primary">someone</span> is from your <span class="text-primary">hometown</span>
+    </h2>
+</div>
+<!--part3-->
+<div class="container my-5">
+    <div class="row align-items-center">
+        <!-- Left Image -->
+        <div class="col-md-6 mb-4 mb-md-0">
+            <img src="~/Images/ServicesHome.jpg" alt="Lab Image" class="img-fluid rounded">
+        </div>
 
-    <!-- Overlay nội dung lên ảnh -->
-    <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
-        <h1 class="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
-        <button class="btn btn-primary btn-lg">Join</button>
+        <!-- Right Content -->
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-4">Here’s why <span class="text-primary">choosing </span>us is the right decision you can <span class="text-primary">trust</span></h2>
+
+            <!-- Item 1 -->
+            <div class="d-flex mb-4">
+                <i class="bi bi-lightbulb-fill text-primary fs-2 me-3"></i>
+                <div>
+                    <h5 class="text-primary fw-bold mb-1">Cutting-Edge DNA Testing Technology</h5>
+                    <p class="mb-0 text-muted">We leverage modern technology to provide highly accurate and reliable DNA testing solutions.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="d-flex mb-4">
+                <i class="bi bi-emoji-smile text-primary fs-2 me-3"></i>
+                <div>
+                    <h5 class="text-primary fw-bold mb-1">Customer Satisfaction Is Our Priority</h5>
+                    <p class="mb-0 text-muted">Our patients consistently express satisfaction with the quality of care and personalized support they receive.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="d-flex">
+                <i class="bi bi-people-fill text-primary fs-2 me-3"></i>
+                <div>
+                    <h5 class="text-primary fw-bold mb-1">Trusted Leader in DNA Testing</h5>
+                    <p class="mb-0 text-muted">We are recognized as a trusted and well-known name in the field of DNA testing services.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
-<div class="container-fluid m-4 p-4">
-    <h2 class="text-center bottom-50">We’ll help you confirm if someone is from your hometown</h2>
-</div>
+<section class="text-center py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold display-5">
+            Our Process: <span class="text-info">Bioinformatics</span> Software Solution
+        </h2>
+        <p class="text-muted">
+            Fully integrated into your workflow to optimize efficiency, reduce costs, and minimize patient risk
+        </p>
+
+        <div class="d-flex justify-content-between align-items-start flex-wrap position-relative mt-5" style="background: url('path-to-your-dotted-line.svg') no-repeat center; background-size: cover;">
+            <!-- Step 1 -->
+            <div class="text-center" style="width: 15%;">
+                <i class="bi bi-droplet-fill fs-1 text-info"></i>
+                <p class="mt-2">Collection of<br>DNA sample</p>
+            </div>
+            <!-- Step 2 -->
+            <div class="text-center" style="width: 15%;">
+                <i class="bi bi-cpu-fill fs-1 text-info"></i>
+                <p class="mt-2">DNA<br>Processed</p>
+            </div>
+            <!-- Step 3 -->
+            <div class="text-center" style="width: 15%;">
+                <i class="bi bi-bar-chart-line-fill fs-1 text-info"></i>
+                <p class="mt-2">Real-time analytics<br>via the EMR</p>
+            </div>
+            <!-- Step 4 -->
+            <div class="text-center" style="width: 15%;">
+                <i class="bi bi-person-check-fill fs-1 text-info"></i>
+                <p class="mt-2">Provider decision<br>support</p>
+            </div>
+            <!-- Step 5 -->
+            <div class="text-center" style="width: 15%;">
+                <i class="bi bi-briefcase-medical-fill fs-1 text-info"></i>
+                <p class="mt-2">Treatment<br>protocol</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
 
 @if (Context.User.Identity.IsAuthenticated)
