@@ -4,4 +4,5 @@
 Secret.json
 
 #build Debug Realeas
-/GeneCare/bin
+GeneCare/bin
+*.dll 
