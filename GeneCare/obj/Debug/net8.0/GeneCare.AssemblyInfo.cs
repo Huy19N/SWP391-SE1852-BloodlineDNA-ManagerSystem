@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GeneCare")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b751e0343d414ca0d0041996ca16b87dd0edb5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2d389674cf4703da29c18474510b6085ed88e654")]
 [assembly: System.Reflection.AssemblyProductAttribute("GeneCare")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GeneCare")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
