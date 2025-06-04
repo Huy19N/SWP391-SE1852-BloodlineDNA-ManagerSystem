@@ -2,11 +2,11 @@
     ViewData["Title"] = "Services";
     Layout = "_Layout"; 
 }
-<div class="container-fluid p-0 m-0">
+<div class="container-fluid p-0 m-0 position-relative">
     <!-- Carousel -->
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-        <!-- Indicators/dots -->
+        <!-- nút ảnh -->
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
             <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
@@ -14,7 +14,7 @@
             <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
         </div>
 
-        <!-- The slideshow/carousel -->
+        <!-- ảnhl -->
         <div class="carousel-inner">
             <div class="carousel-item active position-relative w-100" style="aspect-ratio: 16/6;">
                 <img src="~/Images/ServicesHome.jpg" alt="Los Angeles" class="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style="width:100%">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <!-- Left and right controls/icons -->
+        <!-- nút trái phải -->
         <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
@@ -44,11 +44,31 @@
         <h1 class="fw-bold display-4 text-primary">@ViewData["Title"]</h1>
     </div>
 </div>
-<div>
-    <div>
-        <h3><a asp-controller="Services" asp-action="CivilServices">Civil Services</a></h3>
-    </div>
-    <div>
-        <h3><a asp-controller="Services" asp-action="LegalServices">Legal services</a></h3>
+<!--loại dịch vụ -->
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center text-center g-4">
+        <!-- Civil Service -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow border-0">
+                <img src="~/Images/test1.jpg" class="card-img-top" alt="Civil Services" style="object-fit: cover; height: 250px;">
+                <div class="card-body">
+                    <h3>
+                        <a asp-controller="Services" asp-action="CivilServices" class="text-decoration-none text-dark">Civil Services</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Service -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow border-0">
+                <img src="~/Images/test1.jpg" class="card-img-top" alt="Legal Services" style="object-fit: cover; height: 250px;">
+                <div class="card-body">
+                    <h3>
+                        <a asp-controller="Services" asp-action="LegalServices" class="text-decoration-none text-dark">Legal Services</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
