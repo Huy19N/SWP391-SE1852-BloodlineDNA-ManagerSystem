@@ -9,6 +9,18 @@
       "PackagePath": "staticwebassets\\Images\\ServicesHome.jpg"
     },
     {
+      "Id": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\snapedit_1743177077262.jpeg",
+      "PackagePath": "staticwebassets\\Images\\snapedit_1743177077262.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\test1.jpg",
+      "PackagePath": "staticwebassets\\Images\\test1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\Images\\test2.jpg",
+      "PackagePath": "staticwebassets\\Images\\test2.jpg"
+    },
+    {
       "Id": "C:\\Users\\Admin\\Desktop\\myrepository\\SWP391-SE1852-BloodlineDNA-ManagerSystem\\GeneCare\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

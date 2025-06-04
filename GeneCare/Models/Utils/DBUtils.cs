@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-
 namespace GeneCare.Models.Utils
 {
     public class DBUtils

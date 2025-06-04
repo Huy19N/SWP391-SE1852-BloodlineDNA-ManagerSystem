@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\DAO\" />
-    <Folder Include="Models\DTO\" />
+    <Folder Include="Models\Interface\" />
   </ItemGroup>
 
 </Project>
