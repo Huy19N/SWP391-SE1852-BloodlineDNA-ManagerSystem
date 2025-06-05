@@ -256,3 +256,19 @@ span#fcta-zalo-tracking {
 .object-fit-cover {
     object-fit: cover;
 }
+
+.img-overlay {
+    width: 60%;
+    bottom: -20px;
+    right: 0;
+    transform: translateX(50%);
+}
+
+@media (max-width: 768px) {
+    .img-overlay {
+        position: static;
+        transform: none;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
