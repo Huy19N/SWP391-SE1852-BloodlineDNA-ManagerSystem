@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Đặt lịch dịch vụ xét nghiệm ADN</h2>
+
+<form asp-action="Booking" method="post">
+    <div class="mb-3">
+        <label for="fullName" class="form-label">Họ và tên</label>
+        <input type="text" class="form-control" id="fullName" name="FullName" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="Email" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="phone" class="form-label">Số điện thoại</label>
+        <input type="tel" class="form-control" id="phone" name="Phone" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="serviceType" class="form-label">Loại dịch vụ xét nghiệm</label>
+        <select class="form-select" id="serviceType" name="ServiceType" required>
+            <option value="">-- Chọn dịch vụ --</option>
+            <option value="dan-su">ADN dân sự</option>
+            <option value="hanh-chinh">ADN hành chính</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="sampleMethod" class="form-label">Phương thức thu mẫu</label>
+        <select class="form-select" id="sampleMethod" name="SampleMethod" required>
+            <option value="">-- Chọn phương thức --</option>
+            <option value="tu-thu-mau">Tự thu mẫu tại nhà</option>
+            <option value="co-so-thu-mau-tai-nha">Cơ sở đến thu mẫu tại nhà</option>
+            <option value="thu-mau-tai-co-so">Đến cơ sở y tế để thu mẫu</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="appointmentDate" class="form-label">Ngày hẹn thu mẫu</label>
+        <input type="date" class="form-control" id="appointmentDate" name="AppointmentDate" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="note" class="form-label">Ghi chú (nếu có)</label>
+        <textarea class="form-control" id="note" name="Note" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Đặt lịch xét nghiệm</button>
+</form>

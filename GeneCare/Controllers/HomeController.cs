@@ -48,6 +48,10 @@ namespace GeneCare.Controllers
         {
             return View();
         }
+        public IActionResult Booking()
+        {
+            return View();
+        }
         public IActionResult CivilServices()
         {
             ViewBag.Title = "Civil Services";
