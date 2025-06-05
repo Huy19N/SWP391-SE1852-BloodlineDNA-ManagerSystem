@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center mt-5">
+    <div class="alert alert-success p-4 shadow rounded">
+        <h2 class="mb-3"><i class="bi bi-check-circle-fill text-success"></i> Đặt lịch thành công!</h2>
+        <p class="fs-5">Cảm ơn bạn đã đăng ký dịch vụ xét nghiệm ADN tại GeneCare.</p>
+        <p class="fs-6">Chúng tôi sẽ liên hệ với bạn qua email hoặc số điện thoại để xác nhận thông tin và hướng dẫn các bước tiếp theo.</p>
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary me-2">Quay về trang chủ</a>
+        <a asp-controller="Booking" asp-action="Booking" class="btn btn-success">Đặt lịch mới</a>
+    </div>
+</div>
