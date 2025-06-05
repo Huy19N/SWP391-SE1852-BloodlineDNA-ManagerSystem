@@ -2,6 +2,53 @@
     ViewData["Title"] = "Services";
     Layout = "_Layout"; 
 }
+<style>
+.custom-card {
+border-radius: 1rem;
+overflow: hidden; 
+}
+
+.custom-card {
+transition: transform 0.3s ease-in-out;
+border-radius: 1rem;
+height: 700px;
+display: flex;
+flex-direction: column;
+}
+
+.custom-card:hover {
+transform: scale(1.03);
+}
+
+.custom-card .card-header {
+border-top-left-radius: 1rem;
+border-top-right-radius: 1rem;
+}
+
+.custom-card .card-body {
+flex-grow: 1;
+padding: 0;
+overflow: hidden;
+}
+
+.custom-table {
+width: 100%;
+height: 100%;
+table-layout: fixed;
+}
+
+.custom-table tbody tr {
+height: calc(500px / 5); /* 5 dòng chia đều */
+vertical-align: middle;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #0CB5D8 !important;
+    color: white;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+}
+</style>
 <div class="container-fluid p-0 m-0 position-relative">
     <!-- Carousel -->
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
@@ -45,41 +92,60 @@
     </div>
 </div>
 <!--loại dịch vụ -->
-<section class="text-center py-5 " style="background-image: url('/Images/test3.jpg'); background-size: cover; background-position: center;">
-    <div>
-        <h3 class="text-white">các loại dịch vụ</h3>
-        <h4 class=" text-white"> của chúng tôi</h4>
-    </div>
+
+
+<section class="text-center py-5" style="background-image: url('/Images/test3.jpg'); background-size: cover; background-position: center;">
+    <div class="container mt-6 p-4 rounded shadow-lg border" style="background: rgba(255, 255, 255, 0.9); border-width: 3px; ">
+<div>
+    <h1 class="text-danger fs-1 fw-bold">Các loại dịch vụ</h1>
+    <h1 class="text-danger fs-1 fw-bold">của chúng tôi</h1>
+</div>
+
 <div class="container my-5">
-    <div class="row justify-content-center align-items-center text-center g-5">
-
-    <!-- Civil Service -->
-    <div class="col-md-5">
-        <a asp-controller="Services" asp-action="CivilServices" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow border-0">
-                <img src="~/Images/test1.jpg" class="card-img-top" alt="Civil Services" style="object-fit: cover; height: 250px;">
-                        <div class="card-body bg-primary text-white">
-                    <h3>Civil Services</h3>
-                </div>
+<div class="row justify-content-center align-items-start text-center g-5">
+<!-- BẢNG DÂN SỰ -->
+<div class="col-lg-6">
+    <a asp-controller="Services" asp-action="CivilServices" class="text-decoration-none text-dark">
+        <div class="card shadow border-0 custom-card">
+            <div class="card-header bg-primary text-white text-center fs-1 fw-bold">DÂN SỰ</div>
+            <div class="card-body">
+                <table class="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
+                    <tbody>
+                        <tr><td>Loại 1</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                    </tbody>
+                </table>
             </div>
-        </a>
-    </div>
-
-    <!-- Legal Service -->
-   
-    <div class="col-md-5">
-        <a asp-controller="Services" asp-action="LegalServices" class="text-decoration-none text-dark">
-            <div class="card h-100 shadow border-0">
-                <img src="~/Images/test1.jpg" class="card-img-top" alt="Legal Services" style="object-fit: cover; height: 250px;">
-                        <div class="card-body bg-primary text-white">
-                    <h3>Legal Services</h3>
-                </div>
+        </div>
+    </a>
+</div>
+<!-- BẢNG PHÁP LÝ -->
+<div class="col-lg-6">
+    <a asp-controller="Services" asp-action="LegalServices" class="text-decoration-none text-dark">
+        <div class="card shadow border-0 custom-card">
+            <div class="card-header bg-primary text-white text-center fs-1 fw-bold">PHÁP LÝ</div>
+            <div class="card-body">
+                <table class="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
+                    <tbody>
+                        <tr><td>Loại 1</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                        <tr><td>chưa làm</td></tr>
+                    </tbody>
+                </table>
             </div>
-        </a>
-    </div>
-    </div>
+        </div>
+    </a>
+</div>
+</div>
+</div>
 </div>
 </section>
+
 
 
 
