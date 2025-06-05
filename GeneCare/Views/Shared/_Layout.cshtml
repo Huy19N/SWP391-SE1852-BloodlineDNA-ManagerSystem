@@ -35,9 +35,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Blog">Blog</a>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Booking" asp-action="Index">Booking</a>
-                        </li>
+                        </li> *@
 						<li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Login" asp-action="Index">Login</a>
                         </li>
@@ -71,9 +71,68 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    @* <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - GeneCare - <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </div>
+    </footer> *@
+    <footer class="bg-light text-dark pt-5 pb-4">
+        <div class="container text-md-left">
+            <div class="row">
+
+                <!-- Cột 1: Logo và mô tả -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
+                    @* <img src="~/Images/logo-footer.png" alt="Logo" class="mb-3" style="width: 100px;"> *@
+                    <h2 class="fw-bold mb-3">GenCare</h2>
+                    <p>DNA Testings Trading & Service Co., Ltd (Four-Member Limited Liability Company)</p>
+                    <p>
+                        <i class="bi bi-telephone-fill"></i> 09X-XXX-XXXX<br>
+                        <i class="bi bi-telephone-fill"></i> 09X-XXX-XXXX
+                    </p>
+                    <p><i class="bi bi-geo-alt-fill"></i>Số 11, Đường Số 49, P. Hiệp Bình Chánh, TP. Thủ Đức, TP. HCM</p>
+                </div>
+
+                <!-- Cột 2: Important Links -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">Important Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-reset text-decoration-none">Home</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Privacy</a></li>
+                        <li><a href="#about" class="text-reset text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Services</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 3: Solutions -->
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">Solutions</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-reset text-decoration-none">Health Care</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Mental Health Rx</a></li>
+                        <li><a href="#" class="text-reset text-decoration-none">Staff Care</a></li>
+                        @* <li><a href="#" class="text-reset text-decoration-none"></a></li> *@
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Newsletter -->
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mb-4">
+                    @* <h6 class="text-uppercase fw-bold mb-4">Newsletter</h6>
+                    <p>Subscribe newsletter for the latest offers and news</p>
+                    <form class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email mail" required>
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-send-fill"></i>
+                        </button>
+                    </form> *@
+                    <div>
+                        <a href="#" class="me-3 text-reset"><i class="bi bi-facebook fs-4"></i></a>
+                        <a href="#" class="me-3 text-reset"><i class="bi bi-instagram fs-4"></i></a>
+                        <a href="#" class="text-reset"><i class="bi bi-linkedin fs-4"></i></a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

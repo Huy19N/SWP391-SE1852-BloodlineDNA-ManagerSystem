@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="container-fluid p-0 m-0">
+<div class="container-fluid p-0 m-0" id="home">
     <!-- Carousel -->
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
@@ -59,7 +59,7 @@
         <div class="row align-items-center">
             <!-- Left Image -->
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="~/Images/ServicesHome.jpg" alt="Lab Image" class="img-fluid rounded">
+                <img src="~/Images/ServicesHome.jpg" alt="Lab Image" class="img-fluid rounded shadow">
             </div>
 
             <!-- Right Content -->
@@ -142,7 +142,7 @@
 </section>
 
 <!--Part5-->
-<section class="py-5 bg-light">
+<section class="py-5 bg-light" id="about">
     <div class="container">
         <div class="row align-items-center">
             <!-- Bên trái: Nội dung About -->
@@ -155,7 +155,7 @@
                 <p>
                     Với đội ngũ chuyên gia cao cấp nhiều năm kinh nghiệm được đào tạo chuyên nghiệp...
                 </p>
-                <a href="#contact" class="btn btn-danger rounded-pill px-4 mt-3">Contact</a>
+                <a href="#" class="btn btn-danger rounded-pill px-4 mt-3">Contact</a>
             </div>
 
             <!-- Bên phải: Ảnh -->
@@ -229,8 +229,9 @@
         <div class="row align-items-center">
             <!-- Cột hình ảnh -->
             <div class="col-md-6 position-relative mb-5 mb-md-0">
-                <img src="~/Images/test1.jpg" alt="DNA" class="img-fluid rounded shadow">
-                <img src="~/Images/test2.jpg" alt="DNA" class="img-fluid rounded shadow position-absolute img-overlay">
+                <img src="~/Images/test1.jpg" alt="DNA" class="img-fluid rounded shadow" style="transform: translateX(-8%); ">
+                <img src="~/Images/test2.jpg" alt="DNA" class="img-fluid rounded shadow position-absolute img-overlay" style="width: 50%; top: -30px; right: 0; transform: translateX(-138%);">
+                <img src="~/Images/test2.jpg" alt="DNA" class="img-fluid rounded shadow position-absolute img-overlay" style="width: 50%; bottom: -20px; right: 0; transform: translateX(3%);">
             </div>
 
             <!-- Cột nội dung -->
@@ -280,6 +281,42 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+<!--Part8-->
+<section class="bg-primary p-2 bg-opacity-75 py-4">
+    <div class="container">
+        @* <h3 class="text-white fw-bold mb-4">Business Partners</h3> *@
+        <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                        <img src="~/Images/logo1.png" alt="Logo 1" class="partner-logo">
+                        <img src="~/Images/logo2.png" alt="Logo 2" class="partner-logo">
+                        <img src="~/Images/logo3.png" alt="Logo 3" class="partner-logo">
+                        <img src="~/Images/logo4.png" alt="Logo 4" class="partner-logo">
+                        <img src="~/Images/logo5.jpg" alt="Logo 5" class="partner-logo">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                        <img src="~/Images/logo1.png" alt="Logo 6" class="partner-logo">
+                        <img src="~/Images/logo2.png" alt="Logo 7" class="partner-logo">
+                        <img src="~/Images/logo3.png" alt="Logo 8" class="partner-logo">
+                        <img src="~/Images/logo4.png" alt="Logo 9" class="partner-logo">
+                        <img src="~/Images/logo5.jpg" alt="Logo 10" class="partner-logo">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#partnerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon rounded-circle"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#partnerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon  rounded-circle"></span>
+            </button>
         </div>
     </div>
 </section>
