@@ -1,9 +1,10 @@
 # Visual Studio cache/settings
 .vs/
-# Secret.json
-Secret.json
 
-#build Debug Realeas
+#build Debug Realeas GeneCare
 GeneCare/bin/
 GeneCare/obj/
 
+#APIGeneCare
+APIGeneCare/bin/
+APIGeneCare/obj/

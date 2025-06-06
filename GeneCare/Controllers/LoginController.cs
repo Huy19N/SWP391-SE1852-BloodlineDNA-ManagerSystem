@@ -13,7 +13,26 @@ namespace GeneCare.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Login(Users user)
+        {
+            if (String.IsNullOrEmpty(user.Email))
+            {
+                ModelState.AddModelError("Email", "Email can not null");
+            }
 
+            if (String.IsNullOrEmpty(user.Password))
+            {
+                ModelState.AddModelError("Password", "Password can not null");
+            }
+
+            ModelState.AddModelError("errorLogin", "Wrong email or password");
+
+
+
+
+            return RedirectToAction("Index", "Home");
+        }
         public async Task LoginWithGoogle()
         {
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme,
