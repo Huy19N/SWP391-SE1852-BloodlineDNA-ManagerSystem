@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeneCare.Controllers
 {
-    /*[Authorize]*/
+    [Authorize]
     public class BookingController : Controller
     {
         public IActionResult Index()
