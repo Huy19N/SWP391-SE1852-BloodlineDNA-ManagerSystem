@@ -31,10 +31,7 @@ builder.Services.AddSession(Options =>
 });
 
 
-builder.Services.AddSqlServer(options =>
-{
-    options.UseSqlServer("");
-});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
