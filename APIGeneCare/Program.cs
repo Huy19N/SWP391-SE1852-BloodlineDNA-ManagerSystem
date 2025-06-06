@@ -1,4 +1,6 @@
 using APIGeneCare.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -18,6 +21,35 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
+});
+
+//
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+})
+    .AddCookie()
+    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+    {
+        options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+        options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+        options.Scope.Add("email");
+        options.Scope.Add("profile");
+        options.SaveTokens = false;
+    });
+
+
+//
+builder.Services.AddDistributedMemoryCache();
+
+//
+builder.Services.AddSession(Options =>
+{
+    Options.IdleTimeout = TimeSpan.FromDays(1);
+    Options.Cookie.HttpOnly = true;
+    Options.Cookie.IsEssential = true;
 });
 
 

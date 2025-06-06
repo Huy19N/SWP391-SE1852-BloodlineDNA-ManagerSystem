@@ -1,6 +1,6 @@
-@APIGeneCare_HostAddress = http://localhost:5555
+@APIGeneCare_HostAddress = http://localhost:5771
 
-GET {{APIGeneCare_HostAddress}}/weatherforecast/
+
+GET {{APIGeneCare_HostAddress}}/api/
 Accept: application/json
-
 ###
