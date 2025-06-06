@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddAuthentication(options =>
         options.SaveTokens = false;
     });
 
+
+
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(Options =>
@@ -26,6 +29,9 @@ builder.Services.AddSession(Options =>
     Options.Cookie.HttpOnly = true;
     Options.Cookie.IsEssential = true;
 });
+
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
