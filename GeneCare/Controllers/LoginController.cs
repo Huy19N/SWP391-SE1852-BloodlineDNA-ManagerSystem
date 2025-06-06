@@ -2,12 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Http;
-
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using GeneCare.Models;
 using GeneCare.Models.Utils;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 namespace GeneCare.Controllers
 {
     public class LoginController : Controller
@@ -39,8 +36,23 @@ namespace GeneCare.Controllers
             var email = result?.Principal?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
             var name = result?.Principal?.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value;
 
-           
-            
+            var user = new Users().getUser(null, email, null);
+            if (user == null || user.UserId < 0)
+            {
+                user = new Users
+                {
+                    FullName = name,
+                    Email = email,
+                    Role = new Role { RoleId = 1 },
+                    Address = "Not provided",
+                    Phone = "Not provided"
+                };
+                await HttpContext.SignOutAsync();
+                return View("SetPassword", user);
+            }
+
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.setObject("UserEmail", email);
 
             //return Json(claims);
             return RedirectToAction("Index", "Home", new { area = "" });
@@ -48,11 +60,30 @@ namespace GeneCare.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            // Clear the session
-            HttpContext.Session.Clear();
-            // Sign out of the authentication cookie
-            await HttpContext.SignOutAsync();
+            HttpContext.Session.Clear();       
             return View("Index");
+        }
+
+        public IActionResult SetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SetPassword(Users user)
+        {
+            var cPassword = Request.Form["confirmPassword"];
+            if (user.Password.Equals(cPassword))
+            {
+                ModelState.AddModelError("confirmPassword", "Passwords do not match.");
+                return View(user);
+            }
+
+            if (user.addUser())
+            {
+                HttpContext.Session.setObject("user", user);
+                return RedirectToAction("Index","Home");
+            }
+            return View(user);
         }
     }
 }

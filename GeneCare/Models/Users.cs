@@ -3,10 +3,11 @@ using Microsoft.Data.SqlClient;
 using GeneCare.Models.Utils;
 using System.Data;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeneCare.Models
 {
-    public class Users
+    public class Users : DbContext
     {
         private int _userId;
         private Role _role;
