@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +16,148 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class FeedbacksController : ControllerBase
     {
-        private readonly GeneCareContext _context;
-
-        public FeedbacksController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Feedbacks
+        private readonly IFeedbackRepository _feedbackRepository;
+        public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacks()
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacks(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Feedbacks.ToListAsync();
+            try
+            {
+                var feedbacks = await Task.Run(() => _feedbackRepository.GetAllFeedbacks(typeSearch, search, sortBy, page));
+                if (feedbacks == null || !feedbacks.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all feedback failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all feedback success",
+                    Data = feedbacks
+                }); 
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all feedback: {ex.Message}");
+            }
         }
 
-        // GET: api/Feedbacks/5
-        [HttpGet("{id}")]
+        [HttpGet("id")]
         public async Task<ActionResult<Feedback>> GetFeedback(int id)
         {
-            var feedback = await _context.Feedbacks.FindAsync(id);
-
-            if (feedback == null)
-            {
-                return NotFound();
-            }
-
-            return feedback;
-        }
-
-        // PUT: api/Feedbacks/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedback(int id, Feedback feedback)
-        {
-            if (id != feedback.FeedbackId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(feedback).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var feedback = await Task.Run(() => _feedbackRepository.GetFeedbackById(id));
+                if (feedback == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found feedback",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get feedback by id success",
+                    Data = feedback
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!FeedbackExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving feedback: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Feedbacks
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Feedback>> PostFeedback(Feedback feedback)
+        public ActionResult CreateFeedback(Feedback feedback)
         {
-            _context.Feedbacks.Add(feedback);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (FeedbackExists(feedback.FeedbackId))
+                var isCreate = _feedbackRepository.CreateFeedback(feedback);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetFeedback), new { id = feedback.FeedbackId }, feedback);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetFeedback", new { id = feedback.FeedbackId }, feedback);
-        }
-
-        // DELETE: api/Feedbacks/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedback(int id)
-        {
-            var feedback = await _context.Feedbacks.FindAsync(id);
-            if (feedback == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating feedback: {ex.Message}");
             }
-
-            _context.Feedbacks.Remove(feedback);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool FeedbackExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateFeedback(int id, Feedback feedback)
         {
-            return _context.Feedbacks.Any(e => e.FeedbackId == id);
+            try
+            {
+                if (id != feedback.FeedbackId)
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+
+                var isUpdate = _feedbackRepository.UpdateFeedback(feedback);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update feedback",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating feedback: {ex.Message}");
+            }
         }
+        [HttpDelete("id")]
+        public ActionResult DeleteFeedback(int id)
+        {
+            try
+            {
+                var isDelete = _feedbackRepository.DeleteFeedback(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete feedback",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting feedback: {ex.Message}");
+            }
+        }
+
     }
 }

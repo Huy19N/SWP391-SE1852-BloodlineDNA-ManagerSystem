@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +16,149 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class SamplesController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly ISampleRepository _sampleRepository;
 
-        public SamplesController(GeneCareContext context)
-        {
-            _context = context;
-        }
+        public SamplesController(ISampleRepository sampleRepository) => _sampleRepository = sampleRepository;
 
-        // GET: api/Samples
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sample>>> GetSamples()
+        public async Task<ActionResult<IEnumerable<Sample>>> GetAllSamples(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Samples.ToListAsync();
+            try
+            {
+                var samples = await Task.Run(() => _sampleRepository.GetAllSamples(typeSearch, search, sortBy, page));
+                if (samples == null || !samples.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all all sample failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all sample success",
+                    Data = samples
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all sample: {ex.Message}");
+            }
         }
 
-        // GET: api/Samples/5
-        [HttpGet("{id}")]
+        [HttpGet("id")]
         public async Task<ActionResult<Sample>> GetSample(int id)
         {
-            var sample = await _context.Samples.FindAsync(id);
-
-            if (sample == null)
-            {
-                return NotFound();
-            }
-
-            return sample;
-        }
-
-        // PUT: api/Samples/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSample(int id, Sample sample)
-        {
-            if (id != sample.SampleId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(sample).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var sample = await Task.Run(() => _sampleRepository.GetSampleById(id));
+                if (sample == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found sample",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get sample by id success",
+                    Data = sample
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!SampleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving sample: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Samples
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Sample>> PostSample(Sample sample)
+        public ActionResult CreateSample(Sample sample)
         {
-            _context.Samples.Add(sample);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (SampleExists(sample.SampleId))
+                var isCreate = _sampleRepository.CreateSample(sample);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetSample), new { id = sample.SampleId }, sample);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetSample", new { id = sample.SampleId }, sample);
-        }
-
-        // DELETE: api/Samples/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSample(int id)
-        {
-            var sample = await _context.Samples.FindAsync(id);
-            if (sample == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating sample: {ex.Message}");
             }
-
-            _context.Samples.Remove(sample);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool SampleExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateSample(int id, Sample sample)
         {
-            return _context.Samples.Any(e => e.SampleId == id);
+            try
+            {
+                if (id != sample.SampleId)
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+
+                var isUpdate = _sampleRepository.UpdateSample(sample);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update sample",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating sample: {ex.Message}");
+            }
+        }
+        [HttpDelete("id")]
+        public ActionResult DeleteSample(int id)
+        {
+            try
+            {
+                var isDelete = _sampleRepository.DeleteSample(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete sample",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting sample: {ex.Message}");
+            }
         }
     }
 }

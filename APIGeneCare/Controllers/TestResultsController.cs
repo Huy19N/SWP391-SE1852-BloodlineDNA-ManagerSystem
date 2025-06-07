@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +16,130 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class TestResultsController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly ITestResultRepository _testResultRepository;
+        public TestResultsController(ITestResultRepository testResultRepository) => _testResultRepository = testResultRepository;
 
-        public TestResultsController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/TestResults
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TestResult>>> GetTestResults()
+        public async Task<ActionResult<IEnumerable<TestResult>>> GetAllTestResult(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.TestResults.ToListAsync();
-        }
-
-        // GET: api/TestResults/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TestResult>> GetTestResult(int id)
-        {
-            var testResult = await _context.TestResults.FindAsync(id);
-
-            if (testResult == null)
-            {
-                return NotFound();
-            }
-
-            return testResult;
-        }
-
-        // PUT: api/TestResults/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestResult(int id, TestResult testResult)
-        {
-            if (id != testResult.ResultId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(testResult).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TestResultExists(id))
+                var TestResults = await Task.Run(() => _testResultRepository.GetAllTestResults(typeSearch, search, sortBy, page));
+                if (TestResults == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                return Ok(TestResults);
             }
-
-            return NoContent();
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving TestResults:{ex.Message}");
+            }
         }
 
-        // POST: api/TestResults
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<TestResult>> PostTestResult(TestResult testResult)
+        [HttpGet("id")]
+        public async Task<ActionResult<TestResult>> GetTestResult(int id)
         {
-            _context.TestResults.Add(testResult);
             try
             {
-                await _context.SaveChangesAsync();
+                var TestResult = await Task.Run(() => _testResultRepository.GetTestResultsById(id));
+                if (TestResult == null) return NotFound();
+                return Ok(TestResult);
             }
-            catch (DbUpdateException)
+            catch(Exception ex)
             {
-                if (TestResultExists(testResult.ResultId))
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving test result: {ex.Message}");
+            }
+        }
+        [HttpPost]
+        public ActionResult CreateTestResult(TestResult testResult)
+        {
+            try
+            {
+                var isCreate = _testResultRepository.CreateTestResults(testResult);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetTestResult), new { id = testResult.ResultId }, testResult);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetTestResult", new { id = testResult.ResultId }, testResult);
-        }
-
-        // DELETE: api/TestResults/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTestResult(int id)
-        {
-            var testResult = await _context.TestResults.FindAsync(id);
-            if (testResult == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating TestResult: {ex.Message}");
             }
 
-            _context.TestResults.Remove(testResult);
-            await _context.SaveChangesAsync();
 
-            return NoContent();
+        }
+        [HttpPut("{id}")]
+        public ActionResult UpdateTestResult(int id, TestResult testResult) 
+        {
+            try
+            {
+                if (id != testResult.ResultId)
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
+                    Data = null
+                });
+            
+                var isUpdate = _testResultRepository.UpdateTestResults(testResult);
+                if (isUpdate)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update test result",
+                        Data = null
+                    });
+                }
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating test result: {ex.Message}");
+            }
         }
 
-        private bool TestResultExists(int id)
+        [HttpDelete("id")]
+        public ActionResult DeleteTestResult(int id)
         {
-            return _context.TestResults.Any(e => e.ResultId == id);
+            try
+            {
+                var isDelete = _testResultRepository.DeleteTestResults(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete test result",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting test result: {ex.Message}");
+            }
         }
     }
 }

@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
+using System.Reflection.Metadata;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +17,148 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class BlogsController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly IBlogRepository _blogRepository;
+        public BlogsController(IBlogRepository blogRepository) => _blogRepository = blogRepository;
 
-        public BlogsController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Blogs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
+        public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogs(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Blogs.ToListAsync();
+            try
+            {
+                var blogs = await Task.Run(() => _blogRepository.GetAllBlogs(typeSearch, search, sortBy, page));
+                if (blogs == null || !blogs.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all blog failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all blog success",
+                    Data = blogs
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all blog: {ex.Message}");
+            }
         }
 
-        // GET: api/Blogs/5
-        [HttpGet("{id}")]
+        [HttpGet("id")]
         public async Task<ActionResult<Blog>> GetBlog(int id)
         {
-            var blog = await _context.Blogs.FindAsync(id);
-
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            return blog;
-        }
-
-        // PUT: api/Blogs/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlog(int id, Blog blog)
-        {
-            if (id != blog.BlogId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(blog).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var blog = await Task.Run(() => _blogRepository.GetBlogById(id));
+                if (blog == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found blog",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get blog by id success",
+                    Data = blog
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!BlogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving blog: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Blogs
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Blog>> PostBlog(Blog blog)
+        public ActionResult CreateBlog(Blog blog)
         {
-            _context.Blogs.Add(blog);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (BlogExists(blog.BlogId))
+                var isCreate = _blogRepository.CreateBlog(blog);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetBlog), new { id = blog.BlogId }, blog);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetBlog", new { id = blog.BlogId }, blog);
-        }
-
-        // DELETE: api/Blogs/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlog(int id)
-        {
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating blog: {ex.Message}");
             }
-
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool BlogExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateBlog(int id, Blog blog)
         {
-            return _context.Blogs.Any(e => e.BlogId == id);
+            try
+            {
+                if (id != blog.BlogId)
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+
+                var isUpdate = _blogRepository.UpdateBlog(blog);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update blog",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating blog: {ex.Message}");
+            }
+        }
+        [HttpDelete("id")]
+        public ActionResult DeleteBlog(int id)
+        {
+            try
+            {
+                var isDelete = _blogRepository.DeleteBlog(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete blog",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting blog: {ex.Message}");
+            }
         }
     }
 }

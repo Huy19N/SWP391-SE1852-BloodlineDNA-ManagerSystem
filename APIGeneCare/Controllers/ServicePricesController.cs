@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +16,155 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class ServicePricesController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly IServicePriceRepository _servicePriceRepository;
 
-        public ServicePricesController(GeneCareContext context)
-        {
-            _context = context;
-        }
+        public ServicePricesController(IServicePriceRepository servicePriceRepository) => _servicePriceRepository = servicePriceRepository;
 
-        // GET: api/ServicePrices
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetServicePrices()
+        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetAllServicePrices(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.ServicePrices.ToListAsync();
-        }
-
-        // GET: api/ServicePrices/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ServicePrice>> GetServicePrice(int id)
-        {
-            var servicePrice = await _context.ServicePrices.FindAsync(id);
-
-            if (servicePrice == null)
-            {
-                return NotFound();
-            }
-
-            return servicePrice;
-        }
-
-        // PUT: api/ServicePrices/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutServicePrice(int id, ServicePrice servicePrice)
-        {
-            if (id != servicePrice.PriceId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(servicePrice).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServicePriceExists(id))
+                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePrices(
+                    typeSearch, search, 
+                    sortBy, page));
+                if (servicePrices == null || !servicePrices.Any())
                 {
-                    return NotFound();
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all service price failed",
+                        Data = null
+                    });
                 }
-                else
+                return Ok(new ApiResponse
                 {
-                    throw;
-                }
-            }
+                    Success = true,
+                    Message = "Get all service price Success",
+                    Data = servicePrices
+                });
 
-            return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all service price: {ex.Message}");
+            }
         }
 
-        // POST: api/ServicePrices
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
+        [HttpGet("id")]
+        public async Task<ActionResult<User>> GetServicePrice(int id)
+        {
+            try
+            {
+                var servicePrice = await Task.Run(() => _servicePriceRepository.GetServicePriceById(id));
+                if (servicePrice == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found service price",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get service price by id success",
+                    Data = servicePrice
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving service price: {ex.Message}");
+            }
+        }
+
         [HttpPost]
-        public async Task<ActionResult<ServicePrice>> PostServicePrice(ServicePrice servicePrice)
+        public ActionResult CreateServicePrice(ServicePrice servicePrice)
         {
-            _context.ServicePrices.Add(servicePrice);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ServicePriceExists(servicePrice.PriceId))
+                var isCreate = _servicePriceRepository.CreateServicePrice(servicePrice);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetServicePrice), new { id = servicePrice.PriceId }, servicePrice);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetServicePrice", new { id = servicePrice.PriceId }, servicePrice);
-        }
-
-        // DELETE: api/ServicePrices/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteServicePrice(int id)
-        {
-            var servicePrice = await _context.ServicePrices.FindAsync(id);
-            if (servicePrice == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating service price: {ex.Message}");
             }
-
-            _context.ServicePrices.Remove(servicePrice);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool ServicePriceExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, ServicePrice servicePrice)
         {
-            return _context.ServicePrices.Any(e => e.PriceId == id);
+            try
+            {
+                if (id != servicePrice.PriceId)
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
+                    Data = null
+                });
+
+            
+                var isUpdate = _servicePriceRepository.UpdateServicePrice(servicePrice);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update service price",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating service price: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("id")]
+        public ActionResult DeleteUser(int id)
+        {
+            try
+            {
+                var isDelete = _servicePriceRepository.DeleteServicePrice(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete service price",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting service price: {ex.Message}");
+            }
         }
     }
 }

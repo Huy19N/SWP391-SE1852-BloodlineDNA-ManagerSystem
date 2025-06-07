@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
+using System.Data;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +17,148 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly IRoleRepository _roleRepository;
+        public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
 
-        public RolesController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Roles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Roles.ToListAsync();
+            try
+            {
+                var roles = await Task.Run(() => _roleRepository.GetAllRoles(typeSearch, search, sortBy, page));
+                if (roles == null || !roles.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all role failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all role success",
+                    Data = roles
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all role: {ex.Message}");
+            }
         }
 
-        // GET: api/Roles/5
-        [HttpGet("{id}")]
+        [HttpGet("id")]
         public async Task<ActionResult<Role>> GetRole(int id)
         {
-            var role = await _context.Roles.FindAsync(id);
-
-            if (role == null)
-            {
-                return NotFound();
-            }
-
-            return role;
-        }
-
-        // PUT: api/Roles/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, Role role)
-        {
-            if (id != role.RoleId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(role).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var role = await Task.Run(() => _roleRepository.GetRoleById(id));
+                if (role == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found role",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get role by id success",
+                    Data = role
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!RoleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving role: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Roles
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Role>> PostRole(Role role)
+        public ActionResult CreateRole(Role role)
         {
-            _context.Roles.Add(role);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (RoleExists(role.RoleId))
+                var isCreate = _roleRepository.CreateRole(role);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetRole), new { id = role.RoleId }, role);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetRole", new { id = role.RoleId }, role);
-        }
-
-        // DELETE: api/Roles/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
-        {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating role: {ex.Message}");
             }
-
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool RoleExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateRole(int id, Role role)
         {
-            return _context.Roles.Any(e => e.RoleId == id);
+            try
+            {
+                if (id != role.RoleId)
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+
+                var isUpdate = _roleRepository.UpdateRole(role);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update role",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating role: {ex.Message}");
+            }
+        }
+        [HttpDelete("id")]
+        public ActionResult DeleteRole(int id)
+        {
+            try
+            {
+                var isDelete = _roleRepository.DeleteRole(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete role",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting role: {ex.Message}");
+            }
         }
     }
 }

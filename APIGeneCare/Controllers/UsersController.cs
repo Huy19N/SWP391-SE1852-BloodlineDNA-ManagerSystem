@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +15,164 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly GeneCareContext _context;
-
-        public UsersController(GeneCareContext context)
+        private readonly IUserRepository _userRepository;
+        public UsersController(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
 
         // GET: api/Users
+        //Retrieves a list of all users.
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Users.ToListAsync();
-        }
-
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
+                var users = await Task.Run(() => _userRepository.GetAllUsers( typeSearch, search, sortBy, page));
+                if (users == null || !users.Any())
                 {
-                    return NotFound();
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all user failed",
+                        Data = null
+                    });
                 }
-                else
+                return Ok(new ApiResponse
                 {
-                    throw;
-                }
-            }
+                    Success = true,
+                    Message = "Get All User Success",
+                    Data = users
+                });
 
-            return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users: {ex.Message}");
+            }
+        }
+
+        // GET: api/Users/id
+        //Retrieves a specific user by ID.
+        [HttpGet("id")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            try
+            {
+                var user = await Task.Run(() => _userRepository.GetUserById(id));
+                if (user == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found user",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get user by id success",
+                    Data = user
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user: {ex.Message}");
+            }
         }
 
         // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //Creates a new user.
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public ActionResult CreateUser(User user)
         {
-            _context.Users.Add(user);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (UserExists(user.UserId))
+                var isCreate = _userRepository.CreateUser(user);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, user);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating user: {ex.Message}");
             }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool UserExists(int id)
+        // put: api/Users/id
+        //Updates a specific user by ID.
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, User user)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            if (id != user.UserId)
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
+                    Data = null
+                });
+
+            try
+            {
+                var isUpdate = _userRepository.UpdateUser(user);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update user",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating user: {ex.Message}");
+            }
         }
+
+        // DELETE: api/Users/id
+        //Deletes a specific user by ID.
+        [HttpDelete("id")]
+        public ActionResult DeleteUser(int id)
+        {
+            try
+            {
+                var isDelete = _userRepository.DeleteUser(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete user",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting user: {ex.Message}");
+            }
+        }
+
     }
 }

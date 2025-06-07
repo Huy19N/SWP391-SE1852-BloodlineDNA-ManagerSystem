@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Repository.Interface;
+using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +16,148 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class DurationsController : ControllerBase
     {
-        private readonly GeneCareContext _context;
+        private readonly IDurationRepository _durationRepository;
+        public DurationsController(IDurationRepository durationRepository) => _durationRepository = durationRepository;
 
-        public DurationsController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Durations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Duration>>> GetDurations()
+        public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurations(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Durations.ToListAsync();
+            try
+            {
+                var durations = await Task.Run(() => _durationRepository.GetAllDurations(typeSearch, search, sortBy, page));
+                if (durations == null || !durations.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all duration failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all duration success",
+                    Data = durations
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all duration: {ex.Message}");
+            }
         }
 
-        // GET: api/Durations/5
-        [HttpGet("{id}")]
+        [HttpGet("id")]
         public async Task<ActionResult<Duration>> GetDuration(int id)
         {
-            var duration = await _context.Durations.FindAsync(id);
-
-            if (duration == null)
-            {
-                return NotFound();
-            }
-
-            return duration;
-        }
-
-        // PUT: api/Durations/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDuration(int id, Duration duration)
-        {
-            if (id != duration.DurationId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(duration).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var duration = await Task.Run(() => _durationRepository.GetDurationById(id));
+                if (duration == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found duration",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get duration by id success",
+                    Data = duration
+                });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!DurationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving duration: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Durations
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Duration>> PostDuration(Duration duration)
+        public ActionResult CreateDuration(Duration duration)
         {
-            _context.Durations.Add(duration);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (DurationExists(duration.DurationId))
+                var isCreate = _durationRepository.CreateDuration(duration);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetDuration), new { id = duration.DurationId }, duration);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetDuration", new { id = duration.DurationId }, duration);
-        }
-
-        // DELETE: api/Durations/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDuration(int id)
-        {
-            var duration = await _context.Durations.FindAsync(id);
-            if (duration == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating duration: {ex.Message}");
             }
-
-            _context.Durations.Remove(duration);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
-        private bool DurationExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateDuration(int id, Duration duration)
         {
-            return _context.Durations.Any(e => e.DurationId == id);
+            try
+            {
+                if (id != duration.DurationId)
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+
+                var isUpdate = _durationRepository.UpdateDuration(duration);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update duration",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating duration: {ex.Message}");
+            }
+        }
+        [HttpDelete("id")]
+        public ActionResult DeleteDuration(int id)
+        {
+            try
+            {
+                var isDelete = _durationRepository.DeleteDuration(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete duration",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting duration: {ex.Message}");
+            }
         }
     }
 }

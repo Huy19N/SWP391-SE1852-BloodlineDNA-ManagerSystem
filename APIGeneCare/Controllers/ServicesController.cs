@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
+using APIGeneCare.Model;
+using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,109 +15,146 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private readonly GeneCareContext _context;
-
-        public ServicesController(GeneCareContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Services
+        private readonly IServiceRepository _serviceRepository;
+        public ServicesController(IServiceRepository serviceRepository) => _serviceRepository = serviceRepository;
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetServices()
+        public async Task<ActionResult<IEnumerable<Service>>> GetAllServices(
+            [FromQuery] string? typeSearch,
+            [FromQuery] string? search,
+            [FromQuery] string? sortBy,
+            [FromQuery] int? page)
         {
-            return await _context.Services.ToListAsync();
-        }
-
-        // GET: api/Services/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Service>> GetService(int id)
-        {
-            var service = await _context.Services.FindAsync(id);
-
-            if (service == null)
-            {
-                return NotFound();
-            }
-
-            return service;
-        }
-
-        // PUT: api/Services/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutService(int id, Service service)
-        {
-            if (id != service.ServiceId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(service).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var services = await Task.Run(() => _serviceRepository.GetAllServices(typeSearch, search, sortBy, page));
+                if (services == null || !services.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all services failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get All User Success",
+                    Data = services
+                });
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!ServiceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all services: {ex.Message}");
             }
-
-            return NoContent();
         }
-
-        // POST: api/Services
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpGet("id")]
+        public async Task<ActionResult<User>> GetService(int id)
+        {
+            try
+            {
+                var service = await Task.Run(() => _serviceRepository.GetServiceById(id));
+                if (service == null)
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found service",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get service by id success",
+                    Data = service
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving service: {ex.Message}");
+            }
+        }
         [HttpPost]
-        public async Task<ActionResult<Service>> PostService(Service service)
+        public ActionResult CreateService(Service service)
         {
-            _context.Services.Add(service);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ServiceExists(service.ServiceId))
+                var isCreate = _serviceRepository.CreateService(service);
+                if (isCreate)
                 {
-                    return Conflict();
+                    return CreatedAtAction(nameof(GetService), new { id = service.ServiceId }, service);
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
                 }
             }
-
-            return CreatedAtAction("GetService", new { id = service.ServiceId }, service);
-        }
-
-        // DELETE: api/Services/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteService(int id)
-        {
-            var service = await _context.Services.FindAsync(id);
-            if (service == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating service: {ex.Message}");
             }
-
-            _context.Services.Remove(service);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
-
-        private bool ServiceExists(int id)
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, Service service)
         {
-            return _context.Services.Any(e => e.ServiceId == id);
+            try
+            {
+                if (id != service.ServiceId)
+                return BadRequest(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
+                    Data = null
+                });
+
+            
+                var isUpdate = _serviceRepository.UpdateService(service);
+                if (isUpdate)
+                    return NoContent();
+                else
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error update Service",
+                        Data = null
+                    });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating service: {ex.Message}");
+            }
+        }
+        [HttpDelete("id")]
+        public ActionResult DeleteService(int id)
+        {
+            try
+            {
+                var isDelete = _serviceRepository.DeleteService(id);
+                if (isDelete)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "error delete Service",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting Service: {ex.Message}");
+            }
         }
     }
 }

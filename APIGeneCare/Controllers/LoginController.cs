@@ -23,27 +23,28 @@ namespace APIGeneCare.Controllers
                 _context = context;
             }
 
-            [HttpPost]
-            [Route("login")]
-            public async Task<IActionResult> Login([FromBody] LoginRequest request)
-            {
-                if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
-                    return BadRequest("Username and password are required.");
+            //[HttpPost]
+            //[Route("login")]
+            //public async Task<IActionResult> Login([FromBody]  request)
+            //{
+            //    try
+            //    {
+            //        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
+            //            return BadRequest("Username and password are required.");
 
-                var user = _context.Users
-                    .FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
+            //        var user = _context.Users
+            //            .FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
 
-                if (user == null)
-                    return Unauthorized("Invalid username or password.");
+            //        if (user == null)
+            //            return Unauthorized("Invalid username or password.");
 
-                return Ok(new {user});
-            }
-        }
-
-        public class LoginRequest
-        {
-            public string Email { get; set; }
-            public string Password { get; set; }
+            //        return Ok(new { user });
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        return StatusCode(500, "Internal server error: " + ex.Message);
+            //    }
+            //}
         }
     }
 }
