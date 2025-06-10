@@ -1,4 +1,5 @@
 ﻿using APIGeneCare.Data;
+using APIGeneCare.Model;
 
 namespace APIGeneCare.Repository.Interface
 {
@@ -9,6 +10,7 @@ namespace APIGeneCare.Repository.Interface
         bool CreateUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(int id);
-        User? AuthenticateUser(string username, string password);
+        User? Validate(LoginModel model);
+        String GenerateToken(User user);
     }
 }

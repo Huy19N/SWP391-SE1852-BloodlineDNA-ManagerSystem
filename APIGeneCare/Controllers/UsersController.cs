@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using APIGeneCare.Data;
 using APIGeneCare.Repository.Interface;
 using APIGeneCare.Model;
+using APIGeneCare.Repository;
 
 namespace APIGeneCare.Controllers
 {
@@ -16,11 +17,43 @@ namespace APIGeneCare.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        
         public UsersController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
+
+        [HttpPost]
+        public IActionResult Validate(LoginModel model)
+        {
+
+            try
+            {
+                var user = Validate(model);
+                if (user == null)
+                {
+                    return Unauthorized(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Unauthorized user",
+                    });
+                }
+                var Token = GenerateT
+
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Authentication Success",
+                    Data = null
+                });
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error get Validate: {ex.Message}");
+            }
+            
+        }
         // GET: api/Users
         //Retrieves a list of all users.
         [HttpGet]

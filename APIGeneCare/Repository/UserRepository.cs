@@ -1,17 +1,55 @@
-﻿using APIGeneCare.Data;
+﻿using System.Security.Claims;
+using System.Text;
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 
 namespace APIGeneCare.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly GeneCareContext _context;
+        private readonly IRoleRepository _roleRepository;
         public static int PAGE_SIZE { get; set; } = 10;
-        public UserRepository(GeneCareContext context) => _context = context;
+        private readonly AppSettings _appSettings;
 
-        public User? AuthenticateUser(string username, string password)
-            => _context.Users.FirstOrDefault(u => u.Email == username && u.Password == password);
+        public UserRepository(GeneCareContext context, IOptionsMonitor<AppSettings> optionsMonitor, IRoleRepository roleRepository)
+        {
+            _context = context;
+            _appSettings = optionsMonitor.CurrentValue;
+            _roleRepository = roleRepository;
+        }
+        public string GenerateToken(User user)
+        {
+            var jwtTokenHandler = new JsonWebTokenHandler();
+            var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim("id", user.UserId.ToString()),
+                    ///role
+                    new Claim("TokenId", Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddSeconds(20),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),
+                SecurityAlgorithms.HmacSha512Signature)
+            };
+            var token = jwtTokenHandler.CreateToken(tokenDescription);
+            return token;
+        }
+
+        public User? Validate(LoginModel model)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email && 
+            u.Password == model.Password);
+            return user;
+        }
         public Boolean CreateUser(User user)
         {
             if (user == null)
