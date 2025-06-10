@@ -1,3 +1,4 @@
+import React from 'react';
 
 function Footer(){
     
@@ -8,6 +9,7 @@ function Footer(){
                 <div className="row">
 
                     <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
+                        {/* <img src={logo} alt="Logo" className="mb-3" style={{ width: "100px" }}></img> */}
                         <h2 className="fw-bold mb-3">GenCare</h2>
                         <p>DNA Testings Trading & Service Co., Ltd (Four-Member Limited Liability Company)</p>
                         <p>
