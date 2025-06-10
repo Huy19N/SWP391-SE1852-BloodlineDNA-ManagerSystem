@@ -9,6 +9,7 @@ using APIGeneCare.Data;
 using APIGeneCare.Repository.Interface;
 using APIGeneCare.Model;
 using APIGeneCare.Repository;
+using Microsoft.Build.Framework;
 
 namespace APIGeneCare.Controllers
 {
@@ -30,7 +31,7 @@ namespace APIGeneCare.Controllers
 
             try
             {
-                var user = Validate(model);
+                var user = _userRepository.Validate(model);
                 if (user == null)
                 {
                     return Unauthorized(new ApiResponse
@@ -39,13 +40,13 @@ namespace APIGeneCare.Controllers
                         Message = "Unauthorized user",
                     });
                 }
-                var Token = GenerateT
+                var Token = _userRepository.GenerateToken(user);
 
                 return Ok(new ApiResponse
                 {
                     Success = true,
                     Message = "Authentication Success",
-                    Data = null
+                    Data = Token
                 });
             }
             catch (Exception ex) 

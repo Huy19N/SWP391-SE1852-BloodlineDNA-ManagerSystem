@@ -30,8 +30,8 @@ namespace APIGeneCare.Repository
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.FullName),
+                    new Claim(ClaimTypes.Email, user.Email ?? null!),
+                    new Claim(ClaimTypes.Name, user.FullName ?? null!),
                     new Claim("id", user.UserId.ToString()),
                     ///role
                     new Claim("TokenId", Guid.NewGuid().ToString())
