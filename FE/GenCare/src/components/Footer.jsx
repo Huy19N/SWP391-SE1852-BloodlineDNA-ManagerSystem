@@ -13,7 +13,7 @@ function Footer(){
                         <h2 className="fw-bold mb-3">GenCare</h2>
                         <p>DNA Testings Trading & Service Co., Ltd (Four-Member Limited Liability Company)</p>
                         <p>
-                            <i className="bi bi-telephone-fill"></i> 09X-XXX-XXXX
+                            <i className="bi bi-telephone-fill"></i> 09X-XXX-XXXX<br />
                             <i className="bi bi-telephone-fill"></i> 09X-XXX-XXXX
                         </p>
                         <p><i className="bi bi-geo-alt-fill"></i>Số 11, Đường Số 49, P. Hiệp Bình Chánh, TP. Thủ Đức, TP. HCM</p>
