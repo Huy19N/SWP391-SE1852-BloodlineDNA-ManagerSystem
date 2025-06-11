@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function Header(){
     return (
-        <header>
+        <header className='fixed-top'>
         <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">GeneCare</NavLink>
@@ -13,7 +13,7 @@ export default function Header(){
                 <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul className="navbar-nav flex-grow-1">
                         <li className="nav-item">
-                            <NavLink className="navbar-brand" to="/">Home</NavLink>
+                            <NavLink className="navbar-brand " to="/">Home</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="navbar-brand" to="/">Privacy</NavLink>
