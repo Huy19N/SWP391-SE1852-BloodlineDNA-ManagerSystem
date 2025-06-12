@@ -13,6 +13,7 @@ import logo3 from '../assets/logo3.png';
 import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
 import * as bootstrap from 'bootstrap';
+import { Link } from 'react-router-dom';
 
 function Services() {
       // Initialize Bootstrap carousels on component mount
@@ -80,7 +81,7 @@ function Services() {
             <div className="row justify-content-center align-items-start text-center g-5">
               {/* BẢNG DÂN SỰ */}
               <div className="col-lg-6">
-                <a href="/civil" className="text-decoration-none text-dark">
+                <Link to="/civil-services" className="text-decoration-none text-dark">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">DÂN SỰ</div>
                     <div className="card-body">
@@ -95,12 +96,12 @@ function Services() {
                       </table>
                     </div>
                   </div>
-                </a>
+                </Link>
               </div>
 
               {/* BẢNG PHÁP LÝ */}
               <div className="col-lg-6">
-                <a href="/legal" className="text-decoration-none text-dark">
+                <Link to="/legal-services" className="text-decoration-none text-dark">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">PHÁP LÝ</div>
                     <div className="card-body">
@@ -115,7 +116,7 @@ function Services() {
                       </table>
                     </div>
                   </div>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

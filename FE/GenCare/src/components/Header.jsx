@@ -1,6 +1,18 @@
 import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+//import '../css/LightMode.css';
 
 export default function Header(){
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    }, [darkMode]);
+
     return (
         <header className='fixed-top'>
         <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
@@ -31,6 +43,13 @@ export default function Header(){
                             <NavLink className="navbar-brand" to="/login">Login</NavLink>
                         </li>
                     </ul>
+                    {/*nút chế độ sáng tối */}
+                    <p>{'chưa xong không đụng giúp tao ==>>>'} </p>
+                    <button className="btn btn-outline-secondary ms-2"
+                            onClick={() => setDarkMode(!darkMode)}
+                            >
+                            {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
+                    </button>
                 </div>
             </div>
         </nav>
