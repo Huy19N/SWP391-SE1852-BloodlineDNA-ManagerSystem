@@ -4,7 +4,7 @@ function CivilServices() {
   return (
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
-        <h1>Bảng giá dịch vụ dân sự</h1>
+        <h1>dịch vụ dân sự</h1>
       </div>
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
@@ -13,7 +13,6 @@ function CivilServices() {
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
-
           <div className="col-md-4 mb-4">
             <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
