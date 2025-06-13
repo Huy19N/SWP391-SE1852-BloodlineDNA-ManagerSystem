@@ -52,7 +52,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Booking>> GetBooking(int id)
         {
             try
@@ -134,7 +134,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating booking: {ex.Message}");
             }
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteBooking(int id)
         {
             try

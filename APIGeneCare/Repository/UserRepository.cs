@@ -33,7 +33,7 @@ namespace APIGeneCare.Repository
                     new Claim(ClaimTypes.Email, user.Email ?? null!),
                     new Claim(ClaimTypes.Name, user.FullName ?? null!),
                     new Claim("id", user.UserId.ToString()),
-                    ///role
+                    new Claim(ClaimTypes.Role, _roleRepository.GetRoleById(user.RoleId ?? -1).RoleName),
                     new Claim("TokenId", Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(20),

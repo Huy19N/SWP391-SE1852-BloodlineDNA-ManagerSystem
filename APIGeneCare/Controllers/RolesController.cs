@@ -53,7 +53,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Role>> GetRole(int id)
         {
             try
@@ -135,7 +135,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating role: {ex.Message}");
             }
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteRole(int id)
         {
             try

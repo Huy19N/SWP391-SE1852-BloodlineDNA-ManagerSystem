@@ -51,7 +51,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Feedback>> GetFeedback(int id)
         {
             try
@@ -133,7 +133,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating feedback: {ex.Message}");
             }
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteFeedback(int id)
         {
             try

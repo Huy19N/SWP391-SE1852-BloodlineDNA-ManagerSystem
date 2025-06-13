@@ -56,7 +56,7 @@ namespace APIGeneCare.Controllers
         }
 
         
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetServicePrice(int id)
         {
             try
@@ -141,7 +141,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
             try

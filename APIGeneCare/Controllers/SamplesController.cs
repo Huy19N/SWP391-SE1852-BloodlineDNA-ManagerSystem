@@ -53,7 +53,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Sample>> GetSample(int id)
         {
             try
@@ -135,7 +135,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating sample: {ex.Message}");
             }
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteSample(int id)
         {
             try

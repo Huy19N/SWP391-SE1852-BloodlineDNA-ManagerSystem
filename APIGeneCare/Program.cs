@@ -52,7 +52,7 @@ builder.Services.AddScoped<IBlogRepository,BlogRepository>();
 #endregion
 
 var secretKey = builder.Configuration["AppSettings:SecretKey"];
-var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey);
+var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? null!);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -70,7 +70,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings:SecretKey"))
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings:SecretKey"));
 
 var app = builder.Build();
 

@@ -41,7 +41,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<TestResult>> GetTestResult(int id)
         {
             try
@@ -116,7 +116,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteTestResult(int id)
         {
             try

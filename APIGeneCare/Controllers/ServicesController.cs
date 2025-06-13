@@ -49,7 +49,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all services: {ex.Message}");
             }
         }
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetService(int id)
         {
             try
@@ -131,7 +131,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating service: {ex.Message}");
             }
         }
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteService(int id)
         {
             try

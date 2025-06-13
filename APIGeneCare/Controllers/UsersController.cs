@@ -10,6 +10,7 @@ using APIGeneCare.Repository.Interface;
 using APIGeneCare.Model;
 using APIGeneCare.Repository;
 using Microsoft.Build.Framework;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APIGeneCare.Controllers
 {
@@ -25,13 +26,14 @@ namespace APIGeneCare.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult Validate(LoginModel model)
+        [HttpPost("Login")]
+        [Authorize(null!)]
+        public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
         {
 
             try
             {
-                var user = _userRepository.Validate(model);
+                var user = await Task.Run(() => _userRepository.Validate(model));
                 if (user == null)
                 {
                     return Unauthorized(new ApiResponse
@@ -40,7 +42,7 @@ namespace APIGeneCare.Controllers
                         Message = "Unauthorized user",
                     });
                 }
-                var Token = _userRepository.GenerateToken(user);
+                var Token =await Task.Run(()=> _userRepository.GenerateToken(user));
 
                 return Ok(new ApiResponse
                 {
@@ -53,7 +55,6 @@ namespace APIGeneCare.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error get Validate: {ex.Message}");
             }
-            
         }
         // GET: api/Users
         //Retrieves a list of all users.
@@ -182,7 +183,7 @@ namespace APIGeneCare.Controllers
 
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
             try

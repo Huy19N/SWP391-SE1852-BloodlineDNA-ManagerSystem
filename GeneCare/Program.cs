@@ -12,8 +12,8 @@ builder.Services.AddAuthentication(options =>
     .AddCookie()
     .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
     {
-        options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
-        options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+        options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value ?? null!;
+        options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value ?? null!;
         options.Scope.Add("email");
         options.Scope.Add("profile");
         options.SaveTokens = false;
