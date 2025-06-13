@@ -14,8 +14,8 @@ export default function Header(){
     }, [darkMode]);
 
     return (
-        <header className='fixed-top'>
-        <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
+        <header className='fixed-top '>
+        <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow "style={{ height: '56px', overflow: 'hidden' }} >
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">GeneCare</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
