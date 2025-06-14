@@ -6,7 +6,7 @@ import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
 import Login from './pages/Login.jsx';
-import Instruction from './pages/Instruction.jsx';
+import Instruction from './pages/Instructions.jsx';
 import Booking from './pages/Booking.jsx';
 
 function App() {
