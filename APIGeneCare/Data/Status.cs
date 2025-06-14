@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Data;
+
+public partial class Status
+{
+    public int StatusId { get; set; }
+
+    public string? StatusName { get; set; }
+
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
+    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
+
+    public virtual ICollection<TestProcess> TestProcesses { get; set; } = new List<TestProcess>();
+}

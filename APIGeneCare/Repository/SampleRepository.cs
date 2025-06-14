@@ -75,16 +75,14 @@ namespace APIGeneCare.Repository
                     s.SampleVariant.Contains(search, StringComparison.CurrentCultureIgnoreCase));
 
                 if (typeSearch.Equals("collectby", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = _context.Samples.Where(s => !String.IsNullOrWhiteSpace(s.CollectBy) &&
-                    s.CollectBy.Contains(search, StringComparison.CurrentCultureIgnoreCase));
-
+                    if (int.TryParse(search, out int collectby))
+                        allSamples = _context.Samples.Where(s => s.CollectBy == collectby);
                 if (typeSearch.Equals("deliverymethod", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = _context.Samples.Where(s => !String.IsNullOrWhiteSpace(s.DeliveryMethod) &&
-                    s.DeliveryMethod.Contains(search, StringComparison.CurrentCultureIgnoreCase));
-
+                    if (int.TryParse(search, out int deliverymethod))
+                        allSamples = _context.Samples.Where(s => s.DeliveryMethodId == deliverymethod);
                 if (typeSearch.Equals("status", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = _context.Samples.Where(s => !String.IsNullOrWhiteSpace(s.Status) &&
-                    s.Status.Contains(search, StringComparison.CurrentCultureIgnoreCase));
+                    if (int.TryParse(search, out int status))
+                        allSamples = _context.Samples.Where(s => s.StatusId == status);
             }
             #endregion
             #region Sort by

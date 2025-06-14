@@ -13,9 +13,9 @@ public partial class User
 
     public string? Address { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string? Phone { get; set; }
+    public string Phone { get; set; } = null!;
 
     public string? Password { get; set; }
 
@@ -25,5 +25,9 @@ public partial class User
 
     public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+
     public virtual Role? Role { get; set; }
+
+    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
 }

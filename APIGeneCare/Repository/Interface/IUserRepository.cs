@@ -13,5 +13,7 @@ namespace APIGeneCare.Repository.Interface
         bool DeleteUser(int id);
         User? Validate(LoginModel model);
         public TokenModel GenerateToken(User user);
+        //public  SendConfirmEmail(LoginModel model);
+
     }
 }

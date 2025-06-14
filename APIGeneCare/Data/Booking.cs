@@ -13,17 +13,27 @@ public partial class Booking
 
     public int? ServiceId { get; set; }
 
-    public int? Status { get; set; }
+    public int? MethodId { get; set; }
 
-    public string? Method { get; set; }
+    public DateTime? AppointmentTime { get; set; }
+
+    public int? StatusId { get; set; }
 
     public DateTime? Date { get; set; }
 
     public virtual Duration? Duration { get; set; }
 
+    public virtual CollectionMethod? Method { get; set; }
+
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
     public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
 
     public virtual Service? Service { get; set; }
+
+    public virtual Status? Status { get; set; }
+
+    public virtual ICollection<TestProcess> TestProcesses { get; set; } = new List<TestProcess>();
 
     public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
 

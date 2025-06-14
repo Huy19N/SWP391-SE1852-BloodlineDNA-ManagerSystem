@@ -75,10 +75,10 @@ namespace APIGeneCare.Repository
 
                 if (typeSearch.Equals("status", StringComparison.CurrentCultureIgnoreCase))
                     if (int.TryParse(search, out int status))
-                        allBooking = _context.Bookings.Where(b => b.Status == status);
+                        allBooking = _context.Bookings.Where(b => b.StatusId == status);
                 if (typeSearch.Equals("method", StringComparison.CurrentCultureIgnoreCase))
-                    allBooking = _context.Bookings.Where(b => !String.IsNullOrEmpty(b.Method) &&
-                    b.Method.Contains(search,StringComparison.CurrentCultureIgnoreCase));
+                    if (int.TryParse(search, out int method))
+                        allBooking = _context.Bookings.Where(b => b.MethodId == method);
 
             }
             #endregion

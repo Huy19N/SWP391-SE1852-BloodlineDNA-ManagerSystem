@@ -139,7 +139,6 @@ namespace APIGeneCare.Repository
                 ResultSummary = tr.ResultSummary,
             });
         }
-
         public TestResult? GetTestResultsById(int id)
             =>_context.TestResults.Find(id);
 
