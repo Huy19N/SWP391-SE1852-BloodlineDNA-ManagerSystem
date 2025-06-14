@@ -17,7 +17,7 @@ namespace APIGeneCare.Model
             message.To.Add(new MailboxAddress("", toEmail));
             message.Subject = subject;
             message.Body = new TextPart("html") { Text = body };
-
+            
             using var client = new SmtpClient();
             await client.ConnectAsync(_smtpServer, _smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
             await client.AuthenticateAsync(_smtpUser, _smtpPass);

@@ -12,7 +12,9 @@ namespace APIGeneCare.Repository.Interface
         bool UpdateUser(User user);
         bool DeleteUser(int id);
         User? Validate(LoginModel model);
-        public TokenModel GenerateToken(User user);
-        //public  SendConfirmEmail(LoginModel model);
+        TokenModel GenerateToken(User user);
+        VerifyEmail? GetVerifyEmailByEmail(string email);
+        Task<bool> SendConfirmEmail(string email,string apiConfirmEmail);
+        bool ConfirmEmail(string email, string key);
     }
 }

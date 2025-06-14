@@ -1,12 +1,18 @@
-﻿using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
-using APIGeneCare.Data;
+﻿using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using MimeKit;
+using System.Drawing;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace APIGeneCare.Repository
 {
@@ -58,11 +64,11 @@ namespace APIGeneCare.Repository
             {
                 rng.GetBytes(random);
                 return Convert.ToBase64String(random);
-            } 
+            }
         }
         public User? Validate(LoginModel model)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email && 
+            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email &&
             u.Password == model.Password);
             return user;
         }
@@ -72,7 +78,7 @@ namespace APIGeneCare.Repository
             {
                 return false;
             }
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -114,7 +120,7 @@ namespace APIGeneCare.Repository
             #region Search by type
             if (!string.IsNullOrWhiteSpace(typeSearch) && !string.IsNullOrWhiteSpace(search))
             {
-                if (typeSearch.Trim().Equals("id",StringComparison.CurrentCultureIgnoreCase))
+                if (typeSearch.Trim().Equals("id", StringComparison.CurrentCultureIgnoreCase))
                 {
                     if (int.TryParse(search, out int userId))
                     {
@@ -122,9 +128,9 @@ namespace APIGeneCare.Repository
                     }
                 }
 
-                if (typeSearch.Trim().Equals("name",StringComparison.CurrentCultureIgnoreCase))
+                if (typeSearch.Trim().Equals("name", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    allUsers = _context.Users.Where(u => u.FullName != null && u.FullName.Contains(search,StringComparison.InvariantCultureIgnoreCase));
+                    allUsers = _context.Users.Where(u => u.FullName != null && u.FullName.Contains(search, StringComparison.InvariantCultureIgnoreCase));
                 }
 
                 if (typeSearch.Trim().Equals("email", StringComparison.CurrentCultureIgnoreCase))
@@ -138,17 +144,17 @@ namespace APIGeneCare.Repository
             #region Sort by
             if (!String.IsNullOrWhiteSpace(sortBy))
             {
-                if (sortBy.Trim().Equals("id_asc",StringComparison.CurrentCultureIgnoreCase))
+                if (sortBy.Trim().Equals("id_asc", StringComparison.CurrentCultureIgnoreCase))
                 {
                     allUsers = allUsers.OrderBy(u => u.UserId);
                 }
 
-                if (sortBy.Trim().Equals("id_desc",StringComparison.CurrentCultureIgnoreCase))
+                if (sortBy.Trim().Equals("id_desc", StringComparison.CurrentCultureIgnoreCase))
                 {
                     allUsers = allUsers.OrderByDescending(u => u.UserId);
                 }
 
-                if (sortBy.Trim().Equals("name_asc",StringComparison.CurrentCultureIgnoreCase))
+                if (sortBy.Trim().Equals("name_asc", StringComparison.CurrentCultureIgnoreCase))
                 {
                     allUsers = allUsers.OrderBy(u => u.FullName);
                 }
@@ -203,7 +209,7 @@ namespace APIGeneCare.Repository
 
             using var transaction = _context.Database.BeginTransaction();
             try
-            { 
+            {
                 existingUser.FullName = user.FullName;
                 existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
@@ -221,6 +227,143 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
+        public async Task<bool> SendConfirmEmail(string email, string apiConfirmEmail)
+        { 
+            var send = new SendConfirmEmailModel();
+            var key = Guid.NewGuid().ToString();
+            DateTime currentDate = DateTime.Now;
+            DateTime expiredDate = DateTime.Now.AddMinutes(10);
+            #region body
+            var body = $"<!DOCTYPE html>\r\n" +
+                $"<html>" +
+                $"\r\n<head>\r\n  " +
+                $"<meta charset=\"UTF-8\">\r\n  " +
+                $"<title>Xác nhận Email</title>\r\n  " +
+                $"<style>\r\n    " +
+                $"body " +
+                $"{{\r\n      " +
+                $"font-family: Arial, sans-serif;\r\n      " +
+                $"background: #f6f6f6;\r\n      " +
+                $"margin: 0;\r\n      " +
+                $"padding: 0;\r\n    " +
+                $"}}\r\n    " +
+                $".container {{\r\n      " +
+                $"background: #fff;\r\n      " +
+                $"max-width: 480px;\r\n      " +
+                $"margin: 40px auto;\r\n      " +
+                $"border-radius: 8px;\r\n      " +
+                $"box-shadow: 0 2px 8px rgba(0,0,0,0.07);\r\n      " +
+                $"padding: 32px 24px;\r\n      " +
+                $"text-align: center;\r\n    }}\r\n    " +
+                $"h2 " +
+                $"{{\r\n      " +
+                $"color: #2d7ff9;\r\n      " +
+                $"margin-bottom: 16px;\r\n    " +
+                $"}}\r\n    " +
+                $"p " +
+                $"{{\r\n      " +
+                $"color: #333;\r\n      " +
+                $"font-size: 16px;\r\n      " +
+                $"margin-bottom: 32px;\r\n   " +
+                $" }}\r\n    " +
+                $".btn-confirm " +
+                $"{{\r\n      " +
+                $"display: inline-block;\r\n      " +
+                $"padding: 12px 32px;\r\n      " +
+                $"background: #2d7ff9;\r\n      " +
+                $"color: #fff !important;\r\n      " +
+                $"border-radius: 4px;\r\n      " +
+                $"text-decoration: none;\r\n      " +
+                $"font-weight: bold;\r\n      " +
+                $"font-size: 16px;\r\n      " +
+                $"transition: background 0.2s;\r\n    " +
+                $"}}\r\n    " +
+                $".btn-confirm:hover " +
+                $"{{\r\n      " +
+                $"background: #1a5fc2;\r\n    " +
+                $"}}\r\n    .footer {{\r\n      " +
+                $"margin-top: 32px;\r\n      " +
+                $"color: #888;\r\n      " +
+                $"font-size: 13px;\r\n    " +
+                $"}}\r\n  " +
+                $"</style>\r\n" +
+                $"</head>\r\n" +
+                $"<body>\r\n  " +
+                $"<div class=\"container\">\r\n    " +
+                $"<h2>Xác nhận Email của bạn</h2>\r\n    " +
+                $"<p>Chào bạn," +
+                $"<br>\r\nCảm ơn bạn đã đăng ký tài khoản tại GeneCare." +
+                $"<br>\r\nVui lòng nhấn nút bên dưới để xác nhận email của bạn:\r\n    " +
+                $"</p>\r\n    " +
+                $"<a href=\"{apiConfirmEmail}email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
+                $"<div class=\"footer\">\r\n      Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này." +
+                $"<br>\r\n      Trân trọng," +
+                $"<br>\r\n      Đội ngũ GeneCare\r\n    " +
+                $"</div>\r\n  </div>\r\n" +
+                $"</body>\r\n" +
+                $"</html>\r\n";
+            #endregion
 
+            var verifyEmail = GetVerifyEmailByEmail(email);
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (verifyEmail == null)
+                {
+                    verifyEmail = new VerifyEmail
+                    {
+                        Email = email,
+                        CreatedAt = currentDate,
+                        ExpiredAt = expiredDate,
+                        Key = key
+                    };
+                }
+                else 
+                {
+                    verifyEmail.Email = email;
+                    verifyEmail.CreatedAt = currentDate;
+                    verifyEmail.ExpiredAt = expiredDate;
+                    verifyEmail.Key = key;
+                }
+                await send.SendEmailAsync(email, "Confirm email by GeneCare", body);
+                _context.VerifyEmails.Add(verifyEmail);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+
+            }
+            catch (Exception ex) 
+            {
+                transaction.Rollback();
+                return false;
+            }
+            
+        }
+        public VerifyEmail? GetVerifyEmailByEmail(string email)
+            => _context.VerifyEmails
+            .SingleOrDefault(v =>
+            !string.IsNullOrWhiteSpace(v.Email) &&
+            v.Email.ToLower() == email.ToLower());
+
+        public bool ConfirmEmail(string email, string key)
+        {
+            var verifyEmail = GetVerifyEmailByEmail(email);
+            if (verifyEmail?.ExpiredAt < DateTime.Now)
+                return false;
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.VerifyEmails.Remove(verifyEmail?? null!);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
     }
 }

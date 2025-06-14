@@ -25,8 +25,6 @@ namespace APIGeneCare.Controllers
         {
             _userRepository = userRepository;
         }
-
-
         [HttpPost("Login")]
         public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
         {
@@ -227,7 +225,6 @@ namespace APIGeneCare.Controllers
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
         [HttpDelete("delete/{id}")]
-        
         public ActionResult DeleteUser(int id)
         {
             try
@@ -253,5 +250,64 @@ namespace APIGeneCare.Controllers
             }
         }
 
+        [HttpPost("sendverifyemail")]
+        public async Task<ActionResult<ApiResponse>> SendVerifyEmail(string email, string apiConfirmEmail)
+        {
+            try
+            {
+                var isSend = await _userRepository.SendConfirmEmail(email, apiConfirmEmail);
+                if (!isSend)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Email can't send"
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Email have been send"
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error send email:{ex.Message}");
+            }
+        }
+        [HttpGet("confirmEmail")]
+        public ActionResult ConfirmEmail(string email, string key) 
+        {
+            try
+            {
+                var verifyEmail = _userRepository.GetVerifyEmailByEmail(email);
+                if (verifyEmail == null)
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "not found verify email"
+                    });
+                
+                var isConfirm = _userRepository.ConfirmEmail(email, key);
+                if (!isConfirm)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Link expired"
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Confirm email success"
+                });
+
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"error confirm email:{ex.Message}");
+            }  
+        }
     }
 }
