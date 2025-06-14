@@ -57,6 +57,24 @@ CREATE TABLE CollectionMethod (
     MethodName NVARCHAR(100)
 );
 
+-- Bảng Status
+CREATE TABLE Status (
+    StatusID INT PRIMARY KEY IDENTITY(1,1),
+    StatusName NVARCHAR(50)
+);
+
+-- Bảng ProcessStep
+CREATE TABLE ProcessStep (
+    StepID INT PRIMARY KEY IDENTITY(1,1),
+    StepName NVARCHAR(100)
+);
+
+-- Bảng DeliveryMethod
+CREATE TABLE DeliveryMethod (
+    DeliveryMethodID INT PRIMARY KEY IDENTITY(1,1),
+    DeliveryMethodName NVARCHAR(100)
+);
+
 -- Bảng Booking
 CREATE TABLE Booking (
     BookingID INT PRIMARY KEY IDENTITY(1,1),
@@ -65,7 +83,7 @@ CREATE TABLE Booking (
     ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
     AppointmentTime DATETIME,
-    [Status] INT,
+    StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
     [Date] DATETIME
 );
 
@@ -73,8 +91,8 @@ CREATE TABLE Booking (
 CREATE TABLE TestProcess (
     ProcessID INT PRIMARY KEY IDENTITY(1,1),
     BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    StepName NVARCHAR(100),
-    Status NVARCHAR(50),
+    StepID INT FOREIGN KEY REFERENCES ProcessStep(StepID),
+    StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
     Description NVARCHAR(MAX),
     UpdatedAt DATETIME
 );
@@ -103,9 +121,9 @@ CREATE TABLE Samples (
     BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
     [Date] DATETIME,
     SampleVariant NVARCHAR(200),
-    CollectBy INT FOREIGN KEY REFERENCES [Users](UserID),
-    DeliveryMethod NVARCHAR(100),
-    Status NVARCHAR(50)
+    CollectBy INT FOREIGN KEY REFERENCES Users(UserID),
+    DeliveryMethodID INT FOREIGN KEY REFERENCES DeliveryMethod(DeliveryMethodID),
+    StatusID INT FOREIGN KEY REFERENCES Status(StatusID)
 );
 
 -- Bảng Blog
@@ -119,7 +137,7 @@ CREATE TABLE Blog (
 
 -- Bảng Payment
 CREATE TABLE Payment (
-    PaymentID INT PRIMARY KEY,
+    PaymentID INT PRIMARY KEY IDENTITY(1,1),
     BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
     Amount INT,
     PaymentDate DATETIME,
