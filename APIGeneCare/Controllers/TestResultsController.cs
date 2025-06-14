@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
         public TestResultsController(ITestResultRepository testResultRepository) => _testResultRepository = testResultRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TestResult>>> GetAllTestResult(
+        public async Task<ActionResult<IEnumerable<TestResult>>> GetAllTestResultPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -28,7 +28,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var TestResults = await Task.Run(() => _testResultRepository.GetAllTestResults(typeSearch, search, sortBy, page));
+                var TestResults = await Task.Run(() => _testResultRepository.GetAllTestResultsPaging(typeSearch, search, sortBy, page));
                 if (TestResults == null)
                 {
                     return NotFound();

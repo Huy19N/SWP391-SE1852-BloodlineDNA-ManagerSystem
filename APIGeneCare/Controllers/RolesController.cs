@@ -21,7 +21,7 @@ namespace APIGeneCare.Controllers
         public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles(
+        public async Task<ActionResult<IEnumerable<Role>>> GetAllRolesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -29,7 +29,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var roles = await Task.Run(() => _roleRepository.GetAllRoles(typeSearch, search, sortBy, page));
+                var roles = await Task.Run(() => _roleRepository.GetAllRolesPaging(typeSearch, search, sortBy, page));
                 if (roles == null || !roles.Any())
                 {
                     return NotFound(new ApiResponse

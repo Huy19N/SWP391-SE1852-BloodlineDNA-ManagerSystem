@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
         public BookingsController(IBookingRepository bookingRepository) => _bookingRepository = bookingRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings(
+        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookingsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -28,7 +28,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var bookings = await Task.Run(() => _bookingRepository.GetAllBookings(typeSearch, search, sortBy, page));
+                var bookings = await Task.Run(() => _bookingRepository.GetAllBookingsPaging(typeSearch, search, sortBy, page));
                 if (bookings == null || !bookings.Any())
                 {
                     return NotFound(new ApiResponse

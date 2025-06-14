@@ -11,6 +11,7 @@ using APIGeneCare.Model;
 using APIGeneCare.Repository;
 using Microsoft.Build.Framework;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace APIGeneCare.Controllers
 {
@@ -27,7 +28,6 @@ namespace APIGeneCare.Controllers
 
 
         [HttpPost("Login")]
-        [Authorize(null!)]
         public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
         {
 
@@ -67,7 +67,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var users = await Task.Run(() => _userRepository.GetAllUsers( typeSearch, search, sortBy, page));
+                var users = await Task.Run(() => _userRepository.GetAllUsersPaging( typeSearch, search, sortBy, page));
                 if (users == null || !users.Any())
                 {
                     return NotFound(new ApiResponse
@@ -93,8 +93,8 @@ namespace APIGeneCare.Controllers
 
         // GET: api/Users/id
         //Retrieves a specific user by ID.
-        [HttpGet("id")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("getbyid/{id}")]
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
             try
             {
@@ -117,21 +117,49 @@ namespace APIGeneCare.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by id: {ex.Message}");
             }
         }
 
-        // POST: api/Users
-        //Creates a new user.
-        [HttpPost]
-        public ActionResult CreateUser(User user)
+        [HttpGet("getbyemail/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string? email)
         {
             try
             {
-                var isCreate = _userRepository.CreateUser(user);
+                User user = await Task.Run(() => _userRepository.GetUserByEmail(email)) ?? null!;
+                if (user == null)
+                {
+                    return NotFound(new ApiResponse 
+                    { 
+                        Success = false,
+                        Message = "Get user by email error",
+                        Data= null
+                    });
+                }
+
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get user by email success",
+                    Data = user
+                });
+            }catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,$"Error retrieving user by email: {ex.Message}");
+            }
+        }
+        // POST: api/Users
+        //Creates a new user.
+        [HttpPost("register")]
+        public ActionResult CreateUser(RegisterModel registerModel)
+        {
+            try
+            {
+                var isCreate = _userRepository.CreateUser(registerModel);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, user);
+
+                    return CreatedAtAction(nameof(GetUserById), new { email = registerModel.Email }, registerModel);
                 }
                 else
                 {
@@ -151,7 +179,7 @@ namespace APIGeneCare.Controllers
 
         // put: api/Users/id
         //Updates a specific user by ID.
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public ActionResult UpdateUser(int id, User user)
         {
             if (id != user.UserId)
@@ -183,7 +211,8 @@ namespace APIGeneCare.Controllers
 
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
+        
         public ActionResult DeleteUser(int id)
         {
             try

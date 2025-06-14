@@ -70,7 +70,7 @@ function Home() {
       {/* Part 2: Text Advice */}
       <div className="container text-center mt-20 mb-10">
         <h2 className="fw-bold display-6 py-5">
-          We’ll <span className="text-primary">help you confirm</span><br />
+          We’ll <span className="text-primary">help</span> you<span className="text-primary"> confirm</span><br />
           if <span className="text-primary">someone</span> is from your <span className="text-primary">hometown</span>
         </h2>
       </div>
@@ -203,7 +203,6 @@ function Home() {
                 <div className="mt-3">
                   <h6 className="fw-bold">TS BS Nguyễn Văn Thành Đạt</h6>
                   <p className="text-muted small">TS BS Viện Trưởng</p>
-                  <button className="btn btn-light shadow-sm rounded-pill px-4">More</button>
                 </div>
               </div>
             </div>
@@ -216,9 +215,8 @@ function Home() {
                   style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                 />
                 <div className="mt-3">
-                  <h6 className="fw-bold">Ths Bác sĩ Nguyễn Trần Hiếu Thuận</h6>
+                  <h6 className="fw-bold">Bác sĩ Nguyễn Trần Hiếu Thuận</h6>
                   <p className="text-muted small">Trưởng Lab TP. HCM</p>
-                  <button className="btn btn-light shadow-sm rounded-pill px-4">More</button>
                 </div>
               </div>
             </div>
@@ -233,7 +231,6 @@ function Home() {
                 <div className="mt-3">
                   <h6 className="fw-bold">PGS. TS Huỳnh Trung Kiên</h6>
                   <p className="text-muted small">Cố vấn Cao Cấp</p>
-                  <button className="btn btn-light shadow-sm rounded-pill px-4">More</button>
                 </div>
               </div>
             </div>
@@ -248,7 +245,6 @@ function Home() {
                 <div className="mt-3">
                   <h6 className="fw-bold">CN. Nguyễn Gia Huy</h6>
                   <p className="text-muted small">Giám đốc chi nhánh TP.HCM</p>
-                  <button className="btn btn-light shadow-sm rounded-pill px-4">More</button>
                 </div>
               </div>
             </div>

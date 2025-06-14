@@ -19,7 +19,7 @@ namespace APIGeneCare.Controllers
         private readonly IFeedbackRepository _feedbackRepository;
         public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacks(
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacksPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -27,7 +27,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var feedbacks = await Task.Run(() => _feedbackRepository.GetAllFeedbacks(typeSearch, search, sortBy, page));
+                var feedbacks = await Task.Run(() => _feedbackRepository.GetAllFeedbacksPaging(typeSearch, search, sortBy, page));
                 if (feedbacks == null || !feedbacks.Any())
                 {
                     return NotFound(new ApiResponse
