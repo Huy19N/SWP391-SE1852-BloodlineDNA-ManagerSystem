@@ -126,7 +126,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                User user = await Task.Run(() => _userRepository.GetUserByEmail(email)) ?? null!;
+                User user = await Task.Run(() => _userRepository.GetUserByEmail(email ?? null!)) ?? null!;
                 if (user == null)
                 {
                     return NotFound(new ApiResponse 
@@ -155,11 +155,26 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isCreate = _userRepository.CreateUser(registerModel);
+                var User = _userRepository.GetUserByEmail(registerModel.Email);
+                if(User != null)
+                {
+                    return StatusCode(StatusCodes.Status302Found, new ApiResponse
+                    {
+                        Success = false,
+                        Message = "The account having!"
+                    });
+                }
+                var user = new User
+                {
+                    Email = registerModel.Email,
+                    Password = registerModel.Password,
+                    RoleId = 1
+                };
+                var isCreate = _userRepository.CreateUser(user);
                 if (isCreate)
                 {
 
-                    return CreatedAtAction(nameof(GetUserById), new { email = registerModel.Email }, registerModel);
+                    return CreatedAtAction(nameof(GetUserByEmail), new { email = registerModel.Email }, registerModel);
                 }
                 else
                 {

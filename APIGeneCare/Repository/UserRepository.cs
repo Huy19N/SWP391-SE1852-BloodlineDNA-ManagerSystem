@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using APIGeneCare.Data;
 using APIGeneCare.Model;
@@ -22,10 +23,11 @@ namespace APIGeneCare.Repository
             _appSettings = optionsMonitor.CurrentValue;
             _roleRepository = roleRepository;
         }
-        public string GenerateToken(User user)
+        public TokenModel GenerateToken(User user)
         {
             var jwtTokenHandler = new JsonWebTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
+            var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -33,17 +35,31 @@ namespace APIGeneCare.Repository
                     new Claim(ClaimTypes.Email, user.Email ?? null!),
                     new Claim(ClaimTypes.Name, user.FullName ?? null!),
                     new Claim("id", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, _roleRepository.GetRoleById(user.RoleId ?? -1).RoleName),
+                    new Claim(ClaimTypes.Role, role?.RoleName ?? null!),
                     new Claim("TokenId", Guid.NewGuid().ToString())
                 }),
-                Expires = DateTime.UtcNow.AddSeconds(20),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),
                 SecurityAlgorithms.HmacSha512Signature)
             };
-            var token = jwtTokenHandler.CreateToken(tokenDescription);
-            return token;
-        }
+            var accessToken = jwtTokenHandler.CreateToken(tokenDescription);
+            var refreshToken = GenerateRefreshToken();
 
+            return new TokenModel
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+        }
+        private string GenerateRefreshToken()
+        {
+            var random = new byte[125];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(random);
+                return Convert.ToBase64String(random);
+            } 
+        }
         public User? Validate(LoginModel model)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == model.Email && 
@@ -56,6 +72,7 @@ namespace APIGeneCare.Repository
             {
                 return false;
             }
+            
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -70,7 +87,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
         public bool DeleteUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -91,8 +107,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<User> GetAllUsers(String? typeSearch, String? search, String? sortBy, int? page)
+        public IEnumerable<User> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
         {
             var allUsers = _context.Users.AsQueryable();
 
@@ -172,7 +187,8 @@ namespace APIGeneCare.Repository
         }
         public User? GetUserById(int id)
             => _context.Users.FirstOrDefault(u => u.UserId == id);
-
+        public User? GetUserByEmail(string email)
+            => _context.Users.SingleOrDefault(u => u.Email == email) ?? null!;
         public bool UpdateUser(User user)
         {
             if (user == null)

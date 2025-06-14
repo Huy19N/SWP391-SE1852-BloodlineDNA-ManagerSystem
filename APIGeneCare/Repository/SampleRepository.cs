@@ -49,7 +49,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<Sample> GetAllSamples(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Sample> GetAllSamplesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allSamples = _context.Samples.AsQueryable();
             #region Search by type

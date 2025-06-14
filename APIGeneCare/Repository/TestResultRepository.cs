@@ -33,8 +33,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-
         public bool DeleteTestResults(int id)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -56,8 +54,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<TestResult> GetAllTestResults(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<TestResult> GetAllTestResultsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestResults = _context.TestResults.AsQueryable();
             #region Search by Type
@@ -141,7 +138,6 @@ namespace APIGeneCare.Repository
         }
         public TestResult? GetTestResultsById(int id)
             =>_context.TestResults.Find(id);
-
         public bool UpdateTestResults(TestResult testResult)
         {
             if (testResult == null)

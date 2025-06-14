@@ -9,7 +9,6 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public ServiceRepository(GeneCareContext context) => _context = context;
-
         public bool CreateService(Service service)
         {
             if (service == null)
@@ -49,8 +48,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Service> GetAllServices(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Service> GetAllServicesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServices = _context.Services.AsQueryable();
             #region Search by type
@@ -119,8 +117,6 @@ namespace APIGeneCare.Repository
         }
         public Service? GetServiceById(int id)
             =>_context.Services.Find(id);
-        
-
         public bool UpdateService(Service service)
         {
             if(service == null)
