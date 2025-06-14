@@ -1,19 +1,90 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function CivilServices() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
+    }
+  }, [hash]);
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
-        <h1>Bảng giá dịch vụ dân sự</h1>
+        <h1>dịch vụ dân sự</h1>
       </div>
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 className="mx-4 text-primary text-center">BẢNG GIÁ DÂN SỰ LOẠI 1</h2>
+          <h2 id= "Civil-Type-1" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 1</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
-            {/* GÓI 24H */}
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm Cha/Mẹ-Con</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm Anh/Chị-Em</h4>
+                </div>
+              </div>
+
+          </div>
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét nghiệm song sinh</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm Cô/chú-Cháu</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm Dì/Cậu-Cháu</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-4 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm Ông/Bà-Cháu</h4>
+                </div>
+              </div>
+          </div>
+
+          
+
+        </div> {/* thẻ bảng */}
+
+
+
+
+        {/* <div className="row">
+            gói 24h
             <div className="col-md-6 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
@@ -38,7 +109,7 @@ function CivilServices() {
                 </div>
             </div>
 
-            {/* GÓI 6H */}
+              gói 6h
             <div className="col-md-6 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
@@ -62,7 +133,8 @@ function CivilServices() {
                     </div>
                 </div>
             </div>
-            {/* GÓI 48H */}
+
+            gói 48h
             <div className="col-md-6 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
@@ -86,22 +158,102 @@ function CivilServices() {
                     </div>
                 </div>
             </div>
-        </div>{/*  thẻ bản */}
-            <div className="mt-5">
-                <h5>- Pháp lý loại 1 xác minh chứng cứ có giá trị pháp lý liên quan tới người thân như:</h5>
+        </div> thẻ row */}
+            {/* <div className="mt-5">
+                <h5>- Dân sự loại 1 dùng để đăng ký, làm thủ tục như:</h5>
                 <ul className="list-unstyled">
-                    <li>+ Tranh chấp tài sản, di chúc, di sản thừa kế</li>
-                    <li>+ Tranh chấp về quyền nuôi con, cấp dưỡng</li>
-                    <li>+ Thủ tục ly hôn có yêu cầu giám định con</li>
-                    <li>+ Xác minh danh tính người thân mất tích</li>
-                    <li>+ Hỗ trợ xác minh nhân thân trong các vụ mạo danh, tráo đổi, lừa đảo</li>
+                    <li>+ Đăng ký nhận cha/mẹ-con.</li>
+                    <li>+ Đăng ký khai sinh/khai tử.</li>
+                    <li>+ Đăng ký kết hôn/li hôn.</li>
+                    <li>+ Đăng ký hộ khẩu.</li>
+                    <li>+ Đăng ký chứng minh nhân dân.</li>
                 </ul>
-                <h5>- Thời gian trả kết quả không bao gồm ngày thu mẫu, Thứ 7, Chủ Nhật và các ngày Lễ.</h5>
-                <h5>- Kết quả ADN Pháp lý thì nhân viên cơ sở và người có thẩm quyền sẽ trực tiếp thu mẫu.</h5>
-                <h5>- Xét nghiệm ADN lại lần 2 hoàn toàn miễn phí nếu kết quả kiểm tra lần thứ nhất KHÔNG cùng huyết thống để Hội đồng khoa học đánh giá và đưa ra kết luận tuyệt đối chính xác.</h5>
-                <h5>- Không phụ thu (đã tính giá các loại thủ tục 500,000/lần và phí dịch vụ 500,000đ/lần)</h5>
-            </div>
+                <h5>- Thời gian trả kết quả không bao gồm ngày thu mẫu, Thứ 7, Chủ Nhật và các ngày Lễ</h5>
+                <h5>- Kết quả ADN Pháp lý thì nhân viên sẽ trực tiếp thu mẫu.</h5>
+                <h5>- Nếu bạn có nhu cầu thu mẫu tại nhà vui lòng liên hệ qua Zalo/Hotline.</h5>
+                <h5>- Xét nghiệm ADN lại lần 2 hoàn toàn miễn phí nếu kết quả kiểm tra lần thứ nhất KHÔNG cùng huyết thống.</h5>
+            </div> */}
       </div>{/*  thẻ khung */}
+
+      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
+        <div className="d-flex align-items-center mb-5">
+          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          <h2 id="Civil-Type-2" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 2</h2>
+          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+        </div>
+        <div className="row">
+
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm bệnh di truyền</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm gen đột biến</h4>
+                </div>
+              </div>
+
+          </div>
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét nghiệm sàng lọc trước sinh</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét Nghiệm di truyền ung thư</h4>
+                </div>
+              </div>
+          </div>
+
+        </div> {/* thẻ bảng */}
+      </div>{/*  thẻ khung */}
+
+      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
+        <div className="d-flex align-items-center mb-5">
+          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          <h2 id="Civil-Type-3" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 3</h2>
+          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+        </div>
+        <div className="row">
+
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét nghiệm định danh cá nhân</h4>
+                </div>
+              </div>
+          </div>
+
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét nghiệm động vật</h4>
+                </div>
+              </div>
+
+          </div>
+          <div className="col-md-6 mb-4">
+            <div className="card shadow">
+                <div className="card-header bg-info text-white text-center">
+                  <h4 className="mb-0">Xét nghiệm huyết thống thai nhi</h4>
+                </div>
+              </div>
+          </div>
+
+
+        </div> {/* thẻ bảng */}
+      </div>{/*  thẻ khung */}
+      
     </div>
   );
 }

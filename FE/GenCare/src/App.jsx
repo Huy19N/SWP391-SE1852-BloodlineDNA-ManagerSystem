@@ -6,21 +6,24 @@ import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
 import Login from './pages/Login.jsx';
+import Instruction from './pages/Instruction.jsx';
 import Booking from './pages/Booking.jsx';
-
 
 function App() {
   return (
     <>
     <Header />
+    <div style={{paddingTop: '56px'}}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<Services />} />
+      <Route path="/Instruction" element={<Instruction />} />
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
       <Route path="/login" element={<Login />} />
       <Route path="/booking" element={<Booking/>} />
     </Routes>
+    </div>
     <Footer />
     </>
   );

@@ -14,8 +14,8 @@ export default function Header(){
     }, [darkMode]);
 
     return (
-        <header className='fixed-top'>
-        <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
+        <header className='fixed-top '>
+        <nav className="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow "style={{ height: '56px', overflow: 'hidden' }} >
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">GeneCare</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -25,22 +25,22 @@ export default function Header(){
                 <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul className="navbar-nav flex-grow-1">
                         <li className="nav-item">
-                            <NavLink className="navbar-brand " to="/">Home</NavLink>
+                            <NavLink className="nav-link text-dark" to="/">Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="navbar-brand" to="/">Privacy</NavLink>
+                            <NavLink className="nav-link text-dark" to="/Instruction">Instructions</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="navbar-brand" to="/">About</NavLink>
+                            <NavLink className="nav-link text-dark" to="/">About</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="navbar-brand" to="/services">Services</NavLink>
+                            <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="navbar-brand" to="/">Blog</NavLink>
+                            <NavLink className="nav-link text-dark" to="/">Blog</NavLink>
                         </li>
 						<li className="nav-item">
-                            <NavLink className="navbar-brand" to="/login">Login</NavLink>
+                            <NavLink className="nav-link text-dark" to="/login">Login</NavLink>
                         </li>
                     </ul>
                     {/*nút chế độ sáng tối */}

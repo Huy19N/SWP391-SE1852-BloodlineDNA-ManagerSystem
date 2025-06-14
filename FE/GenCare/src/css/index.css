@@ -169,3 +169,33 @@ span#fcta-zalo-tracking {
 .fcta-zalo-text {
     font-family: Roboto
 }
+
+/* Icon in Zalo.jsx */
+.icon {
+    position: absolute;
+    transform: translateY(-19%);
+}
+
+.InstructionDropdown{
+    position: absolute;
+    top: 3.4rem;
+    right: 87.01rem;
+    width: 200px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.InstructionDropdown::before{
+    content: '';
+    position: absolute;
+    top: -0.8rem;
+    right: 5.8rem;
+    width: 22px;
+    height: 22px;
+    transform: rotate(45deg);
+    background-color:  white;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+}

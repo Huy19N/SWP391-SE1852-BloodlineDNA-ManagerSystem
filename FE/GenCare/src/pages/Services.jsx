@@ -87,11 +87,21 @@ function Services() {
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td>Loại 1</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none d-block text-dark">
+                              Loại 1
+                            </Link>
+                          </td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none d-block text-dark">
+                              Loại 2
+                            </Link>
+                          </td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none d-block text-dark">
+                              Loại 3
+                            </Link>
+                          </td></tr>
                         </tbody>
                       </table>
                     </div>
@@ -108,10 +118,7 @@ function Services() {
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
                           <tr><td>Loại 1</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
-                          <tr><td>chưa làm</td></tr>
+                          <tr><td>Loại 2</td></tr>
                         </tbody>
                       </table>
                     </div>
@@ -124,7 +131,7 @@ function Services() {
       </section>
 
       {/* DỊCH VỤ GENECARE */}
-      <div className="container-fluid mt-5 p-4 rounded shadow" style={{ backgroundColor: "#CCEFF6", width: "76%" }}>
+      <div className="container-fluid mt-5 mb-5 p-4 rounded shadow" style={{ backgroundColor: "#CCEFF6", width: "76%" }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
           <h2 className="mx-4 text-primary text-center">DỊCH VỤ XÉT NGHIỆM ADN TẠI GENECARE</h2>
