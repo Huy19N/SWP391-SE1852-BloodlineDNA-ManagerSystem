@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import * as bootstrap from 'bootstrap';
+import { Link } from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
@@ -12,8 +14,6 @@ import logo2 from '../assets/logo2.png';
 import logo3 from '../assets/logo3.png';
 import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
-import * as bootstrap from 'bootstrap';
-import { Link } from 'react-router-dom';
 
 function Services() {
       // Initialize Bootstrap carousels on component mount

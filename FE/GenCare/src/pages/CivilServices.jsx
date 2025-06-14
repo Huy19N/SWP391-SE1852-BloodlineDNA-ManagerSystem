@@ -1,8 +1,15 @@
 import React,{ useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import{Link} from 'react-router-dom';
+import{useNavigate} from 'react-router-dom';
 
 function CivilServices() {
   const { hash } = useLocation();
+  const navigate = useNavigate(); // Hook để điều hướng
+
+  const handleClick = () => {
+    navigate("/civil-duration"); // Chuyển trang 
+  };
 
   useEffect(() => {
     if (hash) {
@@ -31,7 +38,11 @@ function CivilServices() {
           <div className="col-md-4 mb-4">
             <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Cha/Mẹ-Con</h4>
+                  <h4 className="mb-0">
+                    <Link to="/civil-duration">
+                    Xét Nghiệm Cha/Mẹ-Con
+                    </Link>
+                    </h4>
                 </div>
               </div>
           </div>
@@ -76,104 +87,8 @@ function CivilServices() {
               </div>
           </div>
 
-          
-
-        </div> {/* thẻ bảng */}
-
-
-
-
-        {/* <div className="row">
-            gói 24h
-            <div className="col-md-6 mb-4">
-                <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">GÓI 24H CÓ KẾT QUẢ</h4>
-                </div>
-                    <div className="card-body p-0">
-                        <table className="table table-hover mb-0">
-                        <tbody>
-                        <tr>
-                            <td colSpan="2" className="text-center fw-bold fs-5 text-decoration-underline">
-                            2,500,000đ / 1 người
-                            </td>
-                        </tr>
-                        <tr><td className="text-center"></td><td>Kết quả bảo mật tuyệt đối</td></tr>
-                        <tr><td className="text-center"></td><td>Độ chính xác &gt; 99.9999%</td></tr>
-                        <tr><td className="text-center"></td><td>Miễn phí xét nghiệm mở rộng, lần 2 nếu không huyết thống</td></tr>
-                        <tr><td className="text-center"></td><td>Thu mẫu tại nhà MIỄN PHÍ</td></tr>
-                        <tr><td className="text-center"></td><td>Không phụ thu thêm phí mẫu đặc biệt</td></tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div>
-
-              gói 6h
-            <div className="col-md-6 mb-4">
-                <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">GÓI 6H CÓ KẾT QUẢ</h4>
-                </div>
-                    <div className="card-body p-0">
-                        <table className="table table-hover mb-0">
-                        <tbody>
-                        <tr>
-                            <td colSpan="2" className="text-center fw-bold fs-5 text-decoration-underline">
-                            2,500,000đ / 1 người
-                            </td>
-                        </tr>
-                        <tr><td className="text-center"></td><td>Kết quả bảo mật tuyệt đối</td></tr>
-                        <tr><td className="text-center"></td><td>Độ chính xác &gt; 99.9999%</td></tr>
-                        <tr><td className="text-center"></td><td>Miễn phí xét nghiệm mở rộng, lần 2 nếu không huyết thống</td></tr>
-                        <tr><td className="text-center"></td><td>Thu mẫu tại nhà MIỄN PHÍ</td></tr>
-                        <tr><td className="text-center"></td><td>Không phụ thu thêm phí mẫu đặc biệt</td></tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div>
-
-            gói 48h
-            <div className="col-md-6 mb-4">
-                <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">GÓI 48H CÓ KẾT QUẢ</h4>
-                </div>
-                    <div className="card-body p-0">
-                        <table className="table table-hover mb-0">
-                        <tbody>
-                        <tr>
-                            <td colSpan="2" className="text-center fw-bold fs-5 text-decoration-underline">
-                            2,500,000đ / 1 người
-                            </td>
-                        </tr>
-                        <tr><td className="text-center"></td><td>Kết quả bảo mật tuyệt đối</td></tr>
-                        <tr><td className="text-center"></td><td>Độ chính xác &gt; 99.9999%</td></tr>
-                        <tr><td className="text-center"></td><td>Miễn phí xét nghiệm mở rộng, lần 2 nếu không huyết thống</td></tr>
-                        <tr><td className="text-center"></td><td>Thu mẫu tại nhà MIỄN PHÍ</td></tr>
-                        <tr><td className="text-center"></td><td>Không phụ thu thêm phí mẫu đặc biệt</td></tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-            </div>
-        </div> thẻ row */}
-            {/* <div className="mt-5">
-                <h5>- Dân sự loại 1 dùng để đăng ký, làm thủ tục như:</h5>
-                <ul className="list-unstyled">
-                    <li>+ Đăng ký nhận cha/mẹ-con.</li>
-                    <li>+ Đăng ký khai sinh/khai tử.</li>
-                    <li>+ Đăng ký kết hôn/li hôn.</li>
-                    <li>+ Đăng ký hộ khẩu.</li>
-                    <li>+ Đăng ký chứng minh nhân dân.</li>
-                </ul>
-                <h5>- Thời gian trả kết quả không bao gồm ngày thu mẫu, Thứ 7, Chủ Nhật và các ngày Lễ</h5>
-                <h5>- Kết quả ADN Pháp lý thì nhân viên sẽ trực tiếp thu mẫu.</h5>
-                <h5>- Nếu bạn có nhu cầu thu mẫu tại nhà vui lòng liên hệ qua Zalo/Hotline.</h5>
-                <h5>- Xét nghiệm ADN lại lần 2 hoàn toàn miễn phí nếu kết quả kiểm tra lần thứ nhất KHÔNG cùng huyết thống.</h5>
-            </div> */}
-      </div>{/*  thẻ khung */}
+        </div> {/* row */}
+      </div>{/* background */}
 
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
@@ -214,9 +129,14 @@ function CivilServices() {
                 </div>
               </div>
           </div>
+          {/* <div className="container mt-5">
+          <button className="btn btn-primary mt-3" onClick={handleClick}>
+              đăng ký ngay
+          </button>
+          </div> */}
 
-        </div> {/* thẻ bảng */}
-      </div>{/*  thẻ khung */}
+        </div> {/* row */}
+      </div>{/* background */}
 
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
@@ -251,8 +171,8 @@ function CivilServices() {
           </div>
 
 
-        </div> {/* thẻ bảng */}
-      </div>{/*  thẻ khung */}
+        </div> {/* row */}
+      </div>{/* background */}
       
     </div>
   );
