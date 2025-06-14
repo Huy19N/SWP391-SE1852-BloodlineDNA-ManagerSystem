@@ -1,6 +1,18 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function LegalServices() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const element = document.getElementById(hash.replace("#", ""));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [hash]);
+
   return (
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
@@ -9,7 +21,7 @@ function LegalServices() {
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 className="mx-4 text-primary text-center">CÁC DỊCH VỤ PHÁP LÍ LOẠI 1</h2>
+          <h2 id="" className="mx-4 text-primary text-center">CÁC DỊCH VỤ PHÁP LÍ LOẠI 1</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">

@@ -87,9 +87,21 @@ function Services() {
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td>Loại 1</td></tr>
-                          <tr><td>Loại 2</td></tr>
-                          <tr><td>Loại 3</td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none d-block text-dark">
+                              Loại 1
+                            </Link>
+                          </td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none d-block text-dark">
+                              Loại 2
+                            </Link>
+                          </td></tr>
+                          <tr><td>
+                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none d-block text-dark">
+                              Loại 3
+                            </Link>
+                          </td></tr>
                         </tbody>
                       </table>
                     </div>
