@@ -1,6 +1,21 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function CivilServices() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
+    }
+  }, [hash]);
   return (
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
@@ -9,7 +24,7 @@ function CivilServices() {
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 1</h2>
+          <h2 id= "Civil-Type-1" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 1</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
@@ -163,7 +178,7 @@ function CivilServices() {
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 2</h2>
+          <h2 id="Civil-Type-2" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 2</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
@@ -206,7 +221,7 @@ function CivilServices() {
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 3</h2>
+          <h2 id="Civil-Type-3" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 3</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
