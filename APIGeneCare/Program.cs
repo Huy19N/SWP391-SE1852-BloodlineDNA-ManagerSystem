@@ -1,4 +1,4 @@
-using APIGeneCare.Data;
+﻿using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
@@ -10,6 +10,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Địa chỉ FE React
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 // Add services to the container.
 
@@ -72,6 +83,8 @@ builder.Services.AddScoped<IBlogRepository,BlogRepository>();
 #endregion
 
 var app = builder.Build();
+
+app.UseCors("AllowReactApp");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

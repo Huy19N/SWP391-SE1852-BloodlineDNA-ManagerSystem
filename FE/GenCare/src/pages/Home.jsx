@@ -70,7 +70,7 @@ function Home() {
       {/* Part 2: Text Advice */}
       <div className="container text-center mt-20 mb-10">
         <h2 className="fw-bold display-6 py-5">
-          We’ll <span className="text-primary">help you confirm</span><br />
+          We’ll <span className="text-primary">help</span> you<span className="text-primary"> confirm</span><br />
           if <span className="text-primary">someone</span> is from your <span className="text-primary">hometown</span>
         </h2>
       </div>
