@@ -54,7 +54,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public IEnumerable<Duration> GetAllDurationsPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Duration> GetAllDurations(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allDurations = _context.Durations.AsQueryable();
             #region Search by type

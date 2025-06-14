@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 //import '../css/LightMode.css';
 
 export default function Header(){
@@ -35,6 +36,9 @@ export default function Header(){
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link text-dark" to="/">Price List</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/">Blog</NavLink>

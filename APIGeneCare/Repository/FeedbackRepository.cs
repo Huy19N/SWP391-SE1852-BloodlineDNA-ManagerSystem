@@ -51,7 +51,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<Feedback> GetAllFeedbacksPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Feedback> GetAllFeedbacks(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allFeedbacks = _context.Feedbacks.AsQueryable();
             #region Search by type

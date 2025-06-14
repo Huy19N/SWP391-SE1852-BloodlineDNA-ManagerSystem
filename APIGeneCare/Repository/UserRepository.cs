@@ -3,29 +3,29 @@ using System.Text;
 using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
+
 namespace APIGeneCare.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly GeneCareContext _context;
+        private readonly IRoleRepository _roleRepository;
         public static int PAGE_SIZE { get; set; } = 10;
         private readonly AppSettings _appSettings;
 
-        public UserRepository(GeneCareContext context, IOptionsMonitor<AppSettings> optionsMonitor)
+        public UserRepository(GeneCareContext context, IOptionsMonitor<AppSettings> optionsMonitor, IRoleRepository roleRepository)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
+            _roleRepository = roleRepository;
         }
-        public TokenModel GenerateToken(User user)
+        public string GenerateToken(User user)
         {
             var jwtTokenHandler = new JsonWebTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
-            Role? role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId) ?? null!;
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -33,7 +33,7 @@ namespace APIGeneCare.Repository
                     new Claim(ClaimTypes.Email, user.Email ?? null!),
                     new Claim(ClaimTypes.Name, user.FullName ?? null!),
                     new Claim("id", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, role.RoleName ?? null!),
+                    new Claim(ClaimTypes.Role, _roleRepository.GetRoleById(user.RoleId ?? -1).RoleName),
                     new Claim("TokenId", Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(20),
@@ -41,21 +41,7 @@ namespace APIGeneCare.Repository
                 SecurityAlgorithms.HmacSha512Signature)
             };
             var token = jwtTokenHandler.CreateToken(tokenDescription);
-            var accessToken = token;
-            return new TokenModel
-            {
-                AccessToken = accessToken,
-                RefreshToken = GenerateRefreshToken()
-            };
-        }
-        private string GenerateRefreshToken()
-        {
-            var random = new byte[80];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(random);
-                return Convert.ToBase64String(random);
-            }
+            return token;
         }
 
         public User? Validate(LoginModel model)
@@ -64,19 +50,12 @@ namespace APIGeneCare.Repository
             u.Password == model.Password);
             return user;
         }
-        public Boolean CreateUser(RegisterModel registerModel)
+        public Boolean CreateUser(User user)
         {
-            if (registerModel == null)
+            if (user == null)
             {
                 return false;
             }
-            User user = new User
-            {
-                Email = registerModel.Email,
-                Password = registerModel.Password,
-                RoleId = 1
-            };
-
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -113,7 +92,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public IEnumerable<User> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
+        public IEnumerable<User> GetAllUsers(String? typeSearch, String? search, String? sortBy, int? page)
         {
             var allUsers = _context.Users.AsQueryable();
 
@@ -193,8 +172,7 @@ namespace APIGeneCare.Repository
         }
         public User? GetUserById(int id)
             => _context.Users.FirstOrDefault(u => u.UserId == id);
-        public User? GetUserByEmail(string? email)
-            => _context.Users.FirstOrDefault(x => x.Email == email);
+
         public bool UpdateUser(User user)
         {
             if (user == null)
