@@ -21,7 +21,7 @@ namespace APIGeneCare.Controllers
         public BlogsController(IBlogRepository blogRepository) => _blogRepository = blogRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogs(
+        public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -29,7 +29,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var blogs = await Task.Run(() => _blogRepository.GetAllBlogs(typeSearch, search, sortBy, page));
+                var blogs = await Task.Run(() => _blogRepository.GetAllBlogsPaging(typeSearch, search, sortBy, page));
                 if (blogs == null || !blogs.Any())
                 {
                     return NotFound(new ApiResponse

@@ -30,7 +30,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
         public bool DeleteBlog(int id)
         {
             var blog = _context.Blogs.Find(id);
@@ -50,8 +49,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Blog> GetAllBlogs(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Blog> GetAllBlogsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allBlogs = _context.Blogs.AsQueryable();
             #region Search by type

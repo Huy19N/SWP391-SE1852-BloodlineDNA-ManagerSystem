@@ -30,27 +30,6 @@ builder.Services.AddCors(options =>
 });
 
 
-//
-
-
-builder.Services.AddDbContext<GeneCareContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-#region addSingLeton, addScoped, addTransient
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<IServicePriceRepository, ServicePriceRepository>();
-builder.Services.AddScoped<ISampleRepository, SampleRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IDurationRepository, DurationRepository>();
-builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-builder.Services.AddScoped<IBlogRepository,BlogRepository>();
-#endregion
-
 var secretKey = builder.Configuration["AppSettings:SecretKey"];
 var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? null!);
 
@@ -70,7 +49,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings:SecretKey"));
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+
+
+builder.Services.AddDbContext<GeneCareContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+#region addSingLeton, addScoped, addTransient
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IServicePriceRepository, ServicePriceRepository>();
+builder.Services.AddScoped<ISampleRepository, SampleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IDurationRepository, DurationRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBlogRepository,BlogRepository>();
+#endregion
 
 var app = builder.Build();
 

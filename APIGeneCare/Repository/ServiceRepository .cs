@@ -49,8 +49,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Service> GetAllServices(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Service> GetAllServicesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServices = _context.Services.AsQueryable();
             #region Search by type

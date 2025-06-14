@@ -21,7 +21,7 @@ namespace APIGeneCare.Controllers
         public ServicePricesController(IServicePriceRepository servicePriceRepository) => _servicePriceRepository = servicePriceRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetAllServicePrices(
+        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetAllServicePricesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -29,7 +29,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePrices(
+                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePricesPaging(
                     typeSearch, search, 
                     sortBy, page));
                 if (servicePrices == null || !servicePrices.Any())

@@ -5,12 +5,13 @@ namespace APIGeneCare.Repository.Interface
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllUsers(string? typeSearch, string? search, string? sortBy, int? page);
+        IEnumerable<User> GetAllUsersPaging(string? typeSearch, string? search, string? sortBy, int? page);
         User? GetUserById(int id);
-        bool CreateUser(User user);
+        User? GetUserByEmail(string? email);
+        bool CreateUser(RegisterModel registerModel);
         bool UpdateUser(User user);
         bool DeleteUser(int id);
         User? Validate(LoginModel model);
-        public string GenerateToken(User user);
+        public TokenModel GenerateToken(User user);
     }
 }

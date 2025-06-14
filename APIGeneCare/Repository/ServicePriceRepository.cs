@@ -10,7 +10,6 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } =10; 
         public ServicePriceRepository(GeneCareContext context) => _context = context;
-
         public bool CreateServicePrice(ServicePrice servicePrice)
         {
             if (servicePrice == null) return false;
@@ -29,7 +28,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
         public bool DeleteServicePrice(int id)
         {
             var servicePrice = _context.ServicePrices.Find(id);
@@ -50,8 +48,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<ServicePrice> GetAllServicePrices(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<ServicePrice> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServicePrices = _context.ServicePrices.AsQueryable();
             #region Search by type

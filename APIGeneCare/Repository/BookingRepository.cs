@@ -31,7 +31,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
         public bool DeleteBooking(int id)
         {
             var booking = _context.Bookings.Find(id);
@@ -52,8 +51,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Booking> GetAllBookings(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<Booking> GetAllBookingsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allBooking = _context.Bookings.AsQueryable();
             #region Search by type

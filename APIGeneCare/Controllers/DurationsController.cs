@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
         public DurationsController(IDurationRepository durationRepository) => _durationRepository = durationRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurations(
+        public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurationsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -28,7 +28,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var durations = await Task.Run(() => _durationRepository.GetAllDurations(typeSearch, search, sortBy, page));
+                var durations = await Task.Run(() => _durationRepository.GetAllDurationsPaging(typeSearch, search, sortBy, page));
                 if (durations == null || !durations.Any())
                 {
                     return NotFound(new ApiResponse

@@ -18,7 +18,7 @@ namespace APIGeneCare.Controllers
         private readonly IServiceRepository _serviceRepository;
         public ServicesController(IServiceRepository serviceRepository) => _serviceRepository = serviceRepository;
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Service>>> GetAllServices(
+        public async Task<ActionResult<IEnumerable<Service>>> GetAllServicesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -26,7 +26,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var services = await Task.Run(() => _serviceRepository.GetAllServices(typeSearch, search, sortBy, page));
+                var services = await Task.Run(() => _serviceRepository.GetAllServicesPaging(typeSearch, search, sortBy, page));
                 if (services == null || !services.Any())
                 {
                     return NotFound(new ApiResponse

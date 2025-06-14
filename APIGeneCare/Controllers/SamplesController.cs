@@ -21,7 +21,7 @@ namespace APIGeneCare.Controllers
         public SamplesController(ISampleRepository sampleRepository) => _sampleRepository = sampleRepository;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sample>>> GetAllSamples(
+        public async Task<ActionResult<IEnumerable<Sample>>> GetAllSamplesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -29,7 +29,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var samples = await Task.Run(() => _sampleRepository.GetAllSamples(typeSearch, search, sortBy, page));
+                var samples = await Task.Run(() => _sampleRepository.GetAllSamplesPaging(typeSearch, search, sortBy, page));
                 if (samples == null || !samples.Any())
                 {
                     return NotFound(new ApiResponse

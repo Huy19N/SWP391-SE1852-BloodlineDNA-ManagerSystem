@@ -57,7 +57,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public IEnumerable<TestResult> GetAllTestResults(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<TestResult> GetAllTestResultsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestResults = _context.TestResults.AsQueryable();
             #region Search by Type
