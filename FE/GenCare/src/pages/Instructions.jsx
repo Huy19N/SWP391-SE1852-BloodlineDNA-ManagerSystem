@@ -1,6 +1,6 @@
-import Card from "../components/Card";
-import CardData from "../components/CardData";
-import "../css/Card.css"
+import Card from "../components/InstructionCard";
+import CardData from "../components/InstructionCardData";
+import "../css/InstructionCard.css"
 
 function Instruction(){
     const card = CardData.map(item => {

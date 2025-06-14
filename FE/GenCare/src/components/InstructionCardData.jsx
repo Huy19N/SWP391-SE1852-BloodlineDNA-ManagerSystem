@@ -30,4 +30,9 @@ export default[
         name: "Giám định ADN hài cốt liệt sỹ",
         des: "Skull",
     },
+    {
+        img: logo5,
+        name: "Giám định ADN hài cốt liệt sỹ",
+        des: "Skull",
+    },
 ];

@@ -1,4 +1,4 @@
-function Card(props){
+function InstructionCard(props){
     return(
       <div className="card">
         <img src={props.image}/>
@@ -11,4 +11,4 @@ function Card(props){
     );
 }
 
-export default Card
+export default InstructionCard
