@@ -169,3 +169,9 @@ span#fcta-zalo-tracking {
 .fcta-zalo-text {
     font-family: Roboto
 }
+
+/* Icon in Zalo.jsx */
+.icon {
+    position: absolute;
+    transform: translateY(-19%);
+}
