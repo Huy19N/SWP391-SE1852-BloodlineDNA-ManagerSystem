@@ -113,37 +113,48 @@ function CivilServices() {
         </div>
         <div className="row">
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm bệnh di truyền</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm bệnh di truyền</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm gen đột biến</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm gen đột biến</h3>
+                  </div>
                 </div>
-              </div>
+              </Link>
+            </div>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm sàng lọc trước sinh</h3>
+                  </div>
+                </div>
+              </Link>
+            </div>
 
-          </div>
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm sàng lọc trước sinh</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm di truyền ung thư</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
-
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm di truyền ung thư</h4>
-                </div>
-              </div>
-          </div>
+              </Link>
+            </div>
           {/* <div className="container mt-5">
           <button className="btn btn-primary mt-3" onClick={handleClick}>
               đăng ký ngay
@@ -161,29 +172,38 @@ function CivilServices() {
         </div>
         <div className="row">
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm định danh cá nhân</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm định danh cá nhân</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm động vật</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm động vật</h3>
+                  </div>
                 </div>
-              </div>
+              </Link>
+            </div>
 
-          </div>
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm huyết thống thai nhi</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm huyết thống thai nhi</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
 
         </div> {/* row */}

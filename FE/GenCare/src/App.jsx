@@ -8,6 +8,7 @@ import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
 import CivilDuration from'./pages/CivilDuration.jsx';
 import LegalDuration from './pages/LegalDuration.jsx';
+import BookAppointment from './pages/BookAppointment.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -27,6 +28,7 @@ function App() {
       <Route path="/civil-services" element={<CivilServices />} />
       <Route path="/legal-duration" element={<LegalDuration/>} />
       <Route path="/civil-duration" element={<CivilDuration/>} />
+      <Route path="/book-appointment" element={<BookAppointment />} />
       <Route path="/login" element={<Login />} />
       <Route path="/booking" element={<Booking/>} />
 

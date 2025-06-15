@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from 'react-router-dom';
+
 
 function CivilDuration(){
 
@@ -15,10 +17,10 @@ function CivilDuration(){
         </div>
             <div className="row">
 
-                <div className="col-md-6 mb-4">
+                <div className="col-md-4 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">GÓI 6H CÓ KẾT QUẢ</h4>
+                  <h4 className="mb-0"><Link to="/book-appointment">GÓI 6H CÓ KẾT QUẢ</Link></h4>
                 </div>
                     <div className="card-body p-0">
                         <table className="table table-hover mb-0">
@@ -39,7 +41,7 @@ function CivilDuration(){
                 </div>
                 </div>
 
-                <div className="col-md-6 mb-4">
+                <div className="col-md-4 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
                   <h4 className="mb-0">GÓI 24H CÓ KẾT QUẢ</h4>
@@ -62,7 +64,7 @@ function CivilDuration(){
                     </div>
                 </div>
                 </div>
-                <div className="col-md-6 mb-4">
+                <div className="col-md-4 mb-4">
                 <div className="card shadow">
                 <div className="card-header bg-info text-white text-center">
                   <h4 className="mb-0">GÓI 48H CÓ KẾT QUẢ</h4>
@@ -175,7 +177,7 @@ function CivilDuration(){
         <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2  className="mx-4 text-primary text-center">BẢNG GIÁ DÂN SỰ LOẠI 2</h2>
+          <h2  className="mx-4 text-primary text-center">BẢNG GIÁ DÂN SỰ LOẠI 3</h2>
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
             <div className="row">
