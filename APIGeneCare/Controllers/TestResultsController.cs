@@ -112,7 +112,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _testResultRepository.DeleteTestResults(id);
+                var isDelete = _testResultRepository.DeleteTestResultsById(id);
                 if (isDelete)
                 {
                     return NoContent();

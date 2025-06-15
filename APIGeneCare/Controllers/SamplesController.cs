@@ -131,7 +131,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _sampleRepository.DeleteSample(id);
+                var isDelete = _sampleRepository.DeleteSampleById(id);
                 if (isDelete)
                 {
                     return NoContent();

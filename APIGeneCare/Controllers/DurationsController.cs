@@ -130,7 +130,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _durationRepository.DeleteDuration(id);
+                var isDelete = _durationRepository.DeleteDurationById(id);
                 if (isDelete)
                 {
                     return NoContent();

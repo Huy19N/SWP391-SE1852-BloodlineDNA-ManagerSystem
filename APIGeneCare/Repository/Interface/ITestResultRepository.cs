@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         TestResult? GetTestResultsById(int id);
         bool CreateTestResults(TestResult testResult);
         bool UpdateTestResults(TestResult testResult);
-        bool DeleteTestResults(int id);
+        bool DeleteTestResultsById(int id);
     }
 }

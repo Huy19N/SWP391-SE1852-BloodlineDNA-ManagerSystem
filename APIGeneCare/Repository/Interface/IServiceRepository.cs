@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Service? GetServiceById(int id);
         bool CreateService(Service service);
         bool UpdateService(Service service);
-        bool DeleteService(int id);
+        bool DeleteServiceById(int id);
     }
 }

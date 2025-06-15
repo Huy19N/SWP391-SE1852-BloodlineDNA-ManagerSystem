@@ -229,7 +229,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _userRepository.DeleteUser(id);
+                var isDelete = _userRepository.DeleteUserById(id);
                 if (isDelete)
                 {
                     return NoContent();

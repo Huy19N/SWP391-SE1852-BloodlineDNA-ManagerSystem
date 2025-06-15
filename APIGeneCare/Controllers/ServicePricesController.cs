@@ -134,7 +134,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _servicePriceRepository.DeleteServicePrice(id);
+                var isDelete = _servicePriceRepository.DeleteServicePriceById(id);
                 if (isDelete)
                 {
                     return NoContent();

@@ -10,7 +10,7 @@ namespace APIGeneCare.Repository.Interface
         User? GetUserByEmail(string email);
         bool CreateUser(User user);
         bool UpdateUser(User user);
-        bool DeleteUser(int id);
+        bool DeleteUserById(int id);
         User? Validate(LoginModel model);
         TokenModel GenerateToken(User user);
         VerifyEmail? GetVerifyEmailByEmail(string email);

@@ -31,7 +31,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public bool DeleteBlog(int id)
+        public bool DeleteBlogById(int id)
         {
             var blog = _context.Blogs.Find(id);
             if (blog == null) return false;

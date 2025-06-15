@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Booking? GetBookingById(int id);
         bool CreateBooking(Booking booking);
         bool UpdateBooking(Booking booking);
-        bool DeleteBooking(int id);
+        bool DeleteBookingById(int id);
     }
 }

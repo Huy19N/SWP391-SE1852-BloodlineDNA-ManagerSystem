@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Feedback? GetFeedbackById(int id);
         bool CreateFeedback(Feedback feedback);
         bool UpdateFeedback(Feedback feedback);
-        bool DeleteFeedback(int id);
+        bool DeleteFeedbackById(int id);
     }
 }

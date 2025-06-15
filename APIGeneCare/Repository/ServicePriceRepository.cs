@@ -28,7 +28,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteServicePrice(int id)
+        public bool DeleteServicePriceById(int id)
         {
             var servicePrice = _context.ServicePrices.Find(id);
             if (servicePrice == null) return false;

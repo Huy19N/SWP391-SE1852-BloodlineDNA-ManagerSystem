@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Role? GetRoleById(int id);
         bool CreateRole(Role role);
         bool UpdateRole(Role role);
-        bool DeleteRole(int id);
+        bool DeleteRoleById(int id);
     }
 }

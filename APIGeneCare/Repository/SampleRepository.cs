@@ -30,7 +30,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteSample(int id)
+        public bool DeleteSampleById(int id)
         {
             var Sample =_context.Samples.Find(id);
             if (Sample == null) return false;
@@ -132,10 +132,8 @@ namespace APIGeneCare.Repository
                 Status = s.Status,
             });
         }
-
         public Sample? GetSampleById(int id)
             => _context.Samples.Find(id);
-
         public bool UpdateSample(Sample sample)
         {
             if (sample == null)

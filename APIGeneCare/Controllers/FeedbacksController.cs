@@ -130,7 +130,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _feedbackRepository.DeleteFeedback(id);
+                var isDelete = _feedbackRepository.DeleteFeedbackById(id);
                 if (isDelete)
                 {
                     return NoContent();

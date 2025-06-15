@@ -32,7 +32,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public bool DeleteBooking(int id)
+        public bool DeleteBookingById(int id)
         {
             var booking = _context.Bookings.Find(id);
             if (booking == null) return false;

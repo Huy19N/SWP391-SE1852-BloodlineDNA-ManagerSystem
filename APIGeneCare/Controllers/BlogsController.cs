@@ -131,7 +131,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _blogRepository.DeleteBlog(id);
+                var isDelete = _blogRepository.DeleteBlogById(id);
                 if (isDelete)
                 {
                     return NoContent();

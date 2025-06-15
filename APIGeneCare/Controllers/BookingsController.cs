@@ -131,7 +131,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _bookingRepository.DeleteBooking(id);
+                var isDelete = _bookingRepository.DeleteBookingById(id);
                 if (isDelete)
                 {
                     return NoContent();

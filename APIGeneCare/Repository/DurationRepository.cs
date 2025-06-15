@@ -33,7 +33,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public bool DeleteDuration(int id)
+        public bool DeleteDurationById(int id)
         {
             var duration = _context.Durations.Find(id);
             if (duration == null) return false;

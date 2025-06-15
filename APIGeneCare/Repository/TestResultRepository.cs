@@ -10,8 +10,6 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public TestResultRepository(GeneCareContext context) => _context = context;
-        
-
         public bool CreateTestResults(TestResult testResult)
         {
             if (testResult == null)
@@ -33,7 +31,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteTestResults(int id)
+        public bool DeleteTestResultsById(int id)
         {
             using var transaction = _context.Database.BeginTransaction();
             try

@@ -31,7 +31,7 @@ namespace APIGeneCare.Repository
             }
 
         }
-        public bool DeleteFeedback(int id)
+        public bool DeleteFeedbackById(int id)
         {
             var feedback = _context.Feedbacks.Find(id);
             if (feedback == null) return false;

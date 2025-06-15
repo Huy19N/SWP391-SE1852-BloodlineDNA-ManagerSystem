@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         ServicePrice? GetServicePriceById(int id);
         bool CreateServicePrice(ServicePrice servicePrice);
         bool UpdateServicePrice(ServicePrice servicePrice);
-        bool DeleteServicePrice(int id);
+        bool DeleteServicePriceById(int id);
     }
 }

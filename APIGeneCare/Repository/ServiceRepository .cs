@@ -29,7 +29,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteService(int id)
+        public bool DeleteServiceById(int id)
         {
             var service = _context.Services.Find(id);
             if (service == null) return false;

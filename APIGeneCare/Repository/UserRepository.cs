@@ -93,7 +93,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteUser(int id)
+        public bool DeleteUserById(int id)
         {
             var user = _context.Users.Find(id);
             if (user == null) return false;
@@ -344,7 +344,6 @@ namespace APIGeneCare.Repository
             .SingleOrDefault(v =>
             !string.IsNullOrWhiteSpace(v.Email) &&
             v.Email.ToLower() == email.ToLower());
-
         public bool ConfirmEmail(string email, string key)
         {
             var verifyEmail = GetVerifyEmailByEmail(email);

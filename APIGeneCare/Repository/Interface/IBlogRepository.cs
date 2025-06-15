@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Blog? GetBlogById(int id);
         bool CreateBlog(Blog blog);
         bool UpdateBlog(Blog blog);
-        bool DeleteBlog(int id);
+        bool DeleteBlogById(int id);
     }
 }

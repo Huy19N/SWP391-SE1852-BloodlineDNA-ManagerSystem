@@ -131,7 +131,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isDelete = _roleRepository.DeleteRole(id);
+                var isDelete = _roleRepository.DeleteRoleById(id);
                 if (isDelete)
                 {
                     return NoContent();

@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Sample? GetSampleById(int id);
         bool CreateSample(Sample sample);
         bool UpdateSample(Sample sample);
-        bool DeleteSample(int id);
+        bool DeleteSampleById(int id);
     }
 }

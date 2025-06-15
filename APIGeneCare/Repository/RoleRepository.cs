@@ -101,7 +101,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteRole(int id)
+        public bool DeleteRoleById(int id)
         {
             var role = _context.Roles.Find(id);
             if (role == null) return false;

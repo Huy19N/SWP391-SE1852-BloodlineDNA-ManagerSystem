@@ -8,6 +8,6 @@ namespace APIGeneCare.Repository.Interface
         Duration? GetDurationById(int id);
         bool CreateDuration(Duration duration);
         bool UpdateDuration(Duration duration);
-        bool DeleteDuration(int id);
+        bool DeleteDurationById(int id);
     }
 }
