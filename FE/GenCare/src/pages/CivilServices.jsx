@@ -35,60 +35,75 @@ function CivilServices() {
           <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
         </div>
         <div className="row">
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">
-                    <Link to="/civil-duration">
-                    Xét Nghiệm Cha/Mẹ-Con
-                    </Link>
-                    </h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm Cha/Mẹ-Con</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Anh/Chị-Em</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm Anh/Chị-Em</h3>
+                  </div>
                 </div>
-              </div>
+              </Link>
+            </div>
 
-          </div>
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm song sinh</h4>
-                </div>
-              </div>
-          </div>
 
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Cô/chú-Cháu</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm song sinh</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Dì/Cậu-Cháu</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm Cô/Chú-Cháu</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
 
-          <div className="col-md-4 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Ông/Bà-Cháu</h4>
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm Dì/Cậu-Cháu</h3>
+                  </div>
                 </div>
-              </div>
-          </div>
+              </Link>
+            </div>
+
+          <div className="col-md-4 rounded-3">
+              <Link to="/civil-duration" className="text-decoration-none text-dark">
+                <div className="card h-100 shadow border-0 rounded-3">
+                  <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                  <div className="card-body">
+                    <h3>Xét nghiệm Ông/Bà-Cháu</h3>
+                  </div>
+                </div>
+              </Link>
+            </div>
 
         </div> {/* row */}
-      </div>{/* background */}
+      </div> {/* background */}
 
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">
