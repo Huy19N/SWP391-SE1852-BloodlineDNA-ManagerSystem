@@ -145,5 +145,10 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
+
+        public IEnumerable<Service> GetAllServices()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

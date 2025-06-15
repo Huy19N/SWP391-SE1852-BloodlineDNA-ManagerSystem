@@ -10,6 +10,8 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
 
+
+
         public bool DeleteCollectionMethodById(int id)
         {
             throw new NotImplementedException();

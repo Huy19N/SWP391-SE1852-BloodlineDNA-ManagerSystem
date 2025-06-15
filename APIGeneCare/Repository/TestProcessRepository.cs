@@ -20,7 +20,22 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
 
+        public IEnumerable<TestProcess> GetAllTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TestProcess> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        {
+            throw new NotImplementedException();
+        }
+
         public TestProcess? GetBlogById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TestProcess? GetTestProcessById(int id)
         {
             throw new NotImplementedException();
         }

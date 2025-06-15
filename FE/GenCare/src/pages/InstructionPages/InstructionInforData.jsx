@@ -1,6 +1,6 @@
-import InstructionInfor from "../components/InstructionInfor";
+import InstructionInfor from "./InstructionInfor";
 
-function InstructionInforPage({ type }) {
+function InstructionInforData({ type }) {
   const contents = {
     payment: {
       title: "Hướng dẫn thanh toán",
@@ -85,4 +85,4 @@ function InstructionInforPage({ type }) {
   return <InstructionInfor title={data.title} paragraphs={data.paragraphs} />;
 }
 
-export default InstructionInforPage;
+export default InstructionInforData;

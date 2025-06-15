@@ -15,6 +15,11 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
 
+        public IEnumerable<DeliveryMethod> GetAllDeliveryMethods()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<DeliveryMethod> GetAllDeliveryMethodsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
