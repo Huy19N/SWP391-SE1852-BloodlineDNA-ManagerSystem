@@ -1,5 +1,5 @@
-import Card from "../components/InstructionCard";
-import CardData from "../components/InstructionCardData";
+import Card from "./InstructionPages/InstructionCard";
+import CardData from "./InstructionPages/InstructionCardData";
 import "../css/InstructionCard.css"
 
 function Instruction(){
@@ -8,9 +8,11 @@ function Instruction(){
     })
     return(
         <>  
-            <h1 className="heading">Hướng dẫn</h1>
+        <div className="Instruction-page">
+            <div className="heading"><h1>Hướng dẫn</h1></div>
             <div className="header_underline"></div>
             <div className="wrapper">{card}</div>
+        </div>
         </>
     );
 }
