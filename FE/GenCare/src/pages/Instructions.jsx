@@ -4,7 +4,7 @@ import "../css/InstructionCard.css"
 
 function Instruction(){
     const card = CardData.map(item => {
-        return <Card image ={item.img} name={item.name} des={item.des}/>
+        return <Card image ={item.img} name={item.name} des={item.des} path={item.path}/>
     })
     return(
         <>  

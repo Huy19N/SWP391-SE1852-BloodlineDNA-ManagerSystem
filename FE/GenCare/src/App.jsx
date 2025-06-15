@@ -11,6 +11,7 @@ import LegalDuration from './pages/LegalDuration.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
+import InstructionInforPage from './pages/InstructionInforPage.jsx';
 import Booking from './pages/Booking.jsx';
 
 function App() {
@@ -28,6 +29,14 @@ function App() {
       <Route path="/civil-duration" element={<CivilDuration/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/booking" element={<Booking/>} />
+
+      {/* Các route từ InstructionInforPage */}
+      <Route path="/payment-instruction" element={<InstructionInforPage type="payment" />} />
+      <Route path="/dna-testing-procedure" element={<InstructionInforPage type="testing" />} />
+      <Route path="/sample-collection-guide" element={<InstructionInforPage type="sample" />} />
+      <Route path="/prenatal-dna-testing" element={<InstructionInforPage type="prenatal" />} />
+      <Route path="/dna-identification-remains" element={<InstructionInforPage type="remains" />} />
+      <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />      
     </Routes>
     </div>
     <Footer />
