@@ -21,5 +21,5 @@ public partial class TestProcess
 
     public virtual Status? Status { get; set; }
 
-    public virtual ProcessStep? Step { get; set; }
+    public virtual TestStep? Step { get; set; }
 }
