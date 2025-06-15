@@ -62,6 +62,11 @@ CREATE TABLE DeliveryMethod (
     DeliveryMethodID INT PRIMARY KEY IDENTITY(1,1),
     DeliveryMethodName NVARCHAR(100)
 );
+-- Bảng Status
+CREATE TABLE [Status] (
+    StatusID INT PRIMARY KEY IDENTITY(1,1),
+    StatusName NVARCHAR(50)
+);
 
 -- Bảng Booking
 CREATE TABLE Booking (
@@ -71,7 +76,7 @@ CREATE TABLE Booking (
     ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
     AppointmentTime DATETIME,
-    StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
+    StatusID INT FOREIGN KEY REFERENCES [Status](StatusID),
     [Date] DATETIME
 );
 
@@ -79,12 +84,6 @@ CREATE TABLE Booking (
 CREATE TABLE TestStep (
     StepID INT PRIMARY KEY IDENTITY(1,1),
     StepName NVARCHAR(100)
-);
-
--- Bảng Status
-CREATE TABLE Status (
-    StatusID INT PRIMARY KEY IDENTITY(1,1),
-    StatusName NVARCHAR(50)
 );
 
 -- Bảng TestProcess (dùng StepID, StatusID)
