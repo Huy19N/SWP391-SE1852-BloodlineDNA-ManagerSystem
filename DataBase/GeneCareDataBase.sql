@@ -71,7 +71,7 @@ CREATE TABLE Booking (
     ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
     AppointmentTime DATETIME,
-    [Status] INT,
+    StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
     [Date] DATETIME
 );
 
@@ -158,7 +158,7 @@ CREATE TABLE RefreshToken (
 -- Bảng VerifyEmail
 CREATE TABLE VerifyEmail (
     Email NVARCHAR(200) PRIMARY KEY,
-    CreateAt DATETIME,
+    CreatedAt DATETIME,
     ExpiredAt DATETIME,
     [Key] NVARCHAR(255)
 );
