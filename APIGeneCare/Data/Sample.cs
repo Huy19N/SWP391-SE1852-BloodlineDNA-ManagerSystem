@@ -17,13 +17,11 @@ public partial class Sample
 
     public int? DeliveryMethodId { get; set; }
 
-    public int? StatusId { get; set; }
+    public string? Status { get; set; }
 
     public virtual Booking? Booking { get; set; }
 
     public virtual User? CollectByNavigation { get; set; }
 
     public virtual DeliveryMethod? DeliveryMethod { get; set; }
-
-    public virtual Status? Status { get; set; }
 }

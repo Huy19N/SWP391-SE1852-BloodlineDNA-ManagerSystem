@@ -5,7 +5,7 @@ namespace APIGeneCare.Data;
 
 public partial class RefreshToken
 {
-    public int Id { get; set; }
+    public int TokenId { get; set; }
 
     public int? UserId { get; set; }
 
@@ -13,7 +13,7 @@ public partial class RefreshToken
 
     public string? JwtId { get; set; }
 
-    public DateTime? IssuedAt { get; set; }
+    public DateTime? IssueAt { get; set; }
 
     public DateTime? ExpiredAt { get; set; }
 

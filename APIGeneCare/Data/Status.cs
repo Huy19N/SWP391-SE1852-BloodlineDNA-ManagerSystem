@@ -11,7 +11,5 @@ public partial class Status
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
-
     public virtual ICollection<TestProcess> TestProcesses { get; set; } = new List<TestProcess>();
 }
