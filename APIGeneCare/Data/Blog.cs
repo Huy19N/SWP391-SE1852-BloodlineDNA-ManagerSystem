@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace APIGeneCare.Data;
 
-public partial class VerifyEmailBlog
+public partial class Blog
 {
     public int BlogId { get; set; }
 
