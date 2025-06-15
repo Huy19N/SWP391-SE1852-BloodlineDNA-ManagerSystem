@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from '../config/axios';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import '../css/login.css';
 
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef(null);
+  const navigate = useNavigate();
   // Loading state for form submission
   const [isLoading, setIsLoading] = useState(false);
   // Data for register form
@@ -65,8 +67,40 @@ const LoginRegister = () => {
       const response = await api.post('Users/Login', fromDataLogin);
       console.log('Login response: ', response.data.data);
 
-      toast.success("Login successful!");
+       // Xử lý response dựa trên status code
+      if (response.status === 200) {
+        // Nếu có data trả về
+        if (response.data) {
+          console.log('Login response data: ', response.data);
+          // Lưu token nếu có
+          if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+            const {role} = response.data.data;
+            localStorage.setItem('role', role);
 
+            if (role === 'Admin') {
+              navigate('/services'); // Chuyển hướng đến trang admin nếu là admin
+            }
+            else if (role === 'User') {
+              navigate('/'); // Chuyển hướng về trang chủ nếu là user
+            }
+          }
+          // Lưu user nếu có
+          if (response.data.user) {
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+          }
+        }
+
+        
+
+        toast.success("Đăng nhập thành công!");
+        navigate('/'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+        // Redirect hoặc làm gì đó sau khi login thành công
+      } else if (response.status === 204) {
+        // No content nhưng thành công
+        toast.success("Đăng nhập thành công!");
+        navigate('/'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+      }
     }
     catch (err){
       console.error('Login error: ', err);
@@ -81,14 +115,45 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Validate password and confirmPassword match
+    if (fromDataRegister.password !== fromDataRegister.confirmPassword) {
+      toast.error("Passwords do not match!");
+      setIsLoading(false);
+      return;
+    }
+
     // Call Register API here
     try{
-      console.log('Register loaded: ', fromDataRegister);
+      console.log("Register loaded: ", fromDataRegister);
 
-      const response = await api.post('Users/Register', fromDataRegister);
+      const response = await api.post("Users/Register", fromDataRegister);
       console.log('Register response: ', response.data.data);
-
       
+      if(response.status === 200) {
+        // Nếu có data trả về
+        if (response.data) {
+          console.log('Register response data: ', response.data);
+          // Lưu token nếu có
+          if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+          }
+          // Lưu user nếu có
+          if (response.data.user) {
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+          }
+
+          toast.success("Đăng nhập thành công!");
+          navigate('/login'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+          // Redirect hoặc làm gì đó sau khi login thành công
+          } else if (response.status === 204) {
+            // No content nhưng thành công
+            toast.success("Đăng nhập thành công!");
+            navigate('/login'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
+          }
+      }
+
+
 
       toast.success("Register successful!");
     }
