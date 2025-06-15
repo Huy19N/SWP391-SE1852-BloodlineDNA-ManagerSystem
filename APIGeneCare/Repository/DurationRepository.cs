@@ -137,5 +137,10 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
+
+        public IEnumerable<Duration> GetAllDurations()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

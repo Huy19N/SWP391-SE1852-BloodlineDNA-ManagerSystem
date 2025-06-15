@@ -15,6 +15,11 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Status> GetAllStatus()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Status> GetAllStatusPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
