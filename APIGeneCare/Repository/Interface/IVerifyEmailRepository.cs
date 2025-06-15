@@ -4,10 +4,11 @@ namespace APIGeneCare.Repository.Interface
 {
     public interface IVerifyEmailRepository
     {
-        IEnumerable<VerifyEmail> GetAllVerifyEmailPaging(string? typeSearch, string? search, string? sortBy, int? page);
-        VerifyEmail? GetVerifyEmailById(int id);
+        bool ConfirmEmail(string email, string key);
+        Task<bool> SendConfirmEmail(string email, string apiConfirmEmail);
+        VerifyEmail? GetVerifyEmailByEmail(string email);
         bool CreateVerifyEmail(VerifyEmail verifyEmail);
         bool UpdateVerifyEmail(VerifyEmail verifyEmail);
-        bool DeleteVerifyEmailById(int id);
+        bool DeleteVerifyEmailByEmail(string email);
     }
 }

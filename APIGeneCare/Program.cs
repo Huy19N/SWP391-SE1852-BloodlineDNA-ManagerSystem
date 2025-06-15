@@ -14,6 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowLocalhost5173", policy =>
+//    {
+//        policy.WithOrigins("http://localhost:5173")
+//              .AllowAnyHeader()
+//              .AllowAnyMethod();
+//    });
+//});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -49,6 +59,7 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IDurationRepository, DurationRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBlogRepository,BlogRepository>();
+builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
 #endregion
 
 var secretKey = builder.Configuration["AppSettings:SecretKey"];
@@ -84,6 +95,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
+//app.UseCors("AllowLocalhost5173");
 
 app.UseAuthorization();
 
