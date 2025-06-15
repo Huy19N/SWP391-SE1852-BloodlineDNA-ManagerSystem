@@ -32,13 +32,13 @@ export default[
     {
         img: logo5,
         name: "Giám định ADN hài cốt liệt sỹ",
-        des: "Quá trình giám định ADN phục vụ xác định danh tính liệt sĩ.",
+        des: "Quá trình giám định ADN xác định danh tính liệt sĩ.",
         path: "/dna-identification-remains",
     },
     {
         img: logo5,
-        name: "Thủ tục xét nghiệm ADN bảo lãnh di dân nước ngoài",
-        des: "Hướng dẫn xét nghiệm phục vụ bảo lãnh di trú theo yêu cầu lãnh sự.",
+        name: "Xét nghiệm AD di dân nước ngoài",
+        des: "Xét nghiệm ADN bảo lãnh di trú.",
         path: "/immigration-sponsorship-dna",
     },
 ];
