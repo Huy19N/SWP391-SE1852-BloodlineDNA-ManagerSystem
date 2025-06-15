@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
         private readonly IRoleRepository _roleRepository;
         public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Role>>> GetAllRolesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -53,8 +53,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Role>> GetRole(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Role>> GetRoleById(int id)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving role: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateRole(Role role)
         {
             try
@@ -88,7 +88,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _roleRepository.CreateRole(role);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetRole), new { id = role.RoleId }, role);
+                    return CreatedAtAction(nameof(GetRoleById), new { id = role.RoleId }, role);
                 }
                 else
                 {
@@ -105,20 +105,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating role: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateRole(int id, Role role)
+        [HttpPut("Update")]
+        public ActionResult UpdateRole(Role role)
         {
             try
             {
-                if (id != role.RoleId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
                 var isUpdate = _roleRepository.UpdateRole(role);
                 if (isUpdate)
                     return NoContent();
@@ -135,8 +126,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating role: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteRole(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteRoleById(int id)
         {
             try
             {

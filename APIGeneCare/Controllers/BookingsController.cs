@@ -19,7 +19,7 @@ namespace APIGeneCare.Controllers
         private readonly IBookingRepository _bookingRepository;
         public BookingsController(IBookingRepository bookingRepository) => _bookingRepository = bookingRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookingsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -52,8 +52,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Booking>> GetBooking(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Booking>> GetBookingById(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving booking: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateBooking(Booking booking)
         {
             try
@@ -87,7 +87,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _bookingRepository.CreateBooking(booking);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetBooking), new { id = booking.BookingId }, booking);
+                    return CreatedAtAction(nameof(GetBookingById), new { id = booking.BookingId }, booking);
                 }
                 else
                 {
@@ -105,19 +105,11 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult UpdateBooking(int id, Booking booking)
+        [HttpPut("Update")]
+        public ActionResult UpdateBooking(Booking booking)
         {
             try
             {
-                if (id != booking.BookingId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
                 var isUpdate = _bookingRepository.UpdateBooking(booking);
                 if (isUpdate)
                     return NoContent();
@@ -134,8 +126,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating booking: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteBooking(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteBookingById(int id)
         {
             try
             {

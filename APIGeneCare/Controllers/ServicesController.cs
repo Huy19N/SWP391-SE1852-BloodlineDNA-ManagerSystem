@@ -17,7 +17,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly IServiceRepository _serviceRepository;
         public ServicesController(IServiceRepository serviceRepository) => _serviceRepository = serviceRepository;
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Service>>> GetAllServicesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -49,8 +49,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all services: {ex.Message}");
             }
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetService(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<User>> GetServiceById(int id)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving service: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateService(Service service)
         {
             try
@@ -84,7 +84,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _serviceRepository.CreateService(service);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetService), new { id = service.ServiceId }, service);
+                    return CreatedAtAction(nameof(GetServiceById), new { id = service.ServiceId }, service);
                 }
                 else
                 {
@@ -101,20 +101,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating service: {ex.Message}");
             }
         }
-        [HttpPut("{id}")]
-        public ActionResult UpdateUser(int id, Service service)
+        [HttpPut("Update")]
+        public ActionResult UpdateUser(Service service)
         {
             try
             {
-                if (id != service.ServiceId)
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "What are you doing?",
-                    Data = null
-                });
-
-            
                 var isUpdate = _serviceRepository.UpdateService(service);
                 if (isUpdate)
                     return NoContent();
@@ -131,7 +122,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating service: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteById/{id}")]
         public ActionResult DeleteService(int id)
         {
             try

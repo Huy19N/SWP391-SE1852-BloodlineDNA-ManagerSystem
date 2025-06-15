@@ -18,7 +18,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly IFeedbackRepository _feedbackRepository;
         public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacksPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -51,8 +51,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Feedback>> GetFeedback(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Feedback>> GetFeedbackById(int id)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving feedback: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateFeedback(Feedback feedback)
         {
             try
@@ -86,7 +86,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _feedbackRepository.CreateFeedback(feedback);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetFeedback), new { id = feedback.FeedbackId }, feedback);
+                    return CreatedAtAction(nameof(GetFeedbackById), new { id = feedback.FeedbackId }, feedback);
                 }
                 else
                 {
@@ -104,19 +104,11 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult UpdateFeedback(int id, Feedback feedback)
+        [HttpPut("Update")]
+        public ActionResult UpdateFeedback(Feedback feedback)
         {
             try
             {
-                if (id != feedback.FeedbackId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
                 var isUpdate = _feedbackRepository.UpdateFeedback(feedback);
                 if (isUpdate)
                     return NoContent();
@@ -133,8 +125,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating feedback: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteFeedback(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteFeedbackById(int id)
         {
             try
             {
@@ -158,6 +150,5 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting feedback: {ex.Message}");
             }
         }
-
     }
 }

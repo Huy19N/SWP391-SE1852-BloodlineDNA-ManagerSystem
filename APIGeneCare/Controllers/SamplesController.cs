@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
 
         public SamplesController(ISampleRepository sampleRepository) => _sampleRepository = sampleRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Sample>>> GetAllSamplesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -53,8 +53,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Sample>> GetSample(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Sample>> GetSampleById(int id)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving sample: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateSample(Sample sample)
         {
             try
@@ -88,7 +88,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _sampleRepository.CreateSample(sample);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetSample), new { id = sample.SampleId }, sample);
+                    return CreatedAtAction(nameof(GetSampleById), new { id = sample.SampleId }, sample);
                 }
                 else
                 {
@@ -105,20 +105,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating sample: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateSample(int id, Sample sample)
+        [HttpPut("Update")]
+        public ActionResult UpdateSample(Sample sample)
         {
             try
             {
-                if (id != sample.SampleId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
                 var isUpdate = _sampleRepository.UpdateSample(sample);
                 if (isUpdate)
                     return NoContent();
@@ -135,8 +126,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating sample: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteSample(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteSampleById(int id)
         {
             try
             {

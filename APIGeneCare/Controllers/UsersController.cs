@@ -56,8 +56,8 @@ namespace APIGeneCare.Controllers
         }
         // GET: api/Users
         //Retrieves a list of all users.
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(
+        [HttpGet("GetAllPaging")]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -148,7 +148,7 @@ namespace APIGeneCare.Controllers
         }
         // POST: api/Users
         //Creates a new user.
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public ActionResult CreateUser(RegisterModel registerModel)
         {
             try
@@ -192,7 +192,7 @@ namespace APIGeneCare.Controllers
 
         // put: api/Users/id
         //Updates a specific user by ID.
-        [HttpPut("update/{id}")]
+        [HttpPut("Update/{id}")]
         public ActionResult UpdateUser(int id, User user)
         {
             if (id != user.UserId)
@@ -224,7 +224,7 @@ namespace APIGeneCare.Controllers
 
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("DeleteById/{id}")]
         public ActionResult DeleteUser(int id)
         {
             try

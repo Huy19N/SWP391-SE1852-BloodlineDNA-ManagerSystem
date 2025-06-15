@@ -19,7 +19,7 @@ namespace APIGeneCare.Controllers
         private readonly IDurationRepository _durationRepository;
         public DurationsController(IDurationRepository durationRepository) => _durationRepository = durationRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurationsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -52,8 +52,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Duration>> GetDuration(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Duration>> GetDurationById(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving duration: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateDuration(Duration duration)
         {
             try
@@ -87,7 +87,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _durationRepository.CreateDuration(duration);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetDuration), new { id = duration.DurationId }, duration);
+                    return CreatedAtAction(nameof(GetDurationById), new { id = duration.DurationId }, duration);
                 }
                 else
                 {
@@ -104,20 +104,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating duration: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateDuration(int id, Duration duration)
+        [HttpPut("Update")]
+        public ActionResult UpdateDuration(Duration duration)
         {
             try
             {
-                if (id != duration.DurationId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
                 var isUpdate = _durationRepository.UpdateDuration(duration);
                 if (isUpdate)
                     return NoContent();
@@ -134,8 +125,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating duration: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteDuration(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteDurationById(int id)
         {
             try
             {

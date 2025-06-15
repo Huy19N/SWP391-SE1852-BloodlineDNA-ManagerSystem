@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
 
         public ServicePricesController(IServicePriceRepository servicePriceRepository) => _servicePriceRepository = servicePriceRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<ServicePrice>>> GetAllServicePricesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -56,8 +56,8 @@ namespace APIGeneCare.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetServicePrice(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<User>> GetServicePriceById(int id)
         {
             try
             {
@@ -83,8 +83,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving service price: {ex.Message}");
             }
         }
-
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateServicePrice(ServicePrice servicePrice)
         {
             try
@@ -92,7 +91,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _servicePriceRepository.CreateServicePrice(servicePrice);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetServicePrice), new { id = servicePrice.PriceId }, servicePrice);
+                    return CreatedAtAction(nameof(GetServicePriceById), new { id = servicePrice.PriceId }, servicePrice);
                 }
                 else
                 {
@@ -109,21 +108,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating service price: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateUser(int id, ServicePrice servicePrice)
+        [HttpPut("Update")]
+        public ActionResult UpdateUser(ServicePrice servicePrice)
         {
             try
             {
-                if (id != servicePrice.PriceId)
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "What are you doing?",
-                    Data = null
-                });
-
-            
                 var isUpdate = _servicePriceRepository.UpdateServicePrice(servicePrice);
                 if (isUpdate)
                     return NoContent();
@@ -140,8 +129,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating service price: {ex.Message}");
             }
         }
-
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteById/{id}")]
         public ActionResult DeleteUser(int id)
         {
             try

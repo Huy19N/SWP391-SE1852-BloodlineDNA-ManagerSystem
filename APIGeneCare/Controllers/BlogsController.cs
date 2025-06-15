@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
         private readonly IBlogRepository _blogRepository;
         public BlogsController(IBlogRepository blogRepository) => _blogRepository = blogRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -53,8 +53,8 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Blog>> GetBlog(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Blog>> GetBlogById(int id)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving blog: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateBlog(Blog blog)
         {
             try
@@ -88,7 +88,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _blogRepository.CreateBlog(blog);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetBlog), new { id = blog.BlogId }, blog);
+                    return CreatedAtAction(nameof(GetBlogById), new { id = blog.BlogId }, blog);
                 }
                 else
                 {
@@ -105,20 +105,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating blog: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}")]
-        public ActionResult UpdateBlog(int id, Blog blog)
+        [HttpPut("Update")]
+        public ActionResult UpdateBlog(Blog blog)
         {
             try
-            {
-                if (id != blog.BlogId)
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-
+            { 
                 var isUpdate = _blogRepository.UpdateBlog(blog);
                 if (isUpdate)
                     return NoContent();
@@ -135,8 +126,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating blog: {ex.Message}");
             }
         }
-        [HttpDelete("{id}")]
-        public ActionResult DeleteBlog(int id)
+        [HttpDelete("DeleteById/{id}")]
+        public ActionResult DeleteBlogById(int id)
         {
             try
             {

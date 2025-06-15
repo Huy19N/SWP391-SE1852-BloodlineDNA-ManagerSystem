@@ -19,7 +19,7 @@ namespace APIGeneCare.Controllers
         private readonly ITestResultRepository _testResultRepository;
         public TestResultsController(ITestResultRepository testResultRepository) => _testResultRepository = testResultRepository;
 
-        [HttpGet]
+        [HttpGet("GetAllPaging")]
         public async Task<ActionResult<IEnumerable<TestResult>>> GetAllTestResultPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
@@ -41,7 +41,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<ActionResult<TestResult>> GetTestResult(int id)
         {
             try
@@ -55,7 +55,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving test result: {ex.Message}");
             }
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public ActionResult CreateTestResult(TestResult testResult)
         {
             try
@@ -82,19 +82,11 @@ namespace APIGeneCare.Controllers
 
 
         }
-        [HttpPut("{id}")]
-        public ActionResult UpdateTestResult(int id, TestResult testResult) 
+        [HttpPut("Update")]
+        public ActionResult UpdateTestResult(TestResult testResult) 
         {
             try
             {
-                if (id != testResult.ResultId)
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "What are you doing?",
-                    Data = null
-                });
-            
                 var isUpdate = _testResultRepository.UpdateTestResults(testResult);
                 if (isUpdate)
                 {
@@ -115,8 +107,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating test result: {ex.Message}");
             }
         }
-
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteById/{id}")]
         public ActionResult DeleteTestResult(int id)
         {
             try
