@@ -1,10 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
+import api from '../config/axios';
+import { toast } from "react-toastify";
 import '../css/login.css';
 
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef(null);
-
+  // Loading state for form submission
+  const [isLoading, setIsLoading] = useState(false);
+  // Data for register form
+  const [fromDataRegister, setFromDataRegister] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  // Data for login form
+  const [fromDataLogin, setFromDataLogin] = useState({
+    email: '',
+    password: ''
+  });
+// Function to handle input changes for Login form
+  const handleInputChangeLogin = (e) => {
+    const { name, value } = e.target;
+    setFromDataLogin({
+      ...fromDataLogin,
+      [name]: value
+    });
+  };
+  // Function to handle input changes for register form
+    const handleInputChangeRegister = (e) => {
+    const { name, value } = e.target;
+    setFromDataRegister({
+      ...fromDataRegister,
+      [name]: value
+    });
+  };
   useEffect(() => {
     // Apply or remove active class based on state
     if (containerRef.current) {
@@ -24,16 +54,51 @@ const LoginRegister = () => {
     setIsActive(false);
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login submitted');
+    setIsLoading(true);
+    // Call Login API here
+    try{
+      console.log('Login loaded: ', fromDataLogin);
+
+
+      const response = await api.post('Users/Login', fromDataLogin);
+      console.log('Login response: ', response.data.data);
+
+      toast.success("Login successful!");
+
+    }
+    catch (err){
+      console.error('Login error: ', err);
+      toast.error(err.response.data);
+    }finally{
+      setIsLoading(false);
+    }
+
+    
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    // Handle register logic here
-    console.log('Register submitted');
+    setIsLoading(true);
+    // Call Register API here
+    try{
+      console.log('Register loaded: ', fromDataRegister);
+
+      const response = await api.post('Users/Register', fromDataRegister);
+      console.log('Register response: ', response.data.data);
+
+      
+
+      toast.success("Register successful!");
+    }
+    catch (err){
+      console.error('Register error: ', err);
+      toast.error(err.response.data);
+    }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -45,12 +110,30 @@ const LoginRegister = () => {
             <h1 className="mb-4">Login</h1>
             
             <div className="input-box mb-4">
-              <input type="text" className="form-control custom-input" placeholder="Email" required />
+              <input 
+              id='email'
+              name="email"
+              value={fromDataLogin.email}
+              onChange={handleInputChangeLogin}
+              type="text" 
+              className="form-control custom-input" 
+              placeholder="Email" 
+              required
+              
+              />
               <i className="bi bi-envelope-fill input-icon"></i>
             </div>
 
             <div className="input-box mb-3">
-              <input type="password" className="form-control custom-input" placeholder="Password" required />
+              <input 
+              id='password'
+              name="password"
+              value={fromDataLogin.password}
+              onChange={handleInputChangeLogin}
+              type="password" 
+              className="form-control custom-input" 
+              placeholder="Password" 
+              required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
 
@@ -58,8 +141,12 @@ const LoginRegister = () => {
               <a href="#" className="text-decoration-none">Forgot Password?</a>
             </div>
 
-            <button type="submit" className="btn custom-btn w-100 mb-3">
-              Login
+            <button 
+            type="submit" 
+            className="btn custom-btn w-100 mb-3"
+            disabled={isLoading}
+            >
+              {isLoading ? "Logining...." : "Login"}
             </button>
 
             <p className="text-center mb-3">or Login with social platforms</p>
@@ -78,22 +165,50 @@ const LoginRegister = () => {
             <h1 className="mb-4">Register</h1>
             
             <div className="input-box mb-3">
-              <input type="email" className="form-control custom-input" placeholder="Email" required />
+              <input 
+              id='emailRegister'
+              name="email"
+              value={fromDataRegister.email}
+              onChange={handleInputChangeRegister}
+              type="email" 
+              className="form-control custom-input" 
+              placeholder="Email" 
+              required />
               <i className="bi bi-envelope-fill input-icon"></i>
             </div>
 
             <div className="input-box mb-3">
-              <input type="password" className="form-control custom-input" placeholder="Password" required />
+              <input 
+              id='passwordRegister'
+              name="password"
+              value={fromDataRegister.password}
+              onChange={handleInputChangeRegister}
+              type="password" 
+              className="form-control custom-input" 
+              placeholder="Password" 
+              required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
 
             <div className="input-box mb-4">
-              <input type="password" className="form-control custom-input" placeholder="Confirm Password" required />
+              <input 
+              id='confirmPasswordRegister'
+              name="confirmPassword"
+              value={fromDataRegister.confirmPassword}
+              onChange={handleInputChangeRegister}
+              type="password" 
+              className="form-control custom-input" 
+              placeholder="Confirm Password" 
+              required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
 
-            <button type="submit" className="btn custom-btn w-100 mb-3">
-              Register
+            <button 
+            type="submit" 
+            className="btn custom-btn w-100 mb-3"
+            disabled={isLoading}
+            >
+              {isLoading ? "Registering...." : "Register"}
             </button>
 
             <p className="text-center mb-3">or Register with social platforms</p>
