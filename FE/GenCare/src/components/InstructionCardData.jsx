@@ -8,31 +8,28 @@ export default[
     {
         img: logo1,
         name: "Hướng dẫn thanh toán",
-        des: "Thanh toán nhanh không tiền mặt",
+        des: "Quý khách có thể thanh toán trực tiếp hoặc chuyển khoản qua ngân hàng.",
     },
     {
         img: logo2,
         name: "Thủ tục xét nghiệm ADN",
-        des: "Các thủ tục cần thiết",
+        des: "Hiểu đúng về các thủ tục xét nghiệm giúp bạn dễ dàng chọn lựa hơn.",
     },
     {
         img: logo3,
         name: "Hướng dẫn thu mẫu",
-        des: "Thu mẫu tại nhà,....",
+        des: "Quý khách có thể tự thu mẫu xét nghiệm ADN tại nhà nhanh chóng và chính xác.",
     },
     {
         img: logo4,
         name: "Hướng dẫn xét nghiệm thi nhi trước sinh",
-        des: "hmmmm",
     },
     {
         img: logo5,
         name: "Giám định ADN hài cốt liệt sỹ",
-        des: "Skull",
     },
     {
         img: logo5,
-        name: "Giám định ADN hài cốt liệt sỹ",
-        des: "Skull",
+        name: "Thủ tục xét nghiệm ADN bảo lãnh di dân nước ngoài.",
     },
 ];
