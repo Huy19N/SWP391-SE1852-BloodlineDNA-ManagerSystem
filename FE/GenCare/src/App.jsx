@@ -11,14 +11,14 @@ import LegalDuration from './pages/LegalDuration.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
-import InstructionInforPage from './pages/InstructionInforPage.jsx';
+import InstructionInforPage from './pages/InstructionPages/InstructionInforData.jsx';
 import Booking from './pages/Booking.jsx';
 
 function App() {
   return (
     <>
     <Header />
-    <div style={{paddingTop: '56px'}}>
+    <div style={{paddingTop: '25px'}}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<Services />} />

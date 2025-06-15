@@ -1,0 +1,25 @@
+.info-page {
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.info-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.content p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
