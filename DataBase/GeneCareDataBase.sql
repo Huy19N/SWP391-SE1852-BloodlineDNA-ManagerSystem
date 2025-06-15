@@ -162,3 +162,10 @@ CREATE TABLE VerifyEmail (
     ExpiredAt DATETIME,
     [Key] NVARCHAR(255)
 );
+----------------------------------------------------------------------------------------------------------
+INSERT INTO Role (RoleID, RoleName) VALUES
+(1, N'Guest'),
+(2, N'Customer'),
+(3, N'Employee'),
+(4, N'Manage'),
+(5, N'Admin');
