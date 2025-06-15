@@ -13,8 +13,5 @@ namespace APIGeneCare.Repository.Interface
         bool DeleteUserById(int id);
         User? Validate(LoginModel model);
         TokenModel GenerateToken(User user);
-        VerifyEmail? GetVerifyEmailByEmail(string email);
-        Task<bool> SendConfirmEmail(string email,string apiConfirmEmail);
-        bool ConfirmEmail(string email, string key);
     }
 }
