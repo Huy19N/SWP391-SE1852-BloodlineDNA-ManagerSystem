@@ -13,7 +13,11 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
         public IEnumerable<TestStep> GetAllTestStep()
-            => _context.TestSteps.ToList();
+            => _context.TestSteps.Select(ts => new TestStep
+            {
+                StepId = ts.StepId,
+                StepName = ts.StepName
+            }).OrderBy(ts => ts.StepId).ToList();
         
         public TestStep? GetTestStepById(int id)
             => _context.TestSteps.Find(id);
