@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
@@ -53,7 +54,7 @@ function Home() {
             <div className="position-absolute top-50 start-50 translate-middle text-center text-white">
               <h1 className="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
               <button className="btn btn-primary btn-lg">
-                <i className="bi bi-star-fill"></i> Join
+                <a href='/services' className='text-light text-decoration-none'><i className="bi bi-star-fill"></i> Join</a>
               </button>
             </div>
           </div>
@@ -202,7 +203,7 @@ function Home() {
                 />
                 <div className="mt-3">
                   <h6 className="fw-bold">TS BS Nguyễn Văn Thành Đạt</h6>
-                  <p className="text-muted small">TS BS Viện Trưởng</p>
+                  <p className="text-muted small text-center">TS BS Viện Trưởng</p>
                 </div>
               </div>
             </div>
@@ -216,7 +217,7 @@ function Home() {
                 />
                 <div className="mt-3">
                   <h6 className="fw-bold">Bác sĩ Nguyễn Trần Hiếu Thuận</h6>
-                  <p className="text-muted small">Trưởng Lab TP. HCM</p>
+                  <p className="text-muted small text-center">Trưởng Lab TP. HCM</p>
                 </div>
               </div>
             </div>
@@ -230,7 +231,7 @@ function Home() {
                 />
                 <div className="mt-3">
                   <h6 className="fw-bold">PGS. TS Huỳnh Trung Kiên</h6>
-                  <p className="text-muted small">Cố vấn Cao Cấp</p>
+                  <p className="text-muted small text-center">Cố vấn Cao Cấp</p>
                 </div>
               </div>
             </div>
@@ -244,7 +245,7 @@ function Home() {
                 />
                 <div className="mt-3">
                   <h6 className="fw-bold">CN. Nguyễn Gia Huy</h6>
-                  <p className="text-muted small">Giám đốc chi nhánh TP.HCM</p>
+                  <p className="text-muted small text-center">Giám đốc chi nhánh TP.HCM</p>
                 </div>
               </div>
             </div>
