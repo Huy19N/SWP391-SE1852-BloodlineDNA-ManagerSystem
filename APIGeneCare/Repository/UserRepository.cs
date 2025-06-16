@@ -53,7 +53,8 @@ namespace APIGeneCare.Repository
             return new TokenModel
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken
+                RefreshToken = refreshToken,
+                Role = role!=null? role.RoleId:0
             };
         }
         private string GenerateRefreshToken()

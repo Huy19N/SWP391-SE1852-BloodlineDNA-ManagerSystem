@@ -24,6 +24,7 @@ namespace APIGeneCare.Controllers
         {
             _userRepository = userRepository;
         }
+        
         [HttpPost("Login")]
         public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
         {
@@ -53,6 +54,50 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error get Validate: {ex.Message}");
             }
         }
+        // POST: api/Users
+        //Creates a new user.
+        [HttpPost("Register")]
+        public ActionResult CreateUser(RegisterModel registerModel)
+        {
+            try
+            {
+                var User = _userRepository.GetUserByEmail(registerModel.Email);
+                if (User != null)
+                {
+                    return StatusCode(StatusCodes.Status302Found, new ApiResponse
+                    {
+                        Success = false,
+                        Message = "The account having!"
+                    });
+                }
+                var user = new User
+                {
+                    Email = registerModel.Email,
+                    Password = registerModel.Password,
+                    RoleId = 1
+                };
+                var isCreate = _userRepository.CreateUser(user);
+                if (isCreate)
+                {
+
+                    return CreatedAtAction(nameof(GetUserByEmail), new { email = registerModel.Email }, registerModel);
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating user: {ex.Message}");
+            }
+        }
+
         // GET: api/Users
         //Retrieves a list of all users.
         [HttpGet("GetAllPaging")]
@@ -145,50 +190,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,$"Error retrieving user by email: {ex.Message}");
             }
         }
-        // POST: api/Users
-        //Creates a new user.
-        [HttpPost("Register")]
-        public ActionResult CreateUser(RegisterModel registerModel)
-        {
-            try
-            {
-                var User = _userRepository.GetUserByEmail(registerModel.Email);
-                if(User != null)
-                {
-                    return StatusCode(StatusCodes.Status302Found, new ApiResponse
-                    {
-                        Success = false,
-                        Message = "The account having!"
-                    });
-                }
-                var user = new User
-                {
-                    Email = registerModel.Email,
-                    Password = registerModel.Password,
-                    RoleId = 1
-                };
-                var isCreate = _userRepository.CreateUser(user);
-                if (isCreate)
-                {
-
-                    return CreatedAtAction(nameof(GetUserByEmail), new { email = registerModel.Email }, registerModel);
-                }
-                else
-                {
-                    return BadRequest(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "What are you doing?",
-                        Data = null
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating user: {ex.Message}");
-            }
-        }
-
+        
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
