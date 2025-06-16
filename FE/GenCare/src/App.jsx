@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
@@ -22,6 +24,7 @@ function App() {
     <Header />
     <div style={{paddingTop: '25px'}}>
       <Zalo />
+      <ToastContainer position="top-right" autoClose={3000} />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<Services />} />
