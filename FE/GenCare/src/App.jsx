@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
+import Zalo from './components/Zalo.jsx';
 
 import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
@@ -20,6 +21,7 @@ function App() {
     <>
     <Header />
     <div style={{paddingTop: '25px'}}>
+      <Zalo />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<Services />} />
@@ -33,7 +35,7 @@ function App() {
       <Route path="/booking" element={<Booking/>} />
 
       {/* Các route từ InstructionInforPage */}
-      <Route path="/payment-instruction" element={<InstructionInforPage type="payment" />} />
+      <Route path=" " element={<InstructionInforPage type="payment" />} />
       <Route path="/dna-testing-procedure" element={<InstructionInforPage type="testing" />} />
       <Route path="/sample-collection-guide" element={<InstructionInforPage type="sample" />} />
       <Route path="/prenatal-dna-testing" element={<InstructionInforPage type="prenatal" />} />
