@@ -1,15 +1,9 @@
 ﻿using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using MimeKit;
-using System.Drawing;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -33,14 +27,15 @@ namespace APIGeneCare.Repository
             var jwtTokenHandler = new JsonWebTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
             var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
+            if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
+            
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, user.Email ?? null!),
-                    new Claim(ClaimTypes.Name, user.FullName ?? null!),
+                    new Claim(ClaimTypes.Email, user.Email),
                     new Claim("id", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, role?.RoleName ?? null!),
+                    new Claim(ClaimTypes.Role, role.RoleName),
                     new Claim("TokenId", Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
