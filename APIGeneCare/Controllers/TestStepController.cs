@@ -68,7 +68,34 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving test step by id: {ex.Message}");
             }
         }
-        
+
+        [HttpPost("Create")]
+        public ActionResult CreateUser(TestStep testStep)
+        {
+            try 
+            { 
+                
+                var isCreate = _testStepRepository.CreateTestStep(testStep);
+                if (isCreate)
+                {
+
+                    return CreatedAtAction(nameof(GetTestStepById), new { id = testStep.StepId }, testStep);
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating test step: {ex.Message}");
+            }
+        }
         [HttpPut("Update")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTestStep(TestStep testStep)
