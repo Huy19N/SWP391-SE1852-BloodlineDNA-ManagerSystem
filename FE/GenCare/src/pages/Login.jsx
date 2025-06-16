@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from '../config/axios';
-import { toast } from "react-toastify";
+ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import '../css/login.css';
 
@@ -67,35 +67,34 @@ const LoginRegister = () => {
       const response = await api.post('Users/Login', fromDataLogin);
       console.log('Login response: ', response.data.data);
 
+
        // Xử lý response dựa trên status code
       if (response.status === 200) {
         // Nếu có data trả về
         if (response.data) {
-          console.log('Login response data: ', response.data);
-          // Lưu token nếu có
-          if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
-            const {role} = response.data.data;
-            localStorage.setItem('role', role);
-
-            if (role === 'Admin') {
-              navigate('/services'); // Chuyển hướng đến trang admin nếu là admin
-            }
-            else if (role === 'User') {
-              navigate('/'); // Chuyển hướng về trang chủ nếu là user
-            }
-          }
-          // Lưu user nếu có
-          if (response.data.user) {
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-          }
+            console.log('Login response data: ', response.data);
         }
 
-        
+        const responseData = response.data.data;
+        console.log("Login success with role:", responseData.role);
+        // Lưu token và role vào localStorage
+        localStorage.setItem('token', responseData.accessToken);
+        localStorage.setItem('roleId', responseData.role);
 
-        toast.success("Đăng nhập thành công!");
-        navigate('/'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
-        // Redirect hoặc làm gì đó sau khi login thành công
+        // Điều hướng theo vai trò
+        if (responseData.role === 1) {
+          navigate('/');
+          toast.success("Đăng nhập thành công!"); // Chuyển hướng về trang chủ nếu là customer
+        } 
+        else if (responseData.role === 4) {
+          navigate('/book-appointment');
+          toast.success("Đăng nhập thành công!"); // Chuyển hướng đến trang admin nếu là admin
+        }
+
+
+
+
+
       } else if (response.status === 204) {
         // No content nhưng thành công
         toast.success("Đăng nhập thành công!");
@@ -132,30 +131,19 @@ const LoginRegister = () => {
       
       if(response.status === 200) {
         // Nếu có data trả về
-        if (response.data) {
-          console.log('Register response data: ', response.data);
-          // Lưu token nếu có
-          if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
+        
+          if(response.data.data){
+            console.log('Register response data: ', response.data.data);
           }
-          // Lưu user nếu có
-          if (response.data.user) {
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-          }
-
-          toast.success("Đăng nhập thành công!");
-          navigate('/login'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
-          // Redirect hoặc làm gì đó sau khi login thành công
           } else if (response.status === 204) {
             // No content nhưng thành công
             toast.success("Đăng nhập thành công!");
             navigate('/login'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
           }
-      }
-
-
-
-      toast.success("Register successful!");
+          
+          // Điều hướng về trang đăng nhập
+          setIsActive(false);
+          toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
     }
     catch (err){
       console.error('Register error: ', err);

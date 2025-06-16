@@ -2,7 +2,7 @@ import '../css/index.css';
 
 export default function Zalo() {
     return (
-        <a href="https://chat.zalo.me/?phone=" id="linkzalo" target="_blank" rel="noopener noreferrer">
+        <a href="https://chat.zalo.me/?phone=0783522888" id="linkzalo" target="_blank" rel="noopener noreferrer">
             <div id="fcta-zalo-tracking" className="fcta-zalo-mess">
                 <span id="fcta-zalo-tracking">Chat hỗ trợ</span>
             </div>

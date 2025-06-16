@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 const daysOfWeek = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
 const timeSlots = ["slot 1", "slot 2", "slot 3", "slot 4"];
@@ -13,10 +14,10 @@ export default function BookAppointment() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedSlot.day || !selectedSlot.slot) {
-      alert("Vui lòng chọn 1 khung giờ.");
+      toast("Vui lòng chọn 1 khung giờ.");
       return;
     }
-    alert(`Bạn đã chọn ${selectedSlot.slot} vào ${selectedSlot.day}`);
+    toast(`Bạn đã chọn ${selectedSlot.slot} vào ${selectedSlot.day}`);
   };
 
   return (
