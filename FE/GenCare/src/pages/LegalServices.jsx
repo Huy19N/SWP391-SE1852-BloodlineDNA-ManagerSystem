@@ -31,40 +31,48 @@ function LegalServices() {
         </div>
         <div className="row">
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">
-                    <Link to="/legal-duration">
-                    Xét Nghiệm Cha/Mẹ-Con
-                    </Link>
-                    </h4>
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm Cha/Mẹ-Con</h3>
                 </div>
               </div>
+            </Link>
           </div>
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Anh/Chị-Em</h4>
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm Anh/Chị-Em</h3>
                 </div>
               </div>
-
-          </div>
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm họ hàng-Cháu</h4>
-                </div>
-              </div>
+            </Link>
           </div>
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét Nghiệm Ông/Bà-Cháu</h4>
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm họ hàng-Cháu</h3>
                 </div>
               </div>
+            </Link>
+          </div>
+
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm Ông/Bà-Cháu</h3>
+                </div>
+              </div>
+            </Link>
           </div>
 
         </div> {/* row */}
@@ -79,28 +87,37 @@ function LegalServices() {
         </div>
         <div className="row">
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm hình sự</h4>
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm hình sự</h3>
                 </div>
               </div>
+            </Link>
           </div>
 
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm truy vết thủ phạm</h4>
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm truy vết tội phạm</h3>
                 </div>
               </div>
-
+            </Link>
           </div>
-          <div className="col-md-6 mb-4">
-            <div className="card shadow">
-                <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">Xét nghiệm kiểm chứng tại tòa</h4>
+
+          <div className="col-md-4 rounded-3">
+            <Link to="/legal-duration" className="text-decoration-none text-dark">
+              <div className="card h-100 shadow border-0 rounded-3">
+                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
+                <div className="card-body">
+                  <h3>Xét nghiệm kiểm chứng tại tòa</h3>
                 </div>
               </div>
+            </Link>
           </div>
 
          </div>{/* row */}
