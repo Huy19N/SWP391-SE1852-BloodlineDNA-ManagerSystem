@@ -40,7 +40,6 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all status: {ex.Message}");
             }
         }
-
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Status>> GetStatusById(int id)
         {
