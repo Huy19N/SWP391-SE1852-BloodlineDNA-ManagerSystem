@@ -7,5 +7,6 @@ namespace APIGeneCare.Controllers
     [ApiController]
     public class TestProcessController : ControllerBase
     {
+
     }
 }

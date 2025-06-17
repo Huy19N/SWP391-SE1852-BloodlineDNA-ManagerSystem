@@ -5,34 +5,75 @@ namespace APIGeneCare.Repository
 {
     public class StatusRepository : IStatusRepository
     {
-        public bool CreateStatus(Status status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteStatusById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        private readonly GeneCareContext _context;
+        public StatusRepository(GeneCareContext context) => _context = context;
         public IEnumerable<Status> GetAllStatus()
-        {
-            throw new NotImplementedException();
-        }
-
+            => _context.Statuses.ToList();
         public IEnumerable<Status> GetAllStatusPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
         }
-
         public Status? GetStatusById(int id)
+            => _context.Statuses.Find(id);
+        public bool CreateStatus(Status status)
         {
-            throw new NotImplementedException();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (status == null|| GetStatusById(status.StatusId) != null) return false;
+                _context.Statuses.Add(status);
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+            
         }
 
+        public bool DeleteStatusById(int id)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var status = GetStatusById(id);
+                if (status == null) return false;
+                _context.Statuses.Remove(status);
+                
+                _context.SaveChanges(); 
+                transaction.Commit();
+                return true;
+
+            }
+            catch 
+            { 
+                transaction.Rollback();
+                return false;
+            }
+        }
         public bool UpdateStatus(Status status)
         {
-            throw new NotImplementedException();
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var existStatus = GetStatusById(status.StatusId);
+                if (existStatus == null) return false;
+                existStatus.StatusName = status.StatusName;
+
+                _context.SaveChanges(); 
+                transaction.Commit(); 
+                return true;
+            }
+            catch
+            {
+
+                transaction.Rollback();
+                return false;
+            }
         }
     }
 }
