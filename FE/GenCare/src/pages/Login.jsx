@@ -87,8 +87,15 @@ const LoginRegister = () => {
           toast.success("Đăng nhập thành công!"); // Chuyển hướng về trang chủ nếu là customer
         } 
         else if (responseData.role === 4) {
-          navigate('/book-appointment');
+          navigate('/');
           toast.success("Đăng nhập thành công!"); // Chuyển hướng đến trang admin nếu là admin
+        }else if (responseData.role === 2) {
+          navigate('/'); //Staff
+          toast.success("Đăng nhập thành công!");
+        }
+        else if (responseData.role === 3) {
+          navigate('/'); //Manager
+          toast.success("Đăng nhập thành công!");
         }
 
 

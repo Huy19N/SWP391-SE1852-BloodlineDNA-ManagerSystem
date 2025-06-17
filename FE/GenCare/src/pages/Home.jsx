@@ -54,7 +54,7 @@ function Home() {
             <div className="position-absolute top-50 start-50 translate-middle text-center text-white">
               <h1 className="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
               <button className="btn btn-primary btn-lg">
-                <a href='/services' className='text-light text-decoration-none'><i className="bi bi-star-fill"></i> Join</a>
+                <Link to='/services' className='text-light text-decoration-none'><i className="bi bi-star-fill"></i> Join</Link>
               </button>
             </div>
           </div>
