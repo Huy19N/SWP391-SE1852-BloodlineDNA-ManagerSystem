@@ -5,7 +5,7 @@ namespace APIGeneCare.Repository.Interface
     public interface ITestProcessRepository
     {
         IEnumerable<TestProcess> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page);
-        IEnumerable<TestProcess> GetAllTest();
+        IEnumerable<TestProcess> GetAllTestProcess();
         TestProcess? GetTestProcessById(int id);
         bool CreateTestProcess(TestProcess testProcess);
         bool UpdateTestProcess(TestProcess testProcess);
