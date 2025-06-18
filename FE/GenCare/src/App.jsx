@@ -1,6 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
@@ -12,19 +11,30 @@ import CivilServices from './pages/CivilServices.jsx';
 import CivilDuration from'./pages/CivilDuration.jsx';
 import LegalDuration from './pages/LegalDuration.jsx';
 import BookAppointment from './pages/BookAppointment.jsx';
+import Dashboard from './pages/Actors/Dashboard.jsx';
+// import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
 import InstructionInforPage from './pages/InstructionPages/InstructionInforData.jsx';
 import Booking from './pages/Booking.jsx';
+// import { use } from 'react';
 
 function App() {
+  // Lấy đường dẫn hiện tại
+  const location = useLocation();
+  // Kiểm tra xem đường dẫn có phải là một trong những đường dẫn không cần hiển thị Header và Zalo hay không
+  // Danh sách các đường dẫn không cần hiển thị Header và Zalo
+  const anonymousPaths = ['/dashboard', '/approve'];
+  // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách không
+  // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
+  // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo
+  const isAnonymous = anonymousPaths.includes(location.pathname);
   return (
     <>
-    <Header />
+    {!isAnonymous && <Header />}
+    {!isAnonymous && <Zalo />}
     <div style={{paddingTop: '25px'}}>
-      <Zalo />
-      <ToastContainer position="top-right" autoClose={3000} />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/services" element={<Services />} />
@@ -36,6 +46,8 @@ function App() {
       <Route path="/book-appointment" element={<BookAppointment />} />
       <Route path="/login" element={<Login />} />
       <Route path="/booking" element={<Booking/>} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      {/* <Route path="/approve" element={<Approve />} /> */}
 
       {/* Các route từ InstructionInforPage */}
       <Route path=" " element={<InstructionInforPage type="payment" />} />
@@ -46,7 +58,7 @@ function App() {
       <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />      
     </Routes>
     </div>
-    <Footer />
+    {!isAnonymous && <Footer />}
     </>
   );
 }
