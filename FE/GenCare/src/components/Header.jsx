@@ -45,8 +45,8 @@ export default function Header(){
                             Management
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><NavLink className="dropdown-item" to="/admin/dashboard">Dashboard</NavLink></li>
-                            <li><NavLink className="dropdown-item" to="/admin/users">Information</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/account">Information</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
                             {localStorage.getItem('token') ? (
                                 <li className="nav-item">
