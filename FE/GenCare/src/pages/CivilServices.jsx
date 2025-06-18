@@ -1,9 +1,10 @@
 import React,{ useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import{Link} from 'react-router-dom';
-import{useNavigate} from 'react-router-dom';
+import { Link,useLocation,useNavigate } from 'react-router-dom';
+
 
 function CivilServices() {
+  const selectedService = JSON.parse(localStorage.getItem('selectedService'));// nhận loại dịch vụ
+
   const { hash } = useLocation();
   const navigate = useNavigate(); // Hook để điều hướng
 
@@ -27,6 +28,11 @@ function CivilServices() {
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
         <h1>dịch vụ dân sự</h1>
+        {selectedService && (
+          <p className="fs-4">
+            Bạn đã chọn <strong>{selectedService.mainType}</strong> - <strong>{selectedService.subType}</strong>
+          </p>
+        )}
       </div>
       <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
         <div className="d-flex align-items-center mb-5">

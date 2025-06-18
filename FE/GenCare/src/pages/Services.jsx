@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as bootstrap from 'bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
@@ -16,7 +16,17 @@ import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
 
 function Services() {
-      // Initialize Bootstrap carousels on component mount
+      
+  const navigate = useNavigate();
+  const handleSelect=(type,subType)=>{
+    //lưu loại dịch vụ
+    localStorage.setItem('selectedService',JSON.stringify({
+      mainType:type,       
+      subType: subType
+    }));
+    navigate(`/${type.toLowerCase()}-services`);
+  };
+
       useEffect(() => {
         const carousels = document.querySelectorAll('.carousel');
         carousels.forEach((carousel) => {
@@ -81,32 +91,38 @@ function Services() {
             <div className="row justify-content-center align-items-start text-center g-5">
               {/* BẢNG DÂN SỰ */}
               <div className="col-lg-6">
-                <Link to="/civil-services" className="text-decoration-none text-dark">
+                <div  className="text-decoration-none text-dark">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">DÂN SỰ</div>
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
                           <tr><td>
-                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none d-block text-dark">
+                            <button
+                              onClick={() => handleSelect('Civil', 'Loại 1')}
+                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
                               Loại 1
-                            </Link>
+                            </button>
                           </td></tr>
                           <tr><td>
-                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none d-block text-dark">
+                            <button
+                              onClick={() => handleSelect('Civil', 'Loại 2')}
+                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
                               Loại 2
-                            </Link>
+                            </button>
                           </td></tr>
                           <tr><td>
-                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none d-block text-dark">
+                            <button
+                              onClick={() => handleSelect('Civil', 'Loại 3')}
+                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
                               Loại 3
-                            </Link>
+                            </button>
                           </td></tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
 
               {/* BẢNG PHÁP LÝ */}
