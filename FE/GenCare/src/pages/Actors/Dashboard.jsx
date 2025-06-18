@@ -1,7 +1,13 @@
 import api from '../../config/axios.js';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 function Dashboard() {
+    const navigate = useNavigate();
+
+
+
+
+
   return (
     <div className='row g-0 bg-light min-vh-100'>
         <aside className="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end fixed-left text-center">
@@ -24,8 +30,8 @@ function Dashboard() {
                 <Link className="nav-link" href="/approve">
                     <i className="bi bi-check-circle-fill"></i> Approve Form
                 </Link>
-                <a className="nav-link" href="/logout">
-                    <i className="bi bi-box-arrow-right"></i> Logout
+                <a className="nav-link" href='/'>
+                    <i className="bi bi-box-arrow-right"></i> Back Home
                 </a>
             </nav>
         </aside>
@@ -52,7 +58,7 @@ function Dashboard() {
                 <div className="col-md-4">
                     <div className="card mb-4">
                         <div className="card-body">
-                            <h5 className="card-title">Test History</h5>
+                            <h5 className="card-title">Status</h5>
                             <p className="card-text text-center">View your past test results and history.</p>
                             <a href="/dashboard" className="btn btn-primary">View History</a>
                         </div>
