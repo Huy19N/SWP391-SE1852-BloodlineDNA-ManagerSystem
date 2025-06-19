@@ -1,7 +1,8 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace APIGeneCare.Repository
 {
@@ -10,7 +11,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public TestProcessRepository(GeneCareContext context) => _context = context;
-        
+
         public IEnumerable<TestProcess> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestProcess = _context.TestProcesses.AsQueryable();
@@ -76,7 +77,7 @@ namespace APIGeneCare.Repository
                         break;
                     case "statusid_desc":
                         allTestProcess = allTestProcess.OrderByDescending(tp => tp.StatusId);
-                        break; 
+                        break;
                     case "description_asc":
                         allTestProcess = allTestProcess.OrderBy(tp => tp.Description);
                         break;
@@ -90,13 +91,13 @@ namespace APIGeneCare.Repository
                         allTestProcess = allTestProcess.OrderByDescending(tp => tp.UpdatedAt);
                         break;
                     default:
-                        
+
                         break;
                 }
             }
             #endregion
 
-            var result = PaginatedList<TestProcess>.Create(allTestProcess,page ?? 1,PAGE_SIZE);
+            var result = PaginatedList<TestProcess>.Create(allTestProcess, page ?? 1, PAGE_SIZE);
             return result.Select(tp => new TestProcess
             {
                 ProcessId = tp.ProcessId,
@@ -104,14 +105,14 @@ namespace APIGeneCare.Repository
                 StepId = tp.StepId,
                 StatusId = tp.StatusId,
                 Description = tp.Description,
-                UpdatedAt   = tp.UpdatedAt,
+                UpdatedAt = tp.UpdatedAt,
             });
         }
         public IEnumerable<TestProcess> GetAllTestProcess()
         {
             throw new NotImplementedException();
         }
-        
+
         public TestProcess? GetTestProcessById(int id)
             => _context.TestProcesses.Find(id);
         public bool CreateTestProcess(TestProcess testProcess)
@@ -119,17 +120,17 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if(testProcess == null) return false;
-                if(_context.TestProcesses.Find(testProcess.ProcessId) != null) return false;
+                if (testProcess == null) return false;
+                if (_context.TestProcesses.Find(testProcess.ProcessId) != null) return false;
                 _context.TestProcesses.Add(testProcess);
 
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
-                
+
             }
-            catch 
-            { 
+            catch
+            {
                 transaction.Rollback();
                 return false;
             }
@@ -140,8 +141,8 @@ namespace APIGeneCare.Repository
             try
             {
                 var testProcess = GetTestProcessById(id);
-                if ( testProcess == null) return false;
-                
+                if (testProcess == null) return false;
+
                 _context.TestProcesses.Remove(testProcess);
                 _context.SaveChanges();
                 transaction.Commit();
@@ -163,7 +164,7 @@ namespace APIGeneCare.Repository
                 if (existTestProcess == null) return false;
 
                 existTestProcess.BookingId = testProcess.BookingId;
-                existTestProcess.StepId = testProcess.StepId;  
+                existTestProcess.StepId = testProcess.StepId;
                 existTestProcess.StatusId = testProcess.StatusId;
                 existTestProcess.Description = testProcess.Description;
                 existTestProcess.UpdatedAt = testProcess.UpdatedAt;

@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 
@@ -56,19 +58,19 @@ namespace APIGeneCare.Repository
             {
                 if (typeSearch.Equals("serviceid", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if(int.TryParse(search, out int serviceid))
+                    if (int.TryParse(search, out int serviceid))
                     {
                         allServices = _context.Services.Where(s => s.ServiceId == serviceid);
                     }
                 }
 
                 if (typeSearch.Equals("servicename", StringComparison.CurrentCultureIgnoreCase))
-                    allServices = _context.Services.Where(s => !String.IsNullOrWhiteSpace(s.ServiceName) && 
-                    s.ServiceName.Contains(search,StringComparison.CurrentCultureIgnoreCase));
+                    allServices = _context.Services.Where(s => !String.IsNullOrWhiteSpace(s.ServiceName) &&
+                    s.ServiceName.Contains(search, StringComparison.CurrentCultureIgnoreCase));
 
                 if (typeSearch.Equals("servicetype", StringComparison.CurrentCultureIgnoreCase))
                     allServices = _context.Services.Where(s => !String.IsNullOrWhiteSpace(s.ServiceType) &&
-                    s.ServiceType.Contains(search,StringComparison.CurrentCultureIgnoreCase));
+                    s.ServiceType.Contains(search, StringComparison.CurrentCultureIgnoreCase));
 
                 if (typeSearch.Equals("description", StringComparison.CurrentCultureIgnoreCase))
                     allServices = _context.Services.Where(s => !String.IsNullOrWhiteSpace(s.Description) &&
@@ -116,13 +118,13 @@ namespace APIGeneCare.Repository
             });
         }
         public Service? GetServiceById(int id)
-            =>_context.Services.Find(id);
+            => _context.Services.Find(id);
         public bool UpdateService(Service service)
         {
-            if(service == null)
+            if (service == null)
             {
                 return false;
-            }   
+            }
             var existingService = _context.Services.Find(service.ServiceId);
             if (existingService == null)
             {
@@ -134,7 +136,7 @@ namespace APIGeneCare.Repository
                 existingService.ServiceName = service.ServiceName;
                 existingService.ServiceType = service.ServiceType;
                 existingService.Description = service.Description;
-                
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

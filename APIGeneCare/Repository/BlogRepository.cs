@@ -1,7 +1,8 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 
 namespace APIGeneCare.Repository
 {
@@ -35,7 +36,7 @@ namespace APIGeneCare.Repository
         {
             var blog = _context.Blogs.Find(id);
             if (blog == null) return false;
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -67,7 +68,7 @@ namespace APIGeneCare.Repository
 
                 if (typeSearch.Equals("title", StringComparison.CurrentCultureIgnoreCase))
                     allBlogs = _context.Blogs.Where(b => !String.IsNullOrWhiteSpace(b.Title) &&
-                    b.Title.Contains(search,StringComparison.CurrentCultureIgnoreCase));
+                    b.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase));
 
                 if (typeSearch.Equals("content", StringComparison.CurrentCultureIgnoreCase))
                     allBlogs = _context.Blogs.Where(b => !String.IsNullOrWhiteSpace(b.Content) &&
@@ -109,7 +110,7 @@ namespace APIGeneCare.Repository
             }
             #endregion
 
-            var result = PaginatedList<Blog>.Create(allBlogs,page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<Blog>.Create(allBlogs, page ?? 1, PAGE_SIZE);
             return result.Select(b => new Blog
             {
                 BlogId = b.BlogId,

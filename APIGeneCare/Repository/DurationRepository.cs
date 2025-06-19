@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 
@@ -126,7 +128,7 @@ namespace APIGeneCare.Repository
             {
                 existingDuration.DurationName = duration.DurationName;
                 existingDuration.Time = duration.Time;
-                
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

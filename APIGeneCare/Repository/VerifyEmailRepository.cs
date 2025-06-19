@@ -1,7 +1,8 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using System.Transactions;
 
 namespace APIGeneCare.Repository
 {
@@ -29,11 +30,11 @@ namespace APIGeneCare.Repository
         }
         public bool DeleteVerifyEmailByEmail(String email)
         {
-            if(email == null) return false;
+            if (email == null) return false;
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                _context.VerifyEmails.Remove(GetVerifyEmailByEmail(email)??null!);
+                _context.VerifyEmails.Remove(GetVerifyEmailByEmail(email) ?? null!);
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
@@ -45,10 +46,10 @@ namespace APIGeneCare.Repository
             }
         }
         public VerifyEmail? GetVerifyEmailByEmail(string email)
-            =>_context.VerifyEmails.Find(email);
+            => _context.VerifyEmails.Find(email);
         public bool UpdateVerifyEmail(VerifyEmail verifyEmail)
         {
-            if(verifyEmail == null) return false;
+            if (verifyEmail == null) return false;
             var existVerifyEmail = GetVerifyEmailByEmail(verifyEmail.Email);
             if (existVerifyEmail == null) return false;
             using var transaction = _context.Database.BeginTransaction();
@@ -147,7 +148,7 @@ namespace APIGeneCare.Repository
                 var verifyEmail = GetVerifyEmailByEmail(email);
                 if (verifyEmail != null)
                 {
-                    bool isSave = await Task.Run(() =>UpdateVerifyEmail(new VerifyEmail
+                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
                     {
                         Email = email,
                         CreatedAt = DateTime.Now,

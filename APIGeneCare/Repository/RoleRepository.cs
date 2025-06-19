@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 
@@ -24,7 +26,7 @@ namespace APIGeneCare.Repository
                 }
                 if (typeSearch.Equals("rolename", StringComparison.CurrentCultureIgnoreCase))
                     allRoles = _context.Roles.Where(r => !String.IsNullOrWhiteSpace(r.RoleName) &&
-                    r.RoleName.Equals(r.RoleName,StringComparison.CurrentCultureIgnoreCase));
+                    r.RoleName.Equals(r.RoleName, StringComparison.CurrentCultureIgnoreCase));
 
             }
             #endregion
@@ -46,7 +48,7 @@ namespace APIGeneCare.Repository
             }
             #endregion
 
-            var result = PaginatedList<Role>.Create(allRoles,page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<Role>.Create(allRoles, page ?? 1, PAGE_SIZE);
             return result.Select(r => new Role
             {
                 RoleId = r.RoleId,
@@ -57,7 +59,7 @@ namespace APIGeneCare.Repository
             => _context.Roles.Find(id);
         public bool CreateRole(Role role)
         {
-            if(role == null)
+            if (role == null)
             {
                 return false;
             }
@@ -77,7 +79,7 @@ namespace APIGeneCare.Repository
         }
         public bool UpdateRole(Role role)
         {
-            if(role == null)
+            if (role == null)
             {
                 return false;
             }
@@ -90,7 +92,7 @@ namespace APIGeneCare.Repository
             try
             {
                 existingRole.RoleName = role.RoleName;
-                
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

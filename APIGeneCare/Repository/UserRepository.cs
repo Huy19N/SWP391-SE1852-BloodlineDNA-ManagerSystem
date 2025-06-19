@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.Extensions.Options;
@@ -16,7 +18,7 @@ namespace APIGeneCare.Repository
         public static int PAGE_SIZE { get; set; } = 10;
         private readonly AppSettings _appSettings;
 
-        public UserRepository(GeneCareContext context, 
+        public UserRepository(GeneCareContext context,
             IOptionsMonitor<AppSettings> optionsMonitor)
         {
             _context = context;
@@ -28,7 +30,7 @@ namespace APIGeneCare.Repository
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
             var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
             if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
-            
+
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -49,7 +51,7 @@ namespace APIGeneCare.Repository
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                Role = role!=null? role.RoleId:0
+                Role = role.RoleId
             };
         }
         private string GenerateRefreshToken()
