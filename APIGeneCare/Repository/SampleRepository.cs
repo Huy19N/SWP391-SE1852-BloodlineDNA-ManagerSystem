@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 
@@ -32,9 +34,9 @@ namespace APIGeneCare.Repository
         }
         public bool DeleteSampleById(int id)
         {
-            var Sample =_context.Samples.Find(id);
+            var Sample = _context.Samples.Find(id);
             if (Sample == null) return false;
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -57,7 +59,7 @@ namespace APIGeneCare.Repository
             {
                 if (typeSearch.Equals("sampleid", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if(int.TryParse(search,out int sampleid))
+                    if (int.TryParse(search, out int sampleid))
                     {
                         allSamples = _context.Samples.Where(s => s.SampleId == sampleid);
                     }
@@ -65,7 +67,7 @@ namespace APIGeneCare.Repository
 
                 if (typeSearch.Equals("bookingid", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if(int.TryParse(search, out int bookingid))
+                    if (int.TryParse(search, out int bookingid))
                     {
                         allSamples = _context.Samples.Where(s => s.BookingId == bookingid);
                     }

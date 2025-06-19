@@ -1,6 +1,7 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Repository.Interface;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace APIGeneCare.Repository
 {
@@ -18,12 +19,12 @@ namespace APIGeneCare.Repository
                 StepId = ts.StepId,
                 StepName = ts.StepName
             }).OrderBy(ts => ts.StepId).ToList();
-        
+
         public TestStep? GetTestStepById(int id)
             => _context.TestSteps.Find(id);
         public bool UpdateTestStep(TestStep testStep)
         {
-            if(testStep == null || String.IsNullOrWhiteSpace(testStep.StepName) )return false;
+            if (testStep == null || String.IsNullOrWhiteSpace(testStep.StepName)) return false;
             var existTestStep = _context.TestSteps.Find(testStep.StepId);
             if (existTestStep == null) return false;
             using var transaction = _context.Database.BeginTransaction();

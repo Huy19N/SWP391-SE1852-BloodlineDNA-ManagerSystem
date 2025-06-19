@@ -1,6 +1,7 @@
-﻿using APIGeneCare.Model;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
@@ -10,7 +11,7 @@ namespace APIGeneCare.Controllers
     public class VerifyEmailController : ControllerBase
     {
         private readonly IVerifyEmailRepository _verifyEmailRepository;
-        public VerifyEmailController(IVerifyEmailRepository verifyEmailRepository) =>     _verifyEmailRepository = verifyEmailRepository;
+        public VerifyEmailController(IVerifyEmailRepository verifyEmailRepository) => _verifyEmailRepository = verifyEmailRepository;
         [HttpPost("sendVerifyEmail")]
         public async Task<ActionResult<ApiResponse>> SendVerifyEmail(string email, string apiConfirmEmail)
         {
@@ -22,10 +23,10 @@ namespace APIGeneCare.Controllers
                         Success = false,
                         Message = "What are you doing?"
                     });
-                    var isSend = await _verifyEmailRepository.SendConfirmEmail(email, apiConfirmEmail);
+                var isSend = await _verifyEmailRepository.SendConfirmEmail(email, apiConfirmEmail);
                 if (!isSend)
                 {
-                    return BadRequest (new ApiResponse
+                    return BadRequest(new ApiResponse
                     {
                         Success = false,
                         Message = "Email can't send"

@@ -1,9 +1,9 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
-using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
@@ -20,7 +20,7 @@ namespace APIGeneCare.Controllers
             try
             {
                 var testSteps = await Task.Run(() => _testStepRepository.GetAllTestStep());
-                if(testSteps == null)
+                if (testSteps == null)
                 {
                     return NotFound(new ApiResponse
                     {
@@ -36,7 +36,7 @@ namespace APIGeneCare.Controllers
                     Data = testSteps
                 });
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error get all test step: {ex.Message}");
             }
@@ -72,9 +72,9 @@ namespace APIGeneCare.Controllers
         [HttpPost("Create")]
         public ActionResult CreateUser(TestStep testStep)
         {
-            try 
-            { 
-                
+            try
+            {
+
                 var isCreate = _testStepRepository.CreateTestStep(testStep);
                 if (isCreate)
                 {
@@ -102,7 +102,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isUpdate =await Task.Run(()=> _testStepRepository.UpdateTestStep(testStep));
+                var isUpdate = await Task.Run(() => _testStepRepository.UpdateTestStep(testStep));
                 if (isUpdate)
                     return NoContent();
                 else
@@ -118,7 +118,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating test step: {ex.Message}");
             }
         }
-        
+
         [HttpDelete("DeleteById/{id}")]
         [Authorize(Roles = "Admin")]
         public ActionResult DeleteTestStepById(int id)

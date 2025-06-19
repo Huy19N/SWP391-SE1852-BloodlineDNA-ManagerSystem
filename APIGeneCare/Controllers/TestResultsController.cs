@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Data;
-using APIGeneCare.Repository.Interface;
 using APIGeneCare.Model;
-using APIGeneCare.Repository;
+using APIGeneCare.Repository.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
 {
@@ -35,7 +30,7 @@ namespace APIGeneCare.Controllers
                 }
                 return Ok(TestResults);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving TestResults:{ex.Message}");
             }
@@ -50,7 +45,7 @@ namespace APIGeneCare.Controllers
                 if (TestResult == null) return NotFound();
                 return Ok(TestResult);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving test result: {ex.Message}");
             }
@@ -83,7 +78,7 @@ namespace APIGeneCare.Controllers
 
         }
         [HttpPut("Update")]
-        public ActionResult UpdateTestResult(TestResult testResult) 
+        public ActionResult UpdateTestResult(TestResult testResult)
         {
             try
             {
@@ -102,7 +97,7 @@ namespace APIGeneCare.Controllers
                     });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating test result: {ex.Message}");
             }

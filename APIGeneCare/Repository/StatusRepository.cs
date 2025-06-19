@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -20,7 +22,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if (status == null|| GetStatusById(status.StatusId) != null) return false;
+                if (status == null || GetStatusById(status.StatusId) != null) return false;
                 _context.Statuses.Add(status);
 
                 _context.SaveChanges();
@@ -32,7 +34,7 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 return false;
             }
-            
+
         }
 
         public bool DeleteStatusById(int id)
@@ -43,14 +45,14 @@ namespace APIGeneCare.Repository
                 var status = GetStatusById(id);
                 if (status == null) return false;
                 _context.Statuses.Remove(status);
-                
-                _context.SaveChanges(); 
+
+                _context.SaveChanges();
                 transaction.Commit();
                 return true;
 
             }
-            catch 
-            { 
+            catch
+            {
                 transaction.Rollback();
                 return false;
             }
@@ -64,8 +66,8 @@ namespace APIGeneCare.Repository
                 if (existStatus == null) return false;
                 existStatus.StatusName = status.StatusName;
 
-                _context.SaveChanges(); 
-                transaction.Commit(); 
+                _context.SaveChanges();
+                transaction.Commit();
                 return true;
             }
             catch

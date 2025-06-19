@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
@@ -8,7 +9,7 @@ namespace APIGeneCare.Repository
     public class ServicePriceRepository : IServicePriceRepository
     {
         private readonly GeneCareContext _context;
-        public static int PAGE_SIZE { get; set; } =10; 
+        public static int PAGE_SIZE { get; set; } = 10;
         public ServicePriceRepository(GeneCareContext context) => _context = context;
         public bool CreateServicePrice(ServicePrice servicePrice)
         {
@@ -35,7 +36,7 @@ namespace APIGeneCare.Repository
 
             using var transaction = _context.Database.BeginTransaction();
             try
-            { 
+            {
                 _context.ServicePrices.Remove(servicePrice);
 
                 _context.SaveChanges();

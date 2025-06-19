@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Data;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 
@@ -62,9 +64,9 @@ namespace APIGeneCare.Repository
                 if (typeSearch.Equals("bookingid", StringComparison.CurrentCultureIgnoreCase))
                     if (int.TryParse(search, out int bookingid))
                         allBooking = _context.Bookings.Where(b => b.BookingId == bookingid);
-                
+
                 if (typeSearch.Equals("userid", StringComparison.CurrentCultureIgnoreCase))
-                    if(int.TryParse(search,out int userid))
+                    if (int.TryParse(search, out int userid))
                         allBooking = _context.Bookings.Where(b => b.UserId == userid);
 
                 if (typeSearch.Equals("durationid", StringComparison.CurrentCultureIgnoreCase))

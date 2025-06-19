@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Data;
-using APIGeneCare.Repository.Interface;
 using APIGeneCare.Model;
-using APIGeneCare.Repository;
-using Microsoft.Build.Framework;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using APIGeneCare.Repository.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
 {
@@ -24,7 +16,7 @@ namespace APIGeneCare.Controllers
         {
             _userRepository = userRepository;
         }
-        
+
         [HttpPost("Login")]
         public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
         {
@@ -40,7 +32,7 @@ namespace APIGeneCare.Controllers
                         Message = "Unauthorized user",
                     });
                 }
-                var Token =await Task.Run(()=> _userRepository.GenerateToken(user));
+                var Token = await Task.Run(() => _userRepository.GenerateToken(user));
 
                 return Ok(new ApiResponse
                 {
@@ -49,7 +41,7 @@ namespace APIGeneCare.Controllers
                     Data = Token
                 });
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error get Validate: {ex.Message}");
             }
@@ -109,7 +101,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var users = await Task.Run(() => _userRepository.GetAllUsersPaging( typeSearch, search, sortBy, page));
+                var users = await Task.Run(() => _userRepository.GetAllUsersPaging(typeSearch, search, sortBy, page));
                 if (users == null || !users.Any())
                 {
                     return NotFound(new ApiResponse
@@ -171,11 +163,11 @@ namespace APIGeneCare.Controllers
                 User user = await Task.Run(() => _userRepository.GetUserByEmail(email ?? null!)) ?? null!;
                 if (user == null)
                 {
-                    return NotFound(new ApiResponse 
-                    { 
+                    return NotFound(new ApiResponse
+                    {
                         Success = false,
                         Message = "Get user by email error",
-                        Data= null
+                        Data = null
                     });
                 }
 
@@ -185,12 +177,13 @@ namespace APIGeneCare.Controllers
                     Message = "Get user by email success",
                     Data = user
                 });
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,$"Error retrieving user by email: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by email: {ex.Message}");
             }
         }
-        
+
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
