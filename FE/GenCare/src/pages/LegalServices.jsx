@@ -1,9 +1,19 @@
 import React,{ useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import{Link} from 'react-router-dom';
+import {Link, useLocation,useNavigate } from 'react-router-dom';
 
 function LegalServices() {
+  const selectedService = JSON.parse(localStorage.getItem('selectedService'));
   const { hash } = useLocation();
+  const navigate = useNavigate();
+  
+    const handleSelect =(type, subType, testType)=>{
+      localStorage.setItem('selectedService',JSON.stringify({
+        mainType: type,//loại dịch vụ
+        subType: subType,//kiểu xét nghiệm
+        testType: testType//loại xét nghiệm
+      }));
+      navigate("/legal-duration"); 
+    };
   
     useEffect(() => {
       if (hash) {
@@ -32,47 +42,47 @@ function LegalServices() {
         <div className="row">
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm Cha/Mẹ-Con</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 1','Cha/Mẹ-Con')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm Cha/Mẹ-Con</h3>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm Anh/Chị-Em</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 1','Anh/Chị-Em')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm Anh/Chị-Em</h3>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm họ hàng-Cháu</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 1','họ hàng-Cháu')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm họ hàng-Cháu</h3>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm Ông/Bà-Cháu</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 1','Ông/Bà-Cháu')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm Ông/Bà-Cháu</h3>
               </div>
-            </Link>
+            </div>
           </div>
 
         </div> {/* row */}
@@ -88,36 +98,36 @@ function LegalServices() {
         <div className="row">
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm hình sự</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 2','hình sự')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm hình sự </h3>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm truy vết tội phạm</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 2','truy vết tội phạm')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm truy vết tội phạm </h3>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="col-md-4 rounded-3">
-            <Link to="/legal-duration" className="text-decoration-none text-dark">
-              <div className="card h-100 shadow border-0 rounded-3">
-                <img src="/" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                <div className="card-body">
-                  <h3>Xét nghiệm kiểm chứng tại tòa</h3>
-                </div>
+            <div
+              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+              onClick={() => handleSelect('Pháp lí','loại 2','kiểm chứng tại tòa')}>
+              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
+              <div className="card-body">
+                <h3>Xét nghiệm kiểm chứng tại tòa </h3>
               </div>
-            </Link>
+            </div>
           </div>
 
          </div>{/* row */}

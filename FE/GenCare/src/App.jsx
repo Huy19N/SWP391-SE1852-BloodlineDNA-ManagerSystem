@@ -10,14 +10,16 @@ import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
 import CivilDuration from'./pages/CivilDuration.jsx';
 import LegalDuration from './pages/LegalDuration.jsx';
+
 import BookAppointment from './pages/BookAppointment.jsx';
+import Booking from './pages/Booking.jsx';
+
 import Dashboard from './pages/Actors/Dashboard.jsx';
 // import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
 import InstructionInforPage from './pages/InstructionPages/InstructionInforData.jsx';
-import Booking from './pages/Booking.jsx';
 // import { use } from 'react';
 
 function App() {
@@ -44,8 +46,8 @@ function App() {
       <Route path="/legal-duration" element={<LegalDuration/>} />
       <Route path="/civil-duration" element={<CivilDuration/>} />
       <Route path="/book-appointment" element={<BookAppointment />} />
+      <Route path="/booking" element={<Booking />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/booking" element={<Booking/>} />
       <Route path="/dashboard" element={<Dashboard />} />
       {/* <Route path="/approve" element={<Approve />} /> */}
 

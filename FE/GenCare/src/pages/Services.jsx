@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as bootstrap from 'bootstrap';
-import { Link,useNavigate} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
@@ -16,16 +16,6 @@ import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
 
 function Services() {
-      
-  const navigate = useNavigate();
-  const handleSelect=(type,subType)=>{
-    //lưu loại dịch vụ
-    localStorage.setItem('selectedService',JSON.stringify({
-      mainType:type,       
-      subType: subType
-    }));
-    navigate(`/${type.toLowerCase()}-services`);
-  };
 
       useEffect(() => {
         const carousels = document.querySelectorAll('.carousel');
@@ -97,27 +87,24 @@ function Services() {
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td>
-                            <button
-                              onClick={() => handleSelect('Civil', 'Loại 1')}
-                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
+                          <tr><td className="p-0">
+                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 1
-                            </button>
-                          </td></tr>
-                          <tr><td>
-                            <button
-                              onClick={() => handleSelect('Civil', 'Loại 2')}
-                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
+                            </Link>
+                              </td>
+                          </tr>
+                          <tr><td className="p-0">
+                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 2
-                            </button>
-                          </td></tr>
-                          <tr><td>
-                            <button
-                              onClick={() => handleSelect('Civil', 'Loại 3')}
-                              className="btn btn-link text-dark text-decoration-none fs-4 fw-bold">
+                            </Link>
+                              </td>
+                          </tr>
+                          <tr><td className="p-0">
+                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 3
-                            </button>
-                          </td></tr>
+                            </Link>
+                              </td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -127,19 +114,27 @@ function Services() {
 
               {/* BẢNG PHÁP LÝ */}
               <div className="col-lg-6">
-                <Link to="/legal-services" className="text-decoration-none text-dark">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">PHÁP LÝ</div>
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td>Loại 1</td></tr>
-                          <tr><td>Loại 2</td></tr>
+                          <tr><td className="p-0">
+                            <Link to="/legal-services#Legal-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
+                              Loại 1
+                            </Link>
+                              </td>
+                          </tr>
+                          <tr><td className="p-0">
+                            <Link to="/legal-services#Legal-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
+                              Loại 2
+                            </Link>
+                              </td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                </Link>
               </div>
             </div>
           </div>
