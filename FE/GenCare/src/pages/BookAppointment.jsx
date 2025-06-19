@@ -39,7 +39,7 @@ function BookAppointment() {
     };
 
     localStorage.setItem('selectedService', JSON.stringify(updatedService));
-
+    
     toast(`Bạn đã chọn ${selectedSlot.slot} vào ${selectedSlot.day} và ${selectedMethod}`);
     navigate('/booking');
   };
@@ -92,7 +92,7 @@ function BookAppointment() {
       <div className="mb-4">
         <label className="form-label">Phương thức thu mẫu:</label>
         <select value={selectedMethod} onChange={handleMethodChange} className="form-select">
-          <option value="">-- Chọn --</option>
+          <option >-- Chọn --</option>
           <option value="Tự thu mẫu tại nhà">Tự thu mẫu tại nhà</option>
           <option value="Thu mẫu tại nhà">Thu mẫu tại nhà</option>          
           <option value="Thu mẫu tại cơ sở y tế">Thu mẫu tại cơ sở y tế</option>

@@ -11,10 +11,10 @@ function Booking() {
     testType: '',
     timeSlot: '',
     method: '',
+    fullName: '',
     gmail: '',
     birthDate: '',
     cccd: '',
-    gender: '',
   });
 
   // Load selectedService từ localStorage
@@ -39,16 +39,15 @@ function Booking() {
   };
   const handleSubmit = () => {
      //  API tại đây 
-    const {gmail, birthDate, cccd, gender } = formData;
+    const {gmail, birthDate, cccd, fullName } = formData;
     // điều kiện điền thông tin
-  if (!gmail || !birthDate || !cccd || !gender) {
+  if (!gmail || !birthDate || !cccd || !fullName) {
       toast.error("Vui lòng điền đầy đủ thông tin cá nhân!");
       return;
     }
     toast.success("Đăng ký thành công!");
     console.log("Thông tin đăng ký:", formData);
-
-  navigate('/');
+    navigate('/');
 };
 
   return (
@@ -118,6 +117,20 @@ function Booking() {
         className="w-full p-2 border rounded bg-light"
     />
     </div>
+
+    {/* Họ tên */}
+    <div className="mb-4">
+        <label className="block font-medium mb-2">Họ và tên:</label>
+        <input
+        type="text"
+        name="fullName"
+        value={formData.fullName}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+        placeholder="Nhập họ và tên"
+        />
+    </div> 
+
     {/* Gmail */}
         <div className="mb-4">
         <label className="block font-medium mb-2">Gmail:</label>
@@ -146,7 +159,7 @@ function Booking() {
 
     {/* Năm sinh */}
     <div className="mb-4">
-        <label className="block font-medium mb-2">Năm sinh (ngày/tháng/năm):</label>
+        <label className="block font-medium mb-2">Năm sinh :</label>
         <input
         type="date"
         name="birthDate"
@@ -155,18 +168,7 @@ function Booking() {
         className="w-full p-2 border rounded"
         />
     </div>
-
-    {/* Giới tính */}
-    <div className="mb-4">
-        <label className="block font-medium mb-2">Giới tính:</label>
-        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full p-2 border rounded">
-        <option value="">-- Chọn --</option>
-        <option value="male">Nam</option>
-        <option value="female">Nữ</option>
-        <option value="other">Khác</option>
-        </select>
-    </div>
-
+    
     {/* Nút gửi */}
     <div className="text-center mt-4">
         <button className="btn btn-primary px-4" onClick={handleSubmit} >
