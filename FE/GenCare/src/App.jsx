@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
 import Zalo from './components/Zalo.jsx';
+import ProtectedRoute from './pages/ProtectReute/protectedRoute.jsx';
 
 import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
@@ -38,17 +39,45 @@ function App() {
     {!isAnonymous && <Zalo />}
     <div style={{paddingTop: '25px'}}>
     <Routes>
+      {/*trang Home*/}
       <Route path="/" element={<Home />} />
-      <Route path="/services" element={<Services />} />
+
+      <Route path="/services" element={<Services/>}/>
       <Route path="/Instruction" element={<Instruction />} />
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
-      <Route path="/legal-duration" element={<LegalDuration/>} />
-      <Route path="/civil-duration" element={<CivilDuration/>} />
-      <Route path="/book-appointment" element={<BookAppointment />} />
-      <Route path="/booking" element={<Booking />} />
+
+      <Route path="/legal-duration" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <LegalDuration />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/civil-duration" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <CivilDuration />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/book-appointment" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <BookAppointment />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/booking" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <Booking />
+        </ProtectedRoute>
+      } />
+
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      
+      <Route path="/dashboard" element={
+        <ProtectedRoute allowedRoles={[2, 3, 4]}>
+          <Dashboard />
+        </ProtectedRoute>
+      } />
       {/* <Route path="/approve" element={<Approve />} /> */}
 
       {/* Các route từ InstructionInforPage */}

@@ -1,6 +1,7 @@
 import api from '../../config/axios.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import '../../css/index.css';
 function Dashboard() {
     const navigate = useNavigate();
 
@@ -15,24 +16,36 @@ function Dashboard() {
                 GenCare
             </a>
             <nav className='nav flex-column sidebar-nav mb-2 mt-2'>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <Link className="nav-link mb-100" to="/dashboard">
                     <i className="bi bi-house-door-fill"></i> Dashboard
                 </Link>
+                </div>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <Link className="nav-link" href="/account">
                     <i className="bi bi-person-fill"></i> Users
                 </Link>
+                </div>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <Link className="nav-link" href="/test-history">
                     <i className="bi bi-journal-text"></i> Status
                 </Link>
+                </div>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <Link className="nav-link" href="/book-appointment">
                     <i className="bi bi-calendar-plus-fill"></i> Book Appointment
                 </Link>
+                </div>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <Link className="nav-link" href="/approve">
                     <i className="bi bi-check-circle-fill"></i> Approve Form
                 </Link>
+                </div>
+                <div className='mb-2 mt-2 tab_content_1'>
                 <a className="nav-link" href='/'>
                     <i className="bi bi-box-arrow-right"></i> Back Home
                 </a>
+                </div>
             </nav>
         </aside>
         <main className="col-md-1 ms-sm-auto col-lg-10 px-md-4">
