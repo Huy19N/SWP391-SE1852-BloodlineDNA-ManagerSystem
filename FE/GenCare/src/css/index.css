@@ -175,3 +175,21 @@ span#fcta-zalo-tracking {
     position: absolute;
     transform: translateY(-19%);
 }
+
+.tab_content_1:hover{
+    border-radius: 3%;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    animation: zoom2 2s linear infinite;
+}
+
+@keyframes zoom2 {
+    0% {
+        transform: translateY(10%) rotate(0deg) scale(1);
+        background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+    }
+    to {
+        transform: translateY(0%) rotate(360deg) scale(0);
+        background-image: linear-gradient(-225deg, #6654F1 0%, #EACCF8 48%, #69EACB 100%);
+    }
+    
+}
