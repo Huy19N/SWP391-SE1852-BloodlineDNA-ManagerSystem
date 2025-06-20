@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from '../config/axios';
- import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import '../css/login.css';
 
@@ -80,23 +80,12 @@ const LoginRegister = () => {
         // Lưu token và role vào localStorage
         localStorage.setItem('token', responseData.accessToken);
         localStorage.setItem('roleId', responseData.role);
-
+        const roleID = responseData.role;
         // Điều hướng theo vai trò
-        if (responseData.role === 1) {
+        if (roleID != null) {
           navigate('/');
           toast.success("Đăng nhập thành công!"); // Chuyển hướng về trang chủ nếu là customer
         } 
-        else if (responseData.role === 4) {
-          navigate('/');
-          toast.success("Đăng nhập thành công!"); // Chuyển hướng đến trang admin nếu là admin
-        }else if (responseData.role === 2) {
-          navigate('/'); //Staff
-          toast.success("Đăng nhập thành công!");
-        }
-        else if (responseData.role === 3) {
-          navigate('/'); //Manager
-          toast.success("Đăng nhập thành công!");
-        }
 
 
 
@@ -155,6 +144,7 @@ const LoginRegister = () => {
     catch (err){
       console.error('Register error: ', err);
       toast.error(err.response.data);
+      toast.error("Đã có tài khoản này rồi vui lòng tạo một tài khoản mới!")
     }
     finally{
       setIsLoading(false);
