@@ -2,12 +2,16 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Data;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace APIGeneCare.Repository
 {
     public class DeliveryMethodRepository : IDeliveryMethodRepository
     {
-        public bool CreateBlog(DeliveryMethod deliveryMethod)
+        private readonly GeneCareContext _context;
+        public DeliveryMethodRepository (GeneCareContext context) => _context = context;
+        public bool CreateDeliveryMethodBy(DeliveryMethod deliveryMethod)
         {
             throw new NotImplementedException();
         }
@@ -18,9 +22,7 @@ namespace APIGeneCare.Repository
         }
 
         public IEnumerable<DeliveryMethod> GetAllDeliveryMethods()
-        {
-            throw new NotImplementedException();
-        }
+            => _context.DeliveryMethods.OrderBy(dm => dm.DeliveryMethodId);
 
         public IEnumerable<DeliveryMethod> GetAllDeliveryMethodsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
@@ -28,11 +30,9 @@ namespace APIGeneCare.Repository
         }
 
         public DeliveryMethod? GetDeliveryMethodById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            => _context.DeliveryMethods.Find(id);
 
-        public bool UpdateBlog(DeliveryMethod deliveryMethod)
+        public bool UpdateDeliveryMethodBy(DeliveryMethod deliveryMethod)
         {
             throw new NotImplementedException();
         }

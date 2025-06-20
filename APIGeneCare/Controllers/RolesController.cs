@@ -4,6 +4,7 @@ using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -29,6 +30,34 @@ namespace APIGeneCare.Controllers
                     return NotFound(new ApiResponse
                     {
                         Success = false,
+                        Message = "Get all role paging failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all role paging success",
+                    Data = roles
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all role: {ex.Message}");
+            }
+        }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            try
+            {
+                var roles = await Task.Run(() => _roleRepository.GetAllRoles());
+                if (roles == null || !roles.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
                         Message = "Get all role failed",
                         Data = null
                     });
@@ -46,7 +75,6 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all role: {ex.Message}");
             }
         }
-
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Role>> GetRoleById(int id)
         {

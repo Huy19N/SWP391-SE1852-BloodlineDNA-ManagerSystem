@@ -8,6 +8,7 @@ namespace APIGeneCare.Repository.Interface
     public interface IUserRepository
     {
         IEnumerable<User> GetAllUsersPaging(string? typeSearch, string? search, string? sortBy, int? page);
+        IEnumerable<User> GetAllUsers();
         User? GetUserById(int id);
         User? GetUserByEmail(string email);
         bool CreateUser(User user);

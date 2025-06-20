@@ -9,8 +9,8 @@ namespace APIGeneCare.Repository.Interface
         IEnumerable<DeliveryMethod> GetAllDeliveryMethodsPaging(string? typeSearch, string? search, string? sortBy, int? page);
         IEnumerable<DeliveryMethod> GetAllDeliveryMethods();
         DeliveryMethod? GetDeliveryMethodById(int id);
-        bool CreateBlog(DeliveryMethod deliveryMethod);
-        bool UpdateBlog(DeliveryMethod deliveryMethod);
+        bool CreateDeliveryMethodBy(DeliveryMethod deliveryMethod);
+        bool UpdateDeliveryMethodBy(DeliveryMethod deliveryMethod);
         bool DeleteDeliveryMethodById(int id);
     }
 }

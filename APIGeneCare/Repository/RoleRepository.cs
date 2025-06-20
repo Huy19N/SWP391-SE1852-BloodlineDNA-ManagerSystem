@@ -11,6 +11,9 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public RoleRepository(GeneCareContext context) => _context = context;
+        public IEnumerable<Role> GetAllRoles()
+            => _context.Roles.OrderBy(r=> r.RoleId).ToList();
+
         public IEnumerable<Role> GetAllRolesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allRoles = _context.Roles.AsQueryable();
