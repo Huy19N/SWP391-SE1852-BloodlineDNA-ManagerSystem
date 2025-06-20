@@ -4,6 +4,7 @@ using APIGeneCare.Data;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -114,7 +115,7 @@ namespace APIGeneCare.Controllers
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Get All User Success",
+                    Message = "Get all user paging success",
                     Data = users
                 });
 
@@ -124,7 +125,34 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users: {ex.Message}");
             }
         }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await Task.Run(() => _userRepository.GetAllUsers());
+                if (users == null || !users.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all user failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all user success",
+                    Data = users
+                });
 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving users: {ex.Message}");
+            }
+        }
         // GET: api/Users/id
         //Retrieves a specific user by ID.
         [HttpGet("getbyid/{id}")]

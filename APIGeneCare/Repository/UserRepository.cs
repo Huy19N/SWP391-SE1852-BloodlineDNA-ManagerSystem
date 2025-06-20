@@ -188,6 +188,9 @@ namespace APIGeneCare.Repository
             });
 
         }
+        public IEnumerable<User> GetAllUsers()
+            => _context.Users.OrderBy(u => u.UserId).ToList();
+
         public User? GetUserById(int id)
             => _context.Users.FirstOrDefault(u => u.UserId == id);
         public User? GetUserByEmail(string email)
@@ -224,5 +227,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
+
+        
     }
 }
