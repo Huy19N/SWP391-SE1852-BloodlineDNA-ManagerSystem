@@ -22,6 +22,7 @@ CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
     RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
     FullName NVARCHAR(150),
+	IdentifyID INT,
     [Address] NVARCHAR(500),
     Email NVARCHAR(200) NOT NULL UNIQUE,
     Phone VARCHAR(20),
@@ -163,8 +164,7 @@ CREATE TABLE VerifyEmail (
 );
 ----------------------------------------------------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES
-(1, N'Guest'),
-(2, N'Customer'),
-(3, N'Employee'),
-(4, N'Manage'),
-(5, N'Admin');
+(1, N'Customer'),
+(2, N'Employee'),
+(3, N'Manage'),
+(4, N'Admin');
