@@ -59,6 +59,7 @@ builder.Services.AddScoped<IDurationRepository, DurationRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 #endregion
 
 var secretKey = builder.Configuration["AppSettings:SecretKey"];

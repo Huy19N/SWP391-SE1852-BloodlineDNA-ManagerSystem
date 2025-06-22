@@ -7,6 +7,7 @@ namespace APIGeneCare.Repository.Interface
     public interface IBookingRepository
     {
         IEnumerable<Booking> GetAllBookingsPaging(string? typeSearch, string? search, string? sortBy, int? page);
+        IEnumerable<Booking> GetAllBookings();
         Booking? GetBookingById(int id);
         bool CreateBooking(Booking booking);
         bool UpdateBooking(Booking booking);

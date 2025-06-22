@@ -147,7 +147,8 @@ namespace APIGeneCare.Repository
                 Date = b.Date
             });
         }
-
+        public IEnumerable<Booking> GetAllBookings()
+            => _context.Bookings.ToList();
         public Booking? GetBookingById(int id)
             => _context.Bookings.Find(id);
         public bool UpdateBooking(Booking booking)

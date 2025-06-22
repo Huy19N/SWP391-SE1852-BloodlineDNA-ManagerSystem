@@ -4,6 +4,7 @@ using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -24,6 +25,34 @@ namespace APIGeneCare.Controllers
             try
             {
                 var bookings = await Task.Run(() => _bookingRepository.GetAllBookingsPaging(typeSearch, search, sortBy, page));
+                if (bookings == null || !bookings.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all booking failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all booking success",
+                    Data = bookings
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all booking: {ex.Message}");
+            }
+        }
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings()
+        {
+            try
+            {
+                var bookings = await Task.Run(() => _bookingRepository.GetAllBookings());
                 if (bookings == null || !bookings.Any())
                 {
                     return NotFound(new ApiResponse
