@@ -16,7 +16,7 @@ import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
-// import Approve from './pages/Actors/Staff/ApproveForm.jsx';
+import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -79,7 +79,12 @@ function App() {
           <Dashboard />
         </ProtectedRoute>
       } />
-      {/* <Route path="/approve" element={<Approve />} /> */}
+      
+      <Route path="/approve" element={
+        <ProtectedRoute allowedRoles={[2, 3]}>
+          <Approve />
+        </ProtectedRoute>
+      } />
 
       {/* Các route từ InstructionInforPage */}
       <Route path=" " element={<InstructionInforPage type="payment" />} />
