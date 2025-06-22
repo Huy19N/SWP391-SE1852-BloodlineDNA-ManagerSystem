@@ -33,11 +33,12 @@ function App() {
   // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
   // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo
   const isAnonymous = anonymousPaths.includes(location.pathname);
+
   return (
     <>
     {!isAnonymous && <Header />}
     {!isAnonymous && <Zalo />}
-    <div style={{paddingTop: '25px'}}>
+    
     <Routes>
       {/*trang Home*/}
       <Route path="/" element={<Home />} />
@@ -88,7 +89,7 @@ function App() {
       <Route path="/dna-identification-remains" element={<InstructionInforPage type="remains" />} />
       <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />      
     </Routes>
-    </div>
+    
     {!isAnonymous && <Footer />}
     </>
   );

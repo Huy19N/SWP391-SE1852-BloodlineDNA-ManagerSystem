@@ -1,19 +1,35 @@
+import React from 'react';
 import api from '../../config/axios.js';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import '../../css/index.css';
+import { useState } from 'react';
 function Dashboard() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [dataUsers, setDataUsers] = useState({
+        
+      });
 
+    const fetchData = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
 
+        try{
+            const response = await api.get('Users/GetAllPaging',)
+        }
+        catch(error){
+            
+        }
+    }
 
 
 
   return (
-    <div className='row g-0 bg-light min-vh-100'>
-        <aside className="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end fixed-left text-center">
-            <a className="navbar-brand " href="/">
-                GenCare
+    <div className='row g-0 bg-light min-vh-100 margin_top'>
+        <aside className="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end fixed-left text-center body_color_1">
+            <a className="navbar-brand h1" href="/">
+                GENCARE
             </a>
             <nav className='nav flex-column sidebar-nav mb-2 mt-2'>
                 <div className='mb-2 mt-2 tab_content_1'>
@@ -82,7 +98,7 @@ function Dashboard() {
                         <div className="card-body">
                             <h5 className="card-title">Book Appointment</h5>
                             <p className="card-text text-center">Schedule a new appointment for testing.</p>
-                            <a href="/dashboard" className="btn btn-primary">Book Now</a>
+                            <a href="/dashboard" className="btn btn-primary">Check Now</a>
                         </div>
                     </div>
                 </div>
