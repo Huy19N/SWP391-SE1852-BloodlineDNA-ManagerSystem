@@ -162,6 +162,21 @@ CREATE TABLE VerifyEmail (
     ExpiredAt DATETIME,
     [Key] NVARCHAR(255)
 );
+
+-- Bảng Patient
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY IDENTITY(1,1),
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+    FullName NVARCHAR(200),
+    BirthDate DATE,
+    Gender NVARCHAR(10), -- 'Nam', 'Nữ'
+    IdentifyID NVARCHAR(50),
+    SampleType NVARCHAR(200), -- 'Niêm mạc miệng; Máu'...
+    HasTestedDNA BIT,
+    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
+);
+
+
 ----------------------------------------------------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES
 (1, N'Customer'),
