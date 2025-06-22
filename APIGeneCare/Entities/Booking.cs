@@ -1,6 +1,7 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-namespace APIGeneCare.Data;
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Entities;
 
 public partial class Booking
 {
@@ -23,6 +24,8 @@ public partial class Booking
     public virtual Duration? Duration { get; set; }
 
     public virtual CollectionMethod? Method { get; set; }
+
+    public virtual ICollection<Patient> Patients { get; set; } = new List<Patient>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 

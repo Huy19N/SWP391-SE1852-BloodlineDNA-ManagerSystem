@@ -1,6 +1,7 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-namespace APIGeneCare.Data;
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Entities;
 
 public partial class User
 {
@@ -9,6 +10,8 @@ public partial class User
     public int? RoleId { get; set; }
 
     public string? FullName { get; set; }
+
+    public int? IdentifyId { get; set; }
 
     public string? Address { get; set; }
 
