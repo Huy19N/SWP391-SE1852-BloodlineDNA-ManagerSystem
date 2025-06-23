@@ -97,8 +97,10 @@ function Booking() {
 
     // Không gọi API, chỉ mô phỏng gửi thành công
     console.log("Thông tin đã nhập:", formData);
-    toast.success("Đăng ký thành công!");
+    toast.success("Đăng ký thành công !");
+    setTimeout(() => {
     navigate('/');
+    }, 2000);
   };
 
   return (
@@ -155,7 +157,7 @@ function Booking() {
     </div>
   );
 }
-//chạy Section
+
 const Section = ({ title, children }) => (
   <div>
     <div className="d-flex align-items-center mb-5">
