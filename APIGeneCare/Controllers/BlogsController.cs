@@ -3,6 +3,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace APIGeneCare.Controllers
         public BlogsController(IBlogRepository blogRepository) => _blogRepository = blogRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Blog>>> GetAllBlogsPaging(
+        public async Task<IActionResult> GetAllBlogsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -30,14 +31,14 @@ namespace APIGeneCare.Controllers
                     return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Get all blog failed",
+                        Message = "Get all blog paging failed",
                         Data = null
                     });
                 }
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Get all blog success",
+                    Message = "Get all blog paging success",
                     Data = blogs
                 });
 
@@ -49,7 +50,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Blog>> GetBlogById(int id)
+        public async Task<IActionResult> GetBlogById(int id)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateBlog(BlogDTO blog)
+        public IActionResult CreateBlog(BlogDTO blog)
         {
             try
             {
@@ -101,7 +102,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateBlog(Blog blog)
+        public IActionResult UpdateBlog(BlogDTO blog)
         {
             try
             {
@@ -122,7 +123,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpDelete("DeleteById/{id}")]
-        public ActionResult DeleteBlogById(int id)
+        public IActionResult DeleteBlogById(int id)
         {
             try
             {

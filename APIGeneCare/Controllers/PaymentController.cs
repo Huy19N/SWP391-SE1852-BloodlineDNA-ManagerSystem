@@ -15,7 +15,7 @@ namespace APIGeneCare.Controllers
         public PaymentController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
 
         [HttpGet("GetALl")]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetAllPayments()
+        public async Task<IActionResult> GetAllPayments()
         {
             try
             {

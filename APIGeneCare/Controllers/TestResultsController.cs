@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace APIGeneCare.Controllers
         public TestResultsController(ITestResultRepository testResultRepository) => _testResultRepository = testResultRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<TestResultDTO>>> GetAllTestResultPaging(
+        public async Task<IActionResult> GetAllTestResultPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -35,9 +36,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving TestResults:{ex.Message}");
             }
         }
-
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TestResultDTO>> GetTestResult(int id)
+        public async Task<IActionResult> GetTestResult(int id)
         {
             try
             {

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,10 @@ namespace APIGeneCare.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        public UsersController(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+        public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ApiResponse>> Validate(LoginModel model)
+        public async Task<IActionResult> Validate(LoginModel model)
         {
 
             try
@@ -89,11 +87,10 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating user: {ex.Message}");
             }
         }
-
         // GET: api/Users
         //Retrieves a list of all users.
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersPaging(
+        public async Task<IActionResult> GetAllUsersPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -155,7 +152,7 @@ namespace APIGeneCare.Controllers
         // GET: api/Users/id
         //Retrieves a specific user by ID.
         [HttpGet("getbyid/{id}")]
-        public async Task<ActionResult<UserDTO>> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
@@ -181,9 +178,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by id: {ex.Message}");
             }
         }
-
         [HttpGet("getbyemail/{email}")]
-        public async Task<ActionResult<UserDTO>> GetUserByEmail(string? email)
+        public async Task<IActionResult> GetUserByEmail(string? email)
         {
             try
             {
@@ -210,20 +206,11 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving user by email: {ex.Message}");
             }
         }
-
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
-        public ActionResult UpdateUser(int id, UserDTO user)
+        public ActionResult UpdateUser(UserDTO user)
         {
-            if (id != user.UserId)
-                return BadRequest(new ApiResponse
-                {
-                    Success = false,
-                    Message = "What are you doing?",
-                    Data = null
-                });
-
             try
             {
                 var isUpdate = _userRepository.UpdateUser(user);
@@ -242,7 +229,6 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating user: {ex.Message}");
             }
         }
-
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
         [HttpDelete("DeleteById/{id}")]
@@ -270,6 +256,5 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting user: {ex.Message}");
             }
         }
-
     }
 }

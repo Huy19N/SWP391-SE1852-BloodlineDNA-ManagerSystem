@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly ITestStepRepository _testStepRepository;
         public TestStepController(ITestStepRepository testStepRepository) => _testStepRepository = testStepRepository;
+        
         [HttpGet("getAllTestSteps")]
         public async Task<IActionResult> GetAllTestSteps()
         {
@@ -68,7 +70,6 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving test step by id: {ex.Message}");
             }
         }
-
         [HttpPost("Create")]
         public ActionResult CreateUser(TestStepDTO testStep)
         {

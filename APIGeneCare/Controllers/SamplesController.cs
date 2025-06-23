@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace APIGeneCare.Controllers
         public SamplesController(ISampleRepository sampleRepository) => _sampleRepository = sampleRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<SampleDTO>>> GetAllSamplesPaging(
+        public async Task<IActionResult> GetAllSamplesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -49,7 +50,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<SampleDTO>> GetSampleById(int id)
+        public async Task<IActionResult> GetSampleById(int id)
         {
             try
             {

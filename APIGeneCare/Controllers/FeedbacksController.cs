@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +14,9 @@ namespace APIGeneCare.Controllers
     {
         private readonly IFeedbackRepository _feedbackRepository;
         public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
+        
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<FeedbackDTO>>> GetAllFeedbacksPaging(
+        public async Task<IActionResult> GetAllFeedbacksPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -28,14 +30,14 @@ namespace APIGeneCare.Controllers
                     return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Get all feedback failed",
+                        Message = "Get all feedback paging failed",
                         Data = null
                     });
                 }
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Get all feedback success",
+                    Message = "Get all feedback paging success",
                     Data = feedbacks
                 });
 
@@ -47,7 +49,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<FeedbackDTO>> GetFeedbackById(int id)
+        public async Task<IActionResult> GetFeedbackById(int id)
         {
             try
             {
