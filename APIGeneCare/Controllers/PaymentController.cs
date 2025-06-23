@@ -2,8 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 
 namespace APIGeneCare.Controllers
 {
@@ -88,5 +90,32 @@ namespace APIGeneCare.Controllers
 
             }
         }
+
+        [HttpGet]
+        public IActionResult PaymentCallbackVnpay()
+        {
+            var response = _paymentRepository.PaymentExecute(Request.Query);
+
+
+            return Ok(new ApiResponse {
+                Success = true,
+                Message = "payment success",
+                Data = response
+
+            }); 
+        }
+        [HttpPost]
+        public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
+        {
+            var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Please redirect this link",
+                Data = url
+            });
+        }
+
     }
 }
