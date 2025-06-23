@@ -15,5 +15,4 @@ public partial class PaymentDTO
     public string? PaymentMethod { get; set; }
 
     public string? Status { get; set; }
-
 }

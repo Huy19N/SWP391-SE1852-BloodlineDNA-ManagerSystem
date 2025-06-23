@@ -12,7 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public TestResultRepository(GeneCareContext context) => _context = context;
-        public bool CreateTestResults(TestResult testResult)
+        public bool CreateTestResults(TestResultDTO testResult)
         {
             if (testResult == null)
             {
@@ -54,7 +54,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<TestResult> GetAllTestResultsPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<TestResultDTO> GetAllTestResultsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestResults = _context.TestResults.AsQueryable();
             #region Search by Type
@@ -126,9 +126,9 @@ namespace APIGeneCare.Repository
             }
             #endregion
 
-            var result = PaginatedList<TestResult>.Create(allTestResults, page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<TestResultDTO>.Create(allTestResults, page ?? 1, PAGE_SIZE);
 
-            return result.Select(tr => new TestResult
+            return result.Select(tr => new TestResultDTO
             {
                 ResultId = tr.ResultId,
                 BookingId = tr.BookingId,
@@ -136,9 +136,9 @@ namespace APIGeneCare.Repository
                 ResultSummary = tr.ResultSummary,
             });
         }
-        public TestResult? GetTestResultsById(int id)
+        public TestResultDTO? GetTestResultsById(int id)
             => _context.TestResults.Find(id);
-        public bool UpdateTestResults(TestResult testResult)
+        public bool UpdateTestResults(TestResultDTO testResult)
         {
             if (testResult == null)
             {

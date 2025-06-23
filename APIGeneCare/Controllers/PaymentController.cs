@@ -1,10 +1,9 @@
-﻿using APIGeneCare.Entities;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Entities;
 using APIGeneCare.Model;
-using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace APIGeneCare.Controllers
 {
@@ -13,7 +12,7 @@ namespace APIGeneCare.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentRepository _paymentRepository;
-        public PaymentController (IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
+        public PaymentController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
 
         [HttpGet("GetALl")]
         public async Task<ActionResult<IEnumerable<Payment>>> GetAllPayments()
@@ -83,7 +82,7 @@ namespace APIGeneCare.Controllers
                 });
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving sum amount: {ex.Message}");
 

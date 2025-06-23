@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 namespace APIGeneCare.Model.DTO;
 
-public partial class TestResult
+public partial class TestResultDTO
 {
     public int ResultId { get; set; }
 

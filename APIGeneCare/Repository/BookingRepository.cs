@@ -2,7 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace APIGeneCare.Repository
@@ -12,50 +14,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public BookingRepository(GeneCareContext context) => _context = context;
-        public bool CreateBooking(Booking booking)
-        {
-            if (booking == null)
-            {
-                return false;
-            }
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Bookings.Add(booking);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public bool DeleteBookingById(int id)
-        {
-            var booking = _context.Bookings.Find(id);
-            if (booking == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Bookings.Remove(booking);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public IEnumerable<Booking> GetAllBookingsPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<BookingDTO> GetAllBookingsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allBooking = _context.Bookings.AsQueryable();
             #region Search by type
@@ -136,22 +95,72 @@ namespace APIGeneCare.Repository
 
             var result = PaginatedList<Booking>.Create(allBooking, page ?? 1, PAGE_SIZE);
 
-            return result.Select(b => new Booking
+            return result.Select(b => new BookingDTO
             {
                 BookingId = b.BookingId,
                 UserId = b.UserId,
                 DurationId = b.DurationId,
                 ServiceId = b.ServiceId,
-                Status = b.Status,
-                Method = b.Method,
-                Date = b.Date
+                MethodId = b.MethodId,
+                AppointmentTime = b.AppointmentTime,
+                StatusId = b.StatusId,
+                Date = b.Date,
             });
         }
-        public IEnumerable<Booking> GetAllBookings()
-            => _context.Bookings.ToList();
-        public Booking? GetBookingById(int id)
-            => _context.Bookings.Find(id);
-        public bool UpdateBooking(Booking booking)
+        public IEnumerable<BookingDTO> GetAllBookings()
+            => _context.Bookings.Select(b => new BookingDTO
+            {
+                BookingId = b.BookingId,
+                UserId = b.UserId,
+                DurationId = b.DurationId,
+                ServiceId = b.ServiceId,
+                MethodId = b.MethodId,
+                AppointmentTime = b.AppointmentTime,
+                StatusId = b.StatusId,
+                Date = b.Date,
+            }).ToList();
+        public BookingDTO? GetBookingById(int id)
+            => _context.Bookings.Select(b => new BookingDTO
+            {
+                BookingId = b.BookingId,
+                UserId = b.UserId,
+                DurationId = b.DurationId,
+                ServiceId = b.ServiceId,
+                MethodId = b.MethodId,
+                AppointmentTime = b.AppointmentTime,
+                StatusId = b.StatusId,
+                Date = b.Date,
+            }).FirstOrDefault(b => b.BookingId == id);
+        public bool CreateBooking(BookingDTO booking)
+        {
+            if (booking == null)
+            {
+                return false;
+            }
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Bookings.Add(new Booking
+                {
+                    UserId = booking.UserId,
+                    DurationId = booking.DurationId,
+                    ServiceId = booking.ServiceId,
+                    MethodId = booking.MethodId,
+                    AppointmentTime = booking.AppointmentTime,
+                    StatusId = booking.StatusId,
+                    Date = booking.Date,
+                });
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateBooking(BookingDTO booking)
         {
             if (booking == null)
             {
@@ -168,8 +177,8 @@ namespace APIGeneCare.Repository
                 existingBooking.UserId = booking.UserId;
                 existingBooking.DurationId = booking.DurationId;
                 existingBooking.ServiceId = booking.ServiceId;
-                existingBooking.Status = booking.Status;
-                existingBooking.Method = booking.Method;
+                existingBooking.StatusId = booking.StatusId;
+                existingBooking.MethodId = booking.MethodId;
                 existingBooking.Date = booking.Date;
 
                 _context.SaveChanges();
@@ -181,6 +190,26 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 return false;
 
+            }
+        }
+        public bool DeleteBookingById(int id)
+        {
+            var booking = _context.Bookings.Find(id);
+            if (booking == null) return false;
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Bookings.Remove(booking);
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
             }
         }
     }

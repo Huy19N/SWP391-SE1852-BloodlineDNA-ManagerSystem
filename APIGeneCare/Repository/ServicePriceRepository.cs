@@ -11,7 +11,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public ServicePriceRepository(GeneCareContext context) => _context = context;
-        public bool CreateServicePrice(ServicePrice servicePrice)
+        public bool CreateServicePrice(ServicePriceDTO servicePrice)
         {
             if (servicePrice == null) return false;
 
@@ -49,7 +49,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<ServicePrice> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<ServicePriceDTO> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServicePrices = _context.ServicePrices.AsQueryable();
             #region Search by type
@@ -117,8 +117,8 @@ namespace APIGeneCare.Repository
 
             }
             #endregion
-            var result = PaginatedList<ServicePrice>.Create(allServicePrices, page ?? 1, PAGE_SIZE);
-            return result.Select(sp => new ServicePrice
+            var result = PaginatedList<ServicePriceDTO>.Create(allServicePrices, page ?? 1, PAGE_SIZE);
+            return result.Select(sp => new ServicePriceDTO
             {
                 PriceId = sp.PriceId,
                 ServiceId = sp.ServiceId,
@@ -126,9 +126,9 @@ namespace APIGeneCare.Repository
                 Price = sp.Price,
             });
         }
-        public ServicePrice? GetServicePriceById(int id)
+        public ServicePriceDTO? GetServicePriceById(int id)
             => _context.ServicePrices.Find(id);
-        public bool UpdateServicePrice(ServicePrice servicePrice)
+        public bool UpdateServicePrice(ServicePriceDTO servicePrice)
         {
             if (servicePrice == null)
             {

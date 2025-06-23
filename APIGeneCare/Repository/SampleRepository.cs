@@ -11,7 +11,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public SampleRepository(GeneCareContext context) => _context = context;
-        public bool CreateSample(Sample sample)
+        public bool CreateSample(SampleDTO sample)
         {
             if (sample == null)
             {
@@ -51,7 +51,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<Sample> GetAllSamplesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<SampleDTO> GetAllSamplesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allSamples = _context.Samples.AsQueryable();
             #region Search by type
@@ -119,8 +119,8 @@ namespace APIGeneCare.Repository
                     allSamples = allSamples.OrderByDescending(s => s.Status);
             }
             #endregion
-            var result = PaginatedList<Sample>.Create(allSamples, page ?? 1, PAGE_SIZE);
-            return result.Select(s => new Sample
+            var result = PaginatedList<SampleDTO>.Create(allSamples, page ?? 1, PAGE_SIZE);
+            return result.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
                 BookingId = s.BookingId,
@@ -131,9 +131,9 @@ namespace APIGeneCare.Repository
                 Status = s.Status,
             });
         }
-        public Sample? GetSampleById(int id)
+        public SampleDTO? GetSampleById(int id)
             => _context.Samples.Find(id);
-        public bool UpdateSample(Sample sample)
+        public bool UpdateSample(SampleDTO sample)
         {
             if (sample == null)
             {

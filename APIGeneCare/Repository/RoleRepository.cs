@@ -11,10 +11,10 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public RoleRepository(GeneCareContext context) => _context = context;
-        public IEnumerable<Role> GetAllRoles()
-            => _context.Roles.OrderBy(r=> r.RoleId).ToList();
+        public IEnumerable<RoleDTO> GetAllRoles()
+            => _context.Roles.OrderBy(r => r.RoleId).ToList();
 
-        public IEnumerable<Role> GetAllRolesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<RoleDTO> GetAllRolesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allRoles = _context.Roles.AsQueryable();
             #region Search by type
@@ -51,16 +51,16 @@ namespace APIGeneCare.Repository
             }
             #endregion
 
-            var result = PaginatedList<Role>.Create(allRoles, page ?? 1, PAGE_SIZE);
-            return result.Select(r => new Role
+            var result = PaginatedList<RoleDTO>.Create(allRoles, page ?? 1, PAGE_SIZE);
+            return result.Select(r => new RoleDTO
             {
                 RoleId = r.RoleId,
                 RoleName = r.RoleName,
             });
         }
-        public Role? GetRoleById(int id)
+        public RoleDTO? GetRoleById(int id)
             => _context.Roles.Find(id);
-        public bool CreateRole(Role role)
+        public bool CreateRole(RoleDTO role)
         {
             if (role == null)
             {
@@ -80,7 +80,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool UpdateRole(Role role)
+        public bool UpdateRole(RoleDTO role)
         {
             if (role == null)
             {

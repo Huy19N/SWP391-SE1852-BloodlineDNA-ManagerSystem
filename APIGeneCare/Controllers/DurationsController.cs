@@ -15,7 +15,7 @@ namespace APIGeneCare.Controllers
         public DurationsController(IDurationRepository durationRepository) => _durationRepository = durationRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurationsPaging(
+        public async Task<ActionResult<IEnumerable<DurationDTO>>> GetAllDurationsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -48,7 +48,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Duration>> GetDurationById(int id)
+        public async Task<ActionResult<DurationDTO>> GetDurationById(int id)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateDuration(Duration duration)
+        public ActionResult CreateDuration(DurationDTO duration)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateDuration(Duration duration)
+        public ActionResult UpdateDuration(DurationDTO duration)
         {
             try
             {

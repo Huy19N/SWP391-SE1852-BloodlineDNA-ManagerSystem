@@ -14,7 +14,7 @@ namespace APIGeneCare.Controllers
         private readonly IFeedbackRepository _feedbackRepository;
         public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacksPaging(
+        public async Task<ActionResult<IEnumerable<FeedbackDTO>>> GetAllFeedbacksPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -47,7 +47,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Feedback>> GetFeedbackById(int id)
+        public async Task<ActionResult<FeedbackDTO>> GetFeedbackById(int id)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateFeedback(Feedback feedback)
+        public ActionResult CreateFeedback(FeedbackDTO feedback)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPut("Update")]
-        public ActionResult UpdateFeedback(Feedback feedback)
+        public ActionResult UpdateFeedback(FeedbackDTO feedback)
         {
             try
             {

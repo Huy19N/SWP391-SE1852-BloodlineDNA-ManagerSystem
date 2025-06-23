@@ -16,7 +16,7 @@ namespace APIGeneCare.Controllers
         public SamplesController(ISampleRepository sampleRepository) => _sampleRepository = sampleRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Sample>>> GetAllSamplesPaging(
+        public async Task<ActionResult<IEnumerable<SampleDTO>>> GetAllSamplesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -49,7 +49,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Sample>> GetSampleById(int id)
+        public async Task<ActionResult<SampleDTO>> GetSampleById(int id)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateSample(Sample sample)
+        public ActionResult CreateSample(SampleDTO sample)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateSample(Sample sample)
+        public ActionResult UpdateSample(SampleDTO sample)
         {
             try
             {

@@ -4,7 +4,6 @@ using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -63,7 +62,7 @@ namespace APIGeneCare.Controllers
                         Message = "The account having!"
                     });
                 }
-                var user = new User
+                var user = new UserDTO
                 {
                     Email = registerModel.Email,
                     Password = registerModel.Password,
@@ -94,7 +93,7 @@ namespace APIGeneCare.Controllers
         // GET: api/Users
         //Retrieves a list of all users.
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsersPaging(
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -156,7 +155,7 @@ namespace APIGeneCare.Controllers
         // GET: api/Users/id
         //Retrieves a specific user by ID.
         [HttpGet("getbyid/{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             try
             {
@@ -184,11 +183,11 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("getbyemail/{email}")]
-        public async Task<ActionResult<User>> GetUserByEmail(string? email)
+        public async Task<ActionResult<UserDTO>> GetUserByEmail(string? email)
         {
             try
             {
-                User user = await Task.Run(() => _userRepository.GetUserByEmail(email ?? null!)) ?? null!;
+                UserDTO user = await Task.Run(() => _userRepository.GetUserByEmail(email ?? null!)) ?? null!;
                 if (user == null)
                 {
                     return NotFound(new ApiResponse
@@ -215,7 +214,7 @@ namespace APIGeneCare.Controllers
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
-        public ActionResult UpdateUser(int id, User user)
+        public ActionResult UpdateUser(int id, UserDTO user)
         {
             if (id != user.UserId)
                 return BadRequest(new ApiResponse

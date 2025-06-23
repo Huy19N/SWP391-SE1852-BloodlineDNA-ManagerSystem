@@ -16,7 +16,7 @@ namespace APIGeneCare.Controllers
         public ServicePricesController(IServicePriceRepository servicePriceRepository) => _servicePriceRepository = servicePriceRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<ServicePrice>>> GetAllServicePricesPaging(
+        public async Task<ActionResult<IEnumerable<ServicePriceDTO>>> GetAllServicePricesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -52,7 +52,7 @@ namespace APIGeneCare.Controllers
 
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<User>> GetServicePriceById(int id)
+        public async Task<ActionResult<UserDTO>> GetServicePriceById(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateServicePrice(ServicePrice servicePrice)
+        public ActionResult CreateServicePrice(ServicePriceDTO servicePrice)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateUser(ServicePrice servicePrice)
+        public ActionResult UpdateUser(ServicePriceDTO servicePrice)
         {
             try
             {

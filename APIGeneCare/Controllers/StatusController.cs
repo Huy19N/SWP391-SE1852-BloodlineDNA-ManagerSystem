@@ -15,7 +15,7 @@ namespace APIGeneCare.Controllers
         public StatusController(IStatusRepository statusRepository) => _statusRepository = statusRepository;
 
         [HttpGet("GetAllStatus")]
-        public async Task<ActionResult<IEnumerable<Status>>> GetAllStatus()
+        public async Task<ActionResult<IEnumerable<StatusDTO>>> GetAllStatus()
         {
             try
             {
@@ -42,7 +42,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Status>> GetStatusById(int id)
+        public async Task<ActionResult<StatusDTO>> GetStatusById(int id)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult CreateStatus(Status status)
+        public ActionResult CreateStatus(StatusDTO status)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPut("Update")]
-        public ActionResult UpdateStatus(Status status)
+        public ActionResult UpdateStatus(StatusDTO status)
         {
             try
             {

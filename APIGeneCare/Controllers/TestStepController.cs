@@ -70,7 +70,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPost("Create")]
-        public ActionResult CreateUser(TestStep testStep)
+        public ActionResult CreateUser(TestStepDTO testStep)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace APIGeneCare.Controllers
         }
         [HttpPut("Update")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateTestStep(TestStep testStep)
+        public async Task<IActionResult> UpdateTestStep(TestStepDTO testStep)
         {
             try
             {

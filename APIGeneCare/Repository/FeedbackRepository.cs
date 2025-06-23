@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,49 +12,8 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public FeedbackRepository(GeneCareContext context) => _context = context;
-        public bool CreateFeedback(Feedback feedback)
-        {
-            if (feedback == null)
-            {
-                return false;
-            }
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Feedbacks.Add(feedback);
 
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-
-        }
-        public bool DeleteFeedbackById(int id)
-        {
-            var feedback = _context.Feedbacks.Find(id);
-            if (feedback == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Feedbacks.Remove(feedback);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public IEnumerable<Feedback> GetAllFeedbacksPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<FeedbackDTO> GetAllFeedbacksPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allFeedbacks = _context.Feedbacks.AsQueryable();
             #region Search by type
@@ -139,7 +99,7 @@ namespace APIGeneCare.Repository
             #endregion
 
             var result = PaginatedList<Feedback>.Create(allFeedbacks, page ?? 1, PAGE_SIZE);
-            return result.Select(f => new Feedback
+            return result.Select(f => new FeedbackDTO
             {
                 FeedbackId = f.FeedbackId,
                 UserId = f.UserId,
@@ -149,11 +109,60 @@ namespace APIGeneCare.Repository
                 Rating = f.Rating
             });
         }
+        public IEnumerable<FeedbackDTO> GetAllFeedbacks()
+            => _context.Feedbacks.Select(f => new FeedbackDTO {
+                FeedbackId = f.FeedbackId,
+                UserId = f.UserId,
+                ServiceId = f.ServiceId,
+                CreatedAt = f.CreatedAt,
+                Comment = f.Comment,
+                Rating = f.Rating
+            }).ToList();
+        public FeedbackDTO? GetFeedbackById(int id)
+            => _context.Feedbacks.Select(f => new FeedbackDTO
+            {
+                FeedbackId = f.FeedbackId,
+                UserId = f.UserId,
+                ServiceId = f.ServiceId,
+                CreatedAt = f.CreatedAt,
+                Comment = f.Comment,
+                Rating = f.Rating
+            }).SingleOrDefault(f => f.FeedbackId == id);
+        public bool CreateFeedback(FeedbackDTO feedback)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (feedback == null ||
+                    feedback.UserId == null ||
+                    feedback.ServiceId == null ||
+                    feedback.CreatedAt == null ||
+                    feedback.Rating == null)
+                {
+                    return false;
+                }
+                _context.Feedbacks.Add(new Feedback
+                {
+                    FeedbackId = feedback.FeedbackId,
+                    UserId = feedback.UserId,
+                    ServiceId = feedback.ServiceId,
+                    CreatedAt = feedback.CreatedAt,
+                    Comment = feedback.Comment,
+                    Rating = feedback.Rating
+                });
 
-        public Feedback? GetFeedbackById(int id)
-            => _context.Feedbacks.Find(id);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
 
-        public bool UpdateFeedback(Feedback feedback)
+        }
+        public bool UpdateFeedback(FeedbackDTO feedback)
         {
             if (feedback == null)
             {
@@ -174,6 +183,25 @@ namespace APIGeneCare.Repository
                 existingFeedback.CreatedAt = feedback.CreatedAt;
                 existingFeedback.Comment = feedback.Comment;
                 existingFeedback.Rating = feedback.Rating;
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool DeleteFeedbackById(int id)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var feedback = _context.Feedbacks.Find(id);
+                if (feedback == null) return false;
+                _context.Feedbacks.Remove(feedback);
 
                 _context.SaveChanges();
                 transaction.Commit();

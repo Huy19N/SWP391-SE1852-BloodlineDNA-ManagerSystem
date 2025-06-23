@@ -1,4 +1,6 @@
-﻿using APIGeneCare.Entities;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using APIGeneCare.Entities;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -6,6 +8,7 @@ namespace APIGeneCare.Repository
     public class PaymentRepository : IPaymentRepository
     {
         private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
         public PaymentRepository(GeneCareContext context) => _context = context;
         public IEnumerable<Payment> GetAllPayments()
             => _context.Payments.ToList();
@@ -49,11 +52,11 @@ namespace APIGeneCare.Repository
                                 p.PaymentDate.Value.Year == currentYear)
                     .Sum(p => p.Amount) ?? 0;
             }
-            catch 
+            catch
             {
                 return 0;
             }
         }
-            
+
     }
 }

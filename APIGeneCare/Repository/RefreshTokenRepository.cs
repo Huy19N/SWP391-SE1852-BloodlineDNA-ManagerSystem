@@ -7,7 +7,12 @@ namespace APIGeneCare.Repository
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
-        public bool CreateRefreshToken(RefreshToken refreshToken)
+        private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
+        public RefreshTokenRepository(GeneCareContext context) => _context = context;
+        
+
+        public bool CreateRefreshToken(RefreshTokenDTO refreshToken)
         {
             throw new NotImplementedException();
         }
@@ -17,17 +22,17 @@ namespace APIGeneCare.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<RefreshToken> GetAllRefreshTokensPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<RefreshTokenDTO> GetAllRefreshTokensPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
         }
 
-        public RefreshToken? GetRefreshTokenById(int id)
+        public RefreshTokenDTO? GetRefreshTokenById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdateRefreshToken(RefreshToken refreshToken)
+        public bool UpdateRefreshToken(RefreshTokenDTO refreshToken)
         {
             throw new NotImplementedException();
         }

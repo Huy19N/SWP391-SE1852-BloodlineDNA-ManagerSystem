@@ -19,5 +19,4 @@ public partial class BookingDTO
     public int? StatusId { get; set; }
 
     public DateTime? Date { get; set; }
-
 }

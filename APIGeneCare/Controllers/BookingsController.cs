@@ -4,7 +4,6 @@ using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -16,7 +15,7 @@ namespace APIGeneCare.Controllers
         public BookingsController(IBookingRepository bookingRepository) => _bookingRepository = bookingRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookingsPaging(
+        public async Task<ActionResult<IEnumerable<BookingDTO>>> GetAllBookingsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -48,7 +47,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings()
+        public async Task<ActionResult<IEnumerable<BookingDTO>>> GetAllBookings()
         {
             try
             {
@@ -77,7 +76,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Booking>> GetBookingById(int id)
+        public async Task<ActionResult<BookingDTO>> GetBookingById(int id)
         {
             try
             {
@@ -104,7 +103,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateBooking(Booking booking)
+        public ActionResult CreateBooking(BookingDTO booking)
         {
             try
             {
@@ -130,7 +129,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPut("Update")]
-        public ActionResult UpdateBooking(Booking booking)
+        public ActionResult UpdateBooking(BookingDTO booking)
         {
             try
             {

@@ -42,7 +42,7 @@ builder.Services.AddCors(options =>
 //
 
 
-builder.Services.AddDbContext<GeneCareContext>(opt =>
+builder.Services.AddDbContext<GeneCareContextDTO>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

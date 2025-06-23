@@ -2,19 +2,20 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 
 namespace APIGeneCare.Repository.Interface
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllUsersPaging(string? typeSearch, string? search, string? sortBy, int? page);
-        IEnumerable<User> GetAllUsers();
-        User? GetUserById(int id);
-        User? GetUserByEmail(string email);
-        bool CreateUser(User user);
-        bool UpdateUser(User user);
+        IEnumerable<UserDTO> GetAllUsersPaging(string? typeSearch, string? search, string? sortBy, int? page);
+        IEnumerable<UserDTO> GetAllUsers();
+        UserDTO? GetUserById(int id);
+        UserDTO? GetUserByEmail(string email);
+        bool CreateUser(UserDTO user);
+        bool UpdateUser(UserDTO user);
         bool DeleteUserById(int id);
-        User? Validate(LoginModel model);
-        TokenModel GenerateToken(User user);
+        UserDTO? Validate(LoginModel model);
+        TokenModel GenerateToken(UserDTO user);
     }
 }

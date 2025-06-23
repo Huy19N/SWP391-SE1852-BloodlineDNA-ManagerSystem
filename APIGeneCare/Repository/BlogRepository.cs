@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,48 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public BlogRepository(GeneCareContext context) => _context = context;
-        public bool CreateBlog(Blog blog)
-        {
-            if (blog == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-
-            try
-            {
-                _context.Blogs.Add(blog);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public bool DeleteBlogById(int id)
-        {
-            var blog = _context.Blogs.Find(id);
-            if (blog == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Blogs.Remove(blog);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public IEnumerable<Blog> GetAllBlogsPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<BlogDTO> GetAllBlogsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allBlogs = _context.Blogs.AsQueryable();
             #region Search by type
@@ -111,7 +71,7 @@ namespace APIGeneCare.Repository
             #endregion
 
             var result = PaginatedList<Blog>.Create(allBlogs, page ?? 1, PAGE_SIZE);
-            return result.Select(b => new Blog
+            return result.Select(b => new BlogDTO
             {
                 BlogId = b.BlogId,
                 UserId = b.UserId,
@@ -120,10 +80,48 @@ namespace APIGeneCare.Repository
                 CreatedAt = b.CreatedAt
             });
         }
-
-        public Blog? GetBlogById(int id)
-            => _context.Blogs.Find(id);
-        public bool UpdateBlog(Blog blog)
+        public IEnumerable<BlogDTO> GetAllBlogs()
+            => _context.Blogs.Select(b => new BlogDTO
+            {
+                BlogId = b.BlogId,
+                UserId = b.UserId,
+                Title = b.Title,
+                Content = b.Content,
+                CreatedAt = b.CreatedAt
+            }).ToList();
+        public BlogDTO? GetBlogById(int id)
+            => _context.Blogs.Select(b => new BlogDTO
+            {
+                BlogId = b.BlogId,
+                UserId = b.UserId,
+                Title = b.Title,
+                Content = b.Content,
+                CreatedAt = b.CreatedAt
+            }).FirstOrDefault(b => b.BlogId == id);
+        public bool CreateBlog(BlogDTO blog)
+        {
+            if (blog == null) return false;
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Blogs.Add(new Blog()
+                {
+                    Content = blog.Content,
+                    CreatedAt = DateTime.Now,
+                    Title = blog.Title,
+                    UserId = blog.UserId,
+                });
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateBlog(BlogDTO blog)
         {
             if (blog == null) return false;
             var existingBlog = _context.Blogs.Find(blog.BlogId);
@@ -137,6 +135,25 @@ namespace APIGeneCare.Repository
                 existingBlog.Content = blog.Content;
                 existingBlog.CreatedAt = blog.CreatedAt;
 
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool DeleteBlogById(int id)
+        {
+            var blog = _context.Blogs.Find(id);
+            if (blog == null) return false;
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Blogs.Remove(blog);
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

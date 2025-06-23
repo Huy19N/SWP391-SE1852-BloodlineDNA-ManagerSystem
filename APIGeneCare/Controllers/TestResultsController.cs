@@ -15,7 +15,7 @@ namespace APIGeneCare.Controllers
         public TestResultsController(ITestResultRepository testResultRepository) => _testResultRepository = testResultRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<TestResult>>> GetAllTestResultPaging(
+        public async Task<ActionResult<IEnumerable<TestResultDTO>>> GetAllTestResultPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -37,7 +37,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TestResult>> GetTestResult(int id)
+        public async Task<ActionResult<TestResultDTO>> GetTestResult(int id)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateTestResult(TestResult testResult)
+        public ActionResult CreateTestResult(TestResultDTO testResult)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace APIGeneCare.Controllers
 
         }
         [HttpPut("Update")]
-        public ActionResult UpdateTestResult(TestResult testResult)
+        public ActionResult UpdateTestResult(TestResultDTO testResult)
         {
             try
             {

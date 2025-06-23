@@ -17,7 +17,7 @@ namespace APIGeneCare.Controllers
             _testProcessRepository = testProcessRepository;
         }
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<TestProcess>>> GetAllTestProcessesPaging(
+        public async Task<ActionResult<IEnumerable<TestProcessDTO>>> GetAllTestProcessesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -53,7 +53,7 @@ namespace APIGeneCare.Controllers
 
         // GET: api/TestProcess/GetById/{id}
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TestProcess>> GetTestProcessById(int id)
+        public async Task<ActionResult<TestProcessDTO>> GetTestProcessById(int id)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace APIGeneCare.Controllers
 
         // POST: api/TestProcess/Create
         [HttpPost("Create")]
-        public ActionResult CreateTestProcess([FromBody] TestProcess testProcess)
+        public ActionResult CreateTestProcess([FromBody] TestProcessDTO testProcess)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace APIGeneCare.Controllers
 
         // PUT: api/TestProcess/Update
         [HttpPut("Update")]
-        public ActionResult UpdateTestProcess([FromBody] TestProcess testProcess)
+        public ActionResult UpdateTestProcess([FromBody] TestProcessDTO testProcess)
         {
             try
             {

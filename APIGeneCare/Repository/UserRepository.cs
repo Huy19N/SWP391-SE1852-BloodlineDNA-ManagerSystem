@@ -24,7 +24,7 @@ namespace APIGeneCare.Repository
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
         }
-        public TokenModel GenerateToken(User user)
+        public TokenModel GenerateToken(UserDTO user)
         {
             var jwtTokenHandler = new JsonWebTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
@@ -63,13 +63,13 @@ namespace APIGeneCare.Repository
                 return Convert.ToBase64String(random);
             }
         }
-        public User? Validate(LoginModel model)
+        public UserDTO? Validate(LoginModel model)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == model.Email &&
             u.Password == model.Password);
             return user;
         }
-        public Boolean CreateUser(User user)
+        public Boolean CreateUser(UserDTO user)
         {
             if (user == null)
             {
@@ -110,7 +110,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public IEnumerable<User> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
+        public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
         {
             var allUsers = _context.Users.AsQueryable();
 
@@ -175,9 +175,9 @@ namespace APIGeneCare.Repository
 
             #endregion
 
-            var result = PaginatedList<User>.Create(allUsers, page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<UserDTO>.Create(allUsers, page ?? 1, PAGE_SIZE);
 
-            return result.Select(u => new User
+            return result.Select(u => new UserDTO
             {
                 UserId = u.UserId,
                 RoleId = u.RoleId,
@@ -188,14 +188,14 @@ namespace APIGeneCare.Repository
             });
 
         }
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<UserDTO> GetAllUsers()
             => _context.Users.OrderBy(u => u.UserId).ToList();
 
-        public User? GetUserById(int id)
+        public UserDTO? GetUserById(int id)
             => _context.Users.FirstOrDefault(u => u.UserId == id);
-        public User? GetUserByEmail(string email)
+        public UserDTO? GetUserByEmail(string email)
             => _context.Users.SingleOrDefault(u => u.Email == email) ?? null!;
-        public bool UpdateUser(User user)
+        public bool UpdateUser(UserDTO user)
         {
             if (user == null)
             {
@@ -228,6 +228,6 @@ namespace APIGeneCare.Repository
             }
         }
 
-        
+
     }
 }

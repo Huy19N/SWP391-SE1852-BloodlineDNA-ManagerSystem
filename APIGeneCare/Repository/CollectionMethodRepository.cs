@@ -1,37 +1,103 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using System.Reflection.Metadata;
+using System.Transactions;
 
 namespace APIGeneCare.Repository
 {
     public class CollectionMethodRepository : ICollectionMethodRepository
     {
-        public bool CreateCollectionMethod(CollectionMethod collectionMethod)
+        private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
+        public CollectionMethodRepository(GeneCareContext context) => _context = context;
+
+        public IEnumerable<CollectionMethodDTO> GetAllCollectionMethodsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
         }
+        public IEnumerable<CollectionMethodDTO> GetAllCollectionMethods()
+            => _context.CollectionMethods.Select(cm => new CollectionMethodDTO
+            {
+                MethodId = cm.MethodId,
+                MethodName = cm.MethodName
+            }).ToList();
+        public CollectionMethodDTO? GetCollectionMethodById(int id)
+            => _context.CollectionMethods.Select(cm => new CollectionMethodDTO
+            {
+                MethodId = cm.MethodId,
+                MethodName = cm.MethodName
+            }).SingleOrDefault(cm => cm.MethodId == id);
+        public bool CreateCollectionMethod(CollectionMethodDTO collectionMethod)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if(collectionMethod == null ||
+                    String.IsNullOrWhiteSpace(collectionMethod.MethodName) )
+                    return false;
 
+                _context.CollectionMethods.Add(new CollectionMethod
+                {
+                    MethodName = collectionMethod.MethodName
+                });
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateCollectionMethod(CollectionMethodDTO collectionMethod)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (collectionMethod == null ||
+                    String.IsNullOrWhiteSpace(collectionMethod.MethodName))
+                    return false;
 
+                var existCollectionMethod = _context.CollectionMethods.Find(collectionMethod.MethodId);
+                if (existCollectionMethod == null)
+                    return false;
 
+                existCollectionMethod.MethodId = collectionMethod.MethodId;
+                existCollectionMethod.MethodName = collectionMethod.MethodName;
+                
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
         public bool DeleteCollectionMethodById(int id)
         {
-            throw new NotImplementedException();
-        }
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var collectionMethod = _context.CollectionMethods.Find(id);
+                if (collectionMethod == null) return false;
 
-        public IEnumerable<CollectionMethod> GetAllCollectionMethodsPaging(string? typeSearch, string? search, string? sortBy, int? page)
-        {
-            throw new NotImplementedException();
+                _context.CollectionMethods.Remove(collectionMethod);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
         }
-
-        public CollectionMethod? GetCollectionMethodById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateBlog(CollectionMethod collectionMethod)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

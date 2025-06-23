@@ -12,7 +12,7 @@ namespace APIGeneCare.Repository
         public static int PAGE_SIZE { get; set; } = 10;
         public TestProcessRepository(GeneCareContext context) => _context = context;
 
-        public IEnumerable<TestProcess> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<TestProcessDTO> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestProcess = _context.TestProcesses.AsQueryable();
             #region search by type
@@ -97,8 +97,8 @@ namespace APIGeneCare.Repository
             }
             #endregion
 
-            var result = PaginatedList<TestProcess>.Create(allTestProcess, page ?? 1, PAGE_SIZE);
-            return result.Select(tp => new TestProcess
+            var result = PaginatedList<TestProcessDTO>.Create(allTestProcess, page ?? 1, PAGE_SIZE);
+            return result.Select(tp => new TestProcessDTO
             {
                 ProcessId = tp.ProcessId,
                 BookingId = tp.BookingId,
@@ -108,14 +108,14 @@ namespace APIGeneCare.Repository
                 UpdatedAt = tp.UpdatedAt,
             });
         }
-        public IEnumerable<TestProcess> GetAllTestProcess()
+        public IEnumerable<TestProcessDTO> GetAllTestProcess()
         {
             throw new NotImplementedException();
         }
 
-        public TestProcess? GetTestProcessById(int id)
+        public TestProcessDTO? GetTestProcessById(int id)
             => _context.TestProcesses.Find(id);
-        public bool CreateTestProcess(TestProcess testProcess)
+        public bool CreateTestProcess(TestProcessDTO testProcess)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -154,7 +154,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool UpdateTestProcess(TestProcess testProcess)
+        public bool UpdateTestProcess(TestProcessDTO testProcess)
         {
             using var transaction = _context.Database.BeginTransaction();
             try

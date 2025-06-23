@@ -76,7 +76,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateBlog(Blog blog)
+        public ActionResult CreateBlog(BlogDTO blog)
         {
             try
             {

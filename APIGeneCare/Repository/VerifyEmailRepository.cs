@@ -9,8 +9,9 @@ namespace APIGeneCare.Repository
     public class VerifyEmailRepository : IVerifyEmailRepository
     {
         private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
         public VerifyEmailRepository(GeneCareContext context) => _context = context;
-        public bool CreateVerifyEmail(VerifyEmail verifyEmail)
+        public bool CreateVerifyEmail(VerifyEmailDTO verifyEmail)
         {
             if (verifyEmail == null) return false;
             if (_context.VerifyEmails.Find(verifyEmail.Email) != null) return false;
@@ -45,9 +46,9 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public VerifyEmail? GetVerifyEmailByEmail(string email)
+        public VerifyEmailDTO? GetVerifyEmailByEmail(string email)
             => _context.VerifyEmails.Find(email);
-        public bool UpdateVerifyEmail(VerifyEmail verifyEmail)
+        public bool UpdateVerifyEmail(VerifyEmailDTO verifyEmail)
         {
             if (verifyEmail == null) return false;
             var existVerifyEmail = GetVerifyEmailByEmail(verifyEmail.Email);
@@ -148,7 +149,7 @@ namespace APIGeneCare.Repository
                 var verifyEmail = GetVerifyEmailByEmail(email);
                 if (verifyEmail != null)
                 {
-                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
+                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmailDTO
                     {
                         Email = email,
                         CreatedAt = DateTime.Now,
@@ -158,7 +159,7 @@ namespace APIGeneCare.Repository
                 }
                 else
                 {
-                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
+                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmailDTO
                     {
                         Email = email,
                         CreatedAt = DateTime.Now,

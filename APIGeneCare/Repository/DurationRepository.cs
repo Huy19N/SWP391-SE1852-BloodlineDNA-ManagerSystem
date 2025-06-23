@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -10,53 +11,9 @@ namespace APIGeneCare.Repository
     {
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
-        public DurationRepository() => _context = new GeneCareContext();
         public DurationRepository(GeneCareContext context) => _context = context;
 
-        public bool CreateDuration(Duration duration)
-        {
-            if (duration == null)
-            {
-                return false;
-            }
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Durations.Add(duration);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public bool DeleteDurationById(int id)
-        {
-            var duration = _context.Durations.Find(id);
-            if (duration == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Durations.Remove(duration);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
-        public IEnumerable<Duration> GetAllDurationsPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<DurationDTO> GetAllDurationsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allDurations = _context.Durations.AsQueryable();
             #region Search by type
@@ -100,7 +57,7 @@ namespace APIGeneCare.Repository
             #endregion
 
             var result = PaginatedList<Duration>.Create(allDurations, page ?? 1, PAGE_SIZE);
-            return result.Select(d => new Duration
+            return result.Select(d => new DurationDTO
             {
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
@@ -108,24 +65,63 @@ namespace APIGeneCare.Repository
             });
 
         }
-
-        public Duration? GetDurationById(int id)
-            => _context.Durations.Find(id);
-
-        public bool UpdateDuration(Duration duration)
+        public IEnumerable<DurationDTO> GetAllDurations()
+            => _context.Durations.Select(d => new DurationDTO
+            {
+                DurationId = d.DurationId,
+                DurationName = d.DurationName,
+                Time = d.Time,
+            }).ToList();
+        public DurationDTO? GetDurationById(int id)
+            => _context.Durations.Select(d => new DurationDTO
+            {
+                DurationId = d.DurationId,
+                DurationName = d.DurationName,
+                Time = d.Time,
+            }).SingleOrDefault(d => d.DurationId == id);
+        public bool CreateDuration(DurationDTO duration)
         {
-            if (duration == null)
-            {
-                return false;
-            }
-            var existingDuration = _context.Durations.Find(duration.DurationId);
-            if (existingDuration == null)
-            {
-                return false;
-            }
+            
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (duration == null || String.IsNullOrWhiteSpace(duration.DurationName))
+                {
+                    return false;
+                }
+                _context.Durations.Add(new Duration
+                {
+                    DurationName = duration.DurationName,
+                    Time = duration.Time,
+                });
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateDuration(DurationDTO duration)
+        {
+            
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (duration == null ||
+                    String.IsNullOrWhiteSpace(duration.DurationName))
+                {
+                    return false;
+                }
+                var existingDuration = _context.Durations.Find(duration.DurationId);
+                if (existingDuration == null)
+                {
+                    return false;
+                }
+
                 existingDuration.DurationName = duration.DurationName;
                 existingDuration.Time = duration.Time;
 
@@ -139,10 +135,25 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Duration> GetAllDurations()
+        public bool DeleteDurationById(int id)
         {
-            throw new NotImplementedException();
+            
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var duration = _context.Durations.Find(id);
+                if (duration == null) return false;
+                _context.Durations.Remove(duration);
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
         }
     }
 }

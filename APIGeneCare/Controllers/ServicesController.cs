@@ -46,7 +46,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<User>> GetServiceById(int id)
+        public async Task<ActionResult<UserDTO>> GetServiceById(int id)
         {
             try
             {

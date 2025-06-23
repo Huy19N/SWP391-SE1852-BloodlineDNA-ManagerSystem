@@ -8,16 +8,17 @@ namespace APIGeneCare.Repository
     public class StatusRepository : IStatusRepository
     {
         private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
         public StatusRepository(GeneCareContext context) => _context = context;
-        public IEnumerable<Status> GetAllStatus()
+        public IEnumerable<StatusDTO> GetAllStatus()
             => _context.Statuses.ToList();
-        public IEnumerable<Status> GetAllStatusPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<StatusDTO> GetAllStatusPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             throw new NotImplementedException();
         }
-        public Status? GetStatusById(int id)
+        public StatusDTO? GetStatusById(int id)
             => _context.Statuses.Find(id);
-        public bool CreateStatus(Status status)
+        public bool CreateStatus(StatusDTO status)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -57,7 +58,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool UpdateStatus(Status status)
+        public bool UpdateStatus(StatusDTO status)
         {
             using var transaction = _context.Database.BeginTransaction();
             try

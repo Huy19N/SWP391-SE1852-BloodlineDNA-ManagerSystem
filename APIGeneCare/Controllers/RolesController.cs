@@ -4,7 +4,6 @@ using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -16,7 +15,7 @@ namespace APIGeneCare.Controllers
         public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Role>>> GetAllRolesPaging(
+        public async Task<ActionResult<IEnumerable<RoleDTO>>> GetAllRolesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -76,7 +75,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Role>> GetRoleById(int id)
+        public async Task<ActionResult<RoleDTO>> GetRoleById(int id)
         {
             try
             {
@@ -103,7 +102,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateRole(Role role)
+        public ActionResult CreateRole(RoleDTO role)
         {
             try
             {
@@ -128,7 +127,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateRole(Role role)
+        public ActionResult UpdateRole(RoleDTO role)
         {
             try
             {
