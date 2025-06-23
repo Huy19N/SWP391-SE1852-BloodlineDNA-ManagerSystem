@@ -66,17 +66,21 @@ namespace APIGeneCare.Repository
         }
         public UserDTO? Validate(LoginModel model)
         {
-            var user = _context.Users.Select(u => new UserDTO
+            var user = _context.Users
+                .SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+
+            if (user == null) return null;
+
+            return new UserDTO
             {
-                UserId = u.UserId,
-                RoleId = u.RoleId,
-                FullName = u.FullName,
-                Address = u.Address,
-                Email = u.Email,
-                Phone = u.Phone
-            }).SingleOrDefault(u => u.Email == model.Email &&
-            u.Password == model.Password);
-            return user;
+                UserId = user.UserId,
+                RoleId = user.RoleId,
+                FullName = user.FullName,
+                Address = user.Address,
+                Email = user.Email,
+                Phone = user.Phone,
+                Password = user.Password
+            };
         }
 
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
