@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace APIGeneCare.Controllers
             _testProcessRepository = testProcessRepository;
         }
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<TestProcess>>> GetAllTestProcessesPaging(
+        public async Task<IActionResult> GetAllTestProcessesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -50,10 +51,9 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while processing your request: {ex.Message}");
             }
         }
-
         // GET: api/TestProcess/GetById/{id}
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TestProcess>> GetTestProcessById(int id)
+        public async Task<IActionResult> GetTestProcessById(int id)
         {
             try
             {
@@ -81,10 +81,9 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while retrieving the Test Process: {ex.Message}");
             }
         }
-
         // POST: api/TestProcess/Create
         [HttpPost("Create")]
-        public ActionResult CreateTestProcess([FromBody] TestProcess testProcess)
+        public ActionResult CreateTestProcess(TestProcessDTO testProcess)
         {
             try
             {
@@ -109,10 +108,9 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while creating the Test Process: {ex.Message}");
             }
         }
-
         // PUT: api/TestProcess/Update
         [HttpPut("Update")]
-        public ActionResult UpdateTestProcess([FromBody] TestProcess testProcess)
+        public ActionResult UpdateTestProcess(TestProcessDTO testProcess)
         {
             try
             {

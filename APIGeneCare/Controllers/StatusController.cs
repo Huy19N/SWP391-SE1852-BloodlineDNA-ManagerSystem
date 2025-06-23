@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace APIGeneCare.Controllers
         public StatusController(IStatusRepository statusRepository) => _statusRepository = statusRepository;
 
         [HttpGet("GetAllStatus")]
-        public async Task<ActionResult<IEnumerable<Status>>> GetAllStatus()
+        public async Task<IActionResult> GetAllStatus()
         {
             try
             {
@@ -42,7 +43,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Status>> GetStatusById(int id)
+        public async Task<IActionResult> GetStatusById(int id)
         {
             try
             {
@@ -68,9 +69,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving status: {ex.Message}");
             }
         }
-
         [HttpPost("Create")]
-        public ActionResult CreateStatus(Status status)
+        public ActionResult CreateStatus(StatusDTO status)
         {
             try
             {
@@ -94,9 +94,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating status: {ex.Message}");
             }
         }
-
         [HttpPut("Update")]
-        public ActionResult UpdateStatus(Status status)
+        public ActionResult UpdateStatus(StatusDTO status)
         {
             try
             {
@@ -116,7 +115,6 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating status: {ex.Message}");
             }
         }
-
         [HttpDelete("DeleteById/{id}")]
         public ActionResult DeleteStatusById(int id)
         {

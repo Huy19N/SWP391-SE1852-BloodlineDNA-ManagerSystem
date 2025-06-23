@@ -10,9 +10,11 @@ public partial class UserDTO
 
     public string? FullName { get; set; }
 
+    public int? IdentifyId { get; set; }
+
     public string? Address { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public string? Phone { get; set; }
 

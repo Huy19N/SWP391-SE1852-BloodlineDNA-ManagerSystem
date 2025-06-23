@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace APIGeneCare.Controllers
         public DurationsController(IDurationRepository durationRepository) => _durationRepository = durationRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Duration>>> GetAllDurationsPaging(
+        public async Task<IActionResult> GetAllDurationsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -29,14 +30,14 @@ namespace APIGeneCare.Controllers
                     return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Get all duration failed",
+                        Message = "Get all duration paging failed",
                         Data = null
                     });
                 }
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Get all duration success",
+                    Message = "Get all duration paging success",
                     Data = durations
                 });
 
@@ -48,7 +49,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Duration>> GetDurationById(int id)
+        public async Task<IActionResult> GetDurationById(int id)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateDuration(Duration duration)
+        public ActionResult CreateDuration(DurationDTO duration)
         {
             try
             {
@@ -100,7 +101,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateDuration(Duration duration)
+        public ActionResult UpdateDuration(DurationDTO duration)
         {
             try
             {

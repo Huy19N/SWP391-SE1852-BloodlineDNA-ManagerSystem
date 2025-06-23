@@ -13,7 +13,7 @@ namespace APIGeneCare.Controllers
         private readonly IVerifyEmailRepository _verifyEmailRepository;
         public VerifyEmailController(IVerifyEmailRepository verifyEmailRepository) => _verifyEmailRepository = verifyEmailRepository;
         [HttpPost("sendVerifyEmail")]
-        public async Task<ActionResult<ApiResponse>> SendVerifyEmail(string email, string apiConfirmEmail)
+        public async Task<IActionResult> SendVerifyEmail(string email, string apiConfirmEmail)
         {
             try
             {

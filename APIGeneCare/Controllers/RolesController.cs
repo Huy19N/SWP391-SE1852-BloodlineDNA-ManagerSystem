@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -16,7 +16,7 @@ namespace APIGeneCare.Controllers
         public RolesController(IRoleRepository roleRepository) => _roleRepository = roleRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Role>>> GetAllRolesPaging(
+        public async Task<IActionResult> GetAllRolesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -76,7 +76,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Role>> GetRoleById(int id)
+        public async Task<IActionResult> GetRoleById(int id)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateRole(Role role)
+        public ActionResult CreateRole(RoleDTO role)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateRole(Role role)
+        public ActionResult UpdateRole(RoleDTO role)
         {
             try
             {

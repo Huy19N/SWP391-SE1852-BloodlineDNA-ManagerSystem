@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -12,7 +13,7 @@ namespace APIGeneCare.Repository
         public static int PAGE_SIZE { get; set; } = 10;
         public TestProcessRepository(GeneCareContext context) => _context = context;
 
-        public IEnumerable<TestProcess> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<TestProcessDTO> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allTestProcess = _context.TestProcesses.AsQueryable();
             #region search by type
@@ -98,7 +99,7 @@ namespace APIGeneCare.Repository
             #endregion
 
             var result = PaginatedList<TestProcess>.Create(allTestProcess, page ?? 1, PAGE_SIZE);
-            return result.Select(tp => new TestProcess
+            return result.Select(tp => new TestProcessDTO
             {
                 ProcessId = tp.ProcessId,
                 BookingId = tp.BookingId,
@@ -108,21 +109,41 @@ namespace APIGeneCare.Repository
                 UpdatedAt = tp.UpdatedAt,
             });
         }
-        public IEnumerable<TestProcess> GetAllTestProcess()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TestProcess? GetTestProcessById(int id)
-            => _context.TestProcesses.Find(id);
-        public bool CreateTestProcess(TestProcess testProcess)
+        public IEnumerable<TestProcessDTO> GetAllTestProcess()
+            => _context.TestProcesses.Select(tp => new TestProcessDTO
+            {
+                ProcessId = tp.ProcessId,
+                BookingId = tp.BookingId,
+                StepId = tp.StepId,
+                StatusId = tp.StatusId,
+                Description = tp.Description,
+                UpdatedAt = tp.UpdatedAt,
+            }).ToList();
+        public TestProcessDTO? GetTestProcessById(int id)
+            => _context.TestProcesses.Select(tp => new TestProcessDTO
+            {
+                ProcessId = tp.ProcessId,
+                BookingId = tp.BookingId,
+                StepId = tp.StepId,
+                StatusId = tp.StatusId,
+                Description = tp.Description,
+                UpdatedAt = tp.UpdatedAt
+            }).SingleOrDefault(tp => tp.ProcessId == id);
+        public bool CreateTestProcess(TestProcessDTO testProcess)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
             {
                 if (testProcess == null) return false;
                 if (_context.TestProcesses.Find(testProcess.ProcessId) != null) return false;
-                _context.TestProcesses.Add(testProcess);
+                _context.TestProcesses.Add(new TestProcess
+                {
+                    BookingId = testProcess.BookingId,
+                    StepId = testProcess.StepId,
+                    StatusId = testProcess.StatusId,
+                    Description = testProcess.Description,
+                    UpdatedAt = testProcess.UpdatedAt,
+                });
 
                 _context.SaveChanges();
                 transaction.Commit();
@@ -135,26 +156,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool DeleteTestProcessById(int id)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                var testProcess = GetTestProcessById(id);
-                if (testProcess == null) return false;
-
-                _context.TestProcesses.Remove(testProcess);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public bool UpdateTestProcess(TestProcess testProcess)
+        public bool UpdateTestProcess(TestProcessDTO testProcess)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -169,6 +171,25 @@ namespace APIGeneCare.Repository
                 existTestProcess.Description = testProcess.Description;
                 existTestProcess.UpdatedAt = testProcess.UpdatedAt;
 
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool DeleteTestProcessById(int id)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var testProcess = _context.TestProcesses.Find(id);
+                if (testProcess == null) return false;
+
+                _context.TestProcesses.Remove(testProcess);
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

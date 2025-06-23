@@ -17,5 +17,4 @@ public partial class SampleDTO
     public int? DeliveryMethodId { get; set; }
 
     public string? Status { get; set; }
-
 }

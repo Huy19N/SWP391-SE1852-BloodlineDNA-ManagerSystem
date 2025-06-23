@@ -11,5 +11,4 @@ public partial class ServicePriceDTO
     public int? DurationId { get; set; }
 
     public int? Price { get; set; }
-
 }

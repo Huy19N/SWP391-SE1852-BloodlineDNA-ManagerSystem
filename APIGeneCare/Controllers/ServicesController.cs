@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ namespace APIGeneCare.Controllers
         private readonly IServiceRepository _serviceRepository;
         public ServicesController(IServiceRepository serviceRepository) => _serviceRepository = serviceRepository;
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Service>>> GetAllServicesPaging(
+        public async Task<IActionResult> GetAllServicesPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -46,7 +47,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<User>> GetServiceById(int id)
+        public async Task<IActionResult> GetServiceById(int id)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateService(Service service)
+        public ActionResult CreateService(ServiceDTO service)
         {
             try
             {
@@ -98,7 +99,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateUser(Service service)
+        public ActionResult UpdateUser(ServiceDTO service)
         {
             try
             {

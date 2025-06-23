@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace APIGeneCare.Controllers
 {
@@ -16,7 +16,7 @@ namespace APIGeneCare.Controllers
         public BookingsController(IBookingRepository bookingRepository) => _bookingRepository = bookingRepository;
 
         [HttpGet("GetAllPaging")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookingsPaging(
+        public async Task<IActionResult> GetAllBookingsPaging(
             [FromQuery] string? typeSearch,
             [FromQuery] string? search,
             [FromQuery] string? sortBy,
@@ -30,14 +30,14 @@ namespace APIGeneCare.Controllers
                     return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Get all booking failed",
+                        Message = "Get all booking paging failed",
                         Data = null
                     });
                 }
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Get all booking success",
+                    Message = "Get all booking paging success",
                     Data = bookings
                 });
 
@@ -48,7 +48,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetAllBookings()
+        public async Task<IActionResult> GetAllBookings()
         {
             try
             {
@@ -77,7 +77,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Booking>> GetBookingById(int id)
+        public async Task<IActionResult> GetBookingById(int id)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateBooking(Booking booking)
+        public ActionResult CreateBooking(BookingDTO booking)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPut("Update")]
-        public ActionResult UpdateBooking(Booking booking)
+        public ActionResult UpdateBooking(BookingDTO booking)
         {
             try
             {

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -9,6 +10,7 @@ namespace APIGeneCare.Repository
     public class VerifyEmailRepository : IVerifyEmailRepository
     {
         private readonly GeneCareContext _context;
+        public static int PAGE_SIZE { get; set; } = 10;
         public VerifyEmailRepository(GeneCareContext context) => _context = context;
         public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {

@@ -9,5 +9,4 @@ public partial class DurationDTO
     public string? DurationName { get; set; }
 
     public TimeOnly? Time { get; set; }
-
 }

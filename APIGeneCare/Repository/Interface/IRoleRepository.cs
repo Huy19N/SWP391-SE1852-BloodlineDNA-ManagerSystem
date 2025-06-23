@@ -1,16 +1,17 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
+using APIGeneCare.Model.DTO;
 
 namespace APIGeneCare.Repository.Interface
 {
     public interface IRoleRepository
     {
-        IEnumerable<Role> GetAllRolesPaging(string? typeSearch, string? search, string? sortBy, int? page);
-        IEnumerable<Role> GetAllRoles();
-        Role? GetRoleById(int id);
-        bool CreateRole(Role role);
-        bool UpdateRole(Role role);
+        IEnumerable<RoleDTO> GetAllRolesPaging(string? typeSearch, string? search, string? sortBy, int? page);
+        IEnumerable<RoleDTO> GetAllRoles();
+        RoleDTO? GetRoleById(int id);
+        bool CreateRole(RoleDTO role);
+        bool UpdateRole(RoleDTO role);
         bool DeleteRoleById(int id);
     }
 }

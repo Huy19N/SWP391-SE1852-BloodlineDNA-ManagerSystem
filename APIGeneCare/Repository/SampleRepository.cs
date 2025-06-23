@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,47 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public SampleRepository(GeneCareContext context) => _context = context;
-        public bool CreateSample(Sample sample)
-        {
-            if (sample == null)
-            {
-                return false;
-            }
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Samples.Add(sample);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public bool DeleteSampleById(int id)
-        {
-            var Sample = _context.Samples.Find(id);
-            if (Sample == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Samples.Remove(Sample);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public IEnumerable<Sample> GetAllSamplesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<SampleDTO> GetAllSamplesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allSamples = _context.Samples.AsQueryable();
             #region Search by type
@@ -120,20 +81,58 @@ namespace APIGeneCare.Repository
             }
             #endregion
             var result = PaginatedList<Sample>.Create(allSamples, page ?? 1, PAGE_SIZE);
-            return result.Select(s => new Sample
+            return result.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
                 BookingId = s.BookingId,
                 Date = s.Date,
                 SampleVariant = s.SampleVariant,
                 CollectBy = s.CollectBy,
-                DeliveryMethod = s.DeliveryMethod,
+                DeliveryMethodId = s.DeliveryMethodId,
                 Status = s.Status,
             });
         }
-        public Sample? GetSampleById(int id)
-            => _context.Samples.Find(id);
-        public bool UpdateSample(Sample sample)
+        public SampleDTO? GetSampleById(int id)
+            => _context.Samples.Select(s => new SampleDTO
+            {
+                SampleId = s.SampleId,
+                BookingId = s.BookingId,
+                Date = s.Date,
+                SampleVariant = s.SampleVariant,
+                CollectBy = s.CollectBy,
+                DeliveryMethodId = s.DeliveryMethodId,
+                Status = s.Status,
+            }).SingleOrDefault(s => s.SampleId == id);
+        public bool CreateSample(SampleDTO sample)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (sample == null)
+                {
+                    return false;
+                }
+                _context.Samples.Add(new Sample
+                {
+                    BookingId = sample.BookingId,
+                    Date = sample.Date,
+                    SampleVariant = sample.SampleVariant,
+                    CollectBy = sample.CollectBy,
+                    DeliveryMethodId = sample.DeliveryMethodId,
+                    Status = sample.Status
+                });
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateSample(SampleDTO sample)
         {
             if (sample == null)
             {
@@ -153,7 +152,7 @@ namespace APIGeneCare.Repository
                 existingSample.Date = sample.Date;
                 existingSample.SampleVariant = sample.SampleVariant;
                 existingSample.CollectBy = sample.CollectBy;
-                existingSample.DeliveryMethod = sample.DeliveryMethod;
+                existingSample.DeliveryMethodId = sample.DeliveryMethodId;
                 existingSample.Status = sample.Status;
 
                 _context.SaveChanges();
@@ -165,6 +164,25 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 return false;
 
+            }
+        }
+        public bool DeleteSampleById(int id)
+        {
+            var Sample = _context.Samples.Find(id);
+            if (Sample == null) return false;
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Samples.Remove(Sample);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
             }
         }
     }

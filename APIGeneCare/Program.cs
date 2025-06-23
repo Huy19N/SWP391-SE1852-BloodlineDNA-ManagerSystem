@@ -48,18 +48,24 @@ builder.Services.AddDbContext<GeneCareContext>(opt =>
 });
 
 #region addSingLeton, addScoped, addTransient
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<IServicePriceRepository, ServicePriceRepository>();
-builder.Services.AddScoped<ISampleRepository, SampleRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IDurationRepository, DurationRepository>();
-builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
-builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<ICollectionMethodRepository, CollectionMethodRepository>();
+builder.Services.AddScoped<IDurationRepository, DurationRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ISampleRepository, SampleRepository>();
+builder.Services.AddScoped<IServicePriceRepository, ServicePriceRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<ITestProcessRepository, TestProcessRepository>();
+builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
+builder.Services.AddScoped<ITestStepRepository, TestStepRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
 #endregion
 
 var secretKey = builder.Configuration["AppSettings:SecretKey"];

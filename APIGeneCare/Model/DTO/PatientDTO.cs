@@ -1,8 +1,8 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-namespace APIGeneCare.Entities;
+namespace APIGeneCare.Model.DTO;
 
-public partial class Patient
+public partial class PatientDTO
 {
     public int PatientId { get; set; }
 
@@ -21,6 +21,4 @@ public partial class Patient
     public bool? HasTestedDna { get; set; }
 
     public string? Relationship { get; set; }
-
-    public virtual Booking? Booking { get; set; }
 }
