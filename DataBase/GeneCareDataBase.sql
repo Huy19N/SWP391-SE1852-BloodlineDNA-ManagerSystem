@@ -100,11 +100,11 @@ CREATE TABLE TestProcess (
 -- Bảng Feedback
 CREATE TABLE Feedback (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
-    CreatedAt DATETIME,
+    UserID INT FOREIGN KEY REFERENCES Users(UserID) NOT NULL,
+    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID) NOT NULL,
+    CreatedAt DATETIME NOT NULL,
     Comment NVARCHAR(MAX),
-    Rating INT
+    Rating INT NOT NULL
 );
 
 -- Bảng TestResult
@@ -115,10 +115,24 @@ CREATE TABLE TestResult (
     ResultSummary NVARCHAR(MAX)
 );
 
+-- Bảng Patient
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY IDENTITY(1,1), 
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+    FullName NVARCHAR(200) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
+    IdentifyID NVARCHAR(50),
+    SampleType NVARCHAR(200) NOT NULL, -- 'Niêm mạc miệng; Máu'...
+    HasTestedDNA BIT NOT NULL,
+    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
+);
+
 -- Bảng Samples
 CREATE TABLE Samples (
     SampleID INT PRIMARY KEY IDENTITY(1,1),
     BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+	PatientID INT FOREIGN KEY REFERENCES Patient(PatientID),
     [Date] DATETIME,
     SampleVariant NVARCHAR(200),
     CollectBy INT FOREIGN KEY REFERENCES Users(UserID),
@@ -161,19 +175,6 @@ CREATE TABLE VerifyEmail (
     CreatedAt DATETIME,
     ExpiredAt DATETIME,
     [Key] NVARCHAR(255)
-);
-
--- Bảng Patient
-CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    FullName NVARCHAR(200),
-    BirthDate DATE,
-    Gender NVARCHAR(10), -- 'Nam', 'Nữ'
-    IdentifyID NVARCHAR(50),
-    SampleType NVARCHAR(200), -- 'Niêm mạc miệng; Máu'...
-    HasTestedDNA BIT,
-    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
 );
 
 
