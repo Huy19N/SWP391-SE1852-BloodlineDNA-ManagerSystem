@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -17,7 +18,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         private readonly AppSettings _appSettings;
-
+        
         public UserRepository(GeneCareContext context,
             IOptionsMonitor<AppSettings> optionsMonitor)
         {
@@ -65,51 +66,19 @@ namespace APIGeneCare.Repository
         }
         public UserDTO? Validate(LoginModel model)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email &&
+            var user = _context.Users.Select(u => new UserDTO
+            {
+                UserId = u.UserId,
+                RoleId = u.RoleId,
+                FullName = u.FullName,
+                Address = u.Address,
+                Email = u.Email,
+                Phone = u.Phone
+            }).SingleOrDefault(u => u.Email == model.Email &&
             u.Password == model.Password);
             return user;
         }
-        public Boolean CreateUser(UserDTO user)
-        {
-            if (user == null)
-            {
-                return false;
-            }
 
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public bool DeleteUserById(int id)
-        {
-            var user = _context.Users.Find(id);
-            if (user == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Users.Remove(user);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
         {
             var allUsers = _context.Users.AsQueryable();
@@ -175,7 +144,7 @@ namespace APIGeneCare.Repository
 
             #endregion
 
-            var result = PaginatedList<UserDTO>.Create(allUsers, page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<User>.Create(allUsers, page ?? 1, PAGE_SIZE);
 
             return result.Select(u => new UserDTO
             {
@@ -189,12 +158,65 @@ namespace APIGeneCare.Repository
 
         }
         public IEnumerable<UserDTO> GetAllUsers()
-            => _context.Users.OrderBy(u => u.UserId).ToList();
-
+            => _context.Users.Select(u => new UserDTO
+            {
+                UserId = u.UserId,
+                RoleId = u.RoleId,
+                FullName = u.FullName,
+                Address = u.Address,
+                Email = u.Email,
+                Phone = u.Phone
+            }).OrderBy(u => u.UserId).ToList();
         public UserDTO? GetUserById(int id)
-            => _context.Users.FirstOrDefault(u => u.UserId == id);
+            => _context.Users.Select(u => new UserDTO
+            {
+                UserId = u.UserId,
+                RoleId = u.RoleId,
+                FullName = u.FullName,
+                Address = u.Address,
+                Email = u.Email,
+                Phone = u.Phone
+            }).SingleOrDefault(u => u.UserId == id);
         public UserDTO? GetUserByEmail(string email)
-            => _context.Users.SingleOrDefault(u => u.Email == email) ?? null!;
+            => _context.Users.Select(u => new UserDTO
+            {
+                UserId = u.UserId,
+                RoleId = u.RoleId,
+                FullName = u.FullName,
+                Address = u.Address,
+                Email = u.Email,
+                Phone = u.Phone
+            }).SingleOrDefault(u => u.Email == email) ?? null!;
+        public bool CreateUser(UserDTO user)
+        {
+            
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (user == null)
+                {
+                    return false;
+                }
+
+                _context.Users.Add(new User
+                {
+                    RoleId = user.RoleId,
+                    FullName = user.FullName,
+                    Address = user.Address,
+                    Email = user.Email,
+                    Phone = user.Phone
+                });
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
         public bool UpdateUser(UserDTO user)
         {
             if (user == null)
@@ -227,7 +249,25 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
+        public bool DeleteUserById(int id)
+        {
+            var user = _context.Users.Find(id);
+            if (user == null) return false;
 
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Users.Remove(user);
 
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
     }
 }

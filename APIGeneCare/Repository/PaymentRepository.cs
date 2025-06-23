@@ -1,6 +1,7 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -10,9 +11,16 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public PaymentRepository(GeneCareContext context) => _context = context;
-        public IEnumerable<Payment> GetAllPayments()
-            => _context.Payments.ToList();
-
+        public IEnumerable<PaymentDTO> GetAllPayments()
+            => _context.Payments.Select(p => new PaymentDTO
+            {
+                PaymentId = p.PaymentId,
+                BookingId = p.BookingId,
+                Amount = p.Amount,
+                PaymentDate = p.PaymentDate,
+                PaymentMethod = p.PaymentMethod,
+                Status = p.Status
+            }).ToList();
         public int GetTotalAmount(int type)
         {
             try

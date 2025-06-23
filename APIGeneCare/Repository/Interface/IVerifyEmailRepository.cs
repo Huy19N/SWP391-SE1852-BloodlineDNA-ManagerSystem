@@ -9,9 +9,9 @@ namespace APIGeneCare.Repository.Interface
     {
         bool ConfirmEmail(string email, string key);
         Task<bool> SendConfirmEmail(string email, string apiConfirmEmail);
-        VerifyEmailDTO? GetVerifyEmailByEmail(string email);
-        bool CreateVerifyEmail(VerifyEmailDTO verifyEmail);
-        bool UpdateVerifyEmail(VerifyEmailDTO verifyEmail);
+        VerifyEmail? GetVerifyEmailByEmail(string email);
+        bool CreateVerifyEmail(VerifyEmail verifyEmail);
+        bool UpdateVerifyEmail(VerifyEmail verifyEmail);
         bool DeleteVerifyEmailByEmail(string email);
     }
 }

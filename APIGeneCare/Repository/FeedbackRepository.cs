@@ -164,20 +164,19 @@ namespace APIGeneCare.Repository
         }
         public bool UpdateFeedback(FeedbackDTO feedback)
         {
-            if (feedback == null)
-            {
-                return false;
-            }
-
-            var existingFeedback = _context.Feedbacks.Find(feedback.FeedbackId);
-            if (existingFeedback == null)
-            {
-                return false;
-            }
-
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (feedback == null)
+                {
+                    return false;
+                }
+
+                var existingFeedback = _context.Feedbacks.Find(feedback.FeedbackId);
+                if (existingFeedback == null)
+                {
+                    return false;
+                }
                 existingFeedback.UserId = feedback.UserId;
                 existingFeedback.ServiceId = feedback.ServiceId;
                 existingFeedback.CreatedAt = feedback.CreatedAt;

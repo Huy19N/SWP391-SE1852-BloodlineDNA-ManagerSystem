@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,7 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public VerifyEmailRepository(GeneCareContext context) => _context = context;
-        public bool CreateVerifyEmail(VerifyEmailDTO verifyEmail)
+        public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
             if (_context.VerifyEmails.Find(verifyEmail.Email) != null) return false;
@@ -46,9 +47,9 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public VerifyEmailDTO? GetVerifyEmailByEmail(string email)
+        public VerifyEmail? GetVerifyEmailByEmail(string email)
             => _context.VerifyEmails.Find(email);
-        public bool UpdateVerifyEmail(VerifyEmailDTO verifyEmail)
+        public bool UpdateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
             var existVerifyEmail = GetVerifyEmailByEmail(verifyEmail.Email);
@@ -149,7 +150,7 @@ namespace APIGeneCare.Repository
                 var verifyEmail = GetVerifyEmailByEmail(email);
                 if (verifyEmail != null)
                 {
-                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmailDTO
+                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
                     {
                         Email = email,
                         CreatedAt = DateTime.Now,
@@ -159,7 +160,7 @@ namespace APIGeneCare.Repository
                 }
                 else
                 {
-                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmailDTO
+                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
                     {
                         Email = email,
                         CreatedAt = DateTime.Now,

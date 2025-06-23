@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,44 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public ServicePriceRepository(GeneCareContext context) => _context = context;
-        public bool CreateServicePrice(ServicePriceDTO servicePrice)
-        {
-            if (servicePrice == null) return false;
 
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.ServicePrices.Add(servicePrice);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public bool DeleteServicePriceById(int id)
-        {
-            var servicePrice = _context.ServicePrices.Find(id);
-            if (servicePrice == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.ServicePrices.Remove(servicePrice);
-
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
         public IEnumerable<ServicePriceDTO> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServicePrices = _context.ServicePrices.AsQueryable();
@@ -117,7 +81,7 @@ namespace APIGeneCare.Repository
 
             }
             #endregion
-            var result = PaginatedList<ServicePriceDTO>.Create(allServicePrices, page ?? 1, PAGE_SIZE);
+            var result = PaginatedList<ServicePrice>.Create(allServicePrices, page ?? 1, PAGE_SIZE);
             return result.Select(sp => new ServicePriceDTO
             {
                 PriceId = sp.PriceId,
@@ -127,14 +91,43 @@ namespace APIGeneCare.Repository
             });
         }
         public ServicePriceDTO? GetServicePriceById(int id)
-            => _context.ServicePrices.Find(id);
+            => _context.ServicePrices.Select(sp => new ServicePriceDTO
+            {
+                PriceId = sp.PriceId,
+                ServiceId = sp.ServiceId,
+                DurationId = sp.DurationId,
+                Price = sp.Price,
+            }).SingleOrDefault(sp => sp.PriceId == id);
+        public bool CreateServicePrice(ServicePriceDTO servicePrice)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if(servicePrice == null) return false;
+
+                _context.ServicePrices.Add(new ServicePrice
+                {
+                    ServiceId = servicePrice.ServiceId,
+                    DurationId = servicePrice.DurationId,
+                    Price = servicePrice.Price
+                });
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
         public bool UpdateServicePrice(ServicePriceDTO servicePrice)
         {
+            var existingServicePrice = _context.ServicePrices.Find(servicePrice.PriceId);
             if (servicePrice == null)
             {
                 return false;
             }
-            var existingServicePrice = _context.ServicePrices.Find(servicePrice.PriceId);
             if (existingServicePrice == null)
             {
                 return false;
@@ -155,6 +148,26 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 return false;
 
+            }
+        }
+        public bool DeleteServicePriceById(int id)
+        {
+            var servicePrice = _context.ServicePrices.Find(id);
+            if (servicePrice == null) return false;
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.ServicePrices.Remove(servicePrice);
+
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
             }
         }
     }

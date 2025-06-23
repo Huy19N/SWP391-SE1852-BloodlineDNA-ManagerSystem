@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 
 namespace APIGeneCare.Repository
@@ -11,46 +12,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         public ServiceRepository(GeneCareContext context) => _context = context;
-        public bool CreateService(Service service)
-        {
-            if (service == null)
-            {
-                return false;
-            }
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Services.Add(service);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public bool DeleteServiceById(int id)
-        {
-            var service = _context.Services.Find(id);
-            if (service == null) return false;
-
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Services.Remove(service);
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-        public IEnumerable<Service> GetAllServicesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public IEnumerable<ServiceDTO> GetAllServicesPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allServices = _context.Services.AsQueryable();
             #region Search by type
@@ -109,7 +71,7 @@ namespace APIGeneCare.Repository
             #endregion
 
             var result = PaginatedList<Service>.Create(allServices, page ?? 1, PAGE_SIZE);
-            return result.Select(s => new Service
+            return result.Select(s => new ServiceDTO
             {
                 ServiceId = s.ServiceId,
                 ServiceName = s.ServiceName,
@@ -117,9 +79,48 @@ namespace APIGeneCare.Repository
                 Description = s.Description
             });
         }
-        public Service? GetServiceById(int id)
-            => _context.Services.Find(id);
-        public bool UpdateService(Service service)
+        public IEnumerable<ServiceDTO> GetAllServices()
+            => _context.Services.Select(s => new ServiceDTO
+            {
+                ServiceId = s.ServiceId,
+                ServiceName = s.ServiceName,
+                ServiceType = s.ServiceType,
+                Description = s.Description
+            }).ToList();
+        public ServiceDTO? GetServiceById(int id)
+            => _context.Services.Select(s => new ServiceDTO
+            {
+                ServiceId = s.ServiceId,
+                ServiceName = s.ServiceName,
+                ServiceType = s.ServiceType,
+                Description = s.Description
+            }).SingleOrDefault(s => s.ServiceId == id);
+        public bool CreateService(ServiceDTO service)
+        {
+            if (service == null)
+            {
+                return false;
+            }
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Services.Add(new Service
+                {
+                    ServiceName = service.ServiceName,
+                    ServiceType = service.ServiceType,
+                    Description = service.Description
+                });
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
+        }
+        public bool UpdateService(ServiceDTO service)
         {
             if (service == null)
             {
@@ -147,10 +148,24 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-
-        public IEnumerable<Service> GetAllServices()
+        public bool DeleteServiceById(int id)
         {
-            throw new NotImplementedException();
+            var service = _context.Services.Find(id);
+            if (service == null) return false;
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                _context.Services.Remove(service);
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return false;
+            }
         }
     }
 }
