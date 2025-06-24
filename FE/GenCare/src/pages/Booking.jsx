@@ -97,7 +97,7 @@ function Booking() {
 
     // Không gọi API, chỉ mô phỏng gửi thành công
     console.log("Thông tin đã nhập:", formData);
-    toast.success("Đăng ký thành công!");
+    toast.success("Đăng ký thành công !");
     navigate('/');
   };
 
@@ -150,12 +150,14 @@ function Booking() {
       </Section>
 
       <div className="text-center mt-4">
-        <button className="btn btn-primary px-4" onClick={handleSubmit}>Gửi</button>
+        <button className="btn btn-primary px-4" onClick={handleBookingSubmit} disabled={isLoading}>
+        {isLoading ? "Đang gửi..." : "Gửi"}
+        </button>
       </div>
     </div>
   );
 }
-//chạy Section
+
 const Section = ({ title, children }) => (
   <div>
     <div className="d-flex align-items-center mb-5">

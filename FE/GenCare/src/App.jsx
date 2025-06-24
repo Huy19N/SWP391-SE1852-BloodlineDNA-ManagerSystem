@@ -17,6 +17,8 @@ import Booking from './pages/Booking.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
+import Users from './pages/Actors/Admin/Manager/Users.jsx'
+import Layout from './pages/Actors/TotalLayout.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -28,11 +30,13 @@ function App() {
   const location = useLocation();
   // Kiểm tra xem đường dẫn có phải là một trong những đường dẫn không cần hiển thị Header và Zalo hay không
   // Danh sách các đường dẫn không cần hiển thị Header và Zalo
-  const anonymousPaths = ['/dashboard', '/approve'];
+  const anonymousPaths = ['/layout'];
   // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách không
   // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
   // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo
-  const isAnonymous = anonymousPaths.includes(location.pathname);
+  // startswith nó sẽ ẩn pathname bắt đầu với route có dữ liệu trong anonymousPaths
+  // lúc đầu dùng inclucdes thì nó so sánh tuyệt đối nhưng vẫn có thể dùng nhưng không có ứng biến tốt.
+  const isAnonymous = anonymousPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <>
@@ -74,17 +78,15 @@ function App() {
 
       <Route path="/login" element={<Login />} />
       
-      <Route path="/dashboard" element={
-        <ProtectedRoute allowedRoles={[2, 3, 4]}>
-          <Dashboard />
-        </ProtectedRoute>
-      } />
-      
-      <Route path="/approve" element={
-        <ProtectedRoute allowedRoles={[2, 3]}>
-          <Approve />
-        </ProtectedRoute>
-      } />
+        <Route path='/layout' element={
+          <ProtectedRoute allowedRoles={[2, 3, 4]}>
+            <Layout />
+          </ProtectedRoute>}>
+          <Route index element={<Dashboard/>}/>
+          <Route path='dashboard' element={<Dashboard/>}/>
+          <Route path='approve' element={<Approve/>}/>
+          <Route path='users' element={<Users/>}/>
+        </Route>
 
       {/* Các route từ InstructionInforPage */}
       <Route path=" " element={<InstructionInforPage type="payment" />} />
