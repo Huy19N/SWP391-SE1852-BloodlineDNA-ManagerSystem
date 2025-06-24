@@ -201,14 +201,12 @@ namespace APIGeneCare.Repository
                 {
                     return false;
                 }
-
+                
                 _context.Users.Add(new User
                 {
                     RoleId = user.RoleId,
-                    FullName = user.FullName,
-                    Address = user.Address,
                     Email = user.Email,
-                    Phone = user.Phone
+                    Password = user.Password
                 });
 
                 _context.SaveChanges();
@@ -236,12 +234,14 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                existingUser.RoleId = user.RoleId;
                 existingUser.FullName = user.FullName;
+                existingUser.IdentifyId = user.IdentifyId;
                 existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
                 existingUser.Phone = user.Phone;
                 existingUser.Password = user.Password;
-                existingUser.RoleId = user.RoleId;
+                
 
                 _context.SaveChanges();
                 transaction.Commit();
