@@ -7,5 +7,6 @@ namespace APIGeneCare.Model
         public string AccessToken { get; set; } = null!;
         public string RefreshToken { get; set; } = null!;
         public int Role { get; set; }
+        public int userId { get; set; }
     }
 }
