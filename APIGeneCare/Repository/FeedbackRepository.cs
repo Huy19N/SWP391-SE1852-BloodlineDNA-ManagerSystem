@@ -133,11 +133,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if (feedback == null ||
-                    feedback.UserId == null ||
-                    feedback.ServiceId == null ||
-                    feedback.CreatedAt == null ||
-                    feedback.Rating == null)
+                if (feedback == null)
                 {
                     return false;
                 }
