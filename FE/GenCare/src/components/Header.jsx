@@ -23,7 +23,7 @@ export default function Header(){
         localStorage.removeItem('roleId');
         // Chuyển hướng về trang đăng nhập hoặc trang chủ
         navigate('/login')
-        toast("Đăng xuất thành công!")
+        toast.success("Đăng xuất thành công!")
     };
 
     // Hàm này sẽ thay đổi login khi người dùng đã đăng nhập, nếu đã đăng nhập thì sẽ hiện account và nó sẽ dropdown menu xuống hiện các như logout và information và lịch sử xét nghiệm còn
