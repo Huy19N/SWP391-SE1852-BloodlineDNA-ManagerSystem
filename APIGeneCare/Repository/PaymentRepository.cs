@@ -81,7 +81,6 @@ namespace APIGeneCare.Repository
             var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
             var tick = DateTime.Now.Ticks.ToString();
             var pay = new VnPayLibrary();
-            var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
 
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
@@ -93,7 +92,7 @@ namespace APIGeneCare.Repository
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
             pay.AddRequestData("vnp_OrderInfo", $"{model.Name} {model.OrderDescription} {model.Amount}");
             pay.AddRequestData("vnp_OrderType", model.OrderType);
-            pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
+            pay.AddRequestData("vnp_ReturnUrl", _configuration["Vnpay:ReturnUrl"]);
             pay.AddRequestData("vnp_TxnRef", tick);
 
             var paymentUrl =

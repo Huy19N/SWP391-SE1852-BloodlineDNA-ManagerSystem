@@ -91,11 +91,10 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("Response")]
         public IActionResult PaymentCallbackVnpay()
         {
             var response = _paymentRepository.PaymentExecute(Request.Query);
-
 
             return Ok(new ApiResponse {
                 Success = true,
