@@ -85,6 +85,7 @@ namespace APIGeneCare.Repository
             {
                 SampleId = s.SampleId,
                 BookingId = s.BookingId,
+                PatientId = s.PatientId,
                 Date = s.Date,
                 SampleVariant = s.SampleVariant,
                 CollectBy = s.CollectBy,
@@ -97,6 +98,7 @@ namespace APIGeneCare.Repository
             {
                 SampleId = s.SampleId,
                 BookingId = s.BookingId,
+                PatientId = s.PatientId,
                 Date = s.Date,
                 SampleVariant = s.SampleVariant,
                 CollectBy = s.CollectBy,
@@ -115,6 +117,7 @@ namespace APIGeneCare.Repository
                 _context.Samples.Add(new Sample
                 {
                     BookingId = sample.BookingId,
+                    PatientId = sample.PatientId,
                     Date = sample.Date,
                     SampleVariant = sample.SampleVariant,
                     CollectBy = sample.CollectBy,
@@ -149,6 +152,7 @@ namespace APIGeneCare.Repository
             try
             {
                 existingSample.BookingId = sample.BookingId;
+                existingSample.PatientId = sample.PatientId;
                 existingSample.Date = sample.Date;
                 existingSample.SampleVariant = sample.SampleVariant;
                 existingSample.CollectBy = sample.CollectBy;

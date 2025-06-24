@@ -1,5 +1,6 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+﻿using System;
+using System.Collections.Generic;
+
 namespace APIGeneCare.Entities;
 
 public partial class Sample
@@ -7,6 +8,8 @@ public partial class Sample
     public int SampleId { get; set; }
 
     public int? BookingId { get; set; }
+
+    public int? PatientId { get; set; }
 
     public DateTime? Date { get; set; }
 
@@ -23,4 +26,6 @@ public partial class Sample
     public virtual User? CollectByNavigation { get; set; }
 
     public virtual DeliveryMethod? DeliveryMethod { get; set; }
+
+    public virtual Patient? Patient { get; set; }
 }

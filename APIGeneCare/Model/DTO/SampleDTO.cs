@@ -1,5 +1,6 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+﻿using System;
+using System.Collections.Generic;
+
 namespace APIGeneCare.Model.DTO;
 
 public partial class SampleDTO
@@ -7,6 +8,8 @@ public partial class SampleDTO
     public int SampleId { get; set; }
 
     public int? BookingId { get; set; }
+
+    public int? PatientId { get; set; }
 
     public DateTime? Date { get; set; }
 
