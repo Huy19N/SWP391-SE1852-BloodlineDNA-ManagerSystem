@@ -13,7 +13,6 @@ function Booking() {
     user: {
       fullName: '',
       gmail: '',
-      birthDate: '',
       cccd: ''
     },
     person1: {
@@ -80,7 +79,7 @@ function Booking() {
   const handleSubmit = () => {
     const { user, person1, person2 } = formData;
 
-    if (!user.gmail || !user.birthDate || !user.cccd || !user.fullName) {
+    if (!user.gmail || !user.cccd || !user.fullName) {
       toast.error("Vui lòng điền đầy đủ thông tin cá nhân!");
       return;
     }
@@ -96,9 +95,7 @@ function Booking() {
     }
 
     // Không gọi API, chỉ mô phỏng gửi thành công
-    console.log("Thông tin đã nhập:", formData);
-    toast.success("Đăng ký thành công !");
-    navigate('/');
+    navigate('/payment');
   };
 
   return (
@@ -128,7 +125,6 @@ function Booking() {
         <TextInput label="Họ và tên" name="user.fullName" value={formData.user.fullName} onChange={handleChange} />
         <TextInput label="Gmail" name="user.gmail" value={formData.user.gmail} onChange={handleChange} type="email" />
         <TextInput label="CCCD" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
-        <TextInput label="Năm sinh" name="user.birthDate" value={formData.user.birthDate} onChange={handleChange} type="date" />
       </Section>
 
       {/* Người thứ nhất */}
@@ -150,8 +146,8 @@ function Booking() {
       </Section>
 
       <div className="text-center mt-4">
-        <button className="btn btn-primary px-4" onClick={handleBookingSubmit} disabled={isLoading}>
-        {isLoading ? "Đang gửi..." : "Gửi"}
+        <button className="btn btn-primary px-4" onClick={handleSubmit} >
+          đăng ký
         </button>
       </div>
     </div>

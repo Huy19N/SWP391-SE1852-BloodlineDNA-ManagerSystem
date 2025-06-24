@@ -1,137 +1,80 @@
-import React,{ useEffect } from 'react';
-import {Link, useLocation,useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LegalServices() {
-  const selectedService = JSON.parse(localStorage.getItem('selectedService'));
-  const { hash } = useLocation();
   const navigate = useNavigate();
-  
-    const handleSelect =(type, subType, testType)=>{
-      localStorage.setItem('selectedService',JSON.stringify({
-        mainType: type,//loại dịch vụ
-        subType: subType,//kiểu xét nghiệm
-        testType: testType//loại xét nghiệm
-      }));
-      navigate("/legal-duration"); 
-    };
-  
-    useEffect(() => {
-      if (hash) {
-        const id = hash.replace("#", "");
-        const element = document.getElementById(id);
-        if (element) {
-  
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: "smooth", block: "center" });
-          }, 100);
-        }
-      }
-    }, [hash]);
+  const [services, setServices] = useState([]);
+
+  const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+
+  const handleSelect = (mainType, subType, testType) => {
+    localStorage.setItem(
+      "selectedService",
+      JSON.stringify({ mainType, subType, testType })
+    );
+    navigate("/legal-duration");
+  };
+
+  useEffect(() => {
+    const mockLegalData = [
+      { id: 1, mainType: 'pháp lý', subType: 'loại 1', testType: 'Cha/Mẹ-Con', imageUrl: '' },
+      { id: 2, mainType: 'pháp lý', subType: 'loại 1', testType: 'Anh/Chị-Em', imageUrl: '' },
+      { id: 3, mainType: 'pháp lý', subType: 'loại 1', testType: 'họ hàng-Cháu', imageUrl: '' },
+      { id: 4, mainType: 'pháp lý', subType: 'loại 1', testType: 'Ông/Bà-Cháu', imageUrl: '' },
+      { id: 5, mainType: 'pháp lý', subType: 'loại 2', testType: 'hình sự', imageUrl: '' },
+      { id: 6, mainType: 'pháp lý', subType: 'loại 2', testType: 'truy vết tội phạm', imageUrl: '' },
+      { id: 7, mainType: 'pháp lý', subType: 'loại 2', testType: 'kiểm chứng tại tòa', imageUrl: '' },
+    ];
+    setServices(mockLegalData);
+  }, []);
+
+  const filteredServices = services.filter(
+    (s) =>
+      s.mainType === selectedService?.mainType &&
+      s.subType === selectedService?.subType
+  );
 
   return (
-    <div className="container mt-5" style={{ paddingTop: '2rem' }}>
-      <div className="text-center">
-        <h1>dịch vụ pháp lí</h1>
+    <div className="container mt-5" style={{ paddingTop: "2rem" }}>
+      <div className="text-center mb-4">
+        <h1>
+          Dịch vụ {selectedService?.mainType} - {selectedService?.subType}
+        </h1>
       </div>
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 id="Legal-Type-1" className="mx-4 text-primary text-center">CÁC DỊCH VỤ PHÁP LÍ LOẠI 1</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-        </div>
+
+      <div
+        className="container mt-4 p-4 rounded shadow"
+        style={{ background: "rgba(255, 255, 255, 0.9)" }}
+      >
         <div className="row">
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 1','Cha/Mẹ-Con')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Cha/Mẹ-Con</h3>
+          {filteredServices.map((service) => (
+            <div className="col-md-4 rounded-3 mb-4" key={service.id}>
+              <div
+                className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+                onClick={() =>
+                  handleSelect(service.mainType, service.subType, service.testType)
+                }
+              >
+                <img
+                  src={service.imageUrl || "/Images/default.jpg"}
+                  className="card-img-top"
+                  alt={service.testType}
+                  style={{ objectFit: "cover", height: "250px" }}
+                />
+                <div className="card-body">
+                  <h3>{service.testType}</h3>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
 
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 1','Anh/Chị-Em')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Anh/Chị-Em</h3>
-              </div>
+          {filteredServices.length === 0 && (
+            <div className="text-center fs-4 text-danger">
+              Không tìm thấy dịch vụ nào phù hợp với lựa chọn.
             </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 1','họ hàng-Cháu')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm họ hàng-Cháu</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 1','Ông/Bà-Cháu')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Ông/Bà-Cháu</h3>
-              </div>
-            </div>
-          </div>
-
-        </div> {/* row */}
-      </div>{/*  background */}
-          
-
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 id="Legal-Type-2" className="mx-4 text-primary text-center">CÁC DỊCH VỤ PHÁP LÍ LOẠI 2</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          )}
         </div>
-        <div className="row">
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 2','hình sự')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm hình sự </h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 2','truy vết tội phạm')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm truy vết tội phạm </h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('Pháp lí','loại 2','kiểm chứng tại tòa')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm kiểm chứng tại tòa </h3>
-              </div>
-            </div>
-          </div>
-
-         </div>{/* row */}
-       </div>{/* background */}
+      </div>
     </div>
   );
 }

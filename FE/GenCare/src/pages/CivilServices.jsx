@@ -1,225 +1,87 @@
-import { Button } from 'bootstrap';
-import React,{ useEffect } from 'react';
-import { Link,useLocation,useNavigate } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CivilServices() {
-  
-  const { hash } = useLocation();
   const navigate = useNavigate();
+  const [services, setServices] = useState([]);
 
-  const handleSelect =(type, subType, testType)=>{
-    localStorage.setItem('selectedService',JSON.stringify({
-      mainType: type,//loại dịch vụ
-      subType: subType,//kiểu xét nghiệm
-      testType: testType//loại xét nghiệm
-    }));
-    navigate("/civil-duration"); 
+  const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+
+  const handleSelect = (mainType, subType, testType) => {
+    localStorage.setItem(
+      "selectedService",
+      JSON.stringify({ mainType, subType, testType })
+    );
+    navigate("/civil-duration");
   };
 
+  // Dữ liệu mẫu tạm thời thay cho API
   useEffect(() => {
-    if (hash) {
-      const id = hash.replace("#", "");
-      const element = document.getElementById(id);
-      if (element) {
+    const mockData = [
+      { id: 1, mainType: 'dân sự', subType: 'loại 1', testType: 'Cha/Mẹ-Con', imageUrl: '' },
+      { id: 2, mainType: 'dân sự', subType: 'loại 1', testType: 'Anh/Chị-Em', imageUrl: '' },
+      { id: 3, mainType: 'dân sự', subType: 'loại 1', testType: 'song sinh', imageUrl: '' },
+      { id: 4, mainType: 'dân sự', subType: 'loại 1', testType: 'Cô/Chú-Cháu', imageUrl: '' },
+      { id: 5, mainType: 'dân sự', subType: 'loại 1', testType: 'Dì/Cậu-Cháu', imageUrl: '' },
+      { id: 6, mainType: 'dân sự', subType: 'loại 1', testType: 'Ông/Bà-Cháu', imageUrl: '' },
+      { id: 7, mainType: 'dân sự', subType: 'loại 2', testType: 'bệnh di truyền', imageUrl: '' },
+      { id: 8, mainType: 'dân sự', subType: 'loại 2', testType: 'gen đột biến', imageUrl: '' },
+      { id: 9, mainType: 'dân sự', subType: 'loại 2', testType: 'sàng lọc trước sinh', imageUrl: '' },
+      { id: 10, mainType: 'dân sự', subType: 'loại 2', testType: 'di truyền ung thư', imageUrl: '' },
+      { id: 11, mainType: 'dân sự', subType: 'loại 3', testType: 'định danh cá nhân', imageUrl: '' },
+      { id: 12, mainType: 'dân sự', subType: 'loại 3', testType: 'động vật', imageUrl: '' },
+      { id: 13, mainType: 'dân sự', subType: 'loại 3', testType: 'huyết thống thai nhi', imageUrl: '' }
+    ];
+    setServices(mockData);
+  }, []);
 
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 100);
-      }
-    }
-  }, [hash]);
+  const filteredServices = services.filter(
+    (s) =>
+      s.mainType === selectedService?.mainType &&
+      s.subType === selectedService?.subType
+  );
+
   return (
-    <div className="container mt-5" style={{ paddingTop: '2rem' }}>
-      <div className="text-center">
-        <h1>dịch vụ dân sự</h1>
-        {/* {selectedService && (
-          <p className="fs-4">
-            Bạn đã chọn <strong>{selectedService.mainType}</strong> - <strong>{selectedService.subType}</strong>
-          </p>
-        )} */}
+    <div className="container mt-5" style={{ paddingTop: "2rem" }}>
+      <div className="text-center mb-4">
+        <h1>
+          Dịch vụ {selectedService?.mainType} - {selectedService?.subType}
+        </h1>
       </div>
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 id= "Civil-Type-1" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 1</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-        </div>
+
+      <div
+        className="container mt-4 p-4 rounded shadow"
+        style={{ background: "rgba(255, 255, 255, 0.9)" }}
+      >
         <div className="row">
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','Cha/Mẹ-Con')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cha/Mẹ-Con" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Cha/Mẹ-Con</h3>
+          {filteredServices.map((service) => (
+            <div className="col-md-4 rounded-3 mb-4" key={service.id}>
+              <div
+                className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
+                onClick={() =>
+                  handleSelect(service.mainType, service.subType, service.testType)
+                }
+              >
+                <img
+                  src={service.imageUrl || "/Images/default.jpg"}
+                  className="card-img-top"
+                  alt={service.testType}
+                  style={{ objectFit: "cover", height: "250px" }}
+                />
+                <div className="card-body">
+                  <h3>{service.testType}</h3>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
 
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','Anh/Chị-Em')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Anh/Chị-Em" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Anh/Chị-Em</h3>
-              </div>
+          {filteredServices.length === 0 && (
+            <div className="text-center fs-4 text-danger">
+              Không tìm thấy dịch vụ nào phù hợp với lựa chọn.
             </div>
-          </div>
-
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','song sinh')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm song sinh" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm song sinh</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','Cô/Chú-Cháu')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Cô/Chú-Cháu" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Cô/Chú-Cháu</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','Dì/Cậu-Cháu')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Dì/Cậu-Cháu" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Dì/Cậu-Cháu</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 1','Ông/Bà-Cháu')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm Ông/Bà-Cháu" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm Ông/Bà-Cháu</h3>
-              </div>
-            </div>
-          </div>
-
-        </div> {/* row */}
-      </div> {/* background */}
-
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 id="Civil-Type-2" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 2</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          )}
         </div>
-        <div className="row">
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 2','bệnh di truyền')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm bệnh di truyền" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm bệnh di truyền</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 2','gen đột biến')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm gen đột biến" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm gen đột biến</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 2','sàng lọc trước sinh')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm sàng lọc trước sinh" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm sàng lọc trước sinh</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 2','di truyền ung thư')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm di truyền ung thư" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm di truyền ung thư</h3>
-              </div>
-            </div>
-          </div>
-          {/* <div className="container mt-5">
-          <button className="btn btn-primary mt-3" onClick={handleClick}>
-              đăng ký ngay
-          </button>
-          </div> */}
-
-        </div> {/* row */}
-      </div>{/* background */}
-
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-          <h2 id="Civil-Type-3" className="mx-4 text-primary text-center">CÁC DỊCH VỤ DÂN SỰ LOẠI 3</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-        </div>
-        <div className="row">
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 3','định danh cá nhân')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm định danh cá nhân" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm định danh cá nhân</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 3','động vật')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm động vật" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm động vật</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 rounded-3">
-            <div
-              className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
-              onClick={() => handleSelect('dân sự','loại 3','huyết thống thai nhi')}>
-              <img src="" className="card-img-top" alt="Xét nghiệm huyết thống thai nhi" style={{ objectFit: "cover", height: "250px" }} />
-              <div className="card-body">
-                <h3>Xét nghiệm huyết thống thai nhi</h3>
-              </div>
-            </div>
-          </div>
-
-        </div> {/* row */}
-      </div>{/* background */}
-      
+      </div>
     </div>
   );
 }

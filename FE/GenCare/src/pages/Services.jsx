@@ -16,7 +16,14 @@ import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
 
 function Services() {
-
+      
+  const handleSelect =(type, subType)=>{
+    localStorage.setItem('selectedService',JSON.stringify({
+      mainType: type,//loại dịch vụ
+      subType: subType,//kiểu xét nghiệm
+    }));
+    navigate("/civil-services"); 
+  };
       useEffect(() => {
         const carousels = document.querySelectorAll('.carousel');
         carousels.forEach((carousel) => {
@@ -87,20 +94,20 @@ function Services() {
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
+                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 1')}>
+                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 1
                             </Link>
                               </td>
                           </tr>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
+                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 2')}>
+                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 2
                             </Link>
                               </td>
                           </tr>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none text-dark d-block px-3 py-2">
+                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 3')}>
+                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 3
                             </Link>
                               </td>
@@ -119,14 +126,14 @@ function Services() {
                     <div className="card-body">
                       <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
                         <tbody>
-                          <tr><td className="p-0">
-                            <Link to="/legal-services#Legal-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
+                          <tr><td className="p-0" onClick={() => handleSelect('pháp lý','loại 1')}>
+                            <Link to="/legal-services"className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 1
                             </Link>
                               </td>
                           </tr>
-                          <tr><td className="p-0">
-                            <Link to="/legal-services#Legal-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
+                          <tr><td className="p-0" onClick={() => handleSelect('pháp lý','loại 2')}>
+                            <Link to="/legal-services" className="text-decoration-none text-dark d-block px-3 py-2">
                               Loại 2
                             </Link>
                               </td>
@@ -141,53 +148,8 @@ function Services() {
         </div>
       </section>
 
-      {/* DỊCH VỤ GENECARE */}
-      <div className="container-fluid mt-5 mb-5 p-4 rounded shadow" style={{ backgroundColor: "#CCEFF6", width: "76%" }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
-          <h2 className="mx-4 text-primary text-center">DỊCH VỤ XÉT NGHIỆM ADN TẠI GENECARE</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
-        </div>
-
-        <div className="container my-5">
-          <div className="row justify-content-center align-items-center text-center g-4">
-
-            <div className="col-md-4 rounded-3">
-              <a href="/civil" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0 rounded-3">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm cha/mẹ-con</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-md-4 rounded-3">
-              <a href="/legal" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm dòng họ" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm dòng họ</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-md-4 rounded-3">
-              <a href="/civil" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm thất lạc" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm tìm người thất lạc</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
+      
+      
     </>
   );
 }
