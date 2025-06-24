@@ -14,6 +14,7 @@ import LegalDuration from './pages/LegalDuration.jsx';
 
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
+import Payment from './pages/Payment/Payment.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
@@ -30,7 +31,7 @@ function App() {
   const location = useLocation();
   // Kiểm tra xem đường dẫn có phải là một trong những đường dẫn không cần hiển thị Header và Zalo hay không
   // Danh sách các đường dẫn không cần hiển thị Header và Zalo
-  const anonymousPaths = ['/layout'];
+  const anonymousPaths = ['/layout','/payment'];
   // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách không
   // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
   // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo
@@ -87,6 +88,9 @@ function App() {
           <Route path='approve' element={<Approve/>}/>
           <Route path='users' element={<Users/>}/>
         </Route>
+
+        {/*Test payment */}
+      <Route path='/payment' element={<Payment/>}/>
 
       {/* Các route từ InstructionInforPage */}
       <Route path=" " element={<InstructionInforPage type="payment" />} />
