@@ -31,7 +31,7 @@ function App() {
   const location = useLocation();
   // Kiểm tra xem đường dẫn có phải là một trong những đường dẫn không cần hiển thị Header và Zalo hay không
   // Danh sách các đường dẫn không cần hiển thị Header và Zalo
-  const anonymousPaths = ['/layout','/payment'];
+  const anonymousPaths = ['/layout'];
   // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách không
   // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
   // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo

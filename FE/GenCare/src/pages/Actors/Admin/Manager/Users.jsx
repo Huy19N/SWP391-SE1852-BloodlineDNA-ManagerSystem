@@ -14,6 +14,11 @@ function Users(){
     const [search,setSearch] = useState('');
     const [editUser,setEditUser] = useState(null);
     const navigate = useNavigate();
+
+    const roleid = localStorage.getItem('roleId');
+    const isStaff = roleid === '2';
+    const isAdmin = roleid === '4';
+    const isManager = roleid === '3';
     
     //API gọi dữ liệu của user và role 
     const fetchDataUser = async (e) => {
@@ -130,6 +135,7 @@ function Users(){
                     <td>{user.userId}</td>
                     <td>{user.email}</td>
                     <td>{dataRoles[user.roleId]}</td>
+                    {isAdmin ? 
                     <td>
                     <button className="btn btn-info ms-3 me-3"
                             onClick={() => setEditUser(user)}>
@@ -140,6 +146,7 @@ function Users(){
                         <i class="bi bi-trash3-fill fs-4"></i>
                         </button>{/*xoa user*/}
                     </td>
+                     : null}
                 </tr>
                 ))
             ) : (

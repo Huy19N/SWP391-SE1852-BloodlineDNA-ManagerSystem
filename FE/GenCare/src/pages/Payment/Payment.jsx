@@ -8,6 +8,7 @@ function PaymentForm() {
   const [amount, setAmount] = useState(100000);
   const [orderDescription, setOrderDescription] = useState("Payment for order LegalService");
   const [name, setName] = useState("Nguyen Thanh Dat");
+  
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -34,7 +35,7 @@ function PaymentForm() {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-5 p-5">
       <h2>VNPay Payment Form</h2>
       <form onSubmit={handlePayment}>
         <div className="mb-3">
