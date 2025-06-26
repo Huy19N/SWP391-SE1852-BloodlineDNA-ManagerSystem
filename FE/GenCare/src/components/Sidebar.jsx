@@ -38,7 +38,7 @@ function Sidebar (){
                         </Link>
                         </div>
                         
-                        {isStaff ?
+                        {isStaff || isManager ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="approve">
                             <i className="bi bi-check-circle-fill"></i> Approve Form

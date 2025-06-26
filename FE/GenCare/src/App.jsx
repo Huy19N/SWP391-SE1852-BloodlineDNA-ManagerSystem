@@ -15,6 +15,7 @@ import LegalDuration from './pages/LegalDuration.jsx';
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
 import Payment from './pages/Payment/Payment.jsx';
+import Account from './pages/Actors/InforAccount.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
@@ -89,8 +90,13 @@ function App() {
           <Route path='users' element={<Users/>}/>
         </Route>
 
-        {/*Test payment */}
-      <Route path='/payment' element={<Payment/>}/>
+      <Route path='/payment' element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <Payment/>
+        </ProtectedRoute>
+      }/>
+
+      <Route path='/account' element={ <Account/>} />
 
       {/* Các route từ InstructionInforPage */}
       <Route path=" " element={<InstructionInforPage type="payment" />} />
