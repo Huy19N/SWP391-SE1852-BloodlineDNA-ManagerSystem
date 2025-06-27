@@ -99,7 +99,7 @@ function App() {
       <Route path='/account' element={ <Account/>} />
 
       {/* Các route từ InstructionInforPage */}
-      <Route path=" " element={<InstructionInforPage type="payment" />} />
+      <Route path="/payment-instruction" element={<InstructionInforPage type="payment" />} />
       <Route path="/dna-testing-procedure" element={<InstructionInforPage type="testing" />} />
       <Route path="/sample-collection-guide" element={<InstructionInforPage type="sample" />} />
       <Route path="/prenatal-dna-testing" element={<InstructionInforPage type="prenatal" />} />
