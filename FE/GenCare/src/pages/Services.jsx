@@ -20,9 +20,7 @@ function Services() {
   const handleSelect =(type, subType)=>{
     localStorage.setItem('selectedService',JSON.stringify({
       mainType: type,//loại dịch vụ
-      subType: subType,//kiểu xét nghiệm
-    }));
-    navigate("/civil-services"); 
+    })); 
   };
       useEffect(() => {
         const carousels = document.querySelectorAll('.carousel');
@@ -88,60 +86,26 @@ function Services() {
             <div className="row justify-content-center align-items-start text-center g-5">
               {/* BẢNG DÂN SỰ */}
               <div className="col-lg-6">
-                <div  className="text-decoration-none text-dark">
+                <div className="text-decoration-none text-dark" onClick={() => handleSelect('dân sự')}>
+                  <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">DÂN SỰ</div>
-                    <div className="card-body">
-                      <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
-                        <tbody>
-                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 1')}>
-                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 1
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 2')}>
-                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 2
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0" onClick={() => handleSelect('dân sự','loại 3')}>
-                            <Link to="/civil-services" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 3
-                            </Link>
-                              </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    
                   </div>
+                  </Link>
                 </div>
               </div>
 
               {/* BẢNG PHÁP LÝ */}
               <div className="col-lg-6">
+                <div className="text-decoration-none text-dark" onClick={() => handleSelect('pháp lý')}>
+                  <Link to="/legal-services"className="text-decoration-none text-dark d-block px-3 py-2">
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">PHÁP LÝ</div>
-                    <div className="card-body">
-                      <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
-                        <tbody>
-                          <tr><td className="p-0" onClick={() => handleSelect('pháp lý','loại 1')}>
-                            <Link to="/legal-services"className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 1
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0" onClick={() => handleSelect('pháp lý','loại 2')}>
-                            <Link to="/legal-services" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 2
-                            </Link>
-                              </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    
                   </div>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

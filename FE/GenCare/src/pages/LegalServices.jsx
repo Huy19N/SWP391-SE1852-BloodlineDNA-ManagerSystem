@@ -7,38 +7,37 @@ function LegalServices() {
 
   const selectedService = JSON.parse(localStorage.getItem("selectedService"));
 
-  const handleSelect = (mainType, subType, testType) => {
+  const handleSelect = (mainType,  testType) => {
     localStorage.setItem(
       "selectedService",
-      JSON.stringify({ mainType, subType, testType })
+      JSON.stringify({ mainType, testType })
     );
     navigate("/legal-duration");
   };
 
   useEffect(() => {
     const mockLegalData = [
-      { id: 1, mainType: 'pháp lý', subType: 'loại 1', testType: 'Cha/Mẹ-Con', imageUrl: '' },
-      { id: 2, mainType: 'pháp lý', subType: 'loại 1', testType: 'Anh/Chị-Em', imageUrl: '' },
-      { id: 3, mainType: 'pháp lý', subType: 'loại 1', testType: 'họ hàng-Cháu', imageUrl: '' },
-      { id: 4, mainType: 'pháp lý', subType: 'loại 1', testType: 'Ông/Bà-Cháu', imageUrl: '' },
-      { id: 5, mainType: 'pháp lý', subType: 'loại 2', testType: 'hình sự', imageUrl: '' },
-      { id: 6, mainType: 'pháp lý', subType: 'loại 2', testType: 'truy vết tội phạm', imageUrl: '' },
-      { id: 7, mainType: 'pháp lý', subType: 'loại 2', testType: 'kiểm chứng tại tòa', imageUrl: '' },
+      { id: 1, mainType: 'pháp lý', testType: 'Cha/Mẹ-Con', imageUrl: '' },
+      { id: 2, mainType: 'pháp lý', testType: 'Anh/Chị-Em', imageUrl: '' },
+      { id: 3, mainType: 'pháp lý', testType: 'họ hàng-Cháu', imageUrl: '' },
+      { id: 4, mainType: 'pháp lý', testType: 'Ông/Bà-Cháu', imageUrl: '' },
+      { id: 5, mainType: 'pháp lý', testType: 'hình sự', imageUrl: '' },
+      { id: 6, mainType: 'pháp lý', testType: 'truy vết tội phạm', imageUrl: '' },
+      { id: 7, mainType: 'pháp lý', testType: 'kiểm chứng tại tòa', imageUrl: '' },
     ];
     setServices(mockLegalData);
   }, []);
 
   const filteredServices = services.filter(
     (s) =>
-      s.mainType === selectedService?.mainType &&
-      s.subType === selectedService?.subType
+      s.mainType === selectedService?.mainType 
   );
 
   return (
     <div className="container mt-5" style={{ paddingTop: "2rem" }}>
       <div className="text-center mb-4">
         <h1>
-          Dịch vụ {selectedService?.mainType} - {selectedService?.subType}
+          Dịch vụ {selectedService?.mainType} 
         </h1>
       </div>
 
@@ -52,7 +51,7 @@ function LegalServices() {
               <div
                 className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
                 onClick={() =>
-                  handleSelect(service.mainType, service.subType, service.testType)
+                  handleSelect(service.mainType, service.testType)
                 }
               >
                 <img
