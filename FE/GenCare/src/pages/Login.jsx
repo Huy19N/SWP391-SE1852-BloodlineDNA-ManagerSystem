@@ -193,6 +193,7 @@ const LoginRegister = () => {
             </div>
 
             <button 
+            id='submit-btn'
             type="submit" 
             className="btn custom-btn w-100 mb-3"
             disabled={isLoading}
