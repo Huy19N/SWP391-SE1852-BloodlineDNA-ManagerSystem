@@ -1,44 +1,57 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../config/axios";
 
 function LegalServices() {
-  const navigate = useNavigate();
   const [services, setServices] = useState([]);
-
   const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+  const navigate = useNavigate();
 
-  const handleSelect = (mainType,  testType) => {
-    localStorage.setItem(
-      "selectedService",
-      JSON.stringify({ mainType, testType })
-    );
-    navigate("/legal-duration");
+ const handleSelect = (testType) => {
+  const previous = JSON.parse(localStorage.getItem("selectedService")) || {};
+  localStorage.setItem(
+    "selectedService",
+    JSON.stringify({ ...previous, testType })
+  );
+  navigate("/duration");
   };
 
-  useEffect(() => {
-    const mockLegalData = [
-      { id: 1, mainType: 'pháp lý', testType: 'Cha/Mẹ-Con', imageUrl: '' },
-      { id: 2, mainType: 'pháp lý', testType: 'Anh/Chị-Em', imageUrl: '' },
-      { id: 3, mainType: 'pháp lý', testType: 'họ hàng-Cháu', imageUrl: '' },
-      { id: 4, mainType: 'pháp lý', testType: 'Ông/Bà-Cháu', imageUrl: '' },
-      { id: 5, mainType: 'pháp lý', testType: 'hình sự', imageUrl: '' },
-      { id: 6, mainType: 'pháp lý', testType: 'truy vết tội phạm', imageUrl: '' },
-      { id: 7, mainType: 'pháp lý', testType: 'kiểm chứng tại tòa', imageUrl: '' },
-    ];
-    setServices(mockLegalData);
-  }, []);
 
-  const filteredServices = services.filter(
-    (s) =>
-      s.mainType === selectedService?.mainType 
-  );
+  useEffect(() => {
+  const fetchServices = async () => {
+    try {
+      const response = await api.get("Services/GetAllPaging", {
+        params: {
+          typeSearch: "",
+          search: "",
+          sortBy: "serviceId",
+          page: 1
+        },
+      });
+
+      const result = response.data.data ;
+
+      const normalize = (text) =>
+        text?.toLowerCase().normalize("NFD");
+
+      const filtered = result.filter(
+        (service) =>
+          normalize(service.serviceName) === normalize(selectedService.mainType)
+      );
+
+      setServices(filtered);
+    } catch (error) {
+      console.error("Lỗi nè:", error);
+    }
+  };
+
+  fetchServices();
+}, []);
 
   return (
     <div className="container mt-5" style={{ paddingTop: "2rem" }}>
       <div className="text-center mb-4">
-        <h1>
-          Dịch vụ {selectedService?.mainType} 
-        </h1>
+        <h1>Dịch vụ {selectedService?.mainType}</h1>
       </div>
 
       <div
@@ -46,30 +59,24 @@ function LegalServices() {
         style={{ background: "rgba(255, 255, 255, 0.9)" }}
       >
         <div className="row">
-          {filteredServices.map((service) => (
-            <div className="col-md-4 rounded-3 mb-4" key={service.id}>
+          {services.map((service) => (
+            <div className="col-md-4 rounded-3 mb-4" key={service.serviceId}>
               <div
                 className="card h-100 shadow border-0 rounded-3 text-dark text-decoration-none"
                 onClick={() =>
-                  handleSelect(service.mainType, service.testType)
+                  handleSelect( service.serviceType)
                 }
               >
-                <img
-                  src={service.imageUrl || "/Images/default.jpg"}
-                  className="card-img-top"
-                  alt={service.testType}
-                  style={{ objectFit: "cover", height: "250px" }}
-                />
-                <div className="card-body">
-                  <h3>{service.testType}</h3>
+                <div className="card-body text-center py-5">
+                  <h3>{service.serviceType}</h3>
                 </div>
               </div>
             </div>
           ))}
 
-          {filteredServices.length === 0 && (
+          {services.length === 0 && (
             <div className="text-center fs-4 text-danger">
-              Không tìm thấy dịch vụ nào phù hợp với lựa chọn.
+              Không tìm thấy dịch vụ nào.
             </div>
           )}
         </div>

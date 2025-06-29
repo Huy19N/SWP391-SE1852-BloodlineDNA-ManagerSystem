@@ -6,7 +6,6 @@ function Booking() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     serviceType: '',
-    serviceDetail: '',
     testType: '',
     timeSlot: '',
     method: '',
@@ -37,7 +36,6 @@ function Booking() {
       setFormData((prev) => ({
         ...prev,
         serviceType: selectedService.mainType || '',
-        serviceDetail: selectedService.subType || '',
         testType: selectedService.testType || '',
         timeSlot: `${selectedService.appointmentDay || ''} - ${selectedService.appointmentSlot || ''}`,
         method: selectedService.sampleMethod || ''
@@ -107,7 +105,7 @@ function Booking() {
         <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
       </div>
 
-      {['serviceType', 'serviceDetail', 'testType', 'timeSlot', 'method'].map((field) => (
+      {['serviceType', 'testType', 'timeSlot', 'method'].map((field) => (
         <div className="mb-4" key={field}>
           <label className="block font-medium mb-2">{field}</label>
           <input
@@ -142,7 +140,7 @@ function Booking() {
         <TextInput label="Năm sinh" name="person2.birthDate" value={formData.person2.birthDate} onChange={handleChange} type="date" />
         <SelectInput label="Giới tính" name="person2.gender" value={formData.person2.gender} onChange={handleChange} options={genderOptions} />
         <SelectInput label="Loại mẫu xét nghiệm" name="person2.sampleType" value={formData.person2.sampleType} onChange={handleChange} options={sampleOptions} />
-        <TextInput label="Mối quan hệ với người thứ nhất" name="person2.relationToPerson1" value={formData.person2.relationToPerson1} onChange={handleChange} />
+        <TextInput label="Mối quan hệ với người thứ 1" name="person2.relationToPerson1" value={formData.person2.relationToPerson1} onChange={handleChange} />
       </Section>
 
       <div className="text-center mt-4">

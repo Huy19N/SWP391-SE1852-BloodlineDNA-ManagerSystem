@@ -1,31 +1,46 @@
-import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function CivilDuration() {
-  const selectedService = JSON.parse(localStorage.getItem('selectedService')) || {};
+function Duration() {
   const navigate = useNavigate();
+  const [durationOptions, setDurationOptions] = useState([]);
 
-  // Danh sách gói thời gian
-  const durations = [
-    { label: "Gói 6h", price: "2,500,000đ" },
-    { label: "Gói 24h", price: "2,000,000đ" },
-    { label: "Gói 48h", price: "1,500,000đ" }
-  ];
+  const selectedService = JSON.parse(localStorage.getItem("selectedService")) || {};
 
+  useEffect(() => {
+    // Dữ liệu mẫu riêng cho từng loại dịch vụ
+    const mockDurations = {
+      "dân sự": [
+        { id: 1, durationType: "Gói 6h", price: "2,500,000đ" },
+        { id: 2, durationType: "Gói 24h", price: "2,000,000đ" },
+        { id: 3, durationType: "Gói 48h", price: "1,500,000đ" },
+      ],
+      "pháp lý": [
+        { id: 1, durationType: "Gói khẩn cấp 12h", price: "3,500,000đ" },
+        { id: 2, durationType: "Gói chuẩn 36h", price: "2,800,000đ" },
+        { id: 3, durationType: "Gói thông thường 72h", price: "2,000,000đ" },
+      ]
+    };
 
-  const handleSelectDuration = (duration) => {
-    const previous = JSON.parse(localStorage.getItem('selectedService')) || {};
-    localStorage.setItem('selectedService', JSON.stringify({
-      ...previous,
-      durationType: duration
-    }));
+    // Gán dữ liệu tương ứng với mainType
+    const durations = mockDurations[selectedService.mainType] || [];
+    setDurationOptions(durations);
+  }, [selectedService.mainType]);
+
+  const handleSelect = (durationType, price) => {
+    const updated = {
+      ...selectedService,
+      durationType,
+      price
+    };
+    localStorage.setItem("selectedService", JSON.stringify(updated));
     navigate("/book-appointment");
   };
 
   return (
-    <div className="container mt-5" style={{ paddingTop: '2rem' }}>
+    <div className="container mt-5" style={{ paddingTop: "2rem" }}>
       <div className="text-center">
-        <h1>Bảng giá dịch vụ dân sự</h1>
+        <h1>Bảng giá dịch vụ {selectedService.mainType}</h1>
         {selectedService.testType && (
           <p className="fs-4 mt-3">
             Bạn đang chọn dịch vụ xét nghiệm: <strong>{selectedService.testType}</strong>
@@ -33,23 +48,25 @@ function CivilDuration() {
         )}
       </div>
 
-      <div className="container mt-5 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
+      <div
+        className="container mt-5 p-4 rounded shadow"
+        style={{ background: "rgba(255, 255, 255, 0.9)" }}
+      >
         <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
           <h2 className="mx-4 text-primary text-center">CHỌN GÓI THỜI GIAN</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
+          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
         </div>
 
         <div className="row">
-          {durations.map((item, index) => (
-            <div key={index} className="col-md-4 mb-4">
+          {durationOptions.map((item) => (
+            <div key={item.id} className="col-md-4 mb-4">
               <div
                 className="card shadow text-dark text-decoration-none"
-                onClick={() => handleSelectDuration(item.label)}
-                style={{ cursor: "pointer" }}
+                onClick={() => handleSelect(item.durationType, item.price)}
               >
                 <div className="card-header bg-info text-white text-center">
-                  <h4 className="mb-0">{item.label.toUpperCase()} CÓ KẾT QUẢ</h4>
+                  <h4 className="mb-0">{item.durationType.toUpperCase()} CÓ KẾT QUẢ</h4>
                 </div>
                 <div className="card-body p-0">
                   <table className="table table-hover mb-0">
@@ -70,10 +87,16 @@ function CivilDuration() {
               </div>
             </div>
           ))}
+
+          {durationOptions.length === 0 && (
+            <div className="text-center fs-4 text-danger">
+              Không tìm thấy gói thời gian nào.
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default CivilDuration;
+export default Duration;
