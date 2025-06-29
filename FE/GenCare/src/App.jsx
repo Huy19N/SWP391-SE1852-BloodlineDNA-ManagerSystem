@@ -9,7 +9,9 @@ import ProtectedRoute from './pages/ProtectReute/protectedRoute.jsx';
 import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
-import Duration from './pages/Duration.jsx';
+import CivilDuration from'./pages/CivilDuration.jsx';
+import LegalDuration from './pages/LegalDuration.jsx';
+//import Duration from './pages/Duration.jsx';
 
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
@@ -53,17 +55,29 @@ function App() {
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
 
-      <Route path="/duration" element={
+      <Route path="/legal-duration" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <LegalDuration />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/civil-duration" element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <CivilDuration />
+        </ProtectedRoute>
+      } />
+      {/* <Route path="/duration" element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
           <Duration />
         </ProtectedRoute>
-      } />
+      } /> */}
 
       <Route path="/book-appointment" element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
           <BookAppointment />
         </ProtectedRoute>
       } />
+      
 
       <Route path="/booking" element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>

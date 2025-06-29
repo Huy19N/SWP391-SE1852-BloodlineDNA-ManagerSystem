@@ -13,7 +13,7 @@ function CivilServices() {
     "selectedService",
     JSON.stringify({ ...previous, testType })
   );
-  navigate("/duration");
+  navigate("/civil-duration");
 };
 //gọi API
   useEffect(() => {
@@ -24,7 +24,7 @@ function CivilServices() {
         params: {
           typeSearch: "",
           search: "",
-          sortBy: "serviceId",
+          sortBy: "ServiceID",
           page: 1
         },
       });
