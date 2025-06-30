@@ -28,7 +28,7 @@ namespace APIGeneCare.Repository
                 DeliveryMethodId = dm.DeliveryMethodId,
                 DeliveryMethodName = dm.DeliveryMethodName,
             }).SingleOrDefault(dm => dm.DeliveryMethodId == id);
-        public bool CreateDeliveryMethodBy(DeliveryMethodDTO deliveryMethod)
+        public bool CreateDeliveryMethod(DeliveryMethodDTO deliveryMethod)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -52,7 +52,7 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        public bool UpdateDeliveryMethodBy(DeliveryMethodDTO deliveryMethod)
+        public bool UpdateDeliveryMethod(DeliveryMethodDTO deliveryMethod)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
