@@ -13,7 +13,7 @@ function CivilServices() {
     "selectedService",
     JSON.stringify({ ...previous, testType })
   );
-  navigate("/civil-duration");
+  navigate("/duration");
 };
 //gọi API
   useEffect(() => {

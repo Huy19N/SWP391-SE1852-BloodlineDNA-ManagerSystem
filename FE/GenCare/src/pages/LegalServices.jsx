@@ -24,7 +24,7 @@ function LegalServices() {
         params: {
           typeSearch: "",
           search: "",
-          sortBy: "serviceId",
+          sortBy: "ServiceID",
           page: 1
         },
       });
