@@ -119,7 +119,7 @@ export default function Header(){
                             <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/">Blog</NavLink>
+                            <NavLink className="nav-link text-dark" to="/blog">Blog</NavLink>
                         </li>
 						<li className="nav-item">
                             {handleLogin()}
