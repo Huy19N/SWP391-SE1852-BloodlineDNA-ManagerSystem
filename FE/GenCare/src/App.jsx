@@ -22,6 +22,7 @@ import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 import Users from './pages/Actors/Admin/Manager/Users.jsx'
 import Layout from './pages/Actors/TotalLayout.jsx';
+import DBBooking from './pages/Actors/CBooking.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -95,6 +96,7 @@ function App() {
           <Route path='dashboard' element={<Dashboard/>}/>
           <Route path='approve' element={<Approve/>}/>
           <Route path='users' element={<Users/>}/>
+          <Route path='dbbooking' element={<DBBooking/>}/>
         </Route>
 
       <Route path='/payment' element={

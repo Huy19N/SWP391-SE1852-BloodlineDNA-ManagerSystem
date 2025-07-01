@@ -28,26 +28,34 @@ function Sidebar (){
                         : null}
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="status">
-                            <i className="bi bi-journal-text"></i> Status
+                            <i className="bi bi-bookmark-check-fill"></i> Status
                         </Link>
                         </div>
-                        
-                        <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="appointment">
-                            <i className="bi bi-calendar-plus-fill"></i> Book Appointment
-                        </Link>
-                        </div>
-                        
-                        {isStaff || isManager ?
+                        {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="approve">
-                            <i className="bi bi-check-circle-fill"></i> Approve Form
+                            <i className="bi bi-check-circle-fill"></i> Form
                         </Link>
                         </div>
                         : null}
                         <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to='dbbooking'>
+                            <i className="bi bi-box2-fill"></i> Bookings
+                        </Link>
+                        </div>
+                        <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to='#'>
+                            <i className="bi bi-chat-left-text-fill"></i> Feedbacks
+                        </Link>
+                        </div>
+                        <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to='#'>
+                            <i className="bi bi-bank2"></i> Profit
+                        </Link>
+                        </div>
+                        <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='/'>
-                            <i className="bi bi-box-arrow-right"></i> Back Home
+                            <i className="bi bi-door-open-fill"></i> Back Home
                         </Link>
                         </div>
                     </nav>

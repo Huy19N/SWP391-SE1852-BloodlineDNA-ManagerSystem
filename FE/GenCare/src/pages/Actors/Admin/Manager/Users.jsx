@@ -117,11 +117,12 @@ function Users(){
         </div>
 
         <table className="table table-bordered table-hover">
-            <thead className="table-light ">
+            <thead className="table-primary text-center">
             <tr>
                 <th>ID</th>
                 <th>Email</th>
                 <th>Role</th>
+                {isAdmin ? <th>Action</th> : null}
             </tr>
             </thead>
             <tbody>
