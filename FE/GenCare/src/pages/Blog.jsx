@@ -3,47 +3,46 @@ import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
 import img4 from '../assets/test2.jpg';
+import React from "react";
 
-// BlogCard Component
-const BlogCard = ({ title, description, image, link }) => {
-  return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden h-100 d-flex flex-column">
-      <img src={image} alt={title} className="w-100 h-56 object-cover" />
-      <div className="p-4 flex-grow-1">
-        <h5 className="text-xl font-bold mb-2">{title}</h5>
-        <p className="text-sm text-gray-700 mb-3">{description}</p>
-        <a href={link} className="btn btn-primary mt-auto">Read More</a>
-      </div>
-    </div>
-  );
-};
+import { useEffect, useState } from "react";
+import api from "../config/axios.js";
+
+
 
 // Blog Page Component
 function Blog() {
-  const blogs = [
-    {
-      title: "Understanding DNA Testing",
-      description: "An overview of how DNA testing works and its applications.",
-      image: logo1,
-      link: "/blog/dna-testing"
-    },
-    {
-      title: "The Future of Genetic Research",
-      description: "Exploring the latest advancements in genetic research.",
-      image: logo1,
-      link: "/blog/genetic-research"
-    },
-    {
-      title: "Ethical Considerations in DNA Testing",
-      description: "Discussing the ethical implications of DNA testing.",
-      image: logo1,
-      link: "/blog/ethical-dna"
+    
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    //Gọi API
+    const fetchBlogs = async (e) => {
+        setLoading(true);
+
+        try{
+            const resBlogs = await api.get('Blogs/GetAllPaging');
+            setBlogs(resBlogs.data.data);
+
+            console.log(resBlogs.data.data);
+        }
+        catch (error) {
+            console.error("Error fetching blogs:", error.resBlogs.data.data);
+        } finally {
+            setLoading(false);
+        }
     }
-  ];
+
+    useEffect(() => {
+        fetchBlogs();
+    }, []);
+
+    // BlogCard Component
+
+
 
   return (
-    <>
-          {/* Carousel Section */}
+    <div>
       <div className="container-fluid p-0 m-0 position-relative">
         <div id="demo" className="carousel slide" data-bs-ride="carousel">
           {/* Indicators */}
@@ -85,18 +84,17 @@ function Blog() {
         </div>
       </div>
 
-    {/* Blog */}
-    <div className="container py-5">
-      <div className="row g-4">
-        {blogs.map((blog, index) => (
-          <div key={index} className="col-12 col-md-4 d-flex">
-            <BlogCard {...blog} />
-          </div>
-        ))}
-      </div>
+        <div className="container py-5">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden h-100 d-flex flex-column">
+            <img alt={blogs.title} className="w-100 h-56 object-cover" />
+                <div className="p-4 flex-grow-1">
+                    <h5 className="text-xl font-bold mb-2">{blogs?.title }</h5>
+                    <p className="text-sm text-gray-700 mb-3">{blogs.content}</p>
+                    <a className="btn btn-primary mt-auto">Read More</a>
+                </div>
+            </div>
+        </div>
     </div>
-    </>
   );
 }
-
 export default Blog;
