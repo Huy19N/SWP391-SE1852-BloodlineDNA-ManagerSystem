@@ -12,6 +12,7 @@ import CivilServices from './pages/CivilServices.jsx';
 import CivilDuration from'./pages/CivilDuration.jsx';
 import LegalDuration from './pages/LegalDuration.jsx';
 import Duration from './pages/Duration.jsx';
+import Blog from './pages/Blog.jsx';
 
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
@@ -55,6 +56,7 @@ function App() {
       <Route path="/Instruction" element={<Instruction />} />
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
+      <Route path="/blog" element={<Blog />} />
 
       <Route path="/legal-duration" element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
