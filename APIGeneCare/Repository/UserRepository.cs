@@ -168,9 +168,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId =u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password =u.Password
             }).OrderBy(u => u.UserId).ToList();
         public UserDTO? GetUserById(int id)
             => _context.Users.Select(u => new UserDTO
@@ -178,9 +180,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId = u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password = u.Password
             }).SingleOrDefault(u => u.UserId == id);
         public UserDTO? GetUserByEmail(string email)
             => _context.Users.Select(u => new UserDTO
@@ -188,9 +192,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId = u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password = u.Password
             }).SingleOrDefault(u => u.Email == email) ?? null!;
         public bool CreateUser(UserDTO user)
         {
