@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import api from '../config/axios';
 
 function Booking() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    serviceType: '',
-    testType: '',
-    timeSlot: '',
-    method: '',
-    user: {
-      fullName: '',
-      gmail: '',
-      cccd: ''
-    },
-    person1: {
-      fullName: '',
-      birthDate: '',
-      gender: '',
-      sampleType: '',
-      relationToPerson2: ''
-    },
-    person2: {
-      fullName: '',
-      birthDate: '',
-      gender: '',
-      sampleType: '',
-      relationToPerson1: ''
-    }
-  });
+  serviceType: '',
+  testType: '',
+  timeSlot: '',
+  method: '',
+  serviceId: null,
+  durationId: null,
+  user: {
+    fullName: '',
+    gmail: '',
+    cccd: ''
+  },
+  person1: {
+    fullName: '',
+    birthDate: '',
+    gender: '',
+    sampleType: '',
+    relationToPerson2: ''
+  },
+  person2: {
+    fullName: '',
+    birthDate: '',
+    gender: '',
+    sampleType: '',
+    relationToPerson1: ''
+  }
+});
 
   useEffect(() => {
     const selectedService = JSON.parse(localStorage.getItem('selectedService'));
@@ -38,7 +41,9 @@ function Booking() {
         serviceType: selectedService.mainType || '',
         testType: selectedService.testType || '',
         timeSlot: `${selectedService.appointmentDay || ''} - ${selectedService.appointmentSlot || ''}`,
-        method: selectedService.sampleMethod || ''
+        method: selectedService.sampleMethod || '',
+        serviceId: selectedService.serviceId || null,
+        durationId: selectedService.durationId || null,
       }));
     }
   }, []);
@@ -73,27 +78,58 @@ function Booking() {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
+    
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+    
+    const bookingUser = {
+      userId: 1, 
+      durationId: selectedService?.durationId,
+      serviceId: selectedService?.serviceId,
+      methodId: selectedService?.methodId || 1, 
+      appointmentTime: new Date().toISOString(),
+      statusId: 1,//tét
+      date: new Date().toISOString()
+    };
 
-  const handleSubmit = () => {
-    const { user, person1, person2 } = formData;
+    const bookingRes = await api.post("Bookings/Create", bookingUser);
 
-    if (!user.gmail || !user.cccd || !user.fullName) {
+
+    // const patients = [
+    //   { ...formData.person1, bookingId: bookingRes.data.data.bookingId },chưa tìm ra cách thêm id cho phần này
+    //   { ...formData.person2, bookingId: bookingRes.data.data.bookingId }
+    // ];
+
+    // for (const person of patients) {
+    //   await api.post("Patient/Create", person);
+    // }
+
+
+
+    toast.success("Đăng ký thành công!");
+    navigate("/payment"); 
+  } catch (error) {
+    console.error("Lỗi khi gửi đăng ký:", error);
+    toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
+  }
+
+    if (!formData.user.gmail || !formData.user.cccd || !formData.user.fullName) {
       toast.error("Vui lòng điền đầy đủ thông tin cá nhân!");
       return;
     }
 
-    if (!person1.fullName || !person1.birthDate || !person1.gender || !person1.sampleType) {
+    if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleType) {
       toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
       return;
     }
 
-    if (!person2.fullName || !person2.birthDate || !person2.gender || !person2.sampleType) {
+    if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleType) {
       toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
       return;
     }
 
-    // Không gọi API, chỉ mô phỏng gửi thành công
-    navigate('/payment');
   };
 
   return (
