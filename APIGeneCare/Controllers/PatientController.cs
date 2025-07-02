@@ -1,4 +1,5 @@
-﻿using APIGeneCare.Model;
+﻿using APIGeneCare.Entities;
+using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
@@ -13,7 +14,6 @@ namespace APIGeneCare.Controllers
     {
         private readonly IPatientRepository _patientRepository;
         public PatientController(IPatientRepository patientRepository) => _patientRepository = patientRepository;
-
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllPatients()
         {
@@ -90,7 +90,35 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating feedback: {ex.Message}");
             }
         }
-
+        [HttpPost("CreatePatientWithBooking")]
+        public IActionResult CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        {
+            try
+            {
+                var isCreate = _patientRepository.CreatePatientWithBooking(bookingWithPatient);
+                if (isCreate)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Success = true,
+                        Message = "Create Successful"
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "What are you doing?",
+                        Data = null
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating feedback: {ex.Message}");
+            }
+        }
         [HttpPut("Update")]
         public IActionResult UpdatePatient(PatientDTO patient)
         {

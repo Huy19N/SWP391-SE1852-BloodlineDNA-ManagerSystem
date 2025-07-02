@@ -1,6 +1,9 @@
 ﻿using APIGeneCare.Entities;
+using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace APIGeneCare.Repository
 {
@@ -40,6 +43,49 @@ namespace APIGeneCare.Repository
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
+        public bool CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (bookingWithPatient == null || bookingWithPatient.patients == null  || !bookingWithPatient.patients.Any() ) return false;
+
+                var booking = new Booking
+                {
+                    UserId = bookingWithPatient.UserId,
+                    DurationId = bookingWithPatient.DurationId,
+                    ServiceId = bookingWithPatient.ServiceId,
+                    MethodId = bookingWithPatient.MethodId,
+                    AppointmentTime = bookingWithPatient.AppointmentTime,
+                    StatusId = bookingWithPatient.StatusId,
+                    Date = bookingWithPatient.Date,
+                };
+                _context.Bookings.Add(booking);
+                _context.SaveChanges();
+                
+                foreach (var x in bookingWithPatient.patients)
+                {
+                    _context.Add(new Patient
+                    {
+                        BookingId = booking.BookingId,
+                        FullName = x.FullName,
+                        BirthDate = x.BirthDate,
+                        Gender = x.Gender,
+                        IdentifyId = x.IdentifyId,
+                        SampleType = x.SampleType,
+                        HasTestedDna = x.HasTestedDna,
+                        Relationship = x.Relationship,
+                    });
+                }
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public bool CreatePatient(PatientDTO patient)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -125,5 +171,6 @@ namespace APIGeneCare.Repository
             }
         }
 
+        
     }
 }
