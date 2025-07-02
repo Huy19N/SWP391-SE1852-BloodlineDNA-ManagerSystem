@@ -60,8 +60,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
         }, []);
 
         return (
-            <div className="ms-4 mt-5 pt-4 bg-white rounded shadow">
-            <h5 className="mb-3 text-center text-primary">USER REPORT</h5>
+            <div className="ms-4 mt-5 pt-4 bg-white rounded shadow card">
+            <h5 className="text-center text-primary">USER REPORT</h5>
             {chartData ? (
                 <Pie data={chartData} />
             ) : (

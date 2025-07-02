@@ -56,7 +56,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
     }, []);
 
     return (
-      <div className="ms-5 mt-5 p-5 bg-white rounded shadow" style={{width: '1030px', height: '590px'}}>
+      <div className="ms-5 mt-5 p-5 bg-white rounded shadow card" style={{width: '1030px', height: '590px'}}>
         <h5 className="mb-5 text-primary">DAILY PROFIT OVERVIEW</h5>
         {chartData.labels ? (
           <Bar
