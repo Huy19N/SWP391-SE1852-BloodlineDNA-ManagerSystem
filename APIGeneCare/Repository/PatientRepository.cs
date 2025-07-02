@@ -26,7 +26,7 @@ namespace APIGeneCare.Repository
                 SampleType = p.SampleType,
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
-            }).ToList();
+            });
         public PatientDTO? GetPatientById(int id)
             => _context.Patients.Select(p => new PatientDTO
             {
