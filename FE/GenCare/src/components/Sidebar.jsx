@@ -27,7 +27,7 @@ function Sidebar (){
                         </div>
                         : null}
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="status">
+                        <Link className="nav-link" to="#">
                             <i className="bi bi-bookmark-check-fill"></i> Status
                         </Link>
                         </div>
