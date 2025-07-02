@@ -43,7 +43,7 @@ namespace APIGeneCare.Repository
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
-        public bool CreatePatientWith(BookingWithPatient bookingWithPatient)
+        public bool CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
