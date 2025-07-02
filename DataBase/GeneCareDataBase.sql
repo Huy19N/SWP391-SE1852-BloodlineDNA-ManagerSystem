@@ -184,3 +184,74 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 (2, N'Employee'),
 (3, N'Manage'),
 (4, N'Admin');
+go
+INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password)
+VALUES 
+(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123'),
+(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123'),
+(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123'),
+(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123');
+go
+INSERT INTO Service (ServiceName ,ServiceType)
+VALUES 
+(N'dân sự', N'Cha/Mẹ-Con'),
+(N'dân sự', N'Anh/Chị-Em'),
+(N'dân sự', N'song sinh'),
+(N'dân sự', N'Cô/Chú-Cháu'),
+(N'dân sự', N'Dì/Cậu-Cháu'),
+(N'dân sự', N'Ông/Bà-Cháu'),
+
+(N'pháp lý', N'Cha/Mẹ-Con'),
+(N'pháp lý', N'Anh/Chị-Em'),
+(N'pháp lý', N'song sinh'),
+(N'pháp lý', N'Cô/Chú-Cháu'),
+(N'pháp lý', N'Dì/Cậu-Cháu'),
+(N'pháp lý', N'Ông/Bà-Cháu');
+go
+INSERT INTO Duration(DurationName )
+VALUES
+(N'gói 6h'),
+(N'gói 24h'),
+(N'gói 48h');
+go
+INSERT INTO ServicePrice(ServiceID,DurationID,Price)
+VALUES
+(1,1,N'2500000'),
+(1,2,N'2000000'),
+(1,3,N'1500000'),
+(7,1,N'3500000'),
+(7,2,N'3000000'),
+(7,3,N'2500000');
+go
+INSERT INTO CollectionMethod (MethodName)
+VALUES
+(N'tự thu mẫu tại nhà'),
+(N'thu mẫu tại nhà'),
+(N'thu mẫu tại cơ sở y tế');
+go
+INSERT INTO Status(StatusName)
+VALUES
+(N'chờ xác nhận'),
+(N'đã thu mẫu'),
+(N'đang thực hiện'),
+(N'hoàn thành');
+go
+INSERT INTO Booking(UserID,DurationID,ServiceID,MethodID,AppointmentTime,StatusID,StatusID,Date)
+VALUES
+(1,1,1,1,'2025-07-02 13:36:47.930',1,'2025-07-02 13:36:47.930');
+go
+INSERT INTO Patient (BookingID,FullName,BirthDate,Gender,IdentifyID,SampleType,HasTestedDNA,Relationship)
+VALUES 
+(1,'nguoi1','2005-07-03','Nam','0993231',N'máu',0,N'cha'),
+(1,'nguoi2','2024-01-04','Nam','',N'máu',0,N'con');
+go
+INSERT INTO DeliveryMethod(DeliveryMethodName)
+VALUES
+(N'tại nhà'),
+(N'tại cơ sở y tế');
+go
+INSERT INTO Samples(BookingID,PatientID,Date,SampleVariant,CollectBy,DeliveryMethodID,Status)
+ VALUES
+ (1,1,'2025-07-02',N'máu',2,1,N'chưa sửa'),
+ (1,2,'2025-07-02',N'máu',2,1,N'chưa sửa');
+go
