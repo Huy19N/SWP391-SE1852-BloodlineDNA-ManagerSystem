@@ -4,7 +4,8 @@ import { data, Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import PieChart from '../Chartjs/Chart.jsx';
+import Profitchart from '../Chartjs/ProfitChart.jsx';
+import UserChart from '../Chartjs/UserChart.jsx';
 function Dashboard() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -136,7 +137,13 @@ function Dashboard() {
                         </h3>
                     </div>
                 </div>
-
+                <div className='col-md-8 d-flex gap-2 flex-wrap justify-content-start'>
+                    <Profitchart />
+                </div>
+                <div className='col-md-4 d-flex gap-2 flex-wrap justify-content-start'>
+                    <UserChart />
+                </div>
+                
             </div>
     </div>
     

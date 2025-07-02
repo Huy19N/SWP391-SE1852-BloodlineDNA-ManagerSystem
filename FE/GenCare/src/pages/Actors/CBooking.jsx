@@ -9,23 +9,36 @@ function Booking(){
     const [dataUser, setDataUser] = useState([]);
     const [dataService, setDataService] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
+    const [dataPatient, setDataPatient] = useState([]);
 
     const roleid = localStorage.getItem('roleId');
     const isStaff = roleid === '2';
     const isAdmin = roleid === '4';
     const isManager = roleid === '3';
     
+    const HandleUpdate = async (e) => {
+        setIsLoading(true);
+        // Service, 
+        try{
+            
+        }
+        catch(error){
+
+        }
+    }
 
     const fetchData = async (e) => {
         setIsLoading(true);
 
         try{
-            const [resBooking, resUser, resService, resStatus] = await Promise.all([
+            const [resBooking, resUser, resService, resStatus, resPatient] = await Promise.all([
                 api.get('Bookings/GetAll'),
                 api.get('Users/GetAll'),
                 api.get('Services/GetAllPaging'),
                 api.get('Status/GetAllStatus'),
+                // api.get('Patient/GetAll'),
             ]);
+            
 
             setDataBooking(resBooking.data.data);
             setDataUser(resUser.data.data);
@@ -39,6 +52,21 @@ function Booking(){
         }
         finally{
             setIsLoading(false);
+        }
+    }
+
+    //Delete 
+    const fetchDelete = async (bookingId) => {
+        if(!window.confirm("Are you sure you want to delete this Booking?")) return;
+
+        try{
+            await api.delete(`Bookings/DeleteById/${bookingId}`);
+            toast.success("This Booking deleted successfully!");
+            fetchData();
+        }
+        catch (error){
+            console.log("Delete error", error);
+            toast.error("Failed delete Booking this!")
         }
     }
 
@@ -65,6 +93,8 @@ function Booking(){
         const status = dataStatus.find(u => u.statusId === statusId);
         return status ? status.statusName : 'Empty';
     };
+
+    
 
     return (
             <div className="container mt-5">
@@ -103,7 +133,7 @@ function Booking(){
                                             <button className="btn btn-info me-2">
                                                 <i className="bi bi-pencil-square"></i>
                                             </button>
-                                            <button className="btn btn-danger">
+                                            <button className="btn btn-danger" onClick={() => fetchDelete(booking.bookingId)}>
                                                 <i className="bi bi-trash3-fill"></i>
                                             </button>
                                         </td>
@@ -117,7 +147,9 @@ function Booking(){
                         )}
                     </tbody>
                 </table>
-                <ToastContainer />
+                
+                {/* Xem chi tiết Form Booking */}
+                       
             </div>
         
     );
