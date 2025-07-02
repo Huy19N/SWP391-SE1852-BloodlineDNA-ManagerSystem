@@ -6,59 +6,74 @@ import api from '../config/axios';
 function Booking() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-  serviceType: '',
-  testType: '',
-  timeSlot: '',
-  method: '',
-  serviceId: null,
-  durationId: null,
-  user: {
-    fullName: '',
-    gmail: '',
-    cccd: ''
-  },
-  person1: {
-    fullName: '',
-    birthDate: '',
-    gender: '',
-    sampleType: '',
-    relationToPerson2: ''
-  },
-  person2: {
-    fullName: '',
-    birthDate: '',
-    gender: '',
-    sampleType: '',
-    relationToPerson1: ''
-  }
-});
+    serviceType: '',
+    testType: '',
+    timeSlot: '',
+    method: '',
+    serviceId: null,
+    durationId: null,
+    user: {
+      fullName: '',
+      gmail: '',
+      cccd: ''
+    },
+    person1: {
+      fullName: '',
+      birthDate: '',
+      gender: '',
+      sampleType: '',
+      relationToPerson2: ''
+    },
+    person2: {
+      fullName: '',
+      birthDate: '',
+      gender: '',
+      sampleType: '',
+      relationToPerson1: ''
+    }
+  });
 
   useEffect(() => {
     const selectedService = JSON.parse(localStorage.getItem('selectedService'));
-    if (selectedService) {
-      setFormData((prev) => ({
-        ...prev,
-        serviceType: selectedService.mainType || '',
-        testType: selectedService.testType || '',
-        timeSlot: `${selectedService.appointmentDay || ''} - ${selectedService.appointmentSlot || ''}`,
-        method: selectedService.sampleMethod || '',
-        serviceId: selectedService.serviceId || null,
-        durationId: selectedService.durationId || null,
-      }));
+    const userId = localStorage.getItem("userId"); //lấy id
+
+    if (!userId) {
+      navigate("/login");
+      return;
     }
+
+    const fetchUserData = async () => {
+      try {
+        const userRes = await api.get(`/Users/getbyid/${userId}`);
+        const user = userRes.data.data;
+
+        setFormData((prev) => ({
+          ...prev,
+          serviceType: selectedService?.mainType || '',
+          testType: selectedService?.testType || '',
+          timeSlot: `${selectedService?.appointmentDay || ''} - ${selectedService?.appointmentSlot || ''}`,
+          method: selectedService?.sampleMethod || '',
+          serviceId: selectedService?.serviceId || null,
+          durationId: selectedService?.durationId || null,
+          userId: user.userId,
+          user: {
+            fullName: user.fullName || '',
+            gmail: user.email || '',
+            cccd: user.identifyId || ''
+          }
+        }));
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin người dùng:", error);
+        toast.error("Không thể tải thông tin người dùng.");
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('user.')) {
-      setFormData(prev => ({
-        ...prev,
-        user: {
-          ...prev.user,
-          [name.split('.')[1]]: value
-        }
-      }));
-    } else if (name.startsWith('person1.')) {
+    if (name.startsWith('person1.')) {
       setFormData(prev => ({
         ...prev,
         person1: {
@@ -78,47 +93,9 @@ function Booking() {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
-    
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const selectedService = JSON.parse(localStorage.getItem("selectedService"));
-    
-    const bookingUser = {
-      userId: 1, 
-      durationId: selectedService?.durationId,
-      serviceId: selectedService?.serviceId,
-      methodId: selectedService?.methodId || 1, 
-      appointmentTime: new Date().toISOString(),
-      statusId: 1,//tét
-      date: new Date().toISOString()
-    };
-
-    const bookingRes = await api.post("Bookings/Create", bookingUser);
-
-
-    // const patients = [
-    //   { ...formData.person1, bookingId: bookingRes.data.data.bookingId },chưa tìm ra cách thêm id cho phần này
-    //   { ...formData.person2, bookingId: bookingRes.data.data.bookingId }
-    // ];
-
-    // for (const person of patients) {
-    //   await api.post("Patient/Create", person);
-    // }
-
-
-
-    toast.success("Đăng ký thành công!");
-    navigate("/payment"); 
-  } catch (error) {
-    console.error("Lỗi khi gửi đăng ký:", error);
-    toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
-  }
-
-    if (!formData.user.gmail || !formData.user.cccd || !formData.user.fullName) {
-      toast.error("Vui lòng điền đầy đủ thông tin cá nhân!");
-      return;
-    }
+    e.preventDefault();
 
     if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleType) {
       toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
@@ -130,6 +107,29 @@ function Booking() {
       return;
     }
 
+    try {
+      const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+
+      const bookingUser = {
+        userId: formData.userId,
+        durationId: selectedService?.durationId,
+        serviceId: selectedService?.serviceId,
+        methodId: selectedService?.methodId || 1,
+        appointmentTime: new Date().toISOString(),
+        statusId: 1,
+        date: new Date().toISOString()
+      };
+
+      const bookingRes = await api.post("Bookings/Create", bookingUser);
+
+      
+
+      toast.success("Đăng ký thành công!");
+      navigate("/payment");
+    } catch (error) {
+      console.error("Lỗi khi gửi đăng ký:", error);
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
+    }
   };
 
   return (
@@ -154,14 +154,12 @@ function Booking() {
         </div>
       ))}
 
-      {/* Thông tin người đăng ký */}
       <Section title="Thông tin người đăng ký">
-        <TextInput label="Họ và tên" name="user.fullName" value={formData.user.fullName} onChange={handleChange} />
-        <TextInput label="Gmail" name="user.gmail" value={formData.user.gmail} onChange={handleChange} type="email" />
-        <TextInput label="CCCD" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
+        <TextInput label="Họ và tên" name="user.fullName" value={formData.user.fullName} readOnly />
+        <TextInput label="Gmail" name="user.gmail" value={formData.user.gmail} readOnly type="email" />
+        <TextInput label="CCCD" name="user.cccd" value={formData.user.cccd} readOnly />
       </Section>
 
-      {/* Người thứ nhất */}
       <Section title="Thông tin người thứ nhất">
         <TextInput label="Họ và tên" name="person1.fullName" value={formData.person1.fullName} onChange={handleChange} />
         <TextInput label="Năm sinh" name="person1.birthDate" value={formData.person1.birthDate} onChange={handleChange} type="date" />
@@ -170,7 +168,6 @@ function Booking() {
         <TextInput label="Mối quan hệ với người thứ 2" name="person1.relationToPerson2" value={formData.person1.relationToPerson2} onChange={handleChange} />
       </Section>
 
-      {/* Người thứ hai */}
       <Section title="Thông tin người thứ hai">
         <TextInput label="Họ và tên" name="person2.fullName" value={formData.person2.fullName} onChange={handleChange} />
         <TextInput label="Năm sinh" name="person2.birthDate" value={formData.person2.birthDate} onChange={handleChange} type="date" />
@@ -180,8 +177,8 @@ function Booking() {
       </Section>
 
       <div className="text-center mt-4">
-        <button className="btn btn-primary px-4" onClick={handleSubmit} >
-          đăng ký
+        <button className="btn btn-primary px-4" onClick={handleSubmit}>
+          Đăng ký
         </button>
       </div>
     </div>
@@ -199,7 +196,7 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-const TextInput = ({ label, name, value, onChange, type = "text" }) => (
+const TextInput = ({ label, name, value, onChange, type = "text", readOnly = false }) => (
   <div className="mb-4">
     <label className="block font-medium mb-2">{label}:</label>
     <input
@@ -207,6 +204,7 @@ const TextInput = ({ label, name, value, onChange, type = "text" }) => (
       name={name}
       value={value}
       onChange={onChange}
+      readOnly={readOnly}
       className="w-full p-2 border rounded"
       placeholder={`Nhập ${label.toLowerCase()}`}
     />
