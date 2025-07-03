@@ -125,13 +125,7 @@ export default function Header(){
                             {handleLogin()}
                         </li>   
                     </ul>
-                    {/*nút chế độ sáng tối */}
-                    <p>{'chưa xong không đụng giúp tao ==>>>'} </p>
-                    <button className="btn btn-outline-secondary ms-2"
-                            onClick={() => setDarkMode(!darkMode)}
-                            >
-                            {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
-                    </button>
+                    
                 </div>
             </div>
         </nav>

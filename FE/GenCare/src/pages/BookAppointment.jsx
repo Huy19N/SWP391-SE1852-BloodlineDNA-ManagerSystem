@@ -94,9 +94,9 @@ function BookAppointment() {
         <label className="form-label">Phương thức thu mẫu:</label>
         <select value={selectedMethod} onChange={handleMethodChange} className="form-select">
           <option >-- Chọn --</option>
-          <option value="tự thu mẫu tại nhà">Tự thu mẫu tại nhà</option>
-          <option value="thu mẫu tại nhà">Thu mẫu tại nhà</option>          
-          <option value="thu mẫu tại cơ sở y tế">Thu mẫu tại cơ sở y tế</option>
+          <option value="Tự thu mẫu tại nhà">Tự thu mẫu tại nhà</option>
+          <option value="Thu mẫu tại nhà">Thu mẫu tại nhà</option>          
+          <option value="Thu mẫu tại cơ sở y tế">Thu mẫu tại cơ sở y tế</option>
         </select>
       </div>
       {/* Nút xác nhận */}

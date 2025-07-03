@@ -66,6 +66,7 @@ function Duration() {
     serviceId,
     durationId
   }));
+  console.log("kiểm tra testType:", selectedService);
   navigate("/book-appointment");
 };
   
