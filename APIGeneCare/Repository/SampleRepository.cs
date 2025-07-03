@@ -25,9 +25,7 @@ namespace APIGeneCare.Repository
                         allSamples = _context.Samples.Where(s => s.SampleId == sampleid);
                     }
 
-                    if (typeSearch.Equals("deliverymethodid", StringComparison.CurrentCultureIgnoreCase))
-                        if (int.TryParse(search, out int deliverymethodid))
-                            allSamples = _context.Samples.Where(s => s.DeliveryMethodId == deliverymethodid);
+    
                 }
             }
             #endregion
@@ -40,11 +38,7 @@ namespace APIGeneCare.Repository
                 if (sortBy.Equals("sampleid_desc", StringComparison.CurrentCultureIgnoreCase))
                     allSamples = allSamples.OrderByDescending(s => s.SampleId);
 
-                if (sortBy.Equals("deliverymethod_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderBy(s => s.DeliveryMethod);
-
-                if (sortBy.Equals("deliverymethod_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderByDescending(s => s.DeliveryMethod);
+                
 
             }
             #endregion
@@ -52,7 +46,6 @@ namespace APIGeneCare.Repository
             return result.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
-                DeliveryMethodId = s.DeliveryMethodId,
                 SampleName = s.SampleName
             });
 
@@ -61,7 +54,6 @@ namespace APIGeneCare.Repository
             => _context.Samples.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
-                DeliveryMethodId = s.DeliveryMethodId,
                 SampleName = s.SampleName
             }).SingleOrDefault(s => s.SampleId == id);
         public bool CreateSample(SampleDTO sample)
@@ -75,7 +67,6 @@ namespace APIGeneCare.Repository
                 }
                 _context.Samples.Add(new Sample
                 {
-                    DeliveryMethodId = sample.DeliveryMethodId,
                     SampleName = sample.SampleName
                 });
 
@@ -106,7 +97,6 @@ namespace APIGeneCare.Repository
             try
             {
                 
-                existingSample.DeliveryMethodId = sample.DeliveryMethodId;
                 existingSample.SampleName = sample.SampleName;
                 
                 _context.SaveChanges();
