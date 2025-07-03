@@ -95,7 +95,7 @@ function Blog() {
                   <div className="p-4 flex-grow-1">
                     <h5 className="text-xl font-bold mb-2">{blog.title}</h5>
                     <p className="text-sm text-gray-700 mb-3">
-                      {blog.description || blog.content?.substring(0, 100) + "..."}
+                      {blog.description || blog.content?.substring(0, 75) + "..."}
                     </p>
                     <a href={`/blog/${blog.id}`} className="btn btn-primary mt-auto">Read More</a>
                   </div>
