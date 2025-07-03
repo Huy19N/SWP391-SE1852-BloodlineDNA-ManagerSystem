@@ -37,10 +37,6 @@ function Blog() {
         fetchBlogs();
     }, []);
 
-    // BlogCard Component
-
-
-
   return (
     <div>
       <div className="container-fluid p-0 m-0 position-relative">
@@ -84,16 +80,31 @@ function Blog() {
         </div>
       </div>
 
-        <div className="container py-5">
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden h-100 d-flex flex-column">
-            <img alt={blogs.title} className="w-100 h-56 object-cover" />
-                <div className="p-4 flex-grow-1">
-                    <h5 className="text-xl font-bold mb-2">{blogs?.title }</h5>
-                    <p className="text-sm text-gray-700 mb-3">{blogs.content}</p>
-                    <a className="btn btn-primary mt-auto">Read More</a>
+    {/*Blog */}
+      <div className="container py-5">
+        {loading ? (
+          <div className="text-center">
+            <div className="spinner-border text-primary" role="status" />
+            <p>Đang tải bài viết...</p>
+          </div>
+        ) : (
+          <div className="row g-4">
+            {blogs.map((blog, index) => (
+              <div key={index} className="col-12 col-md-4 d-flex">
+                <div className="bg-white shadow-lg rounded-lg overflow-hidden h-100 d-flex flex-column">
+                  <div className="p-4 flex-grow-1">
+                    <h5 className="text-xl font-bold mb-2">{blog.title}</h5>
+                    <p className="text-sm text-gray-700 mb-3">
+                      {blog.description || blog.content?.substring(0, 100) + "..."}
+                    </p>
+                    <a href={`/blog/${blog.id}`} className="btn btn-primary mt-auto">Read More</a>
+                  </div>
                 </div>
-            </div>
-        </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
