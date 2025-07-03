@@ -231,22 +231,14 @@ VALUES
 (N'đang thực hiện'),
 (N'hoàn thành');
 go
-INSERT INTO Booking(UserID,DurationID,ServiceID,MethodID,AppointmentTime,StatusID,StatusID,Date)
+INSERT INTO Booking(UserID,DurationID,ServiceID,MethodID,AppointmentTime,StatusID,Date)
 VALUES
 (1,1,1,1,'2025-07-02 13:36:47.930',1,'2025-07-02 13:36:47.930');
 go
-INSERT INTO Patient (BookingID,FullName,BirthDate,Gender,IdentifyID,SampleType,HasTestedDNA,Relationship)
-VALUES 
-(1,'nguoi1','2005-07-03','Nam','0993231',N'máu',0,N'cha'),
-(1,'nguoi2','2024-01-04','Nam','',N'máu',0,N'con');
-go
-INSERT INTO DeliveryMethod(DeliveryMethodName)
-VALUES
-(N'tại nhà'),
-(N'tại cơ sở y tế');
-go
-INSERT INTO Samples(BookingID,PatientID,Date,SampleVariant,CollectBy,DeliveryMethodID,Status)
+INSERT INTO Samples(SampleName)
  VALUES
- (1,1,'2025-07-02',N'máu',2,1,N'chưa sửa'),
- (1,2,'2025-07-02',N'máu',2,1,N'chưa sửa');
+ (N'máu'),
+ (N'Móng tay/chân'),
+ (N'Tóc'),
+ (N'Niêm mạc miệng');
 go
