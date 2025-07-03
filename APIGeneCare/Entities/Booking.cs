@@ -29,8 +29,6 @@ public partial class Booking
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
-
     public virtual Service? Service { get; set; }
 
     public virtual Status? Status { get; set; }

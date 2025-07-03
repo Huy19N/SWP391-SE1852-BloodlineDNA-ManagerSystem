@@ -9,6 +9,8 @@ public partial class Patient
 
     public int BookingId { get; set; }
 
+    public int? SampleId { get; set; }
+
     public string FullName { get; set; } = null!;
 
     public DateOnly BirthDate { get; set; }
@@ -17,13 +19,11 @@ public partial class Patient
 
     public string? IdentifyId { get; set; }
 
-    public string SampleType { get; set; } = null!;
-
     public bool HasTestedDna { get; set; }
 
     public string? Relationship { get; set; }
 
     public virtual Booking Booking { get; set; } = null!;
 
-    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
+    public virtual Sample? Sample { get; set; }
 }

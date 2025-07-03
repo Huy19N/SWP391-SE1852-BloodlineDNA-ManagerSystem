@@ -22,11 +22,11 @@ namespace APIGeneCare.Repository
             {
                 PatientId = p.PatientId,
                 BookingId = p.BookingId,
+                SampleId = p.SampleId,
                 FullName = p.FullName,
                 BirthDate = p.BirthDate,
                 Gender = p.Gender,
                 IdentifyId = p.IdentifyId,
-                SampleType = p.SampleType,
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             });
@@ -35,11 +35,11 @@ namespace APIGeneCare.Repository
             {
                 PatientId = p.PatientId,
                 BookingId = p.BookingId,
+                SampleId = p.SampleId,
                 FullName = p.FullName,
                 BirthDate = p.BirthDate,
                 Gender = p.Gender,
                 IdentifyId = p.IdentifyId,
-                SampleType = p.SampleType,
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
@@ -68,13 +68,14 @@ namespace APIGeneCare.Repository
                     _context.Add(new Patient
                     {
                         BookingId = booking.BookingId,
+                        PatientId = x.PatientId,
+                        SampleId = x.SampleId,
                         FullName = x.FullName,
                         BirthDate = x.BirthDate,
                         Gender = x.Gender,
                         IdentifyId = x.IdentifyId,
-                        SampleType = x.SampleType,
                         HasTestedDna = x.HasTestedDna,
-                        Relationship = x.Relationship,
+                        Relationship = x.Relationship
                     });
                 }
                 _context.SaveChanges();
@@ -97,12 +98,13 @@ namespace APIGeneCare.Repository
                 }
                 _context.Patients.Add(new Patient
                 {
+                    PatientId = patient.PatientId,
                     BookingId = patient.BookingId,
+                    SampleId = patient.SampleId,
                     FullName = patient.FullName,
                     BirthDate = patient.BirthDate,
                     Gender = patient.Gender,
                     IdentifyId = patient.IdentifyId,
-                    SampleType = patient.SampleType,
                     HasTestedDna = patient.HasTestedDna,
                     Relationship = patient.Relationship
                 });
@@ -133,11 +135,11 @@ namespace APIGeneCare.Repository
                     return false;
                 }
                 existingPatient.BookingId = patient.BookingId;
+                existingPatient.SampleId = patient.SampleId;
                 existingPatient.FullName = patient.FullName;
                 existingPatient.BirthDate = patient.BirthDate;
                 existingPatient.Gender = patient.Gender;
                 existingPatient.IdentifyId = patient.IdentifyId;
-                existingPatient.SampleType = patient.SampleType;
                 existingPatient.HasTestedDna = patient.HasTestedDna;
                 existingPatient.Relationship = patient.Relationship;
 
