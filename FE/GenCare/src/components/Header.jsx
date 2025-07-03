@@ -1,21 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
- import { ToastContainer, toast } from 'react-toastify';
-//import '../css/LightMode.css';
+ import {  toast } from 'react-toastify';
+
 
 export default function Header(){
-    const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }, [darkMode]);
-
     // Hàm đăng xuất
     const handleLogout = () => {
         // Xóa token và roleId khỏi localStorage
