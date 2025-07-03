@@ -118,8 +118,6 @@ CREATE TABLE TestResult (
 -- Bảng Samples
 CREATE TABLE Samples (
     SampleID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID),
     DeliveryMethodID INT FOREIGN KEY REFERENCES DeliveryMethod(DeliveryMethodID),
 	SampleName NVARCHAR(200)
 );
