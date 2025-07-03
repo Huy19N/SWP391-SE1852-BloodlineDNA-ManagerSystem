@@ -115,29 +115,26 @@ CREATE TABLE TestResult (
     ResultSummary NVARCHAR(MAX)
 );
 
--- Bảng Patient
-CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY IDENTITY(1,1), 
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
-    FullName NVARCHAR(200) NOT NULL,
-    BirthDate DATE NOT NULL,
-    Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
-    IdentifyID NVARCHAR(50),
-    SampleType NVARCHAR(200) NOT NULL, -- 'Niêm mạc miệng; Máu'...
-    HasTestedDNA BIT NOT NULL,
-    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
-);
-
 -- Bảng Samples
 CREATE TABLE Samples (
     SampleID INT PRIMARY KEY IDENTITY(1,1),
     BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-	PatientID INT FOREIGN KEY REFERENCES Patient(PatientID),
-    [Date] DATETIME,
-    SampleVariant NVARCHAR(200),
-    CollectBy INT FOREIGN KEY REFERENCES Users(UserID),
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),
     DeliveryMethodID INT FOREIGN KEY REFERENCES DeliveryMethod(DeliveryMethodID),
-    Status NVARCHAR(50)
+	SampleName NVARCHAR(200)
+);
+
+-- Bảng Patient
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY IDENTITY(1,1), 
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+	SampleID INT FOREIGN KEY REFERENCES Samples(SampleID),
+    FullName NVARCHAR(200) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
+    IdentifyID NVARCHAR(50),
+    HasTestedDNA BIT NOT NULL,
+    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
 );
 
 -- Bảng Blog
