@@ -9,8 +9,6 @@ import ProtectedRoute from './pages/ProtectReute/protectedRoute.jsx';
 import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
-import CivilDuration from'./pages/CivilDuration.jsx';
-import LegalDuration from './pages/LegalDuration.jsx';
 import Duration from './pages/Duration.jsx';
 import Blog from './pages/Blog.jsx';
 
@@ -58,17 +56,7 @@ function App() {
       <Route path="/civil-services" element={<CivilServices />} />
       <Route path="/blog" element={<Blog />} />
 
-      <Route path="/legal-duration" element={
-        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
-          <LegalDuration />
-        </ProtectedRoute>
-      } />
-
-      <Route path="/civil-duration" element={
-        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
-          <CivilDuration />
-        </ProtectedRoute>
-      } />
+      
        <Route path="/duration" element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
           <Duration />

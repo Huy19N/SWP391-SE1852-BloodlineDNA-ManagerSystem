@@ -16,7 +16,6 @@ function LegalServices() {
   navigate("/duration");
   };
 
-
   useEffect(() => {
   const fetchServices = async () => {
     try {

@@ -3,6 +3,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import api from '../config/axios';
 
+  const selectedService = JSON.parse(localStorage.getItem('selectedService'));
+  const userId = localStorage.getItem("userId"); //lấy id
 function Booking() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -18,30 +20,24 @@ function Booking() {
       cccd: ''
     },
     person1: {
-      fullName: '',
-      birthDate: '',
-      gender: '',
-      sampleType: '',
-      relationToPerson2: ''
+    fullName: '',
+    birthDate: '',
+    gender: '',
+    hasTestedDna: '',
+    sampleType: '',
+    relationToPerson2: ''
     },
     person2: {
-      fullName: '',
-      birthDate: '',
-      gender: '',
-      sampleType: '',
-      relationToPerson1: ''
+    fullName: '',
+    birthDate: '',
+    gender: '',
+    hasTestedDna: '',
+    sampleType: '',
+    relationToPerson1: ''
     }
   });
 
   useEffect(() => {
-    const selectedService = JSON.parse(localStorage.getItem('selectedService'));
-    const userId = localStorage.getItem("userId"); //lấy id
-
-    if (!userId) {
-      navigate("/login");
-      return;
-    }
-
     const fetchUserData = async () => {
       try {
         const userRes = await api.get(`/Users/getbyid/${userId}`);
@@ -55,11 +51,11 @@ function Booking() {
           method: selectedService?.sampleMethod || '',
           serviceId: selectedService?.serviceId || null,
           durationId: selectedService?.durationId || null,
-          userId: user.userId,
           user: {
-            fullName: user.fullName || '',
-            gmail: user.email || '',
-            cccd: user.identifyId || ''
+            userId: user.userId,
+            fullName: user.fullName,
+            gmail: user.email,
+            cccd: user.identifyId
           }
         }));
       } catch (error) {
@@ -95,42 +91,64 @@ function Booking() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleType) {
-      toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
-      return;
-    }
+  if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleType) {
+    toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
+    return;
+  }
 
-    if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleType) {
-      toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
-      return;
-    }
+  if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleType) {
+    toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
+    return;
+  }
 
-    try {
-      const selectedService = JSON.parse(localStorage.getItem("selectedService"));
+  try {
+    
 
-      const bookingUser = {
-        userId: formData.userId,
-        durationId: selectedService?.durationId,
-        serviceId: selectedService?.serviceId,
-        methodId: selectedService?.methodId || 1,
-        appointmentTime: new Date().toISOString(),
-        statusId: 1,
-        date: new Date().toISOString()
-      };
+    const bookingData = {
+      userId: parseInt(userId),
+      durationId: selectedService?.durationId,
+      serviceId: selectedService?.serviceId,
+      methodId: selectedService?.methodId || 1,
+      appointmentTime: new Date().toISOString(),
+      statusId: 1,
+      date: new Date().toISOString(),
+      patients: [
+        {
+          fullName: formData.person1.fullName,
+          birthDate: formData.person1.birthDate,
+          gender: formData.person1.gender,
+          identifyId: String(formData.user.cccd),
+          sampleType: formData.person1.sampleType,
+          hasTestedDna: formData.person1.hasTestedDna=== 'true',//xét true khi chọn có
+          relationship: formData.person1.relationToPerson2
+        },
+        {
+          fullName: formData.person2.fullName,
+          birthDate: formData.person2.birthDate,
+          gender: formData.person2.gender,
+          identifyId: String(formData.user.cccd),
+          sampleType: formData.person2.sampleType,
+          hasTestedDna: formData.person2.hasTestedDna=== 'true',
+          relationship: formData.person2.relationToPerson1
+        }
+      ]
+    };
+    console.log("Dữ liệu gửi đi:", bookingData);
+    console.log("Patients chi tiết:", bookingData.patients);
+    const res = await api.post("Patient/CreatePatientWithBooking", bookingData);
 
-      const bookingRes = await api.post("Bookings/Create", bookingUser);
+    toast.success("Đăng ký thành công!");
+    navigate("/payment");
 
-      
+  } catch (error) {
+    console.error("Lỗi khi gửi đăng ký:", error);
+    toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
+  }
+};
 
-      toast.success("Đăng ký thành công!");
-      navigate("/payment");
-    } catch (error) {
-      console.error("Lỗi khi gửi đăng ký:", error);
-      toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
-    }
-  };
+
 
   return (
     <div className="container mt-5 mb-4 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
@@ -164,6 +182,7 @@ function Booking() {
         <TextInput label="Họ và tên" name="person1.fullName" value={formData.person1.fullName} onChange={handleChange} />
         <TextInput label="Năm sinh" name="person1.birthDate" value={formData.person1.birthDate} onChange={handleChange} type="date" />
         <SelectInput label="Giới tính" name="person1.gender" value={formData.person1.gender} onChange={handleChange} options={genderOptions} />
+        <SelectInput label="Đã xét nghiệm trước đây chưa?" name="person1.hasTestedDna" value={formData.person1.hasTestedDna}onChange={handleChange} options={testedOptions}/>
         <SelectInput label="Loại mẫu xét nghiệm" name="person1.sampleType" value={formData.person1.sampleType} onChange={handleChange} options={sampleOptions} />
         <TextInput label="Mối quan hệ với người thứ 2" name="person1.relationToPerson2" value={formData.person1.relationToPerson2} onChange={handleChange} />
       </Section>
@@ -172,6 +191,7 @@ function Booking() {
         <TextInput label="Họ và tên" name="person2.fullName" value={formData.person2.fullName} onChange={handleChange} />
         <TextInput label="Năm sinh" name="person2.birthDate" value={formData.person2.birthDate} onChange={handleChange} type="date" />
         <SelectInput label="Giới tính" name="person2.gender" value={formData.person2.gender} onChange={handleChange} options={genderOptions} />
+        <SelectInput label="Đã xét nghiệm trước đây chưa?" name="person2.hasTestedDna" value={formData.person2.hasTestedDna} onChange={handleChange} options={testedOptions}/>
         <SelectInput label="Loại mẫu xét nghiệm" name="person2.sampleType" value={formData.person2.sampleType} onChange={handleChange} options={sampleOptions} />
         <TextInput label="Mối quan hệ với người thứ 1" name="person2.relationToPerson1" value={formData.person2.relationToPerson1} onChange={handleChange} />
       </Section>
@@ -229,6 +249,10 @@ const genderOptions = [
   { value: 'other', label: 'Khác' }
 ];
 
+const testedOptions = [
+  { value: 'true', label: 'Rồi nha má' },
+  { value: 'false', label: 'Chưa nè' }
+];
 const sampleOptions = [
   { value: 'blood', label: 'Máu' },
   { value: 'nail', label: 'Móng tay/chân' },
