@@ -58,11 +58,7 @@ CREATE TABLE CollectionMethod (
     MethodName NVARCHAR(100)
 );
 
--- Bảng DeliveryMethod
-CREATE TABLE DeliveryMethod (
-    DeliveryMethodID INT PRIMARY KEY IDENTITY(1,1),
-    DeliveryMethodName NVARCHAR(100)
-);
+
 -- Bảng Status
 CREATE TABLE [Status] (
     StatusID INT PRIMARY KEY IDENTITY(1,1),
@@ -118,7 +114,6 @@ CREATE TABLE TestResult (
 -- Bảng Samples
 CREATE TABLE Samples (
     SampleID INT PRIMARY KEY IDENTITY(1,1),
-    DeliveryMethodID INT FOREIGN KEY REFERENCES DeliveryMethod(DeliveryMethodID),
 	SampleName NVARCHAR(200)
 );
 
