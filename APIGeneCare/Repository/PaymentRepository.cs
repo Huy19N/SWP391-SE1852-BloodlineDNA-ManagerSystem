@@ -206,37 +206,6 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public bool TestCreatePayment(PaymentDTO payment)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                _context.Payments.Add(new Payment
-                {
-                    BookingId = 1,
-                    KeyVersionId = 1,
-                    TransactionId = DateTime.Now.ToString(),
-                    Amount = 1000m,
-                    Currency = "VND",
-                    PaymentDate = DateTime.Now,
-                    BankCode = "00",
-                    OrderInfo = "muuu",
-                    ResponseCode = "01",
-                    SecureHash = "aa",
-                    RawData = "saa",
-                    HavePaid = true
-                });
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                return false;
-            }
-        }
-
         #region payment with VnPay
         public string CreatePaymentUrl(PaymentInformationModel model, HttpContext context)
         {
@@ -265,7 +234,7 @@ namespace APIGeneCare.Repository
                     pay.CreateRequestUrl(_context.PaymentMethods.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId).EndpointUrl
                                         ,_context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive).HashSecret);
 
-                var requestData = pay.GetRequestData();
+                var requestData = pay.GetData();
                 var keyVersion = _context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive);
                 if (keyVersion == null)
                     throw new Exception("Active KeyVersion not found for PaymentMethodId: " + model.PaymentMethodId);
@@ -307,7 +276,7 @@ namespace APIGeneCare.Repository
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
-            
+            pay.GetData();
             return response;
         }
         #endregion

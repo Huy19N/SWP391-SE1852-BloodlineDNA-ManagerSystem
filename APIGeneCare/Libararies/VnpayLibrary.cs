@@ -12,7 +12,7 @@ namespace APIGeneCare.Libararies
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
-        public IDictionary<string, string> GetRequestData()
+        public IDictionary<string, string> GetData()
         {
             return new Dictionary<string, string>(_requestData);
         }

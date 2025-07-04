@@ -16,21 +16,6 @@ namespace APIGeneCare.Controllers
     {
         private readonly IPaymentRepository _paymentRepository;
         public PaymentController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
-        [HttpPost("Test")]
-        public IActionResult Test(PaymentDTO payment)
-        {
-            try
-            {
-                return Ok(new ApiResponse{
-                    Success = _paymentRepository.TestCreatePayment(payment),
-                    Message =""
-                });
-            }
-            catch
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
 
         [HttpGet("GetALl")]
         public async Task<IActionResult> GetAllPayments()
@@ -60,6 +45,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all payments: {ex.Message}");
             }
         }
+
         [HttpGet("SumAmount/{type}")]
         public IActionResult GetSumAmount(int type)
         {
