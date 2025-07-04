@@ -50,7 +50,12 @@ function Sidebar (){
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='#'>
-                            <i className="bi bi-bank2"></i> Profit
+                            <i className="bi bi-box"></i> Services
+                        </Link>
+                        </div>
+                        <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to='#'>
+                            <i className="bi bi-box"></i> Blogs 
                         </Link>
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>

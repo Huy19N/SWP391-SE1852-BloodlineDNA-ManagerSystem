@@ -15,6 +15,7 @@ import Blog from './pages/Blog.jsx';
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
 import Payment from './pages/Payment/Payment.jsx';
+import PaymentSuccess from './pages/Payment/PaymentSuccess.jsx';
 import Account from './pages/Actors/InforAccount.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
@@ -33,7 +34,7 @@ function App() {
   const location = useLocation();
   // Kiểm tra xem đường dẫn có phải là một trong những đường dẫn không cần hiển thị Header và Zalo hay không
   // Danh sách các đường dẫn không cần hiển thị Header và Zalo
-  const anonymousPaths = ['/layout'];
+  const anonymousPaths = ['/layout','/payment-success'];
   // Kiểm tra xem đường dẫn hiện tại có nằm trong danh sách không
   // Nếu đường dẫn hiện tại không nằm trong danh sách, thì hiển thị Header và Zalo
   // Nếu trong localtion.pathname có nằm trong anonymousPaths thì sẽ không hiển thị Header và Zalo
@@ -94,6 +95,8 @@ function App() {
           <Payment/>
         </ProtectedRoute>
       }/>
+
+      <Route path='/payment-success' element={<PaymentSuccess/>}/>
 
       <Route path='/account' element={ <Account/>} />
 

@@ -179,7 +179,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">CCCD</label>
-        <input className="form-control" value={formData.user.cccd} readOnly />
+        <input className="form-control" value={formData.user.cccd} />
       </div>
 
       {/* Người thứ nhất */}
