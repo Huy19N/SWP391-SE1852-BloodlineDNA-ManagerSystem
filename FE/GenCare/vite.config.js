@@ -5,13 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 
-  // server: {
-  //   host: true,              // Cho phép truy cập từ bên ngoài
-  //   port: 5173,
-  //   strictPort: true,
-  //   cors: true,
-  //   allowedHosts: [
-  //     'b4e6-42-117-101-6.ngrok-free.app'  // 👈 Thêm domain ngrok ở đây
-  //   ]
-  // },
+  server: {
+    host: true,              // Cho phép truy cập từ bên ngoài
+    port: 5173,
+    strictPort: true,
+    cors: true,
+    allowedHosts: [
+      '0c05-118-69-70-166.ngrok-free.app'  // 👈 Thêm domain ngrok ở đây
+    ]
+  },
 })

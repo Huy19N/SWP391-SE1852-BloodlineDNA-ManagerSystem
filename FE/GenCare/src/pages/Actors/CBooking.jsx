@@ -9,7 +9,6 @@ function Booking(){
     const [dataUser, setDataUser] = useState([]);
     const [dataService, setDataService] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
-    const [dataPatient, setDataPatient] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
 
@@ -65,38 +64,77 @@ function Booking(){
     //booking details
     const fetchBookingDetail = async (bookingId) => {
     try {
-        const [resBooking, resPatientAll, resSampleAll, resProcessAll] = await Promise.all([
+        const [
+            resBooking, 
+            resUserAll,
+            resPatientAll, 
+            resSampleAll, 
+            resProcessAll,
+            resServiceAll,
+            resStatusAll,
+            resDurationAll,
+            resMethodAll,
+            resStepsAll
+        ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
+            api.get(`Users/GetAll`),
             api.get(`Patient/GetAll`),
             api.get(`Samples/GetAllPaging`),
-            api.get(`TestProcess/GetAllPaging`)
+            api.get(`TestProcess/GetAllPaging`),
+            api.get(`Services/GetAllPaging`),
+            api.get(`Status/GetAllStatus`),
+            api.get(`Durations/GetAllPaging`),
+            api.get(`CollectionMethod/GetAll`),
+            api.get(`TestStep/getAllTestSteps`)
         ]);
 
+        const bookingList = resBooking.data.data;
 
-        // const patients = resPatientAll.data.data.filter(p => p.bookingId === bookingId);
+        const user = resUserAll.data.data.find(u => u.userId === bookingList.userId);
+        const service = resServiceAll.data.data.find(s => s.serviceId === bookingList.serviceId);
+        const status = resStatusAll.data.data.find(s => s.statusId === bookingList.statusId);
+        const method = resMethodAll.data.data.find(m => m.methodId === bookingList.methodId);
+
         const sampleMap = {};
         resSampleAll.data.data.forEach(sample => {
             sampleMap[sample.sampleId] = sample.sampleName;
         });
 
-        const patients = resPatientAll.data.data.filter(p => p.bookingId === bookingId).map(p => ({
-            ...p,
-            sampleName: sampleMap[p.sampleId] || "Unknown"
-        }));
-       
+        const patients = resPatientAll.data.data
+            .filter(p => p.bookingId === bookingId)
+            .map(p => ({
+                ...p,
+                sampleName: sampleMap[p.sampleId] || "Unknown"
+            }));
 
+        const steps = resStepsAll.data.data;
 
-        const processes = resProcessAll.data.data.filter(p => p.bookingId === bookingId);
+        const processes = resProcessAll.data.data
+            .filter(p => p.bookingId === bookingId)
+            .map(p => ({
+                ...p,
+                step: steps.find(s => s.stepId === p.stepId),
+                status: resStatusAll.data.data.find(st => st.statusId === p.statusId)
+            }));
 
         setDetailData({
-            booking: resBooking.data.data,
-            patients: patients,
-            samples: sampleMap,
-            processes: processes
+            booking: {
+                ...bookingList,
+                user,
+                service,
+                status,
+                duration: resDurationAll.data.data.find(d => d.durationId === bookingList.durationId),
+                collectionMethod: method
+            },
+            patients,
+            samples: resSampleAll.data.data,
+            processes
         });
+
         setShowOverlay(true);
     } catch (error) {
         toast.error("Failed to load booking detail");
+        console.error("Detail fetch error:", error);
     }
 };
 
@@ -196,9 +234,8 @@ function Booking(){
                                         <div className="accordion-body">
                                             <p><strong>Booking ID:</strong> {detailData.booking.bookingId}</p>
                                             <p><strong>Service:</strong> {detailData.booking.service?.serviceName} - {detailData.booking.service?.serviceType}</p>
-                                            <p><strong>Duration:</strong> {detailData.booking.duration?.durationName} ({detailData.booking.duration?.time})</p>
+                                            <p><strong>Duration:</strong> {detailData.booking.duration?.durationName}</p>
                                             <p><strong>Collection Method:</strong> {detailData.booking.collectionMethod?.methodName}</p>
-                                            <p><strong>Delivery Method:</strong> {detailData.booking.deliveryMethod?.deliveryMethodName}</p>
                                             <p><strong>Appointment:</strong> {detailData.booking.appointmentTime}</p>
                                             <div className="mb-3">
                                                 <label className="form-label"><strong>Status:</strong></label>
@@ -231,7 +268,7 @@ function Booking(){
                                             <p><strong>Full Name:</strong> {detailData.booking.user?.fullName}</p>
                                             <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
                                             <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
-                                            <p><strong>Identify ID:</strong> {detailData.booking.user?.identifyID}</p>
+                                            <p><strong>Identify ID:</strong> {detailData.booking.user?.identifyId}</p>
                                             <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
                                         </div>
                                     </div>
@@ -265,7 +302,7 @@ function Booking(){
                                                                 <td>{p.fullName}</td>
                                                                 <td>{p.birthDate}</td>
                                                                 <td>{p.gender}</td>
-                                                                <td>{p.identifyID}</td>
+                                                                <td>{p.identifyId}</td>
                                                                 <td>{p.sampleName}</td>
                                                                 <td>{p.relationship}</td>
                                                                 <td>{p.hasTestedDNA ? 'Yes' : 'No'}</td>
@@ -278,49 +315,11 @@ function Booking(){
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* 4. Samples */}
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#samples">
-                                            4. Samples
-                                        </button>
-                                    </h2>
-                                    <div id="samples" className="accordion-collapse collapse">
-                                        <div className="accordion-body">
-                                            {detailData.samples.length > 0 ? (
-                                                <table className="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Date</th>
-                                                            <th>Variant</th>
-                                                            <th>Collected By</th>
-                                                            <th>Delivery Method</th>
-                                                            <th>Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {detailData.samples.map(s => (
-                                                            <tr key={s.sampleId}>
-                                                                <td>{s.date?.split("T")[0]}</td>
-                                                                <td>{s.sampleVariant}</td>
-                                                                <td>{getUsername(s.collectBy)}</td>
-                                                                <td>{s.deliveryMethod?.deliveryMethodName}</td>
-                                                                <td>{s.status}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            ) : <p>No sample data</p>}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* 5. Test Process */}
+                                {/* 4. Test Process */}
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testProcess">
-                                            5. Process Test
+                                            4. Process Test
                                         </button>
                                     </h2>
                                     <div id="testProcess" className="accordion-collapse collapse">
@@ -331,8 +330,6 @@ function Booking(){
                                                         <tr>
                                                             <th>Step</th>
                                                             <th>Status</th>
-                                                            <th>Description</th>
-                                                            <th>Updated At</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -340,8 +337,6 @@ function Booking(){
                                                             <tr key={p.processId}>
                                                                 <td>{p.step?.stepName}</td>
                                                                 <td>{p.status?.statusName}</td>
-                                                                <td>{p.description}</td>
-                                                                <td>{p.updatedAt?.split("T")[0]}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -353,22 +348,20 @@ function Booking(){
                             </div>
 
                             <div className="text-end mt-3">
+                                <button className="btn btn-primary me-2" onClick={async () => {
+                                    try {
+                                        await api.put(`Bookings/Update`, detailData.booking);
+                                        toast.success("Booking status updated!");
+                                        setShowOverlay(false);
+                                        fetchData();
+                                    } catch (err) {
+                                        toast.error("Failed to update booking status.");
+                                    }
+                                }}>
+                                    Update Status
+                                </button>
                                 <button className="btn btn-danger" onClick={() => setShowOverlay(false)}>Close</button>
                             </div>
-
-                            <button className="btn btn-primary me-2" onClick={async () => {
-                                try {
-                                    await api.put(`Bookings/Update`, detailData.booking);
-                                    toast.success("Booking status updated!");
-                                    setShowOverlay(false);
-                                    fetchData();
-                                } catch (err) {
-                                    toast.error("Failed to update booking status.");
-                                }
-                            }}>
-                                Update Status
-                            </button>
-
                         </div>
                     </div>
                 )}
