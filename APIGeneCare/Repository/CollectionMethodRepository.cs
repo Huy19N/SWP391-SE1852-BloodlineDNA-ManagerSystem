@@ -21,7 +21,7 @@ namespace APIGeneCare.Repository
             {
                 MethodId = cm.MethodId,
                 MethodName = cm.MethodName
-            }).ToList();
+            });
         public CollectionMethodDTO? GetCollectionMethodById(int id)
             => _context.CollectionMethods.Select(cm => new CollectionMethodDTO
             {

@@ -96,14 +96,15 @@ namespace APIGeneCare.Controllers
         [HttpGet("Response")]
         public IActionResult PaymentCallbackVnpay()
         {
-            var response = _paymentRepository.PaymentExecute(Request.Query);
-
-            return Ok(new ApiResponse {
-                Success = true,
-                Message = "payment success",
-                Data = response
-
-            }); 
+            try
+            {
+                var url = _paymentRepository.PaymentExecute(Request.Query);
+                return Redirect(url);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error processing payment callback: {ex.Message}");
+            }
         }
         [HttpPost]
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
