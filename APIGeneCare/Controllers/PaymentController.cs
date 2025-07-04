@@ -3,6 +3,7 @@
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
@@ -88,5 +89,40 @@ namespace APIGeneCare.Controllers
 
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        //[HttpGet("IPN")]
+        //public IActionResult IPNVnpay()
+        //{
+
+        //}
+
+        [HttpGet("Response")]
+        public IActionResult PaymentCallbackVnpay()
+        {
+            var response = _paymentRepository.PaymentExecute(Request.Query);
+
+            return Ok(new ApiResponse {
+                Success = true,
+                Message = "payment success",
+                Data = response
+
+            }); 
+        }
+        [HttpPost]
+        public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
+        {
+            var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
+
+            return Ok(new ApiResponse
+            {
+                Success = true,
+                Message = "Please redirect this link",
+                Data = url
+            });
+        }
+
+>>>>>>> Stashed changes
     }
 }

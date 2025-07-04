@@ -135,14 +135,59 @@ CREATE TABLE Blog (
     CreatedAt DATETIME
 );
 
+--Bảng PaymentMethod
+CREATE TABLE PaymentMethod(
+	PaymentMethodId DECIMAL PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	MethodName NVARCHAR(10) NOT NULL,
+	[Description] NVARCHAR(500),
+	EndpointURL VARCHAR(250) NOT NULL
+);
+
+-- Bảng KeyVersion
+CREATE TABLE KeyVersion(
+	KeyVersionId DECIMAL PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	PaymentMethodId DECIMAL FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
+    [Version]    NVARCHAR(20) NOT NULL,
+    HashSecret NVARCHAR(MAX) NOT NULL,
+    TmnCode NVARCHAR(50) NOT NULL,
+    CreatedAt DateTime NOT NULL,
+    ExpiredAt DateTime,
+    IsActive BIT DEFAULT 0 NOT NULL
+);
+
 -- Bảng Payment
 CREATE TABLE Payment (
-    PaymentID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    Amount INT,
-    PaymentDate DATETIME,
-    PaymentMethod NVARCHAR(50),
-    Status NVARCHAR(50)
+    PaymentId DECIMAL PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	BookingId INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+	PaymentMethodId DECIMAL FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
+	TransactionId NVARCHAR(255) NOT NULL,
+	Amount DECIMAL NOT NULL,
+	Currency NVARCHAR(50) NOT NULL,
+	PaymentDate DATETIME NOT NULL,
+	BankCode NVARCHAR NOT NULL,
+	OrderInfo NVARCHAR NOT NULL,
+	ResponseCode NVARCHAR(20) NOT NULL,
+	SecureHash NVARCHAR(MAX) NOT NULL,
+	RawData NVARCHAR(500) NOT NULL, 
+);
+
+-- Bảng PaymentIPNLog
+CREATE TABLE PaymentIPNLog(
+	IPNLogId DECIMAL PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	PaymentId DECIMAL FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
+	KeyVersionId DECIMAL FOREIGN KEY REFERENCES KeyVersion(KeyVersionId) NOT NULL,
+	RawData NVARCHAR(MAX) NOT NULL,
+	ReceivedAt DateTime NOT NULL,
+	[Status] NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PaymentReturnLog(
+	IPNLogId DECIMAL PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	PaymentId DECIMAL FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
+	KeyVersionId DECIMAL FOREIGN KEY REFERENCES KeyVersion(KeyVersionId) NOT NULL,
+	RawData NVARCHAR(MAX) NOT NULL,
+	ReceivedAt DateTime NOT NULL,
+	[Status] NVARCHAR(50) NOT NULL
 );
 
 -- Bảng RefreshToken
