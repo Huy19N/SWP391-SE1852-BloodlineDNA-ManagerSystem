@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace APIGeneCare.Libararies
 {
@@ -11,6 +12,11 @@ namespace APIGeneCare.Libararies
     {
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
+
+        public IDictionary<string, string> GetData()
+        {
+            return new Dictionary<string, string>(_requestData);
+        }
 
         public PaymentResponseModel GetFullResponseData(IQueryCollection collection, string hashSecret)
         {
@@ -22,9 +28,13 @@ namespace APIGeneCare.Libararies
                     vnPay.AddResponseData(key, value);
                 }
             }
-            var orderId = Convert.ToInt64(vnPay.GetResponseData("vnp_TxnRef"));
+            
+            var bankCode = vnPay.GetResponseData("vnp_BankCode");
+
+            var txnRef = Convert.ToInt64(vnPay.GetResponseData("vnp_TxnRef"));
             var vnPayTranId = Convert.ToInt64(vnPay.GetResponseData("vnp_TransactionNo"));
-            var vnpResponseCode = vnPay.GetResponseData("vnp_ResponseCode");
+            var responseCode = vnPay.GetResponseData("vnp_ResponseCode");
+            var transactionStatus = vnPay.GetResponseData("vnp_TransactionStatus");
             var vnpSecureHash =
                 collection.FirstOrDefault(k => k.Key == "vnp_SecureHash").Value; //hash của dữ liệu trả về
             var orderInfo = vnPay.GetResponseData("vnp_OrderInfo");
@@ -38,13 +48,12 @@ namespace APIGeneCare.Libararies
             return new PaymentResponseModel()
             {
                 Success = true,
-                PaymentMethod = "VnPay",
-                OrderDescription = orderInfo,
-                OrderId = orderId.ToString(),
-                PaymentId = vnPayTranId.ToString(),
+                BankCode = bankCode,
+                OrderInfo = orderInfo,
+                ResponseCode = responseCode,
+                TransactionStatus = transactionStatus,
                 TransactionId = vnPayTranId.ToString(),
-                Token = vnpSecureHash,
-                VnPayResponseCode = vnpResponseCode
+                SecureHash = vnpSecureHash,
             };
         }
 
@@ -116,6 +125,7 @@ namespace APIGeneCare.Libararies
 
             var vnpSecureHash = HmacSha512(vnpHashSecret, signData);
             baseUrl += "vnp_SecureHash=" + vnpSecureHash;
+            this.AddRequestData("vnp_SecureHash", vnpSecureHash);
 
             return baseUrl;
         }

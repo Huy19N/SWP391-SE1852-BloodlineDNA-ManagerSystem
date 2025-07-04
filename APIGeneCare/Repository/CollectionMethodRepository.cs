@@ -1,6 +1,4 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-using APIGeneCare.Entities;
+﻿using APIGeneCare.Entities;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using System.Reflection.Metadata;
@@ -23,7 +21,7 @@ namespace APIGeneCare.Repository
             {
                 MethodId = cm.MethodId,
                 MethodName = cm.MethodName
-            }).ToList();
+            });
         public CollectionMethodDTO? GetCollectionMethodById(int id)
             => _context.CollectionMethods.Select(cm => new CollectionMethodDTO
             {

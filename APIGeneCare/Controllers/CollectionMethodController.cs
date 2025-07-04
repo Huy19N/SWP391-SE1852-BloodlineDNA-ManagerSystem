@@ -21,7 +21,7 @@ namespace APIGeneCare.Controllers
             try
             {
                 var data = await Task.Run(() => _collectionMethodRepository.GetAllCollectionMethods());
-                if(data != null || !data.Any()){
+                if(data == null || !data.Any()){
                     return NotFound(new ApiResponse
                     {
                         Success = false,
