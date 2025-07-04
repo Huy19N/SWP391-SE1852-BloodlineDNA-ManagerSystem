@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,21 @@ namespace APIGeneCare.Controllers
     {
         private readonly IPaymentRepository _paymentRepository;
         public PaymentController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
+        [HttpPost("Test")]
+        public IActionResult Test(PaymentDTO payment)
+        {
+            try
+            {
+                return Ok(new ApiResponse{
+                    Success = _paymentRepository.TestCreatePayment(payment),
+                    Message =""
+                });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         [HttpGet("GetALl")]
         public async Task<IActionResult> GetAllPayments()
@@ -106,14 +122,28 @@ namespace APIGeneCare.Controllers
         [HttpPost]
         public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
         {
-            var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
-
-            return Ok(new ApiResponse
+            try
             {
-                Success = true,
-                Message = "Please redirect this link",
-                Data = url
-            });
+                var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
+                if (url == null)
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Can't create Url",
+                        Data = null
+                    });
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Please redirect this link",
+                    Data = url
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
+            }
+            
         }
 
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace APIGeneCare.Model.DTO;
 
-public partial class PatientDTO
+public class PatientDTO
 {
     public int PatientId { get; set; }
 

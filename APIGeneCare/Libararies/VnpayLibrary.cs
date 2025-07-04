@@ -12,6 +12,11 @@ namespace APIGeneCare.Libararies
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
+        public IDictionary<string, string> GetRequestData()
+        {
+            return new Dictionary<string, string>(_requestData);
+        }
+
         public PaymentResponseModel GetFullResponseData(IQueryCollection collection, string hashSecret)
         {
             var vnPay = new VnPayLibrary();
@@ -116,6 +121,7 @@ namespace APIGeneCare.Libararies
 
             var vnpSecureHash = HmacSha512(vnpHashSecret, signData);
             baseUrl += "vnp_SecureHash=" + vnpSecureHash;
+            this.AddRequestData("vnp_SecureHash", vnpSecureHash);
 
             return baseUrl;
         }
