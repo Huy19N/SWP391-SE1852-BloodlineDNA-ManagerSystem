@@ -58,11 +58,7 @@ CREATE TABLE CollectionMethod (
     MethodName NVARCHAR(100)
 );
 
--- Bảng DeliveryMethod
-CREATE TABLE DeliveryMethod (
-    DeliveryMethodID INT PRIMARY KEY IDENTITY(1,1),
-    DeliveryMethodName NVARCHAR(100)
-);
+
 -- Bảng Status
 CREATE TABLE [Status] (
     StatusID INT PRIMARY KEY IDENTITY(1,1),
@@ -100,11 +96,11 @@ CREATE TABLE TestProcess (
 -- Bảng Feedback
 CREATE TABLE Feedback (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
-    CreatedAt DATETIME,
+    UserID INT FOREIGN KEY REFERENCES Users(UserID) NOT NULL,
+    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID) NOT NULL,
+    CreatedAt DATETIME NOT NULL,
     Comment NVARCHAR(MAX),
-    Rating INT
+    Rating INT NOT NULL
 );
 
 -- Bảng TestResult
@@ -118,12 +114,20 @@ CREATE TABLE TestResult (
 -- Bảng Samples
 CREATE TABLE Samples (
     SampleID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    [Date] DATETIME,
-    SampleVariant NVARCHAR(200),
-    CollectBy INT FOREIGN KEY REFERENCES Users(UserID),
-    DeliveryMethodID INT FOREIGN KEY REFERENCES DeliveryMethod(DeliveryMethodID),
-    Status NVARCHAR(50)
+	SampleName NVARCHAR(200)
+);
+
+-- Bảng Patient
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY IDENTITY(1,1), 
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+	SampleID INT FOREIGN KEY REFERENCES Samples(SampleID),
+    FullName NVARCHAR(200) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
+    IdentifyID NVARCHAR(50),
+    HasTestedDNA BIT NOT NULL,
+    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
 );
 
 -- Bảng Blog
@@ -208,19 +212,6 @@ CREATE TABLE VerifyEmail (
     [Key] NVARCHAR(255)
 );
 
--- Bảng Patient
-CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    FullName NVARCHAR(200),
-    BirthDate DATE,
-    Gender NVARCHAR(10), -- 'Nam', 'Nữ'
-    IdentifyID NVARCHAR(50),
-    SampleType NVARCHAR(200), -- 'Niêm mạc miệng; Máu'...
-    HasTestedDNA BIT,
-    Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
-);
-
 
 ----------------------------------------------------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES
@@ -228,3 +219,66 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 (2, N'Employee'),
 (3, N'Manage'),
 (4, N'Admin');
+go
+INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password)
+VALUES 
+(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123'),
+(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123'),
+(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123'),
+(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123');
+go
+INSERT INTO Service (ServiceName ,ServiceType)
+VALUES 
+(N'dân sự', N'Cha/Mẹ-Con'),
+(N'dân sự', N'Anh/Chị-Em'),
+(N'dân sự', N'song sinh'),
+(N'dân sự', N'Cô/Chú-Cháu'),
+(N'dân sự', N'Dì/Cậu-Cháu'),
+(N'dân sự', N'Ông/Bà-Cháu'),
+
+(N'pháp lý', N'Cha/Mẹ-Con'),
+(N'pháp lý', N'Anh/Chị-Em'),
+(N'pháp lý', N'song sinh'),
+(N'pháp lý', N'Cô/Chú-Cháu'),
+(N'pháp lý', N'Dì/Cậu-Cháu'),
+(N'pháp lý', N'Ông/Bà-Cháu');
+go
+INSERT INTO Duration(DurationName )
+VALUES
+(N'gói 6h'),
+(N'gói 24h'),
+(N'gói 48h');
+go
+INSERT INTO ServicePrice(ServiceID,DurationID,Price)
+VALUES
+(1,1,N'2500000'),
+(1,2,N'2000000'),
+(1,3,N'1500000'),
+(7,1,N'3500000'),
+(7,2,N'3000000'),
+(7,3,N'2500000');
+go
+INSERT INTO CollectionMethod (MethodName)
+VALUES
+(N'tự thu mẫu tại nhà'),
+(N'thu mẫu tại nhà'),
+(N'thu mẫu tại cơ sở y tế');
+go
+INSERT INTO Status(StatusName)
+VALUES
+(N'chờ xác nhận'),
+(N'đã thu mẫu'),
+(N'đang thực hiện'),
+(N'hoàn thành');
+go
+INSERT INTO Booking(UserID,DurationID,ServiceID,MethodID,AppointmentTime,StatusID,Date)
+VALUES
+(1,1,1,1,'2025-07-02 13:36:47.930',1,'2025-07-02 13:36:47.930');
+go
+INSERT INTO Samples(SampleName)
+ VALUES
+ (N'máu'),
+ (N'Móng tay/chân'),
+ (N'Tóc'),
+ (N'Niêm mạc miệng');
+go

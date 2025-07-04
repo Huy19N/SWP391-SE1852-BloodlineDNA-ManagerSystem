@@ -58,6 +58,19 @@ namespace APIGeneCare.Controllers
                         Message = "The account having!"
                     });
                 }
+                if (!registerModel.ConfirmPassword.Equals(registerModel.Password))
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "password or confirm password do not match"
+                    });
+                if (String.IsNullOrEmpty(registerModel.Password) ||
+                    String.IsNullOrEmpty(registerModel.ConfirmPassword))
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "password or confirm password can not empty"
+                    });
                 var user = new UserDTO
                 {
                     Email = registerModel.Email,

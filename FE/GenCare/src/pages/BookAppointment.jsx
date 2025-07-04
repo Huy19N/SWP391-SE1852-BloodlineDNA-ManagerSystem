@@ -18,6 +18,7 @@ function BookAppointment() {
 
   const handleMethodChange = (event) => {
     setSelectedMethod(event.target.value);
+    
   };
 
   const handleSubmit = (e) => {

@@ -22,26 +22,9 @@ namespace APIGeneCare.Repository
                     {
                         allSamples = _context.Samples.Where(s => s.SampleId == sampleid);
                     }
+
+    
                 }
-
-                if (typeSearch.Equals("bookingid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int bookingid))
-                    {
-                        allSamples = _context.Samples.Where(s => s.BookingId == bookingid);
-                    }
-                }
-
-                if (typeSearch.Equals("samplevariant", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = _context.Samples.Where(s => !String.IsNullOrWhiteSpace(s.SampleVariant) &&
-                    s.SampleVariant.Contains(search, StringComparison.CurrentCultureIgnoreCase));
-
-                if (typeSearch.Equals("collectby", StringComparison.CurrentCultureIgnoreCase))
-                    if (int.TryParse(search, out int collectby))
-                        allSamples = _context.Samples.Where(s => s.CollectBy == collectby);
-                if (typeSearch.Equals("deliverymethodid", StringComparison.CurrentCultureIgnoreCase))
-                    if (int.TryParse(search, out int deliverymethodid))
-                        allSamples = _context.Samples.Where(s => s.DeliveryMethodId == deliverymethodid);
             }
             #endregion
             #region Sort by
@@ -53,53 +36,23 @@ namespace APIGeneCare.Repository
                 if (sortBy.Equals("sampleid_desc", StringComparison.CurrentCultureIgnoreCase))
                     allSamples = allSamples.OrderByDescending(s => s.SampleId);
 
-                if (sortBy.Equals("bookingid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderBy(s => s.BookingId);
+                
 
-                if (sortBy.Equals("bookingid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderByDescending(s => s.BookingId);
-
-                if (sortBy.Equals("samplevariant_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderBy(s => s.SampleVariant);
-
-                if (sortBy.Equals("samplevariant_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderByDescending(s => s.SampleVariant);
-
-                if (sortBy.Equals("deliverymethod_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderBy(s => s.DeliveryMethod);
-
-                if (sortBy.Equals("deliverymethod_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderByDescending(s => s.DeliveryMethod);
-
-                if (sortBy.Equals("status_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderBy(s => s.Status);
-
-                if (sortBy.Equals("status_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allSamples = allSamples.OrderByDescending(s => s.Status);
             }
             #endregion
             var result = PaginatedList<Sample>.Create(allSamples, page ?? 1, PAGE_SIZE);
             return result.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
-                BookingId = s.BookingId,
-                Date = s.Date,
-                SampleVariant = s.SampleVariant,
-                CollectBy = s.CollectBy,
-                DeliveryMethodId = s.DeliveryMethodId,
-                Status = s.Status,
+                SampleName = s.SampleName
             });
+
         }
         public SampleDTO? GetSampleById(int id)
             => _context.Samples.Select(s => new SampleDTO
             {
                 SampleId = s.SampleId,
-                BookingId = s.BookingId,
-                Date = s.Date,
-                SampleVariant = s.SampleVariant,
-                CollectBy = s.CollectBy,
-                DeliveryMethodId = s.DeliveryMethodId,
-                Status = s.Status,
+                SampleName = s.SampleName
             }).SingleOrDefault(s => s.SampleId == id);
         public bool CreateSample(SampleDTO sample)
         {
@@ -112,12 +65,7 @@ namespace APIGeneCare.Repository
                 }
                 _context.Samples.Add(new Sample
                 {
-                    BookingId = sample.BookingId,
-                    Date = sample.Date,
-                    SampleVariant = sample.SampleVariant,
-                    CollectBy = sample.CollectBy,
-                    DeliveryMethodId = sample.DeliveryMethodId,
-                    Status = sample.Status
+                    SampleName = sample.SampleName
                 });
 
                 _context.SaveChanges();
@@ -146,13 +94,9 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                existingSample.BookingId = sample.BookingId;
-                existingSample.Date = sample.Date;
-                existingSample.SampleVariant = sample.SampleVariant;
-                existingSample.CollectBy = sample.CollectBy;
-                existingSample.DeliveryMethodId = sample.DeliveryMethodId;
-                existingSample.Status = sample.Status;
-
+                
+                existingSample.SampleName = sample.SampleName;
+                
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

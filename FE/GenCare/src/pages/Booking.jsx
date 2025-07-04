@@ -1,182 +1,285 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import api from '../config/axios';
 
+const selectedService = JSON.parse(localStorage.getItem('selectedService'));
+const userId = localStorage.getItem("userId");// lấy id từ login
 
 function Booking() {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     serviceType: '',
-    serviceDetail: '',
     testType: '',
     timeSlot: '',
     method: '',
-    fullName: '',
-    gmail: '',
-    birthDate: '',
-    cccd: '',
+    serviceId: null,
+    durationId: null,
+    user: {
+      fullName: '',
+      gmail: '',
+      cccd: ''
+    },
+    person1: {
+      fullName: '',
+      birthDate: '',
+      gender: '',
+      hasTestedDna: '',
+      sampleID: '',
+      relationToPerson2: ''
+    },
+    person2: {
+      fullName: '',
+      birthDate: '',
+      gender: '',
+      hasTestedDna: '',
+      sampleID: '',
+      relationToPerson1: ''
+    }
   });
 
-  // Load selectedService từ localStorage
   useEffect(() => {
-    const selectedService = JSON.parse(localStorage.getItem('selectedService'));
-    if (selectedService) {
-      setFormData((prev) => ({
-        ...prev,
-        serviceType: selectedService.mainType || '',
-        serviceDetail: selectedService.subType || '',
-        testType: selectedService.testType || '',
-        timeSlot: `${selectedService.appointmentDay || ''} - ${selectedService.appointmentSlot || ''}`,
-        method: selectedService.sampleMethod || '',
-      }));
-    }
+    const fetchUserData = async () => {
+      try {
+        const userRes = await api.get(`/Users/getbyid/${userId}`);//lấy dữ liệu user
+        const user = userRes.data.data;
+
+        setFormData((prev) => ({
+          ...prev,
+          serviceType: selectedService?.mainType || '',
+          testType: selectedService?.testType || '',
+          timeSlot: `${selectedService?.appointmentDay || ''} - ${selectedService?.appointmentSlot || ''}`,
+          method: selectedService?.sampleMethod || '',
+          serviceId: selectedService?.serviceId || null,
+          durationId: selectedService?.durationId || null,
+          user: {
+            userId: user.userId,
+            fullName: user.fullName,
+            gmail: user.email,
+            cccd: user.identifyId
+          }
+        }));
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin người dùng:", error);
+        toast.error("Không thể tải thông tin người dùng.");
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    if (name.startsWith('person1.')) {
+      setFormData(prev => ({
+        ...prev,
+        person1: {
+          ...prev.person1,
+          [name.split('.')[1]]: value
+        }
+      }));
+    } else if (name.startsWith('person2.')) {
+      setFormData(prev => ({
+        ...prev,
+        person2: {
+          ...prev.person2,
+          [name.split('.')[1]]: value
+        }
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
-  const handleSubmit = () => {
-     //  API tại đây 
-    const {gmail, birthDate, cccd, fullName } = formData;
-    // điều kiện điền thông tin
-  if (!gmail || !birthDate || !cccd || !fullName) {
-      toast.error("Vui lòng điền đầy đủ thông tin cá nhân!");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleID) {
+      toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
       return;
     }
-    toast.success("Đăng ký thành công!");
-    console.log("Thông tin đăng ký:", formData);
-    navigate('/');
-};
+
+    if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleID) {
+      toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
+      return;
+    }
+
+    try {
+      const bookingData = {
+        userId: parseInt(userId),
+        durationId: selectedService?.durationId,
+        serviceId: selectedService?.serviceId,
+        methodId: selectedService?.methodId || 1,
+        appointmentTime: new Date().toISOString(),
+        statusId: 1,
+        date: new Date().toISOString(),
+        patients: [
+          {
+            fullName: formData.person1.fullName,
+            birthDate: formData.person1.birthDate,
+            gender: formData.person1.gender,
+            identifyId: String(formData.user.cccd),
+            sampleId: parseInt(formData.person1.sampleID),
+            hasTestedDna: formData.person1.hasTestedDna === 'true',
+            relationship: formData.person1.relationToPerson2
+          },
+          {
+            fullName: formData.person2.fullName,
+            birthDate: formData.person2.birthDate,
+            gender: formData.person2.gender,
+            identifyId: String(formData.user.cccd),
+            sampleId: parseInt(formData.person2.sampleID),
+            hasTestedDna: formData.person2.hasTestedDna === 'true',
+            relationship: formData.person2.relationToPerson1
+          }
+        ]
+      };
+
+      console.log("Dữ liệu gửi đi:", bookingData);
+      const res = await api.post("Patient/CreatePatientWithBooking", bookingData);
+
+      toast.success("Đăng ký thành công!");
+      navigate("/payment");
+
+    } catch (error) {
+      console.error("Lỗi khi gửi đăng ký:", error);
+      toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
+    }
+  };
 
   return (
-    <div className="container mt-5 mb-4 p-4 rounded shadow" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
-    <div className="d-flex align-items-center mb-5">
-        <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-        <h2 className="mx-4 text-primary text-center">ĐĂNG KÝ XÉT NGHIỆM</h2>
-        <div className="flex-grow-1 border-top border-primary" style={{ height: '1px' }}></div>
-    </div>
+  <div className="container mt-5 mb-4 p-4 rounded shadow bg-white">
+    <ToastContainer />
+    <h2 className="text-center text-primary border-bottom pb-2 mb-4">ĐĂNG KÝ XÉT NGHIỆM</h2>
 
-    {/* Loại dịch vụ */}
-    <div className="mb-4">
-    <label className="block font-medium mb-2">Loại dịch vụ:</label>
-    <input
-        type="text"
-        name="serviceType"
-        value={formData.serviceType}
-        readOnly
-        className="w-full p-2 border rounded bg-light"
-    />
-    </div>
+    <form onSubmit={handleSubmit}>
+      {/* Thông tin dịch vụ */}
+      {['serviceType', 'testType', 'timeSlot', 'method'].map((field) => (
+        <div className="mb-3" key={field}>
+          <label className="form-label text-capitalize">{field}</label>
+          <input
+            type="text"
+            name={field}
+            value={formData[field]}
+            readOnly
+            className="form-control bg-light"
+          />
+        </div>
+      ))}
 
-    {/* Chi tiết dịch vụ */}
-    <div className="mb-4">
-    <label className="block font-medium mb-2">Chi tiết dịch vụ:</label>
-    <input
-        type="text"
-        name="serviceDetail"
-        value={formData.serviceDetail}
-        readOnly
-        className="w-full p-2 border rounded bg-light"
-    />
-    </div>
+      {/* Người đăng ký */}
+      <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người đăng ký</h4>
+      <div className="mb-3">
+        <label className="form-label">Họ và tên</label>
+        <input className="form-control" value={formData.user.fullName} />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Gmail</label>
+        <input className="form-control" value={formData.user.gmail} readOnly type="email" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">CCCD</label>
+        <input className="form-control" value={formData.user.cccd} readOnly />
+      </div>
 
-    {/* Loại xét nghiệm */}
-    <div className="mb-4">
-    <label className="block font-medium mb-2">Loại xét nghiệm:</label>
-    <input
-        type="text"
-        name="testType"
-        value={formData.testType}
-        readOnly
-        className="w-full p-2 border rounded bg-light"
-    />
-    </div>
+      {/* Người thứ nhất */}
+      <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người thứ nhất</h4>
+      <div className="mb-3">
+        <label className="form-label">Họ và tên</label>
+        <input placeholder="Họ và tên" name="person1.fullName" value={formData.person1.fullName} onChange={handleChange} className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Năm sinh</label>
+        <input type="date" name="person1.birthDate" value={formData.person1.birthDate} onChange={handleChange} className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Giới tính</label>
+        <select name="person1.gender" value={formData.person1.gender} onChange={handleChange} className="form-select">
+          {genderOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Đã xét nghiệm trước đây chưa?</label>
+        <select name="person1.hasTestedDna" value={formData.person1.hasTestedDna} onChange={handleChange} className="form-select">
+          {testedOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Loại mẫu xét nghiệm</label>
+        <select name="person1.sampleID" value={formData.person1.sampleID} onChange={handleChange} className="form-select">
+          {sampleOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Mối quan hệ với người thứ 2</label>
+        <input placeholder="Ghi rõ mối quan hệ" name="person1.relationToPerson2" value={formData.person1.relationToPerson2} onChange={handleChange} className="form-control" />
+      </div>
 
-    {/* Khung giờ */}
-    <div className="mb-4">
-    <label className="block font-medium mb-2">Khung giờ:</label>
-    <input
-        type="text"
-        name="timeSlot"
-        value={formData.timeSlot}
-        readOnly
-        className="w-full p-2 border rounded bg-light"
-    />
-    </div>
+      {/* Người thứ hai */}
+      <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người thứ hai</h4>
+      <div className="mb-3">
+        <label className="form-label">Họ và tên</label>
+        <input placeholder="Họ và tên" name="person2.fullName" value={formData.person2.fullName} onChange={handleChange} className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Năm sinh</label>
+        <input type="date" name="person2.birthDate" value={formData.person2.birthDate} onChange={handleChange} className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Giới tính</label>
+        <select name="person2.gender" value={formData.person2.gender} onChange={handleChange} className="form-select">
+          {genderOptions.map(opt =>
+             <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Đã xét nghiệm trước đây chưa?</label>
+        <select name="person2.hasTestedDna" value={formData.person2.hasTestedDna} onChange={handleChange} className="form-select">
+          {testedOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Loại mẫu xét nghiệm</label>
+        <select name="person2.sampleID" value={formData.person2.sampleID} onChange={handleChange} className="form-select">
+          {sampleOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Mối quan hệ với người thứ 1</label>
+        <input placeholder="Ghi rõ mối quan hệ" name="person2.relationToPerson1" value={formData.person2.relationToPerson1} onChange={handleChange} className="form-control" />
+      </div>
 
-    {/* Phương thức thu mẫu */}
-        <div className="mb-4">
-    <label className="block font-medium mb-2">Phương thức thu mẫu:</label>
-    <input
-        type="text"
-        name="method"
-        value={formData.method}
-        readOnly
-        className="w-full p-2 border rounded bg-light"
-    />
-    </div>
-
-    {/* Họ tên */}
-    <div className="mb-4">
-        <label className="block font-medium mb-2">Họ và tên:</label>
-        <input
-        type="text"
-        name="fullName"
-        value={formData.fullName}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
-        placeholder="Nhập họ và tên"
-        />
-    </div> 
-
-    {/* Gmail */}
-        <div className="mb-4">
-        <label className="block font-medium mb-2">Gmail:</label>
-        <input
-        type="email"
-        name="gmail"
-        value={formData.gmail}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
-        placeholder="Nhập gmail"
-        />
-    </div>
-
-    {/* CCCD */}
-    <div className="mb-4">
-        <label className="block font-medium mb-2">CCCD:</label>
-        <input
-        type="text"
-        name="cccd"
-        value={formData.cccd}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
-        placeholder="Nhập số CCCD"
-        />
-    </div>
-
-    {/* Năm sinh */}
-    <div className="mb-4">
-        <label className="block font-medium mb-2">Năm sinh :</label>
-        <input
-        type="date"
-        name="birthDate"
-        value={formData.birthDate}
-        onChange={handleChange}
-        className="w-full p-2 border rounded"
-        />
-    </div>
-    
-    {/* Nút gửi */}
-    <div className="text-center mt-4">
-        <button className="btn btn-primary px-4" onClick={handleSubmit} >
-          Gửi
+      {/* Nút submit */}
+      <div className="text-center mt-4">
+        <button type="submit" className="btn btn-primary px-4">
+          Đăng ký
         </button>
       </div>
-    </div>
+    </form>
+  </div>
 );
+
 }
+
+const genderOptions = [
+  { label: '-- Hãy chọn --' },
+  { value: 'male', label: 'Nam' },
+  { value: 'female', label: 'Nữ' },
+  { value: 'other', label: 'Khác' }
+];
+
+const testedOptions = [
+  { label: '-- Hãy chọn --' },
+  { value: 'true', label: 'Rồi nè' },
+  { value: 'false', label: 'Chưa nè' }
+];
+
+const sampleOptions = [
+  { label: '-- Hãy chọn --' },
+  { value: '1', label: 'Máu' },
+  { value: '2', label: 'Móng tay/chân' },
+  { value: '3', label: 'Tóc' },
+  { value: '4', label: 'Niêm mạc miệng' }
+];
 
 export default Booking;

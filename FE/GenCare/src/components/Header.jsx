@@ -1,21 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
- import { ToastContainer, toast } from 'react-toastify';
-//import '../css/LightMode.css';
+ import {  toast } from 'react-toastify';
+
 
 export default function Header(){
-    const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }, [darkMode]);
-
     // Hàm đăng xuất
     const handleLogout = () => {
         // Xóa token và roleId khỏi localStorage
@@ -23,7 +13,7 @@ export default function Header(){
         localStorage.removeItem('roleId');
         // Chuyển hướng về trang đăng nhập hoặc trang chủ
         navigate('/login')
-        toast("Đăng xuất thành công!")
+        toast.success("Đăng xuất thành công!")
     };
 
     // Hàm này sẽ thay đổi login khi người dùng đã đăng nhập, nếu đã đăng nhập thì sẽ hiện account và nó sẽ dropdown menu xuống hiện các như logout và information và lịch sử xét nghiệm còn
@@ -45,7 +35,7 @@ export default function Header(){
                             Management
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/layout">Dashboard</NavLink></li>
                             <li><NavLink className="dropdown-item" to="/account">Information</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
                             {localStorage.getItem('token') ? (
@@ -112,23 +102,20 @@ export default function Header(){
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/">About</NavLink>
                         </li>
+                        {/* <li className="nav-item">
+                            <NavLink className="nav-link text-dark" to="/payment">Payment</NavLink>
+                        </li> */}
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/">Blog</NavLink>
+                            <NavLink className="nav-link text-dark" to="/blog">Blog</NavLink>
                         </li>
 						<li className="nav-item">
                             {handleLogin()}
                         </li>   
                     </ul>
-                    {/*nút chế độ sáng tối */}
-                    <p>{'chưa xong không đụng giúp tao ==>>>'} </p>
-                    <button className="btn btn-outline-secondary ms-2"
-                            onClick={() => setDarkMode(!darkMode)}
-                            >
-                            {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
-                    </button>
+                    
                 </div>
             </div>
         </nav>

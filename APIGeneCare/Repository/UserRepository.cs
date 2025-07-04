@@ -50,7 +50,8 @@ namespace APIGeneCare.Repository
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken,
-                Role = role.RoleId
+                Role = role.RoleId,
+                userId = user.UserId,
             };
         }
         private string GenerateRefreshToken()
@@ -64,17 +65,21 @@ namespace APIGeneCare.Repository
         }
         public UserDTO? Validate(LoginModel model)
         {
-            var user = _context.Users.Select(u => new UserDTO
+            var user = _context.Users
+                .SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+
+            if (user == null) return null;
+
+            return new UserDTO
             {
-                UserId = u.UserId,
-                RoleId = u.RoleId,
-                FullName = u.FullName,
-                Address = u.Address,
-                Email = u.Email,
-                Phone = u.Phone
-            }).SingleOrDefault(u => u.Email == model.Email &&
-            u.Password == model.Password);
-            return user;
+                UserId = user.UserId,
+                RoleId = user.RoleId,
+                FullName = user.FullName,
+                Address = user.Address,
+                Email = user.Email,
+                Phone = user.Phone,
+                Password = user.Password
+            };
         }
 
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)
@@ -161,9 +166,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId =u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password =u.Password
             }).OrderBy(u => u.UserId).ToList();
         public UserDTO? GetUserById(int id)
             => _context.Users.Select(u => new UserDTO
@@ -171,9 +178,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId = u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password = u.Password
             }).SingleOrDefault(u => u.UserId == id);
         public UserDTO? GetUserByEmail(string email)
             => _context.Users.Select(u => new UserDTO
@@ -181,9 +190,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
+                IdentifyId = u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
-                Phone = u.Phone
+                Phone = u.Phone,
+                Password = u.Password
             }).SingleOrDefault(u => u.Email == email) ?? null!;
         public bool CreateUser(UserDTO user)
         {
@@ -195,14 +206,12 @@ namespace APIGeneCare.Repository
                 {
                     return false;
                 }
-
+                
                 _context.Users.Add(new User
                 {
                     RoleId = user.RoleId,
-                    FullName = user.FullName,
-                    Address = user.Address,
                     Email = user.Email,
-                    Phone = user.Phone
+                    Password = user.Password
                 });
 
                 _context.SaveChanges();
@@ -230,12 +239,14 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                existingUser.RoleId = user.RoleId;
                 existingUser.FullName = user.FullName;
+                existingUser.IdentifyId = user.IdentifyId;
                 existingUser.Address = user.Address;
                 existingUser.Email = user.Email;
                 existingUser.Phone = user.Phone;
                 existingUser.Password = user.Password;
-                existingUser.RoleId = user.RoleId;
+                
 
                 _context.SaveChanges();
                 transaction.Commit();

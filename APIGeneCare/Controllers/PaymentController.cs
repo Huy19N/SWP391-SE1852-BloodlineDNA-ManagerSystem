@@ -2,9 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 
 namespace APIGeneCare.Controllers
 {
@@ -89,14 +90,6 @@ namespace APIGeneCare.Controllers
 
             }
         }
-<<<<<<< Updated upstream
-=======
-
-        //[HttpGet("IPN")]
-        //public IActionResult IPNVnpay()
-        //{
-
-        //}
 
         [HttpGet("Response")]
         public IActionResult PaymentCallbackVnpay()
@@ -123,6 +116,5 @@ namespace APIGeneCare.Controllers
             });
         }
 
->>>>>>> Stashed changes
     }
 }

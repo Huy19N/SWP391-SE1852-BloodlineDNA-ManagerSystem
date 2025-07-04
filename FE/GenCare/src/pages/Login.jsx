@@ -77,9 +77,11 @@ const LoginRegister = () => {
 
         const responseData = response.data.data;
         console.log("Login success with role:", responseData.role);
+        console.log("UserId :", responseData.userId);
         // Lưu token và role vào localStorage
         localStorage.setItem('token', responseData.accessToken);
         localStorage.setItem('roleId', responseData.role);
+        localStorage.setItem('userId',responseData.userId);
         const roleID = responseData.role;
         // Điều hướng theo vai trò
         if (roleID != null) {
@@ -99,7 +101,7 @@ const LoginRegister = () => {
     }
     catch (err){
       console.error('Login error: ', err);
-      toast.error(err.response.data);
+      toast.error("Wrong Email or password.Please enter again!");
     }finally{
       setIsLoading(false);
     }
@@ -143,7 +145,6 @@ const LoginRegister = () => {
     }
     catch (err){
       console.error('Register error: ', err);
-      toast.error(err.response.data);
       toast.error("Đã có tài khoản này rồi vui lòng tạo một tài khoản mới!")
     }
     finally{
@@ -192,6 +193,7 @@ const LoginRegister = () => {
             </div>
 
             <button 
+            id='submit-btn'
             type="submit" 
             className="btn custom-btn w-100 mb-3"
             disabled={isLoading}

@@ -1,6 +1,9 @@
 ﻿using APIGeneCare.Entities;
+using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace APIGeneCare.Repository
 {
@@ -19,27 +22,71 @@ namespace APIGeneCare.Repository
             {
                 PatientId = p.PatientId,
                 BookingId = p.BookingId,
+                SampleId = p.SampleId,
                 FullName = p.FullName,
                 BirthDate = p.BirthDate,
                 Gender = p.Gender,
                 IdentifyId = p.IdentifyId,
-                SampleType = p.SampleType,
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
-            }).ToList();
+            });
         public PatientDTO? GetPatientById(int id)
             => _context.Patients.Select(p => new PatientDTO
             {
                 PatientId = p.PatientId,
                 BookingId = p.BookingId,
+                SampleId = p.SampleId,
                 FullName = p.FullName,
                 BirthDate = p.BirthDate,
                 Gender = p.Gender,
                 IdentifyId = p.IdentifyId,
-                SampleType = p.SampleType,
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
+        public bool CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                if (bookingWithPatient == null || bookingWithPatient.patients == null  || !bookingWithPatient.patients.Any() ) return false;
+
+                var booking = new Booking
+                {
+                    UserId = bookingWithPatient.UserId,
+                    DurationId = bookingWithPatient.DurationId,
+                    ServiceId = bookingWithPatient.ServiceId,
+                    MethodId = bookingWithPatient.MethodId,
+                    AppointmentTime = bookingWithPatient.AppointmentTime,
+                    StatusId = bookingWithPatient.StatusId,
+                    Date = bookingWithPatient.Date,
+                };
+                _context.Bookings.Add(booking);
+                _context.SaveChanges();
+                
+                foreach (var x in bookingWithPatient.patients)
+                {
+                    _context.Add(new Patient
+                    {
+                        BookingId = booking.BookingId,
+                        PatientId = x.PatientId,
+                        SampleId = x.SampleId,
+                        FullName = x.FullName,
+                        BirthDate = x.BirthDate,
+                        Gender = x.Gender,
+                        IdentifyId = x.IdentifyId,
+                        HasTestedDna = x.HasTestedDna,
+                        Relationship = x.Relationship
+                    });
+                }
+                _context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public bool CreatePatient(PatientDTO patient)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -51,12 +98,13 @@ namespace APIGeneCare.Repository
                 }
                 _context.Patients.Add(new Patient
                 {
+                    PatientId = patient.PatientId,
                     BookingId = patient.BookingId,
+                    SampleId = patient.SampleId,
                     FullName = patient.FullName,
                     BirthDate = patient.BirthDate,
                     Gender = patient.Gender,
                     IdentifyId = patient.IdentifyId,
-                    SampleType = patient.SampleType,
                     HasTestedDna = patient.HasTestedDna,
                     Relationship = patient.Relationship
                 });
@@ -87,11 +135,11 @@ namespace APIGeneCare.Repository
                     return false;
                 }
                 existingPatient.BookingId = patient.BookingId;
+                existingPatient.SampleId = patient.SampleId;
                 existingPatient.FullName = patient.FullName;
                 existingPatient.BirthDate = patient.BirthDate;
                 existingPatient.Gender = patient.Gender;
                 existingPatient.IdentifyId = patient.IdentifyId;
-                existingPatient.SampleType = patient.SampleType;
                 existingPatient.HasTestedDna = patient.HasTestedDna;
                 existingPatient.Relationship = patient.Relationship;
 
@@ -125,5 +173,6 @@ namespace APIGeneCare.Repository
             }
         }
 
+        
     }
 }

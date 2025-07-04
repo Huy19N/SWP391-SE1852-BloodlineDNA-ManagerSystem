@@ -1,5 +1,6 @@
-﻿// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+﻿using System;
+using System.Collections.Generic;
+
 namespace APIGeneCare.Entities;
 
 public partial class User
@@ -29,6 +30,4 @@ public partial class User
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     public virtual Role? Role { get; set; }
-
-    public virtual ICollection<Sample> Samples { get; set; } = new List<Sample>();
 }

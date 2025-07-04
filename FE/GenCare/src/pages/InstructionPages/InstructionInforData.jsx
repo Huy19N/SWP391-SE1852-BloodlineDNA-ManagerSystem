@@ -5,12 +5,13 @@ function InstructionInforData({ type }) {
     payment: {
       title: "Hướng dẫn thanh toán",
       paragraphs: [
-        "Bạn có thể thanh toán phí xét nghiệm ADN thông qua các phương thức sau:",
-        "1. Chuyển khoản ngân hàng: Vui lòng ghi rõ họ tên người xét nghiệm trong nội dung chuyển khoản.",
-        "2. Thanh toán trực tiếp tại văn phòng công ty.",
-        "3. Thanh toán khi nhân viên đến thu mẫu tại nhà (áp dụng khu vực nội thành).",
-        "Sau khi thanh toán, quý khách vui lòng giữ lại biên lai hoặc ảnh chụp giao dịch để đối chiếu khi cần thiết.",
-        "Mọi thông tin thanh toán sẽ được bảo mật và chỉ sử dụng cho mục đích xác nhận dịch vụ."
+    "Quý khách có thể lựa chọn một trong các phương thức thanh toán phí xét nghiệm ADN sau đây:",
+    "- **Chuyển khoản ngân hàng**: Vui lòng ghi rõ họ tên người xét nghiệm trong nội dung chuyển khoản để dễ dàng đối chiếu.",
+    "- **Thanh toán trực tiếp**: Đến văn phòng công ty để thực hiện thanh toán trực tiếp với nhân viên tiếp nhận.",
+    "- **Thanh toán tại nhà**: Áp dụng đối với khu vực nội thành, nhân viên thu mẫu sẽ thu phí trực tiếp khi đến thu mẫu.",
+    "📌 **Lưu ý**: Quý khách vui lòng giữ lại biên lai hoặc ảnh chụp giao dịch để đối chiếu khi cần thiết.",
+    "🔒 Mọi thông tin thanh toán được bảo mật tuyệt đối và chỉ sử dụng cho mục đích xác nhận dịch vụ."
+
       ],
     },
     testing: {

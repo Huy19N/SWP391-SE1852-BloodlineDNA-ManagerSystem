@@ -1,30 +1,37 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import * as bootstrap from 'bootstrap';
-import { Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
 import img4 from '../assets/test2.jpg';
-import img5 from '../assets/girl4.jpg';
-import img6 from '../assets/girl3.jpg';
-import img7 from '../assets/princess.jpg';
-import img8 from '../assets/hime.jpg';
-import logo1 from '../assets/logo1.png';
-import logo2 from '../assets/logo2.png';
-import logo3 from '../assets/logo3.png';
-import logo4 from '../assets/logo4.png';
-import logo5 from '../assets/logo5.jpg';
 
 function Services() {
+  const navigate = useNavigate();
 
-      useEffect(() => {
-        const carousels = document.querySelectorAll('.carousel');
-        carousels.forEach((carousel) => {
-          new bootstrap.Carousel(carousel, {
-            ride: 'carousel',
-          });
-        });
-      }, []);
+  useEffect(() => {
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach((carousel) => {
+      new bootstrap.Carousel(carousel, {
+        ride: 'carousel',
+      });
+    });
+  }, []);
+
+  const handleSelect = (mainType) => {
+    localStorage.setItem(
+      "selectedService",
+      JSON.stringify({ mainType })
+    );
+
+    // Chuyển trang đúng theo loại
+    if (mainType === 'dân sự') {
+      navigate('/civil-services');
+    } else if (mainType === 'pháp lý') {
+      navigate('/legal-services');
+    }
+  };
+
   return (
     <>
       {/* Part1 */}
@@ -42,16 +49,16 @@ function Services() {
           {/* ảnh */}
           <div className="carousel-inner">
             <div className="carousel-item active position-relative w-100" style={{ aspectRatio: "16/6" }}>
-              <img src={img1} alt="Los Angeles" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img1} alt="Slide 1" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="carousel-item position-relative w-100" style={{ aspectRatio: "16/6" }}>
-              <img src={img2} alt="Chicago" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img2} alt="Slide 2" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="carousel-item position-relative w-100" style={{ aspectRatio: "16/6" }}>
-              <img src={img3} alt="New York 1" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img3} alt="Slide 3" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="carousel-item position-relative w-100" style={{ aspectRatio: "16/6" }}>
-              <img src={img4} alt="New York 2" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img4} alt="Slide 4" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
           </div>
 
@@ -79,115 +86,27 @@ function Services() {
 
           <div className="container my-5">
             <div className="row justify-content-center align-items-start text-center g-5">
-              {/* BẢNG DÂN SỰ */}
+              {/* DÂN SỰ */}
               <div className="col-lg-6">
-                <div  className="text-decoration-none text-dark">
+                <div className="text-decoration-none text-dark" onClick={() => handleSelect('dân sự')}>
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">DÂN SỰ</div>
-                    <div className="card-body">
-                      <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
-                        <tbody>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 1
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 2
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0">
-                            <Link to="/civil-services#Civil-Type-3" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 3
-                            </Link>
-                              </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* BẢNG PHÁP LÝ */}
+              {/* PHÁP LÝ */}
               <div className="col-lg-6">
+                <div className="text-decoration-none text-dark" onClick={() => handleSelect('pháp lý')}>
                   <div className="card shadow border-0 custom-card">
                     <div className="card-header bg-primary text-white text-center fs-1 fw-bold">PHÁP LÝ</div>
-                    <div className="card-body">
-                      <table className="table table-hover table-bordered custom-table fs-4 fw-bold mb-0">
-                        <tbody>
-                          <tr><td className="p-0">
-                            <Link to="/legal-services#Legal-Type-1" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 1
-                            </Link>
-                              </td>
-                          </tr>
-                          <tr><td className="p-0">
-                            <Link to="/legal-services#Legal-Type-2" className="text-decoration-none text-dark d-block px-3 py-2">
-                              Loại 2
-                            </Link>
-                              </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* DỊCH VỤ GENECARE */}
-      <div className="container-fluid mt-5 mb-5 p-4 rounded shadow" style={{ backgroundColor: "#CCEFF6", width: "76%" }}>
-        <div className="d-flex align-items-center mb-5">
-          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
-          <h2 className="mx-4 text-primary text-center">DỊCH VỤ XÉT NGHIỆM ADN TẠI GENECARE</h2>
-          <div className="flex-grow-1 border-top border-primary" style={{ height: "1px" }}></div>
-        </div>
-
-        <div className="container my-5">
-          <div className="row justify-content-center align-items-center text-center g-4">
-
-            <div className="col-md-4 rounded-3">
-              <a href="/civil" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0 rounded-3">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm cha mẹ con" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm cha/mẹ-con</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-md-4 rounded-3">
-              <a href="/legal" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm dòng họ" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm dòng họ</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-md-4 rounded-3">
-              <a href="/civil" className="text-decoration-none text-dark">
-                <div className="card h-100 shadow border-0">
-                  <img src="/Images/test1.jpg" className="card-img-top" alt="Xét nghiệm thất lạc" style={{ objectFit: "cover", height: "250px" }} />
-                  <div className="card-body">
-                    <h3>Xét nghiệm tìm người thất lạc</h3>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
     </>
   );
 }
