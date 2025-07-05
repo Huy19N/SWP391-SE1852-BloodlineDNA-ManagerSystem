@@ -15,6 +15,7 @@ namespace APIGeneCare.Repository.Interface
         IEnumerable<PaymentDTO> GetAllPayments();
         decimal GetTotalAmount(int type);
         string CreatePaymentUrl(PaymentInformationModel model, HttpContext context);
-        string PaymentExecute(IQueryCollection collections);
+        string PaymentResponse(IQueryCollection collections);
+        PaymentResponseModel PaymentIPN(IQueryCollection collections);
     }
 }

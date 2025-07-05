@@ -218,6 +218,24 @@ namespace APIGeneCare.Repository
                 var tick = DateTime.Now.Ticks.ToString();
                 var pay = new VnPayLibrary();
 
+                var payment = new Payment
+                {
+                    BookingId = model.BookingId,
+                    KeyVersionId = 1,
+                    TransactionId = tick,
+                    Amount = model.Amount,
+                    Currency = _configuration["Vnpay:CurrCode"],
+                    PaymentDate = timeNow,
+                    BankCode = null,
+                    OrderInfo = "null",
+                    ResponseCode = null,
+                    SecureHash = "null",
+                    RawData = "null",
+                    HavePaid = false
+                };
+                _context.Payments.Add(payment);
+                _context.SaveChanges();
+
                 pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
                 pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
                 pay.AddRequestData("vnp_TmnCode", _context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive).TmnCode);
@@ -226,7 +244,7 @@ namespace APIGeneCare.Repository
                 pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
                 pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
                 pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
-                pay.AddRequestData("vnp_OrderInfo", $"{model.PaymentMethodId}. {model.Email}. {model.Amount}. {model.BookingId}");
+                pay.AddRequestData("vnp_OrderInfo", $"{payment.PaymentId}.{model.PaymentMethodId}. {model.Email}. {model.Amount}. {model.BookingId}");
                 pay.AddRequestData("vnp_OrderType", model.OrderType);
                 pay.AddRequestData("vnp_ReturnUrl", _configuration["Vnpay:ReturnUrl"]);
                 pay.AddRequestData("vnp_TxnRef", tick);
@@ -240,26 +258,17 @@ namespace APIGeneCare.Repository
                 if (keyVersion == null)
                     throw new Exception("Active KeyVersion not found for PaymentMethodId: " + model.PaymentMethodId);
 
+
                 requestData.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 requestData.TryGetValue("vnp_SecureHash", out var secureHash);
 
-                var payment = new Payment
-                {
-                    BookingId = model.BookingId,
-                    KeyVersionId = keyVersion.KeyVersionId,
-                    TransactionId = tick,
-                    Amount = model.Amount,
-                    Currency = _configuration["Vnpay:CurrCode"],
-                    PaymentDate = timeNow,
-                    BankCode = null,
-                    OrderInfo = orderInfo,
-                    ResponseCode = null,
-                    SecureHash = secureHash,
-                    RawData = JsonSerializer.Serialize(requestData),
-                    HavePaid = false
-                };
+                payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
 
-                _context.Payments.Add(payment);
+                payment.KeyVersionId = keyVersion.KeyVersionId;
+                payment.OrderInfo = orderInfo.ToString();
+                payment.SecureHash = secureHash.ToString();
+                payment.RawData = JsonSerializer.Serialize(requestData);
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return paymentUrl;
@@ -273,7 +282,7 @@ namespace APIGeneCare.Repository
 
             
         }
-        public string PaymentExecute(IQueryCollection collections)
+        public string PaymentResponse(IQueryCollection collections)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -288,29 +297,32 @@ namespace APIGeneCare.Repository
                 {
                     throw new Exception("Invalid order information format.");
                 }
-                int paymentMethodId = int.Parse(parts[0]);
+                long paymentId = long.Parse(parts[0]);
+                var keyVersionId = _context.Payments.Find(paymentId).KeyVersionId;
                 var response = pay.GetFullResponseData(collections, 
-                    _context.KeyVersions.FirstOrDefault(x=>x.PaymentMethodId == paymentMethodId).HashSecret);
-                var payment = _context.Payments.FirstOrDefault(x => x.TransactionId == response.TransactionId);
-                if (_context.Payments.Where(x => x.SecureHash == response.SecureHash && response.Success).Any())
+                    _context.KeyVersions.FirstOrDefault(x=>x.KeyVersionId == keyVersionId).HashSecret);
+                
+
+                if (response.Success)
                 {
                     var paymentReturnLog = new PaymentReturnLog
                     {
-                        PaymentId = _context.Payments.FirstOrDefault(x => x.SecureHash == response.SecureHash).PaymentId,
+                        PaymentId = paymentId,
                         RawData = JsonSerializer.Serialize(pay.GetData()),
                         ReturnedAt = timeNow,
                         Status = response.TransactionStatus,
                     };
-                    _context.Add(paymentReturnLog);
+                    _context.PaymentReturnLogs.Add(paymentReturnLog);
 
-                    var existingPayment = _context.Payments.FirstOrDefault(x => x.SecureHash == response.SecureHash);
+                    var existingPayment = _context.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
                     if (existingPayment != null)
                     {
                         existingPayment.ResponseCode = response.ResponseCode;
+                        existingPayment.BankCode = response.BankCode;
+
                         if (response.TransactionStatus == "00")
                         {
                             existingPayment.HavePaid = true;
-                            existingPayment.BankCode = response.BankCode;
                         }
                     }
                     _context.SaveChanges();
@@ -319,8 +331,6 @@ namespace APIGeneCare.Repository
                 var url = _configuration["ReturnAfterPay"];
                 transaction.Commit();
                 return url!;
-                
-
             }
             catch
             {
@@ -328,6 +338,67 @@ namespace APIGeneCare.Repository
                 throw;
             }
             
+        }
+        public PaymentResponseModel PaymentIPN(IQueryCollection collections)
+        {
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+                collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
+
+                var pay = new VnPayLibrary();
+                string[] parts = orderInfo.ToString().Split('.', StringSplitOptions.TrimEntries);
+                if (parts.Length <= 0)
+                {
+                    throw new Exception("Invalid order information format.");
+                }
+                long paymentId = long.Parse(parts[0]);
+                var keyVersionId = _context.Payments.Find(paymentId).KeyVersionId;
+                var response = pay.GetFullResponseData(collections,
+                    _context.KeyVersions.FirstOrDefault(x => x.KeyVersionId == keyVersionId).HashSecret);
+
+
+                if (response.Success)
+                {
+                    var PaymentIpnlog = new PaymentIpnlog
+                    {
+                        PaymentId = paymentId,
+                        RawData = JsonSerializer.Serialize(pay.GetData()),
+                        ReceivedAt = timeNow,
+                        Status = response.TransactionStatus,
+                    };
+                    _context.PaymentIpnlogs.Add(PaymentIpnlog);
+
+                    var existingPayment = _context.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
+                    if (existingPayment != null)
+                    {
+                        existingPayment.ResponseCode = response.ResponseCode;
+                        existingPayment.BankCode = response.BankCode;
+
+                        if (response.TransactionStatus == "00")
+                        {
+                            existingPayment.HavePaid = true;
+                        }
+                        else
+                        {
+                            existingPayment.HavePaid = false;
+                        }
+                    }
+                    _context.SaveChanges();
+                }
+
+                var url = _configuration["ReturnAfterPay"];
+                transaction.Commit();
+                return response;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+
         }
         #endregion
     }
