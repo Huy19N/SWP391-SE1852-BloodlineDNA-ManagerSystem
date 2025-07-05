@@ -17,20 +17,27 @@ function Booking(){
     const isAdmin = roleid === '4';
     const isManager = roleid === '3';
     
+    
 
     const fetchData = async (e) => {
         setIsLoading(true);
 
         try{
-            const [resBooking, resUser, resService, resStatus, resPatient] = await Promise.all([
+            const [resBooking, resUser, resService, resStatus] = await Promise.all([
                 api.get('Bookings/GetAll'),
                 api.get('Users/GetAll'),
                 api.get('Services/GetAllPaging'),
                 api.get('Status/GetAllStatus'),
-                // api.get('Patient/GetAll'),
             ]);
             
             
+            // lưu status id vào local 
+            const dataStatus = resStatus.data.data;
+            const statusId = dataStatus.find(s => s.statusId === 1)?.statusId;
+            localStorage.setItem('statusId', statusId);
+            
+            
+
             setDataBooking(resBooking.data.data);
             setDataUser(resUser.data.data);
             setDataService(resService.data.data);
@@ -162,7 +169,9 @@ function Booking(){
         return status ? status.statusName : 'Empty';
     };
 
-    
+    const statusID = parseInt(localStorage.getItem('statusId') || 1);
+    const filterBookings = dataBooking.filter(b => b.statusId !== statusID);
+    console.log("filterStatusID", filterBookings);
 
     return (
             <div className="container mt-5">
@@ -187,8 +196,8 @@ function Booking(){
                             <tr>
                                 <td colSpan="7" className="text-center">Loading...</td>
                             </tr>
-                        ) : dataBooking.length > 0 ? (
-                            dataBooking.map((booking) => (
+                        ) : filterBookings.length > 0 ? (
+                            filterBookings.map((booking) => (
                                 <tr key={booking.bookingId} className="text-center">
                                     <td>{booking.bookingId}</td>
                                     <td>{getUsername(booking.userId)}</td>
@@ -260,7 +269,7 @@ function Booking(){
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#userInfo">
-                                            2. Information User Booking
+                                            2. Information User
                                         </button>
                                     </h2>
                                     <div id="userInfo" className="accordion-collapse collapse">
@@ -274,11 +283,11 @@ function Booking(){
                                     </div>
                                 </div>
 
-                                {/* 3. Patients */}
+                                {/* 3. Customer */}
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#patients">
-                                            3. Patients
+                                            3. Information Patients
                                         </button>
                                     </h2>
                                     <div id="patients" className="accordion-collapse collapse">

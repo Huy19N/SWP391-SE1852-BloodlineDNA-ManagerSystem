@@ -1,11 +1,18 @@
 import { Link } from "react-router-dom";
+import { useState } from 'react';
 import '../css/index.css';
 
 function Sidebar (){
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
     const roleid = localStorage.getItem('roleId');
     const isStaff = roleid === '2';
     const isAdmin = roleid === '4';
     const isManager = roleid === '3';
+
+
 
 
     return (
@@ -28,27 +35,27 @@ function Sidebar (){
                         : null}
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="#">
-                            <i className="bi bi-bookmark-check-fill"></i> Status
+                            <i className="bi bi-bookmark-check-fill me-2"></i> Status
                         </Link>
                         </div>
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="approve">
-                            <i className="bi bi-check-circle-fill"></i> Form
+                            <i className="bi bi-check-circle-fill me-2"></i> Form
                         </Link>
                         </div>
                         : null}
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='dbbooking'>
-                            <i className="bi bi-box2-fill"></i> Bookings
+                            <i className="bi bi-box2-fill me-2"></i> Bookings
                         </Link>
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='#'>
-                            <i className="bi bi-chat-left-text-fill"></i> Feedbacks
+                            <i className="bi bi-chat-left-text-fill me-2"></i> Feedbacks
                         </Link>
                         </div>
-                        <div className='mb-2 mt-2 tab_content_1'>
+                        {/* <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='#'>
                             <i className="bi bi-box"></i> Services
                         </Link>
@@ -57,6 +64,24 @@ function Sidebar (){
                         <Link className="nav-link" to='#'>
                             <i className="bi bi-box"></i> Blogs 
                         </Link>
+                        </div> */}
+                        <div className={`click-dropdown tab_content_1`}>
+                        <span className="nav-link dropdown-toggle" onClick={toggleDropdown}>
+                            More
+                        </span>
+
+                        {/* Dropdown nội dung sẽ đẩy xuống */}
+                        {isDropdownOpen && (
+                            <ul className="slide-dropdown-content custom-dropdown">
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-journal-text me-2"></i> Blogs</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Services</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> CollectionMethod</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Durations</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Samples</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Step Test</Link></li>
+                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Status</Link></li>
+                            </ul>
+                        )}
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='/'>
