@@ -128,7 +128,7 @@ function Users(){
             <tbody>
             {isLoading ? (
                 <tr>
-                <td colSpan="3" className="text-center">Loading...</td>
+                <td colSpan="4" className="text-center">Loading...</td>
                 </tr>
             ) : filteredUsers.length > 0 ? (
                 filteredUsers.map((user) => (
