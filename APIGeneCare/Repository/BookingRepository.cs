@@ -2,7 +2,6 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace APIGeneCare.Repository

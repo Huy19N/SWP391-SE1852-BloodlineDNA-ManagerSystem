@@ -1,5 +1,4 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model.DTO;
+﻿using APIGeneCare.Model.DTO;
 
 namespace APIGeneCare.Repository.Interface
 {

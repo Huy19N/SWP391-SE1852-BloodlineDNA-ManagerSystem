@@ -1,5 +1,4 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
+﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +12,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly ITestStepRepository _testStepRepository;
         public TestStepController(ITestStepRepository testStepRepository) => _testStepRepository = testStepRepository;
-        
+
         [HttpGet("getAllTestSteps")]
         public async Task<IActionResult> GetAllTestSteps()
         {

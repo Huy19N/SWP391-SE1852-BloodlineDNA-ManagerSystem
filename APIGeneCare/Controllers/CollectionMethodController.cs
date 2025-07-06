@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
-using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +15,13 @@ namespace APIGeneCare.Controllers
         public CollectionMethodController(ICollectionMethodRepository collectionMethodRepository) => _collectionMethodRepository = collectionMethodRepository;
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllCollectionMethod() 
+        public async Task<IActionResult> GetAllCollectionMethod()
         {
             try
             {
                 var data = await Task.Run(() => _collectionMethodRepository.GetAllCollectionMethods());
-                if(data == null || !data.Any()){
+                if (data == null || !data.Any())
+                {
                     return NotFound(new ApiResponse
                     {
                         Success = false,
@@ -75,7 +75,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _collectionMethodRepository.CreateCollectionMethod(collectionMethod);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetCollectionMethodById), new { id = collectionMethod.MethodId}, collectionMethod);
+                    return CreatedAtAction(nameof(GetCollectionMethodById), new { id = collectionMethod.MethodId }, collectionMethod);
                 }
                 else
                 {

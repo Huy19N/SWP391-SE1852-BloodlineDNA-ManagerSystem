@@ -16,7 +16,7 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         private readonly AppSettings _appSettings;
-        
+
         public UserRepository(GeneCareContext context,
             IOptionsMonitor<AppSettings> optionsMonitor)
         {
@@ -166,11 +166,11 @@ namespace APIGeneCare.Repository
                 UserId = u.UserId,
                 RoleId = u.RoleId,
                 FullName = u.FullName,
-                IdentifyId =u.IdentifyId,
+                IdentifyId = u.IdentifyId,
                 Address = u.Address,
                 Email = u.Email,
                 Phone = u.Phone,
-                Password =u.Password
+                Password = u.Password
             }).OrderBy(u => u.UserId).ToList();
         public UserDTO? GetUserById(int id)
             => _context.Users.Select(u => new UserDTO
@@ -198,7 +198,7 @@ namespace APIGeneCare.Repository
             }).SingleOrDefault(u => u.Email == email) ?? null!;
         public bool CreateUser(UserDTO user)
         {
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -206,7 +206,7 @@ namespace APIGeneCare.Repository
                 {
                     return false;
                 }
-                
+
                 _context.Users.Add(new User
                 {
                     RoleId = user.RoleId,
@@ -246,7 +246,7 @@ namespace APIGeneCare.Repository
                 existingUser.Email = user.Email;
                 existingUser.Phone = user.Phone;
                 existingUser.Password = user.Password;
-                
+
 
                 _context.SaveChanges();
                 transaction.Commit();

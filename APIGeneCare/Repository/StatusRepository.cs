@@ -19,7 +19,7 @@ namespace APIGeneCare.Repository
                 StatusId = s.StatusId,
                 StatusName = s.StatusName
             }).ToList();
-        
+
         public StatusDTO? GetStatusById(int id)
             => _context.Statuses.Select(s => new StatusDTO
             {

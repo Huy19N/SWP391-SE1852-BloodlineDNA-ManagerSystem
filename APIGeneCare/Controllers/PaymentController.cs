@@ -1,14 +1,9 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-using APIGeneCare.Entities;
 using APIGeneCare.Model;
-using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
-using System.Reflection.Emit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace APIGeneCare.Controllers
 {
@@ -103,16 +98,16 @@ namespace APIGeneCare.Controllers
                 var model = _paymentRepository.PaymentIPN(Request.Query);
                 if (model == null || !model.Success)
                 {
-                    return Ok(new 
+                    return Ok(new
                     {
                         RspCode = "99",
                         Message = "Unknow error"
                     });
                 }
-                
+
                 if (model.TransactionStatus == "00")
                 {
-                    return Ok(new 
+                    return Ok(new
                     {
                         RspCode = "00",
                         Message = "Payment success",
@@ -121,7 +116,7 @@ namespace APIGeneCare.Controllers
                 }
                 else if (model.TransactionStatus == "01")
                 {
-                    return Ok(new 
+                    return Ok(new
                     {
                         RspCode = "01",
                         Message = "Payment pending",
@@ -130,7 +125,7 @@ namespace APIGeneCare.Controllers
                 }
                 else
                 {
-                    return Ok(new 
+                    return Ok(new
                     {
                         RspCode = "02",
                         Message = "Payment failed",
@@ -140,7 +135,7 @@ namespace APIGeneCare.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(new 
+                return Ok(new
                 {
                     RspCode = "99",
                     Message = "Unknow error"
@@ -148,7 +143,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-            [HttpGet("Response")]
+        [HttpGet("Response")]
         public IActionResult PaymentCallbackVnpay()
         {
             try
@@ -185,7 +180,7 @@ namespace APIGeneCare.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
             }
-            
+
         }
 
     }

@@ -101,7 +101,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if(servicePrice == null) return false;
+                if (servicePrice == null) return false;
 
                 _context.ServicePrices.Add(new ServicePrice
                 {

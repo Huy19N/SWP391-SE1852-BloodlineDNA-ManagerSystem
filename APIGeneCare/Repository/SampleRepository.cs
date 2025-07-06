@@ -23,7 +23,7 @@ namespace APIGeneCare.Repository
                         allSamples = _context.Samples.Where(s => s.SampleId == sampleid);
                     }
 
-    
+
                 }
             }
             #endregion
@@ -36,7 +36,7 @@ namespace APIGeneCare.Repository
                 if (sortBy.Equals("sampleid_desc", StringComparison.CurrentCultureIgnoreCase))
                     allSamples = allSamples.OrderByDescending(s => s.SampleId);
 
-                
+
 
             }
             #endregion
@@ -94,9 +94,9 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                
+
                 existingSample.SampleName = sample.SampleName;
-                
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;

@@ -79,7 +79,7 @@ namespace APIGeneCare.Repository
             }).SingleOrDefault(d => d.DurationId == id);
         public bool CreateDuration(DurationDTO duration)
         {
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -105,7 +105,7 @@ namespace APIGeneCare.Repository
         }
         public bool UpdateDuration(DurationDTO duration)
         {
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -135,7 +135,7 @@ namespace APIGeneCare.Repository
         }
         public bool DeleteDurationById(int id)
         {
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {

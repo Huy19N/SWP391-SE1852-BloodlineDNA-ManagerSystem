@@ -1,8 +1,6 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using System.Reflection.Metadata;
-using System.Transactions;
 
 namespace APIGeneCare.Repository
 {
@@ -33,8 +31,8 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if(collectionMethod == null ||
-                    String.IsNullOrWhiteSpace(collectionMethod.MethodName) )
+                if (collectionMethod == null ||
+                    String.IsNullOrWhiteSpace(collectionMethod.MethodName))
                     return false;
 
                 _context.CollectionMethods.Add(new CollectionMethod
@@ -66,7 +64,7 @@ namespace APIGeneCare.Repository
 
                 existCollectionMethod.MethodId = collectionMethod.MethodId;
                 existCollectionMethod.MethodName = collectionMethod.MethodName;
-                
+
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
@@ -96,6 +94,6 @@ namespace APIGeneCare.Repository
                 return false;
             }
         }
-        
+
     }
 }

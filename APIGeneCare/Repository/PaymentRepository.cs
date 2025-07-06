@@ -5,11 +5,6 @@ using APIGeneCare.Libararies;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
-using Microsoft.EntityFrameworkCore.Update.Internal;
-using Mono.TextTemplating.CodeCompilation;
-using Org.BouncyCastle.Asn1.X9;
-using System.Data.Common;
-using System.Security.Policy;
 using System.Text.Json;
 
 namespace APIGeneCare.Repository
@@ -23,7 +18,7 @@ namespace APIGeneCare.Repository
             _context = context;
             _configuration = configuration;
         }
-        
+
         public IEnumerable<PaymentMethod> GetAllPaymentMethods()
             => _context.PaymentMethods.Select(pm => new PaymentMethod
             {
@@ -33,7 +28,7 @@ namespace APIGeneCare.Repository
                 EndpointUrl = pm.EndpointUrl,
                 IconUrl = pm.IconUrl,
             });
-        
+
         public PaymentMethod? GetPaymentMethodById(decimal id)
             => _context.PaymentMethods.FirstOrDefault(pm => pm.PaymentMethodId == id);
 
@@ -89,7 +84,7 @@ namespace APIGeneCare.Repository
                 }
                 foreach (var x in _context.KeyVersions.Where(x => x.PaymentMethodId == keyVersion.PaymentMethodId))
                 {
-                    if (x.ExpiredAt == null ) x.ExpiredAt = DateTime.Now;
+                    if (x.ExpiredAt == null) x.ExpiredAt = DateTime.Now;
                     x.IsActive = false;
                 }
                 _context.SaveChanges();
@@ -131,7 +126,7 @@ namespace APIGeneCare.Repository
                         return false;
                     }
                     existingkeyVersion.Version = keyVersion.Version;
-                    if(!keyVersion.IsActive && existingkeyVersion.ExpiredAt == null)
+                    if (!keyVersion.IsActive && existingkeyVersion.ExpiredAt == null)
                     {
                         existingkeyVersion.ExpiredAt = DateTime.Now;
                     }
@@ -251,7 +246,7 @@ namespace APIGeneCare.Repository
 
                 var paymentUrl =
                     pay.CreateRequestUrl(_context.PaymentMethods.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId).EndpointUrl
-                                        ,_context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive).HashSecret);
+                                        , _context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive).HashSecret);
 
                 var requestData = pay.GetData();
                 var keyVersion = _context.KeyVersions.FirstOrDefault(x => x.PaymentMethodId == model.PaymentMethodId && x.IsActive);
@@ -280,7 +275,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
 
-            
+
         }
         public string PaymentResponse(IQueryCollection collections)
         {
@@ -290,7 +285,7 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
-                
+
                 var pay = new VnPayLibrary();
                 string[] parts = orderInfo.ToString().Split('.', StringSplitOptions.TrimEntries);
                 if (parts.Length <= 0)
@@ -299,9 +294,9 @@ namespace APIGeneCare.Repository
                 }
                 long paymentId = long.Parse(parts[0]);
                 var keyVersionId = _context.Payments.Find(paymentId).KeyVersionId;
-                var response = pay.GetFullResponseData(collections, 
-                    _context.KeyVersions.FirstOrDefault(x=>x.KeyVersionId == keyVersionId).HashSecret);
-                
+                var response = pay.GetFullResponseData(collections,
+                    _context.KeyVersions.FirstOrDefault(x => x.KeyVersionId == keyVersionId).HashSecret);
+
 
                 if (response.Success)
                 {
@@ -327,7 +322,7 @@ namespace APIGeneCare.Repository
                     }
                     _context.SaveChanges();
                 }
-                
+
                 var url = _configuration["ReturnAfterPay"];
                 transaction.Commit();
                 return url!;
@@ -337,7 +332,7 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 throw;
             }
-            
+
         }
         public PaymentResponseModel PaymentIPN(IQueryCollection collections)
         {

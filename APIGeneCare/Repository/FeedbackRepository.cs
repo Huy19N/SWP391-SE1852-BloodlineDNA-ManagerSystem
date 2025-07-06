@@ -108,7 +108,8 @@ namespace APIGeneCare.Repository
             });
         }
         public IEnumerable<FeedbackDTO> GetAllFeedbacks()
-            => _context.Feedbacks.Select(f => new FeedbackDTO {
+            => _context.Feedbacks.Select(f => new FeedbackDTO
+            {
                 FeedbackId = f.FeedbackId,
                 UserId = f.UserId,
                 ServiceId = f.ServiceId,
