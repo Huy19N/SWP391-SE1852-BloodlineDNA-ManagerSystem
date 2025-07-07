@@ -8,14 +8,11 @@ namespace APIGeneCare.Repository.Interface
     {
         IEnumerable<PaymentMethod> GetAllPaymentMethods();
         PaymentMethod? GetPaymentMethodById(decimal id);
-        IEnumerable<KeyVersionDTO> GetAllKeyVersionsByMethodId(decimal methodId);
         bool CreatePaymentMethod(PaymentMethodDTO paymentMethod);
-        bool CreateKeyVersion(KeyVersionDTO keyVersion);
-        bool UpdateKeyVersion(KeyVersionDTO keyVersion);
         IEnumerable<PaymentDTO> GetAllPayments();
         decimal GetTotalAmount(int type);
-        string CreatePaymentUrl(PaymentInformationModel model, HttpContext context);
-        string PaymentResponse(IQueryCollection collections);
-        PaymentResponseModel PaymentIPN(IQueryCollection collections);
+        string CreateVNPayPaymentUrl(PaymentInformationModel model, HttpContext context);
+        string VNPayPaymentResponse(IQueryCollection collections);
+        PaymentResponseModel VNpayPaymentIPN(IQueryCollection collections);
     }
 }

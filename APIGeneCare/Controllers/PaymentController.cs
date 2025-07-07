@@ -95,7 +95,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var model = _paymentRepository.PaymentIPN(Request.Query);
+                var model = _paymentRepository.VNpayPaymentIPN(Request.Query);
                 if (model == null || !model.Success)
                 {
                     return Ok(new
@@ -148,7 +148,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var url = _paymentRepository.PaymentResponse(Request.Query);
+                var url = _paymentRepository.VNPayPaymentResponse(Request.Query);
                 return Redirect(url);
             }
             catch (Exception ex)
@@ -161,7 +161,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
+                var url = _paymentRepository.CreateVNPayPaymentUrl(model, HttpContext);
                 if (url == null)
                     return Ok(new ApiResponse
                     {

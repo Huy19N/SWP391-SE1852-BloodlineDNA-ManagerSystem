@@ -10,6 +10,8 @@ public class PaymentReturnLogDTO
 
     public DateTime ReturnedAt { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string TransactionStatus { get; set; } = null!;
+
+    public string ResponseCode { get; set; } = null!;
 
 }

@@ -1,4 +1,7 @@
-﻿namespace APIGeneCare.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Entities;
 
 public partial class CollectionMethod
 {

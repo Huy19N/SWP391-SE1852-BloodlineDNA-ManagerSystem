@@ -12,9 +12,13 @@ namespace APIGeneCare.Libararies
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
-        public IDictionary<string, string> GetData()
+        public IDictionary<string, string> GetAllRequestData()
         {
             return new Dictionary<string, string>(_requestData);
+        }
+        public IDictionary<string, string> GetAllResponseData()
+        {
+            return new Dictionary<string, string>(_responseData);
         }
 
         public PaymentResponseModel GetFullResponseData(IQueryCollection collection, string hashSecret)
@@ -24,6 +28,7 @@ namespace APIGeneCare.Libararies
             {
                 if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
                 {
+                    this.AddResponseData(key, value);
                     vnPay.AddResponseData(key, value);
                 }
             }
@@ -33,10 +38,12 @@ namespace APIGeneCare.Libararies
             var txnRef = Convert.ToInt64(vnPay.GetResponseData("vnp_TxnRef"));
             var vnPayTranId = Convert.ToInt64(vnPay.GetResponseData("vnp_TransactionNo"));
             var responseCode = vnPay.GetResponseData("vnp_ResponseCode");
+            var trannsactionNo = vnPay.GetResponseData("vnp_TransactionNo");
             var transactionStatus = vnPay.GetResponseData("vnp_TransactionStatus");
             var vnpSecureHash =
                 collection.FirstOrDefault(k => k.Key == "vnp_SecureHash").Value; //hash của dữ liệu trả về
             var orderInfo = vnPay.GetResponseData("vnp_OrderInfo");
+            var bankTranNo = vnPay.GetResponseData("vnp_BankTranNo");
             var checkSignature =
                 vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
             if (!checkSignature)
@@ -47,7 +54,9 @@ namespace APIGeneCare.Libararies
             return new PaymentResponseModel()
             {
                 Success = true,
+                TransactionNo = trannsactionNo,
                 BankCode = bankCode,
+                BankTranNo = bankTranNo,
                 OrderInfo = orderInfo,
                 ResponseCode = responseCode,
                 TransactionStatus = transactionStatus,

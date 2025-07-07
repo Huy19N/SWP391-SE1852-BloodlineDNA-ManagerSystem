@@ -10,5 +10,8 @@ public class PaymentIpnlogDTO
 
     public DateTime ReceivedAt { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string TransactionStatus { get; set; } = null!;
+
+    public string ResponseCode { get; set; } = null!;
+
 }
