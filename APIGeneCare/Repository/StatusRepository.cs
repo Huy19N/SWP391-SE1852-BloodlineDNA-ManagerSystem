@@ -52,7 +52,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                var existStatus = GetStatusById(status.StatusId);
+                var existStatus = _context.Statuses.Find(status.StatusId);
                 if (existStatus == null) return false;
                 existStatus.StatusName = status.StatusName;
 
@@ -64,7 +64,7 @@ namespace APIGeneCare.Repository
             {
 
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteStatusById(int id)

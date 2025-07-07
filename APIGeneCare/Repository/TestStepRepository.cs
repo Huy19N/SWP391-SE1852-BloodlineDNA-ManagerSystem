@@ -31,7 +31,6 @@ namespace APIGeneCare.Repository
             try
             {
                 if (testStep == null) return false;
-                if (_context.TestSteps.Find(testStep.StepId) != null) return false;
 
                 _context.TestSteps.Add(new TestStep
                 {
@@ -44,7 +43,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateTestStep(TestStepDTO testStep)

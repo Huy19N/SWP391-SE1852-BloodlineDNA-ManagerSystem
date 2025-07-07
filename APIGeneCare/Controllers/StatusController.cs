@@ -92,7 +92,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateStatus(StatusDTO status)
+        public IActionResult UpdateStatus(StatusDTO status)
         {
             try
             {
