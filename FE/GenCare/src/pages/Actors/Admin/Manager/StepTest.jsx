@@ -3,17 +3,17 @@ import api from "../../../../config/axios.js";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-
-function CollectionMethod(){
+function StepTest(){
     const [isLoading, setIsLoading] = useState(false);
-    const [dataCollect, setDataCollect] = useState([]);
+    const [dataStepTest, setDataStepTest] = useState([]);
     const [search,setSearch] = useState('');
-    const [editCollection,setEditCollection] = useState(null);
+    const [editStepTest,setEditStepTest] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [fromDataCollection, setFromDataCollection] = useState({
-        methodName: ''
+    const [fromDataStepTest, setFromDataStepTest] = useState({
+        stepName: '',
     });
-    
+
+
     const roleid = localStorage.getItem('roleId');
     const isStaff = roleid === '2';
     const isAdmin = roleid === '4';
@@ -23,78 +23,79 @@ function CollectionMethod(){
         setIsLoading(true);
 
         try{
-            const resCollection = await api.get('CollectionMethod/GetAll');
-            const dataCollection = resCollection.data.data;
+            const resStep = await api.get('TestStep/getAllTestSteps');
+            const dataStep = resStep.data.data;
 
-            console.log("Collection", dataCollection);
+            console.log("Step", dataStep);
 
-            setDataCollect(dataCollection);
+            setDataStepTest(dataStep);
         }
         catch(error){
-            console.log("Error dataCollection", error.dataCollection);
-            toast.error("Failed Loading data collection");
+            console.log("Error dataStep", error.dataStep);
+            toast.error("Failed Loading Data StepTest");
         }
         finally{
             setIsLoading(false);
         }
     }
 
-
-    //API gọi delete Collection
-    const fetchDelete = async (methodId) => {
-        if(!window.confirm("Are you sure you want to delete this Collection?")) return;
+    //API gọi delete steptest
+    const fetchDelete = async (stepId) => {
+        if(!window.confirm("Are you sure you want to delete this steptest?")) return;
 
         try{
-            await api.delete(`CollectionMethod/DeleteById/${methodId}`);
-            toast.success("This user deleted successfully!");
+            await api.delete(`TestStep/DeleteById/${stepId}`);
+            toast.success("This TestStep deleted successfully!");
 
             fetchData();
         }
         catch (error){
             console.log("Delete error", error);
-            toast.error("Failed delete Collection this!")
+            toast.error("Failed delete TestStep this!")
         }
     }
 
     useEffect (() => {
-            fetchData();
+        fetchData();
     }, []);
-
 
     const handleCreateChange = (e) => {
     const { name, value } = e.target;
-    setFromDataCollection(prev => ({ ...prev, [name]: value }));
+    setFromDataStepTest(prev => ({ ...prev, [name]: value }));
     };
 
     const handleCreateSubmit = async (e) => {
     e.preventDefault();
 
         try {
-            await api.post('CollectionMethod/Create', fromDataCollection);
-            toast.success("Collection created successfully!");
+            await api.post('TestStep/Create', fromDataStepTest);
+            toast.success("TestStep created successfully!");
             setShowCreateModal(false);
-            setFromDataCollection({ methodName: ''});
+            setFromDataStepTest({ stepName: ''});
             fetchData();
         } catch (error) {
-            console.error("Error creating Collection", error);
-            toast.error("Failed to create Collection");
+            console.error("Error creating TestStep", error);
+            toast.error("Failed to create TestStep");
         }
     };
-    
+
+
+
     //Filter 
-    const filteredCollection = dataCollect.filter((collection) => {
+    const filteredTestStep = dataStepTest.filter((step) => {
         const keyword = search.toLowerCase();
         return (
-            collection.methodId.toString().includes(keyword) ||
-            collection.methodName.toLowerCase().includes(keyword)
+            step.stepId.toString().includes(keyword) ||
+            step.stepName.toLowerCase().includes(keyword)
         );
     });
+
 
 
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Collection Method
+                TestStep
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -109,7 +110,7 @@ function CollectionMethod(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Method
+                        Add New TestStep
                     </button>
                 </div>
             </div>
@@ -119,7 +120,7 @@ function CollectionMethod(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Name TestStep</th>
                     {isAdmin ? <th>Action</th> : null}
                 </tr>
                 </thead>
@@ -128,46 +129,45 @@ function CollectionMethod(){
                     <tr>
                     <td colSpan="3" className="text-center">Loading...</td>
                     </tr>
-                ) : filteredCollection.length > 0 ? (
-                    filteredCollection.map((collection) => (
-                    <tr key={collection.methodId}>
-                        <td>{collection.methodId}</td>
-                        <td>{collection.methodName}</td>
+                ) : filteredTestStep.length > 0 ? (
+                    filteredTestStep.map((step) => (
+                    <tr key={step.stepId}>
+                        <td>{step.stepId}</td>
+                        <td>{step.stepName}</td>
                         {isAdmin || isManager ? 
                         <td>
                         <button className="btn btn-info ms-3 me-3"
-                                onClick={() => setEditCollection(collection)}>
+                                onClick={() => setEditStepTest(step)}>
                             <i class="bi bi-pencil-square fs-4"></i>
-                            </button>{/*xem va update collection*/}
+                            </button>{/*xem va update TestStep*/}
                         <button className="btn btn-danger"
-                                onClick={() => fetchDelete(collection.methodId)}>
+                                onClick={() => fetchDelete(step.stepId)}>
                             <i class="bi bi-trash3-fill fs-4"></i>
-                            </button>{/*xoa collection*/}
+                            </button>{/*xoa TestStep*/}
                         </td>
                         : null}
                     </tr>
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="3" className="text-center">No collection found.</td>
+                    <td colSpan="3" className="text-center">No TestStep found.</td>
                     </tr>
                 )}
                 </tbody>
             </table>
-
-            {/* Thêm collection */}
+            {/* Thêm service */}
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New collection</h4>
+                        <h4 className="mb-3">Create New TestStep</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Service Name</label>
+                                <label className="form-label">TestStep Name</label>
                                 <input
                                     type="text"
-                                    name="methodName"
+                                    name="stepName"
                                     className="form-control"
-                                    value={fromDataCollection.methodName}
+                                    value={fromDataStepTest.stepName}
                                     onChange={handleCreateChange}
                                     required
                                 />
@@ -183,34 +183,34 @@ function CollectionMethod(){
 
 
             {/*Update here nha */}
-            {editCollection && (
+            {editStepTest && (
             <div className="update-overlay">
             <div className="update-box">
                 <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Collections ID: {editCollection.methodId}</h5>
+                <h5>Service ID: {editStepTest.stepId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
                     try {
-                    await api.put(`CollectionMethod/Update`, editCollection);
+                    await api.put(`TestStep/Update`, editStepTest);
                     toast.success("Cập nhật thành công!");
                     fetchData(); // reload lại bảng
-                    setEditCollection(null); // ẩn form
+                    setEditStepTest(null); // ẩn form
                     } catch (err) {
                     toast.error("Cập nhật thất bại!");
                     }
                 }}
                 >
                 <div className="mb-2">
-                    <label>Method Name:</label>
+                    <label>StepTest Name:</label>
                     <input
                     type="text"
                     className="form-control"
-                    value={editCollection.methodName}
+                    value={editStepTest.stepName}
                     onChange={(e) =>
                         // ... là trải mảng/array thành các phần tử ví dụ là editUser có spread toàn bộ dữ liệu cũ (userId, roleId, phone,...)
                         //khi khai báo trong setEditUser thì nó sẽ giữ lại các dữ liệu (userId, roleId,...) và thay đổi dữ liệu email
-                        setEditService({ ...editCollection, methodName: e.target.value })
+                        setEditStepTest({ ...editStepTest, stepName: e.target.value })
                     }
                     />
                 </div>
@@ -221,7 +221,7 @@ function CollectionMethod(){
                 <button
                     className="btn btn-secondary"
                     type="button"
-                    onClick={() => setEditCollection(null)}
+                    onClick={() => setEditStepTest(null)}
                 >
                     Cancel
                 </button>
@@ -233,4 +233,4 @@ function CollectionMethod(){
     );
 }
 
-export default CollectionMethod;
+export default StepTest;

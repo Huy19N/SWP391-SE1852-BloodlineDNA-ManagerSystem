@@ -75,11 +75,11 @@ function Sidebar (){
                             <ul className="slide-dropdown-content custom-dropdown">
                             <li><Link className="dropdown-item" to="#"><i className="bi bi-journal-text me-2"></i> Blogs</Link></li>
                             <li><Link className="dropdown-item" to="services"><i className="bi bi-box me-2"></i> Services</Link></li>
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> CollectionMethod</Link></li>
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Durations</Link></li>
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Samples</Link></li>
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Step Test</Link></li>
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-box me-2"></i> Status</Link></li>
+                            <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> CollectionMethod</Link></li>
+                            <li><Link className="dropdown-item" to="durations"><i className="bi bi-box me-2"></i> Durations</Link></li>
+                            <li><Link className="dropdown-item" to="samples"><i className="bi bi-box me-2"></i> Samples</Link></li>
+                            <li><Link className="dropdown-item" to="steptest"><i className="bi bi-box me-2"></i> Step Test</Link></li>
+                            <li><Link className="dropdown-item" to="status"><i className="bi bi-box me-2"></i> Status</Link></li>
                             </ul>
                         )}
                         </div>

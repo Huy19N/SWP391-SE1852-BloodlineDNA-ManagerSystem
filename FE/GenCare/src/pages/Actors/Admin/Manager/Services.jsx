@@ -41,7 +41,7 @@ function Service(){
         }
     }
 
-            //API gọi delete services
+    //API gọi delete services
     const fetchDelete = async (serviceId) => {
         if(!window.confirm("Are you sure you want to delete this service?")) return;
 
@@ -119,7 +119,7 @@ function Service(){
             </div>
             
 
-            <table className="table table-bordered table-hover">
+            <table className="table table-bordered table-hover shadow">
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
@@ -146,18 +146,18 @@ function Service(){
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditService(service)}>
                             <i class="bi bi-pencil-square fs-4"></i>
-                            </button>{/*xem va update user*/}
+                            </button>{/*xem va update Service*/}
                         <button className="btn btn-danger"
                                 onClick={() => fetchDelete(service.serviceId)}>
                             <i class="bi bi-trash3-fill fs-4"></i>
-                            </button>{/*xoa user*/}
+                            </button>{/*xoa Service*/}
                         </td>
                         : null}
                     </tr>
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="3" className="text-center">No users found.</td>
+                    <td colSpan="5" className="text-center">No Service found.</td>
                     </tr>
                 )}
                 </tbody>
@@ -197,7 +197,7 @@ function Service(){
                                     className="form-control"
                                     value={fromDataService.description}
                                     onChange={handleCreateChange}
-                                    rows={3}
+                                    rows={5}
                                 />
                             </div>
                             <div className="text-end">
@@ -257,13 +257,14 @@ function Service(){
 
                 <div className="mb-2">
                     <label>Description:</label>
-                    <input
-                    type="text"
+                    <textarea
+                    name="description"
                     className="form-control"
                     value={editService.description}
                     onChange={(e) =>
                         setEditService({ ...editService, description: e.target.value })
                     }
+                    rows={5}
                     />
                 </div>
 
