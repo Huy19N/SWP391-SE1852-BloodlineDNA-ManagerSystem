@@ -3,11 +3,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import api from '../config/axios';
 
-const selectedService = JSON.parse(localStorage.getItem('selectedService'));
 const userId = localStorage.getItem("userId");// lấy id từ login
 
 function Booking() {
   const navigate = useNavigate();
+  const [selectedService, setSelectedService] = useState({});
   const [formData, setFormData] = useState({
     serviceType: '',
     testType: '',
@@ -38,6 +38,13 @@ function Booking() {
     }
   });
 
+  // Lấy selectedService từ localStorage
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("selectedService")) || {};
+    setSelectedService(data);
+  }, []);
+
+  // Lấy thông tin user và cập nhật form theo selectedService
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -65,8 +72,10 @@ function Booking() {
       }
     };
 
-    fetchUserData();
-  }, []);
+    if (selectedService?.mainType) {
+      fetchUserData();
+    }
+  }, [selectedService]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -144,7 +153,7 @@ function Booking() {
       };
 
       console.log("Dữ liệu gửi đi:", bookingData);
-      const res = await api.post("Patient/CreatePatientWithBooking", bookingData);
+      await api.post("Patient/CreatePatientWithBooking", bookingData);
 
       toast.success("Đăng ký thành công!");
       navigate("/payment");

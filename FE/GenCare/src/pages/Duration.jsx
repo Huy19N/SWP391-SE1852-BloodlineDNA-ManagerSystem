@@ -57,16 +57,15 @@ function Duration() {
     fetchData();
   }, []);
 
-  const handleSelect = (duration, price, serviceId, durationId) => {
+  const handleSelect = ( serviceId, durationId) => {
   const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
-  localStorage.setItem("selectedService", JSON.stringify({
+  const updated = {
     ...prev,
-    durationType: duration.durationName,
-    price,
     serviceId,
     durationId
-  }));
-  console.log("kiểm tra testType:", selectedService);
+  };
+
+  localStorage.setItem("selectedService", JSON.stringify(updated));
   navigate("/book-appointment");
 };
   

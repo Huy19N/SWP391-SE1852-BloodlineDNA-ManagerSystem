@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import * as bootstrap from 'bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
 import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
