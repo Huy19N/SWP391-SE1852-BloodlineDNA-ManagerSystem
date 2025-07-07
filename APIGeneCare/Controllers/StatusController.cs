@@ -1,5 +1,4 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
+﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -93,7 +92,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        public ActionResult UpdateStatus(StatusDTO status)
+        public IActionResult UpdateStatus(StatusDTO status)
         {
             try
             {

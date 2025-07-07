@@ -103,7 +103,7 @@ namespace APIGeneCare.Repository
             }).SingleOrDefault(tr => tr.ResultId == id);
         public bool CreateTestResults(TestResultDTO testResult)
         {
-            
+
 
             using var transaction = _context.Database.BeginTransaction();
             try

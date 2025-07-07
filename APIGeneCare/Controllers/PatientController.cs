@@ -1,9 +1,6 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
+﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
-using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers

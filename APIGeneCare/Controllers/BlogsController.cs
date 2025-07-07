@@ -1,5 +1,4 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
+﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;

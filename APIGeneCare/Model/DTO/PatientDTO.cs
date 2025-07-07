@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace APIGeneCare.Model.DTO;
+﻿namespace APIGeneCare.Model.DTO;
 
 public class PatientDTO
 {

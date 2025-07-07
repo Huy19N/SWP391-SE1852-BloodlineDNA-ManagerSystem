@@ -121,7 +121,7 @@ namespace APIGeneCare.Repository
         }
         public bool DeleteRoleById(int id)
         {
-            
+
             using var transaction = _context.Database.BeginTransaction();
             try
             {

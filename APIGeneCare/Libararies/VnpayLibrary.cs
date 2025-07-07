@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace APIGeneCare.Libararies
 {
@@ -28,7 +27,7 @@ namespace APIGeneCare.Libararies
                     vnPay.AddResponseData(key, value);
                 }
             }
-            
+
             var bankCode = vnPay.GetResponseData("vnp_BankCode");
 
             var txnRef = Convert.ToInt64(vnPay.GetResponseData("vnp_TxnRef"));

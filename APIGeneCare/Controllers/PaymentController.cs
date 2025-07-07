@@ -1,12 +1,9 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-using APIGeneCare.Entities;
 using APIGeneCare.Model;
-using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.VnPay;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 
 namespace APIGeneCare.Controllers
 {
@@ -93,12 +90,65 @@ namespace APIGeneCare.Controllers
             }
         }
 
+        [HttpGet("IPN")]
+        public IActionResult VNPayIPNCallBack()
+        {
+            try
+            {
+                var model = _paymentRepository.PaymentIPN(Request.Query);
+                if (model == null || !model.Success)
+                {
+                    return Ok(new
+                    {
+                        RspCode = "99",
+                        Message = "Unknow error"
+                    });
+                }
+
+                if (model.TransactionStatus == "00")
+                {
+                    return Ok(new
+                    {
+                        RspCode = "00",
+                        Message = "Payment success",
+                        Data = model
+                    });
+                }
+                else if (model.TransactionStatus == "01")
+                {
+                    return Ok(new
+                    {
+                        RspCode = "01",
+                        Message = "Payment pending",
+                        Data = model
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        RspCode = "02",
+                        Message = "Payment failed",
+                        Data = model
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(new
+                {
+                    RspCode = "99",
+                    Message = "Unknow error"
+                });
+            }
+        }
+
         [HttpGet("Response")]
         public IActionResult PaymentCallbackVnpay()
         {
             try
             {
-                var url = _paymentRepository.PaymentExecute(Request.Query);
+                var url = _paymentRepository.PaymentResponse(Request.Query);
                 return Redirect(url);
             }
             catch (Exception ex)
@@ -130,7 +180,7 @@ namespace APIGeneCare.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
             }
-            
+
         }
 
     }

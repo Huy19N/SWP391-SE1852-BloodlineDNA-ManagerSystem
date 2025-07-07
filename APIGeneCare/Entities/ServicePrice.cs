@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace APIGeneCare.Entities;
+﻿namespace APIGeneCare.Entities;
 
 public partial class ServicePrice
 {

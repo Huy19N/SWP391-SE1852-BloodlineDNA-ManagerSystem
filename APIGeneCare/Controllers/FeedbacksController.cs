@@ -1,5 +1,4 @@
-﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
+﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly IFeedbackRepository _feedbackRepository;
         public FeedbacksController(IFeedbackRepository feedbackRepository) => _feedbackRepository = feedbackRepository;
-        
+
         [HttpGet("GetAllPaging")]
         public async Task<IActionResult> GetAllFeedbacksPaging(
             [FromQuery] string? typeSearch,

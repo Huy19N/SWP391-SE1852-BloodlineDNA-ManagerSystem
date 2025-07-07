@@ -2,8 +2,6 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace APIGeneCare.Repository
 {
@@ -48,7 +46,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if (bookingWithPatient == null || bookingWithPatient.patients == null  || !bookingWithPatient.patients.Any() ) return false;
+                if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return false;
 
                 var booking = new Booking
                 {
@@ -62,7 +60,7 @@ namespace APIGeneCare.Repository
                 };
                 _context.Bookings.Add(booking);
                 _context.SaveChanges();
-                
+
                 foreach (var x in bookingWithPatient.patients)
                 {
                     _context.Add(new Patient
@@ -173,6 +171,6 @@ namespace APIGeneCare.Repository
             }
         }
 
-        
+
     }
 }
