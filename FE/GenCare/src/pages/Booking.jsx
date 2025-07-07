@@ -49,7 +49,7 @@ function Booking() {
           serviceType: selectedService?.mainType || '',
           testType: selectedService?.testType || '',
           timeSlot: `${selectedService?.appointmentDay || ''} - ${selectedService?.appointmentSlot || ''}`,
-          method: selectedService?.sampleMethod || '',
+          method: selectedService?.collectionMethod || '',
           serviceId: selectedService?.serviceId || null,
           durationId: selectedService?.durationId || null,
           user: {
@@ -70,7 +70,15 @@ function Booking() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith('person1.')) {
+    if (name.startsWith('user.')) {
+    setFormData(prev => ({
+      ...prev,
+      user: {
+        ...prev.user,
+        [name.split('.')[1]]: value
+      }
+    }));
+  } else if (name.startsWith('person1.')) {
       setFormData(prev => ({
         ...prev,
         person1: {
@@ -109,7 +117,7 @@ function Booking() {
         userId: parseInt(userId),
         durationId: selectedService?.durationId,
         serviceId: selectedService?.serviceId,
-        methodId: selectedService?.methodId || 1,
+        methodId: selectedService?.collectionMethodId ,
         appointmentTime: new Date().toISOString(),
         statusId: 1,
         date: new Date().toISOString(),
@@ -171,15 +179,15 @@ function Booking() {
       <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người đăng ký</h4>
       <div className="mb-3">
         <label className="form-label">Họ và tên</label>
-        <input className="form-control" value={formData.user.fullName} />
+        <input className="form-control" name="user.fullName" value={formData.user.fullName} onChange={handleChange}/>
       </div>
       <div className="mb-3">
         <label className="form-label">Gmail</label>
-        <input className="form-control" value={formData.user.gmail} readOnly type="email" />
+        <input className="form-control" name="user.gmail" value={formData.user.gmail} type="email" onChange={handleChange} />
       </div>
       <div className="mb-3">
         <label className="form-label">CCCD</label>
-        <input className="form-control" value={formData.user.cccd} />
+        <input className="form-control" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
       </div>
 
       {/* Người thứ nhất */}
@@ -207,7 +215,8 @@ function Booking() {
       <div className="mb-3">
         <label className="form-label">Loại mẫu xét nghiệm</label>
         <select name="person1.sampleID" value={formData.person1.sampleID} onChange={handleChange} className="form-select">
-          {sampleOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+          {sampleOptions.map(opt => 
+          <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
       </div>
       <div className="mb-3">
@@ -262,20 +271,20 @@ function Booking() {
 }
 
 const genderOptions = [
-  { label: '-- Hãy chọn --' },
+  { value: '', label: '-- Hãy chọn --' },
   { value: 'male', label: 'Nam' },
   { value: 'female', label: 'Nữ' },
   { value: 'other', label: 'Khác' }
 ];
 
 const testedOptions = [
-  { label: '-- Hãy chọn --' },
+  { value: '', label: '-- Hãy chọn --' },
   { value: 'true', label: 'Rồi nè' },
   { value: 'false', label: 'Chưa nè' }
 ];
 
 const sampleOptions = [
-  { label: '-- Hãy chọn --' },
+  { value: '', label: '-- Hãy chọn --' },
   { value: '1', label: 'Máu' },
   { value: '2', label: 'Móng tay/chân' },
   { value: '3', label: 'Tóc' },

@@ -13,9 +13,10 @@ function CivilServices() {
     "selectedService",
     JSON.stringify({ ...previous, testType })
   );
-  navigate("/duration");
+  navigate("/collection-method");
 };
-//gọi API
+
+
   useEffect(() => {
   
   const fetchServices = async () => {

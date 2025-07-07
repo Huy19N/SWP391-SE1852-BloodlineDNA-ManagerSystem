@@ -9,6 +9,7 @@ import ProtectedRoute from './pages/ProtectReute/protectedRoute.jsx';
 import Services from './pages/Services.jsx';
 import LegalServices from './pages/LegalServices.jsx';
 import CivilServices from './pages/CivilServices.jsx';
+import CollectionMethod from './pages/CollectionMethod.jsx';
 import Duration from './pages/Duration.jsx';
 import Blog from './pages/Blog.jsx';
 
@@ -56,6 +57,7 @@ function App() {
       <Route path="/Instruction" element={<Instruction />} />
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
+      <Route path="/collection-method" element={<CollectionMethod/>} />
       <Route path="/blog" element={<Blog />} />
 
       

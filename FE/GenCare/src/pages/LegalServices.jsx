@@ -9,9 +9,21 @@ function LegalServices() {
 
  const handleSelect = (testType) => {
   const previous = JSON.parse(localStorage.getItem("selectedService")) || {};
+  // Xoá các giá trị thu mẫu cũ nếu có
+  localStorage.setItem("selectedService", JSON.stringify(selected));
+
+  const defaultCollectionMethod = {
+    collectionMethod: "thu mẫu tại cơ sở y tế",
+    collectionMethodId: 3, 
+  };
+
   localStorage.setItem(
     "selectedService",
-    JSON.stringify({ ...previous, testType })
+    JSON.stringify({
+      ...previous,
+      testType,
+      ...defaultCollectionMethod
+    })
   );
   navigate("/duration");
   };
