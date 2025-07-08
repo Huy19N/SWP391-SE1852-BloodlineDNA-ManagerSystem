@@ -1,4 +1,7 @@
-﻿namespace APIGeneCare.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Entities;
 
 public partial class Payment
 {
@@ -6,9 +9,15 @@ public partial class Payment
 
     public int BookingId { get; set; }
 
-    public long KeyVersionId { get; set; }
+    public long PaymentMethodId { get; set; }
 
-    public string TransactionId { get; set; } = null!;
+    public string? TransactionStatus { get; set; }
+
+    public string? ResponseCode { get; set; }
+
+    public string? TransactionNo { get; set; }
+
+    public string? BankTranNo { get; set; }
 
     public decimal Amount { get; set; }
 
@@ -16,23 +25,19 @@ public partial class Payment
 
     public DateTime PaymentDate { get; set; }
 
-    public string? BankCode { get; set; }
+    public string? OrderInfo { get; set; }
 
-    public string OrderInfo { get; set; } = null!;
+    public string? SecureHash { get; set; }
 
-    public string? ResponseCode { get; set; }
-
-    public string SecureHash { get; set; } = null!;
-
-    public string RawData { get; set; } = null!;
+    public string? RawData { get; set; }
 
     public bool HavePaid { get; set; }
 
     public virtual Booking Booking { get; set; } = null!;
 
-    public virtual KeyVersion KeyVersion { get; set; } = null!;
-
     public virtual ICollection<PaymentIpnlog> PaymentIpnlogs { get; set; } = new List<PaymentIpnlog>();
+
+    public virtual PaymentMethod PaymentMethod { get; set; } = null!;
 
     public virtual ICollection<PaymentReturnLog> PaymentReturnLogs { get; set; } = new List<PaymentReturnLog>();
 }

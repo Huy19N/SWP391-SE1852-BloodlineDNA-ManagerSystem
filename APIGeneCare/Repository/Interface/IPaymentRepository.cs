@@ -1,6 +1,7 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model.DTO;
-using APIGeneCare.Model.VnPay;
+using APIGeneCare.Model.Payment;
+using APIGeneCare.Model.Payment.VnPay;
 
 namespace APIGeneCare.Repository.Interface
 {
@@ -8,14 +9,12 @@ namespace APIGeneCare.Repository.Interface
     {
         IEnumerable<PaymentMethod> GetAllPaymentMethods();
         PaymentMethod? GetPaymentMethodById(decimal id);
-        IEnumerable<KeyVersionDTO> GetAllKeyVersionsByMethodId(decimal methodId);
         bool CreatePaymentMethod(PaymentMethodDTO paymentMethod);
-        bool CreateKeyVersion(KeyVersionDTO keyVersion);
-        bool UpdateKeyVersion(KeyVersionDTO keyVersion);
         IEnumerable<PaymentDTO> GetAllPayments();
         decimal GetTotalAmount(int type);
-        string CreatePaymentUrl(PaymentInformationModel model, HttpContext context);
-        string PaymentResponse(IQueryCollection collections);
-        PaymentResponseModel PaymentIPN(IQueryCollection collections);
+        string CreateVNPayPaymentUrl(PaymentInformationModel model, HttpContext context);
+        string VNPayPaymentResponse(IQueryCollection collections);
+        PaymentResponseModel VNpayPaymentIPN(IQueryCollection collections);
+        Task<string> CreateMomoPaymentUrlAsync(PaymentInformationModel model, HttpContext context);
     }
 }

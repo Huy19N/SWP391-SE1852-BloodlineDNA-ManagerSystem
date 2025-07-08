@@ -141,39 +141,26 @@ CREATE TABLE Blog (
 
 --Bảng PaymentMethod
 CREATE TABLE PaymentMethod(
-	PaymentMethodId BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	PaymentMethodId BIGINT PRIMARY KEY NOT NULL,
 	MethodName NVARCHAR(10) NOT NULL,
-	[Description] NVARCHAR(500),
-	EndpointURL VARCHAR(250) NOT NULL,
-	IconURL VARCHAR(255) NOT NULL
-);
-
--- Bảng KeyVersion
-CREATE TABLE KeyVersion(
-	KeyVersionId BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
-    [Version] NVARCHAR(20) NOT NULL,
-    HashSecret NVARCHAR(MAX) NOT NULL,
-    TmnCode NVARCHAR(50) NOT NULL,
-    CreatedAt DateTime NOT NULL,
-    ExpiredAt DateTime,
-    IsActive BIT NOT NULL
+	IconURL VARCHAR(MAX) NOT NULL
 );
 
 -- Bảng Payment
 CREATE TABLE Payment (
     PaymentId BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	BookingId INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
-	KeyVersionId BIGINT FOREIGN KEY REFERENCES KeyVersion(KeyVersionId) NOT NULL,
-	TransactionId NVARCHAR(255) NOT NULL,
+	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
+	TransactionStatus NVARCHAR(50),
+	ResponseCode NVARCHAR(50),
+	TransactionNo NVARCHAR(255),
+	BankTranNo NVARCHAR(50),
 	Amount DECIMAL NOT NULL,
 	Currency NVARCHAR(50) NOT NULL,
 	PaymentDate DATETIME NOT NULL,
-	BankCode NVARCHAR(50),
-	OrderInfo NVARCHAR(256) NOT NULL,
-	ResponseCode NVARCHAR(20),
-	SecureHash NVARCHAR(MAX) NOT NULL,
-	RawData NVARCHAR(MAX) NOT NULL,
+	OrderInfo NVARCHAR(256),
+	SecureHash NVARCHAR(MAX),
+	RawData NVARCHAR(MAX),
 	HavePaid BIT NOT NULL
 );
 
@@ -183,7 +170,8 @@ CREATE TABLE PaymentIPNLog(
 	PaymentId BIGINT FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
 	RawData NVARCHAR(MAX) NOT NULL,
 	ReceivedAt DateTime NOT NULL,
-	[Status] NVARCHAR(50) NOT NULL
+	TransactionStatus NVARCHAR(50) NOT NULL,
+	ResponseCode NVARCHAR(50) NOT NULL
 );
 
 -- Bảng PaymentReturnLog
@@ -192,7 +180,8 @@ CREATE TABLE PaymentReturnLog(
 	PaymentId BIGINT FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
 	RawData NVARCHAR(MAX) NOT NULL,
 	ReturnedAt DateTime NOT NULL,
-	[Status] NVARCHAR(50) NOT NULL
+	TransactionStatus NVARCHAR(50) NOT NULL,
+	ResponseCode NVARCHAR(50) NOT NULL
 );
 
 -- Bảng RefreshToken
@@ -284,13 +273,8 @@ INSERT INTO Samples(SampleName)
  (N'Niêm mạc miệng');
 go
 
--- Bảng PaymentMethod
-INSERT INTO PaymentMethod(MethodName,[Description],EndpointURL,IconURL)
+INSERT INTO PaymentMethod(PaymentMethodId,MethodName, IconURL)
 VALUES
-(N'VNPAY',NULL, N'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html', N'https://cdn.brandfetch.io/idV02t6WJs/w/820/h/249/theme/dark/logo.png?c=1bxid64Mup7aczewSAYMX&t=1750645747861');
-GO
-
-INSERT INTO KeyVersion(PaymentMethodId,[Version],HashSecret,TmnCode,CreatedAt,ExpiredAt,IsActive)
-VALUES
-(1,N'v1',N'VWGQTRVC3W1V305M2TG3VA740H658WNP',N'NDNNTOY0', '2025-7-4',NULL,1);
-GO
+(1, N'VNPAY', 'https://cdn.brandfetch.io/idV02t6WJs/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B'),
+(2, N'MOMO', 'https://developers.momo.vn/v3/img/logo.svg');
+go

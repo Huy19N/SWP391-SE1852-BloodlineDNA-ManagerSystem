@@ -1,6 +1,6 @@
-﻿namespace APIGeneCare.Model.VnPay
+﻿namespace APIGeneCare.Model.Payment.VnPay
 {
-    public class PaymentIPN
+    public class PaymentIPNModel
     {
         public string TmnCode { get; set; }
         public double Amount { get; set; }

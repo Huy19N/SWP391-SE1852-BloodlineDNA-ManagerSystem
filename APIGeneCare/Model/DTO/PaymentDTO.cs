@@ -6,9 +6,15 @@ public class PaymentDTO
 
     public int BookingId { get; set; }
 
-    public long KeyVersionId { get; set; }
+    public long PaymentMethodId { get; set; }
 
-    public string TransactionId { get; set; } = null!;
+    public string? TransactionStatus { get; set; }
+
+    public string? ResponseCode { get; set; }
+
+    public string? TransactionNo { get; set; }
+
+    public string? BankTranNo { get; set; }
 
     public decimal Amount { get; set; }
 
@@ -16,15 +22,11 @@ public class PaymentDTO
 
     public DateTime PaymentDate { get; set; }
 
-    public string? BankCode { get; set; }
+    public string? OrderInfo { get; set; }
 
-    public string OrderInfo { get; set; } = null!;
+    public string? SecureHash { get; set; }
 
-    public string? ResponseCode { get; set; }
-
-    public string SecureHash { get; set; } = null!;
-
-    public string RawData { get; set; } = null!;
+    public string? RawData { get; set; }
 
     public bool HavePaid { get; set; }
 }

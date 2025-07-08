@@ -1,7 +1,7 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Model;
-using APIGeneCare.Model.VnPay;
+using APIGeneCare.Model.Payment;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -95,7 +95,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var model = _paymentRepository.PaymentIPN(Request.Query);
+                var model = _paymentRepository.VNpayPaymentIPN(Request.Query);
                 if (model == null || !model.Success)
                 {
                     return Ok(new
@@ -148,7 +148,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var url = _paymentRepository.PaymentResponse(Request.Query);
+                var url = _paymentRepository.VNPayPaymentResponse(Request.Query);
                 return Redirect(url);
             }
             catch (Exception ex)
@@ -161,7 +161,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var url = _paymentRepository.CreatePaymentUrl(model, HttpContext);
+                var url = _paymentRepository.CreateVNPayPaymentUrl(model, HttpContext);
                 if (url == null)
                     return Ok(new ApiResponse
                     {
@@ -183,5 +183,30 @@ namespace APIGeneCare.Controllers
 
         }
 
+        [HttpPost("Momo")]
+        public async Task<IActionResult> CreatePaymentUrlMomo(PaymentInformationModel model)
+        {
+            try
+            {
+                var url = await _paymentRepository.CreateMomoPaymentUrlAsync(model, HttpContext);
+                if (url == null)
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Can't create Url",
+                        Data = null
+                    });
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Please redirect this link",
+                    Data = url
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
+            }
+        }
     }
 }

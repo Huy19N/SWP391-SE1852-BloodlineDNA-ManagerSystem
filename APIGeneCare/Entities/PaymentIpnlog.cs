@@ -1,4 +1,7 @@
-﻿namespace APIGeneCare.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace APIGeneCare.Entities;
 
 public partial class PaymentIpnlog
 {
@@ -10,7 +13,9 @@ public partial class PaymentIpnlog
 
     public DateTime ReceivedAt { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string TransactionStatus { get; set; } = null!;
+
+    public string ResponseCode { get; set; } = null!;
 
     public virtual Payment Payment { get; set; } = null!;
 }
