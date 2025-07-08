@@ -2,16 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import api from "../config/axios";
 
-
 function Duration() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const selectedService = JSON.parse(localStorage.getItem('selectedService')) || {};
-  
 
   useEffect(() => {
     const fetchData = async () => {
-      
       try {
         const response = await api.get("ServicePrices/GetAllPaging", {
           params: {
@@ -19,16 +16,15 @@ function Duration() {
             search: "",
             sortBy: "PriceID",
             page: 1,
-            
           },
         });
 
-        const priceList = response.data.data ;
+        const priceList = response.data.data;
 
         const promises = priceList.map(async (item) => {
           const [serviceRes, durationRes] = await Promise.all([
-            api.get(`Services/GetById/${item.serviceId}`), 
-            api.get(`Durations/GetById/${item.durationId}`), 
+            api.get(`Services/GetById/${item.serviceId}`),
+            api.get(`Durations/GetById/${item.durationId}`),
           ]);
 
           return {
@@ -41,7 +37,7 @@ function Duration() {
         const fullData = await Promise.all(promises);
 
         // lọc theo dịch vụ đã chọn
-        const normalize = (text) =>text?.toLowerCase().normalize("NFD");// xóa dấu và in hoa
+        const normalize = (text) => text?.toLowerCase().normalize("NFD");
         const filtered = fullData.filter(
           (entry) =>
             normalize(entry.service.serviceName) === normalize(selectedService.mainType)
@@ -52,23 +48,23 @@ function Duration() {
         console.error("Lỗi khi gọi API:", error);
       }
     };
-    
 
     fetchData();
   }, []);
 
-  const handleSelect = ( serviceId, durationId) => {
-  const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
-  const updated = {
-    ...prev,
-    serviceId,
-    durationId
+  const handleSelect = (serviceId, durationId) => {
+    const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
+
+    const updated = {
+      ...prev,
+      serviceId,
+      durationId,
+    };
+
+    localStorage.setItem("selectedService", JSON.stringify(updated));
+    navigate("/book-appointment");
   };
 
-  localStorage.setItem("selectedService", JSON.stringify(updated));
-  navigate("/book-appointment");
-};
-  
   return (
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
       <div className="text-center">
@@ -90,7 +86,7 @@ function Duration() {
             <div key={item.priceId} className="col-md-4 mb-4">
               <div
                 className="card shadow text-dark text-decoration-none"
-                onClick={() => handleSelect(item.duration, item.price, item.service.serviceId, item.duration.durationId)}
+                onClick={() => handleSelect(item.service.serviceId, item.duration.durationId)}
               >
                 <div className="card-header bg-info text-white text-center">
                   <h4 className="mb-0">{item.duration.durationName.toUpperCase()} CÓ KẾT QUẢ</h4>

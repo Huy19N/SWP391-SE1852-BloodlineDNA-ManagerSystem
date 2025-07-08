@@ -3,10 +3,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import api from '../config/axios';
 
-const userId = localStorage.getItem("userId");// lấy id từ login
+const userId = localStorage.getItem("userId");
 
 function Booking() {
   const navigate = useNavigate();
+
   const [selectedService, setSelectedService] = useState({});
   const [formData, setFormData] = useState({
     serviceType: '',
@@ -43,12 +44,16 @@ function Booking() {
     const data = JSON.parse(localStorage.getItem("selectedService")) || {};
     setSelectedService(data);
   }, []);
-
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("selectedService")) || {};
+    console.log("selectedService trong localStorage:", data);
+    setSelectedService(data);
+  }, []);
   // Lấy thông tin user và cập nhật form theo selectedService
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userRes = await api.get(`/Users/getbyid/${userId}`);//lấy dữ liệu user
+        const userRes = await api.get(`/Users/getbyid/${userId}`);
         const user = userRes.data.data;
 
         setFormData((prev) => ({
@@ -80,14 +85,14 @@ function Booking() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('user.')) {
-    setFormData(prev => ({
-      ...prev,
-      user: {
-        ...prev.user,
-        [name.split('.')[1]]: value
-      }
-    }));
-  } else if (name.startsWith('person1.')) {
+      setFormData(prev => ({
+        ...prev,
+        user: {
+          ...prev.user,
+          [name.split('.')[1]]: value
+        }
+      }));
+    } else if (name.startsWith('person1.')) {
       setFormData(prev => ({
         ...prev,
         person1: {
@@ -109,60 +114,66 @@ function Booking() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleID) {
-      toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
-      return;
-    }
+  if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleID) {
+    toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
+    return;
+  }
 
-    if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleID) {
-      toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
-      return;
-    }
+  if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleID) {
+    toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
+    return;
+  }
 
-    try {
-      const bookingData = {
-        userId: parseInt(userId),
-        durationId: selectedService?.durationId,
-        serviceId: selectedService?.serviceId,
-        methodId: selectedService?.collectionMethodId ,
-        appointmentTime: new Date().toISOString(),
-        statusId: 1,
-        date: new Date().toISOString(),
-        patients: [
-          {
-            fullName: formData.person1.fullName,
-            birthDate: formData.person1.birthDate,
-            gender: formData.person1.gender,
-            identifyId: String(formData.user.cccd),
-            sampleId: parseInt(formData.person1.sampleID),
-            hasTestedDna: formData.person1.hasTestedDna === 'true',
-            relationship: formData.person1.relationToPerson2
-          },
-          {
-            fullName: formData.person2.fullName,
-            birthDate: formData.person2.birthDate,
-            gender: formData.person2.gender,
-            identifyId: String(formData.user.cccd),
-            sampleId: parseInt(formData.person2.sampleID),
-            hasTestedDna: formData.person2.hasTestedDna === 'true',
-            relationship: formData.person2.relationToPerson1
-          }
-        ]
-      };
+  try {
+    const bookingData = {
+      userId: parseInt(userId),
+      durationId: selectedService?.duration?.durationId || selectedService?.durationId,
+      serviceId: selectedService?.serviceId,
+      methodId: selectedService?.collectionMethodId,
+      appointmentTime: new Date().toISOString(),
+      date: new Date().toISOString(),
+      statusId: 1,
+      patients: [
+        {
+          patientId: 0,
+          bookingId: 0,
+          fullName: formData.person1.fullName,
+          birthDate: formData.person1.birthDate,
+          gender: formData.person1.gender,
+          identifyId: String(formData.user.cccd),
+          sampleId: parseInt(formData.person1.sampleID),
+          hasTestedDna: formData.person1.hasTestedDna === 'true',
+          relationship: formData.person1.relationToPerson2
+        },
+        {
+          patientId: 0,
+          bookingId: 0,
+          fullName: formData.person2.fullName,
+          birthDate: formData.person2.birthDate,
+          gender: formData.person2.gender,
+          identifyId: String(formData.user.cccd),
+          sampleId: parseInt(formData.person2.sampleID),
+          hasTestedDna: formData.person2.hasTestedDna === 'true',
+          relationship: formData.person2.relationToPerson1
+        }
+      ]
+    };
 
-      console.log("Dữ liệu gửi đi:", bookingData);
-      await api.post("Patient/CreatePatientWithBooking", bookingData);
+    console.log("Dữ liệu gửi đi:", bookingData);
+    await api.post("Patient/CreatePatientWithBooking", bookingData);
 
-      toast.success("Đăng ký thành công!");
-      navigate("/payment");
+    toast.success("Đăng ký thành công!");
+    navigate("/payment");
 
-    } catch (error) {
-      console.error("Lỗi khi gửi đăng ký:", error);
-      toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
-    }
-  };
+  } catch (error) {
+    console.error("Lỗi khi gửi đăng ký:", error);
+    console.log("Chi tiết:", error.response?.data);
+    toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
+  }
+};
+
 
   return (
   <div className="container mt-5 mb-4 p-4 rounded shadow bg-white">
