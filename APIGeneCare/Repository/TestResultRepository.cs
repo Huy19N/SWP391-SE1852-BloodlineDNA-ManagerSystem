@@ -50,16 +50,6 @@ namespace APIGeneCare.Repository
                     allTestResults = allTestResults.OrderByDescending(tr => tr.ResultId);
                 }
 
-                if (sortBy.Trim().Equals("bookingid_asc", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    allTestResults = allTestResults.OrderBy(tr => tr.BookingId);
-                }
-
-                if (sortBy.Trim().Equals("bookingid_desc", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    allTestResults = allTestResults.OrderByDescending(tr => tr.BookingId);
-                }
-
                 if (sortBy.Trim().Equals("date_asc", StringComparison.CurrentCultureIgnoreCase))
                 {
                     allTestResults = allTestResults.OrderBy(tr => tr.Date);
@@ -88,7 +78,6 @@ namespace APIGeneCare.Repository
             return result.Select(tr => new TestResultDTO
             {
                 ResultId = tr.ResultId,
-                BookingId = tr.BookingId,
                 Date = tr.Date,
                 ResultSummary = tr.ResultSummary,
             });
@@ -97,7 +86,6 @@ namespace APIGeneCare.Repository
             => _context.TestResults.Select(tr => new TestResultDTO
             {
                 ResultId = tr.ResultId,
-                BookingId = tr.BookingId,
                 Date = tr.Date,
                 ResultSummary = tr.ResultSummary,
             }).SingleOrDefault(tr => tr.ResultId == id);
@@ -115,7 +103,6 @@ namespace APIGeneCare.Repository
 
                 _context.TestResults.Add(new TestResult
                 {
-                    BookingId = testResult.BookingId,
                     Date = testResult.Date,
                     ResultSummary = testResult.ResultSummary,
                 });
@@ -143,7 +130,6 @@ namespace APIGeneCare.Repository
                 {
                     return false;
                 }
-                existingTestResult.BookingId = testResult.BookingId;
                 existingTestResult.Date = testResult.Date;
                 existingTestResult.ResultSummary = testResult.ResultSummary;
 

@@ -99,6 +99,7 @@ namespace APIGeneCare.Repository
                 DurationId = b.DurationId,
                 ServiceId = b.ServiceId,
                 MethodId = b.MethodId,
+                ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
                 StatusId = b.StatusId,
                 Date = b.Date,
@@ -112,6 +113,7 @@ namespace APIGeneCare.Repository
                 DurationId = b.DurationId,
                 ServiceId = b.ServiceId,
                 MethodId = b.MethodId,
+                ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
                 StatusId = b.StatusId,
                 Date = b.Date,
@@ -124,6 +126,7 @@ namespace APIGeneCare.Repository
                 DurationId = b.DurationId,
                 ServiceId = b.ServiceId,
                 MethodId = b.MethodId,
+                ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
                 StatusId = b.StatusId,
                 Date = b.Date,
@@ -143,6 +146,7 @@ namespace APIGeneCare.Repository
                     DurationId = booking.DurationId,
                     ServiceId = booking.ServiceId,
                     MethodId = booking.MethodId,
+                    ResultId = booking.ResultId,
                     AppointmentTime = booking.AppointmentTime,
                     StatusId = booking.StatusId,
                     Date = booking.Date,
@@ -176,6 +180,7 @@ namespace APIGeneCare.Repository
                 existingBooking.ServiceId = booking.ServiceId;
                 existingBooking.StatusId = booking.StatusId;
                 existingBooking.MethodId = booking.MethodId;
+                existingBooking.ResultId = booking.ResultId;
                 existingBooking.Date = booking.Date;
 
                 _context.SaveChanges();

@@ -6,8 +6,6 @@ public partial class TestResultDTO
 {
     public int ResultId { get; set; }
 
-    public int? BookingId { get; set; }
-
     public DateTime? Date { get; set; }
 
     public string? ResultSummary { get; set; }

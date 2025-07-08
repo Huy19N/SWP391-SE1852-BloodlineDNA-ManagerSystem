@@ -14,6 +14,8 @@ public partial class BookingDTO
 
     public int? MethodId { get; set; }
 
+    public int? ResultId { get; set; }
+
     public DateTime? AppointmentTime { get; set; }
 
     public int? StatusId { get; set; }
