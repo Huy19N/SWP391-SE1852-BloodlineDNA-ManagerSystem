@@ -467,7 +467,7 @@ namespace APIGeneCare.Repository
                     var paymentIpnlog = new PaymentIpnlog
                     {
                         PaymentId = paymentId,
-                        RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
+                        RawData =  JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReceivedAt = timeNow,
                         ResponseCode = response.ResultCode,
                         TransactionStatus = response.ResultCode,

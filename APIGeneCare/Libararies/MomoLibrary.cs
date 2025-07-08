@@ -48,9 +48,7 @@ namespace APIGeneCare.Libararies
 
         private String GetSignature(String text, String key)
         {
-            // change according to your needs, an UTF8Encoding
-            // could be more suitable in certain situations
-            ASCIIEncoding encoding = new ASCIIEncoding();
+            UTF8Encoding encoding = new UTF8Encoding();
 
             Byte[] textBytes = encoding.GetBytes(text);
             Byte[] keyBytes = encoding.GetBytes(key);
