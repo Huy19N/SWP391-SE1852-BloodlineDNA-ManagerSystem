@@ -1,14 +1,5 @@
 ﻿using APIGeneCare.Model.Payment.Momo;
-using APIGeneCare.Model.Payment.VnPay;
-using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Crmf;
-using System.Data.Linq.SqlClient;
 using System.Globalization;
-using System.Net;
-using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -99,7 +90,7 @@ namespace APIGeneCare.Libararies
             {
                 rspRaw.Remove("signature");
             }
-            
+
 
             foreach (var (key, value) in _responseData)
             {
@@ -113,7 +104,7 @@ namespace APIGeneCare.Libararies
             }
 
             var myChecksum = GetSignature(data.ToString(), hashKey);
-            if(!myChecksum.Equals(signature, StringComparison.InvariantCultureIgnoreCase))
+            if (!myChecksum.Equals(signature, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
@@ -123,7 +114,7 @@ namespace APIGeneCare.Libararies
         public string GenerateSignature(string momoHashSecret)
         {
             var data = new StringBuilder();
-            
+
             foreach (var (key, value) in _requestData)
             {
                 data.Append(key + "=" + value + "&");
@@ -142,13 +133,13 @@ namespace APIGeneCare.Libararies
         {
             foreach (var (key, value) in collection)
             {
-                this.AddResponseData(key, value);      
+                this.AddResponseData(key, value);
             }
 
             var signature =
                 collection.FirstOrDefault(k => k.Key == "signature").Value; //hash của dữ liệu trả về
             var checkSignature = ValidateSignatureCreateLink(signature, accessKey, hashSecret); //check Signature
-            
+
             if (!checkSignature)
                 return null;
             return new MomoResponseModel

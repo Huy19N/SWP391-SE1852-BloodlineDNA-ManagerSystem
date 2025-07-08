@@ -4,13 +4,11 @@ using APIGeneCare.Entities;
 using APIGeneCare.Libararies;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.Payment;
-using APIGeneCare.Model.Payment.Momo;
 using APIGeneCare.Model.Payment.VnPay;
 using APIGeneCare.Repository.Interface;
 using Microsoft.Extensions.Primitives;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace APIGeneCare.Repository
 {
@@ -194,7 +192,7 @@ namespace APIGeneCare.Repository
 
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 var pay = new VnPayLibrary();
-                
+
                 var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
 
                 if (response.Success)
@@ -278,7 +276,8 @@ namespace APIGeneCare.Repository
                         if (response.TransactionStatus == "00")
                         {
                             existingPayment.HavePaid = true;
-                        } else
+                        }
+                        else
                         {
                             existingPayment.HavePaid = false;
                         }
@@ -365,7 +364,7 @@ namespace APIGeneCare.Repository
                 payment.SecureHash = signature;
 
                 string payUrl = queryCollection["payUrl"].ToString();
-                if (string.IsNullOrEmpty(payUrl) || queryCollection["resultCode"].ToString() !="0")
+                if (string.IsNullOrEmpty(payUrl) || queryCollection["resultCode"].ToString() != "0")
                 {
                     throw new Exception($"Failed to create payment URL. resultCode:{queryCollection["resultCode"].ToString()} -");
                 }
@@ -390,13 +389,13 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                
+
                 var pay = new MomoLibrary();
 
                 var response = pay.GetFullResponse(collections, _configuration["Momo:accessKey"], _configuration["Momo:HashSecret"]);
-                
+
                 if (response != null)
-                { 
+                {
                     long paymentId = long.Parse(response.OrderId);
 
                     var paymentReturnLog = new PaymentReturnLog
@@ -414,7 +413,7 @@ namespace APIGeneCare.Repository
                     {
                         existingPayment.ResponseCode = response.ResultCode;
                         existingPayment.TransactionStatus = response.ResultCode;
-                        
+
                         existingPayment.TransactionNo = response.TransId;
 
                         if (response.ResultCode == "0")
@@ -442,7 +441,7 @@ namespace APIGeneCare.Repository
             try
             {
                 using var reader = new StreamReader(_body);
-                var body= await reader.ReadToEndAsync();
+                var body = await reader.ReadToEndAsync();
                 var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(body);
                 var queryDict = dict.ToDictionary(
                     kv => kv.Key,
@@ -467,7 +466,7 @@ namespace APIGeneCare.Repository
                     var paymentIpnlog = new PaymentIpnlog
                     {
                         PaymentId = paymentId,
-                        RawData =  JsonSerializer.Serialize(pay.GetAllResponseData()),
+                        RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReceivedAt = timeNow,
                         ResponseCode = response.ResultCode,
                         TransactionStatus = response.ResultCode,
@@ -488,7 +487,8 @@ namespace APIGeneCare.Repository
                         }
                     }
                     _context.SaveChanges();
-                } else
+                }
+                else
                 {
                     return false;
                 }

@@ -162,7 +162,8 @@ namespace APIGeneCare.Controllers
             try
             {
                 string url = null!;
-                switch (model.PaymentMethodId){
+                switch (model.PaymentMethodId)
+                {
                     case 1:
                         {
                             url = await Task.Run(() => _paymentRepository.CreateVNPayPaymentUrl(model, HttpContext));
@@ -209,7 +210,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                if ( await _paymentRepository.MomoPaymentIPN(Request.Body))
+                if (await _paymentRepository.MomoPaymentIPN(Request.Body))
                 {
                     return NoContent();
                 }
