@@ -65,6 +65,13 @@ CREATE TABLE [Status] (
     StatusName NVARCHAR(50)
 );
 
+-- Bảng TestResult
+CREATE TABLE TestResult (
+    ResultID INT PRIMARY KEY IDENTITY(1,1),
+    [Date] DATETIME,
+    ResultSummary NVARCHAR(MAX)
+);
+
 -- Bảng Booking
 CREATE TABLE Booking (
     BookingID INT PRIMARY KEY IDENTITY(1,1),
@@ -72,6 +79,7 @@ CREATE TABLE Booking (
     DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
     ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
+	ResultID INT FOREIGN KEY REFERENCES TestResult(ResultID),
     AppointmentTime DATETIME,
     StatusID INT FOREIGN KEY REFERENCES [Status](StatusID),
     [Date] DATETIME
@@ -101,14 +109,6 @@ CREATE TABLE Feedback (
     CreatedAt DATETIME NOT NULL,
     Comment NVARCHAR(MAX),
     Rating INT NOT NULL
-);
-
--- Bảng TestResult
-CREATE TABLE TestResult (
-    ResultID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
-    [Date] DATETIME,
-    ResultSummary NVARCHAR(MAX)
 );
 
 -- Bảng Samples
