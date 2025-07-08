@@ -1,4 +1,5 @@
-﻿using APIGeneCare.Model.Payment.VnPay;
+﻿using APIGeneCare.Model.Payment.Momo;
+using APIGeneCare.Model.Payment.VnPay;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -29,22 +30,22 @@ namespace APIGeneCare.Libararies
         }
         public void AddRequestData(string key, string value)
         {
-            if (!string.IsNullOrEmpty(value))
-            {
-                _requestData.Add(key, value);
-            }
+            _requestData.Add(key, value);
         }
         public void AddResponseData(string key, string value)
         {
-            if (!string.IsNullOrEmpty(value))
-            {
-                _responseData.Add(key, value);
-            }
+            _responseData.Add(key, value);
+
+        }
+        public string GetRequestData(string key)
+        {
+            return _requestData.TryGetValue(key, out var retValue) ? retValue : string.Empty;
         }
         public string GetResponseData(string key)
         {
             return _responseData.TryGetValue(key, out var retValue) ? retValue : string.Empty;
         }
+
         private String GetSignature(String text, String key)
         {
             // change according to your needs, an UTF8Encoding
@@ -61,95 +62,113 @@ namespace APIGeneCare.Libararies
 
             return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
         }
-        private bool ValidateSignature(string signature, string text, string key)
+        private bool ValidateSignatureCreateLink(string signature, string hashKey)
         {
             var rspRaw = _responseData;
-            rspRaw.Add("accessKey", "");
-            if (_responseData.ContainsKey("signature"))
-            {
-                _responseData.Remove("signature");
-            }
-            if (_responseData.ContainsKey("partnerUserId"))
-            {
-                _responseData.Remove("partnerUserId");
-            }
-            if (_responseData.ContainsKey("storeId"))
-            {
-                _responseData.Remove("storeId");
-            }
-            if (_responseData.ContainsKey("paymentOption"))
-            {
-                _responseData.Remove("paymentOption");
-            }
-            if (_responseData.ContainsKey("userFee"))
-            {
-                _responseData.Remove("userFee");
-            }
-            if (_responseData.ContainsKey("promotionInfo"))
-            {
-                _responseData.Remove("promotionInfo");
-            }
-
-
-
-            var expectedSignature = GetSignature(text, key);
-            return expectedSignature.Equals(signature, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public string CreateRequestUrl(string baseUrl, string momoHashSecret)
-        {
             var data = new StringBuilder();
 
-            foreach (var (key, value) in _requestData.Where(kv => !string.IsNullOrEmpty(kv.Value)))
+            if (!rspRaw.ContainsKey("accessKey"))
             {
-                data.Append(WebUtility.UrlEncode(key) + "=" + WebUtility.UrlEncode(value) + "&");
+                rspRaw.Add("accessKey", this.GetRequestData("accessKey"));
             }
+            if (rspRaw.ContainsKey("deeplink"))
+            {
+                rspRaw.Remove("deeplink");
+            }
+            if (rspRaw.ContainsKey("qrCodeUrl"))
+            {
+                rspRaw.Remove("qrCodeUrl");
+            }
+            if (rspRaw.ContainsKey("deeplinkMiniApp"))
+            {
+                rspRaw.Remove("deeplinkMiniApp");
+            }
+            if (rspRaw.ContainsKey("signature"))
+            {
+                rspRaw.Remove("signature");
+            }
+            if (rspRaw.ContainsKey("userFee"))
+            {
+                rspRaw.Remove("userFee");
+            }
+
+            foreach (var (key, value) in _responseData)
+            {
+                data.Append(key + "=" + value + "&");
+            }
+
+            //remove last '&'
+            if (data.Length > 0)
+            {
+                data.Remove(data.Length - 1, 1);
+            }
+
+            var myChecksum = GetSignature(data.ToString(), hashKey);
+            if(!myChecksum.Equals(signature, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+
+
+            return true;
+        }
+        public string GenerateSignature(string momoHashSecret)
+        {
+            var data = new StringBuilder();
+            
+            foreach (var (key, value) in _requestData)
+            {
+                data.Append(key + "=" + value + "&");
+            }
+
+            data.Remove(data.Length - 1, 1); // Remove the last '&'
 
             var querystring = data.ToString();
 
-            baseUrl += "?" + querystring;
-            var signData = querystring;
-            if (signData.Length > 0)
+
+            var Signature = GetSignature(querystring, momoHashSecret);
+
+            return Signature;
+        }
+        public MomoResponseModel? GetFullResponseDataOfCreateLink(IQueryCollection collection, string hashSecret)
+        {
+            foreach (var (key, value) in collection)
             {
-                signData = signData.Remove(data.Length - 1, 1);
+                if (!string.IsNullOrEmpty(key))
+                {
+                    this.AddResponseData(key, value);
+                }
             }
 
-            var Signature = GetSignature(baseUrl, momoHashSecret);
+            var orderId = Convert.ToInt64(this.GetResponseData("orderId"));
+            var orderInfo = this.GetResponseData("orderInfo");
 
-            baseUrl += "signature=" + Signature;
-            this.AddRequestData("signature", Signature);
+            var transactionId = this.GetResponseData("transId");
+            var resultCode = this.GetResponseData("resultCode");
 
-            return baseUrl;
+            var signature =
+                collection.FirstOrDefault(k => k.Key == "signature").Value; //hash của dữ liệu trả về
+            var checkSignature = ValidateSignatureCreateLink(signature!, hashSecret); //check Signature
+            
+            if (!checkSignature)
+                return null;
+            return new MomoResponseModel
+            {
+                partnerCode = this.GetResponseData("partnerCode"),
+                orderId = orderId.ToString(),
+                requestId = this.GetResponseData("requestId"),
+                amount = Convert.ToDecimal(this.GetResponseData("amount")),
+                responseTime = Convert.ToInt64(this.GetResponseData("responseTime")),
+                message = this.GetResponseData("message"),
+                resultCode = resultCode,
+                payUrl = this.GetResponseData("payUrl"),
+                deeplink = this.GetResponseData("deeplink"),
+                qrCodeUrl = this.GetResponseData("qrCodeUrl"),
+                deeplinkMiniApp = this.GetResponseData("deeplinkMiniApp"),
+                signature = signature,
+                userFee = Convert.ToDecimal(this.GetResponseData("userFee"))
+            };
         }
-        //public PaymentResponseModel GetFullResponseData(IQueryCollection collection, string hashSecret)
-        //{
-        //    foreach (var (key, value) in collection)
-        //    {
-        //        if (!string.IsNullOrEmpty(key))
-        //        {
-        //            this.AddResponseData(key, value);
-        //        }
-        //    }
-
-        //    var orderId = Convert.ToInt64(this.GetResponseData("orderId"));
-        //    var orderInfo = this.GetResponseData("orderInfo");
-
-        //    var transactionId = this.GetResponseData("transId");
-        //    var resultCode = this.GetResponseData("resultCode");
-
-        //    var signature =
-        //        collection.FirstOrDefault(k => k.Key == "signature").Value; //hash của dữ liệu trả về
-        //    var checkSignature = ValidateSignature(vnpSecureHash, hashSecret); //check Signature
-        //    if (!checkSignature)
-        //        return new PaymentResponseModel()
-        //        {
-        //            Success = false
-        //        };
-        //    return new PaymentResponseModel()
-        //    {
-                
-        //    };
-        //}
 
         internal class MomoCompare : IComparer<string>
         {

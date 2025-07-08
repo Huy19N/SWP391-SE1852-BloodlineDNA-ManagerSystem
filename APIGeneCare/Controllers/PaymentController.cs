@@ -183,5 +183,30 @@ namespace APIGeneCare.Controllers
 
         }
 
+        [HttpPost("Momo")]
+        public async Task<IActionResult> CreatePaymentUrlMomo(PaymentInformationModel model)
+        {
+            try
+            {
+                var url = await _paymentRepository.CreateMomoPaymentUrlAsync(model, HttpContext);
+                if (url == null)
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Can't create Url",
+                        Data = null
+                    });
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Please redirect this link",
+                    Data = url
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
+            }
+        }
     }
 }

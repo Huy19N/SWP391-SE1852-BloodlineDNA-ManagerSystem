@@ -4,11 +4,10 @@ using APIGeneCare.Entities;
 using APIGeneCare.Libararies;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.Payment;
+using APIGeneCare.Model.Payment.Momo;
 using APIGeneCare.Model.Payment.VnPay;
 using APIGeneCare.Repository.Interface;
-using MailKit.Search;
-using Newtonsoft.Json;
-using System.Net.Http;
+using Microsoft.Extensions.Primitives;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -320,7 +319,7 @@ namespace APIGeneCare.Repository
                     TransactionNo = null,
                     BankTranNo = null,
                     Amount = model.Amount,
-                    Currency = _configuration["Vnpay:CurrCode"],
+                    Currency = _configuration["Momo:currency"],
                     PaymentDate = timeNow,
                     OrderInfo = null,
                     SecureHash = null,
@@ -330,36 +329,52 @@ namespace APIGeneCare.Repository
                 _context.Payments.Add(payment);
                 _context.SaveChanges();
 
-                var momoRequest = new
-                {
-                    accessKey = _configuration["Momo:AccessKey"],
-                    amount = ,
-                    extraData,
-                    ipnUrl,
-                    orderId,
-                    orderInfo,
-                    partnerCode,
-                    redirectUrl,
-                    requestId,
-                    requestType,
-                };
-                var content = new StringContent(JsonConvert.SerializeObject(momoRequest), Encoding.UTF8, "application/json");
+                payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
+
+                pay.AddRequestData("accessKey", _configuration["Momo:accessKey"]);
+                pay.AddRequestData("amount", ((long)model.Amount).ToString());
+                pay.AddRequestData("extraData", "");
+                pay.AddRequestData("ipnUrl", _configuration["Momo:ipnUrl"]);
+                pay.AddRequestData("orderId", payment.PaymentId.ToString());
+                pay.AddRequestData("orderInfo", $"{payment.PaymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
+                pay.AddRequestData("partnerCode", _configuration["Momo:partnerCode"]);
+                pay.AddRequestData("redirectUrl", _configuration["Momo:redirectUrl"]);
+                pay.AddRequestData("requestId", requestId);
+                pay.AddRequestData("requestType", _configuration["Momo:requestType"]);
+
+                var signature = pay.GenerateSignature(_configuration["Momo:HashSecret"]);
+                pay.AddRequestData("signature", signature);
+                pay.AddRequestData("lang", _configuration["Momo:lang"]);
+
+                var requestData = pay.GetAllRequestData();
+                var JSONRequestData = JsonSerializer.Serialize(requestData);
+                var content = new StringContent(JSONRequestData, Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync("https://test-payment.momo.vn/v2/gateway/api/create", content);
                 var responseBody = await response.Content.ReadAsStringAsync();
 
-                var requestData = pay.GetAllRequestData();
-                requestData.TryGetValue("orderInfo", out var orderInfo);
-                requestData.TryGetValue("signature", out var signature);
+                var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(responseBody);
+                // convert Dictionary<string, string> to IQueryCollection
+                var queryDict = dict.ToDictionary(
+                    kv => kv.Key,
+                    kv => new StringValues(kv.Value?.ToString())
+                );
+                IQueryCollection queryCollection = new QueryCollection(queryDict);
+                MomoResponseModel? momoResponseModel = pay.GetFullResponseDataOfCreateLink(queryCollection, _configuration["Momo:HashSecret"]);
 
-                payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
+                if (momoResponseModel == null)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Failed to create Momo payment link.");
+                }
 
-                payment.OrderInfo = orderInfo.ToString();
-                payment.SecureHash = signature.ToString();
-                payment.RawData = JsonSerializer.Serialize(requestData);
+                payment.ResponseCode = momoResponseModel.resultCode;
+                payment.RawData = JSONRequestData;
+                payment.SecureHash = signature;
+
 
                 _context.SaveChanges();
                 transaction.Commit();
-                return paymentUrl;
+                return momoResponseModel.payUrl;
             }
             catch
             {
@@ -367,6 +382,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
+
         public string MomoPaymentResponse(IQueryCollection collections)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -375,7 +391,7 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
+                collections.TryGetValue("orderInfo", out var orderInfo);
                 var pay = new MomoLibrary();
 
                 var response = pay.GetFullResponseData(collections, _configuration["Momo:HashSecret"]);
@@ -420,65 +436,65 @@ namespace APIGeneCare.Repository
                 transaction.Rollback();
                 throw;
             }
-
         }
-        public PaymentResponseModel MomoPaymentIPN(IQueryCollection collections)
-        {
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
-                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
-                var pay = new VnPayLibrary();
+        //public PaymentResponseModel MomoPaymentIPN(IQueryCollection collections)
+        //{
+        //    using var transaction = _context.Database.BeginTransaction();
+        //    try
+        //    {
+        //        var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+        //        var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
+        //        collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
+        //        var pay = new VnPayLibrary();
 
-                if (response.Success)
-                {
-                    var orderInfoSplit = response.OrderInfo.Split("|");
-                    long paymentId = long.Parse(orderInfoSplit[0]);
+        //        var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
 
-                    var paymentIpnlog = new PaymentIpnlog
-                    {
-                        PaymentId = paymentId,
-                        RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
-                        ReceivedAt = timeNow,
-                        ResponseCode = response.ResponseCode,
-                        TransactionStatus = response.TransactionStatus,
-                    };
-                    _context.PaymentIpnlogs.Add(paymentIpnlog);
+        //        if (response.Success)
+        //        {
+        //            var orderInfoSplit = response.OrderInfo.Split("|");
+        //            long paymentId = long.Parse(orderInfoSplit[0]);
 
-                    var existingPayment = _context.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
-                    if (existingPayment != null)
-                    {
-                        existingPayment.ResponseCode = response.ResponseCode;
-                        existingPayment.TransactionStatus = response.TransactionStatus;
-                        existingPayment.BankTranNo = response.BankTranNo;
-                        existingPayment.TransactionNo = response.TransactionNo;
+        //            var paymentIpnlog = new PaymentIpnlog
+        //            {
+        //                PaymentId = paymentId,
+        //                RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
+        //                ReceivedAt = timeNow,
+        //                ResponseCode = response.ResponseCode,
+        //                TransactionStatus = response.TransactionStatus,
+        //            };
+        //            _context.PaymentIpnlogs.Add(paymentIpnlog);
 
-                        if (response.TransactionStatus == "00")
-                        {
-                            existingPayment.HavePaid = true;
-                        }
-                        else
-                        {
-                            existingPayment.HavePaid = false;
-                        }
-                    }
-                    _context.SaveChanges();
-                }
+        //            var existingPayment = _context.Payments.FirstOrDefault(x => x.PaymentId == paymentId);
+        //            if (existingPayment != null)
+        //            {
+        //                existingPayment.ResponseCode = response.ResponseCode;
+        //                existingPayment.TransactionStatus = response.TransactionStatus;
+        //                existingPayment.BankTranNo = response.BankTranNo;
+        //                existingPayment.TransactionNo = response.TransactionNo;
 
-                transaction.Commit();
-                return response!;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-        }
+        //                if (response.TransactionStatus == "00")
+        //                {
+        //                    existingPayment.HavePaid = true;
+        //                }
+        //                else
+        //                {
+        //                    existingPayment.HavePaid = false;
+        //                }
+        //            }
+        //            _context.SaveChanges();
+        //        }
+
+        //        transaction.Commit();
+        //        return response!;
+        //    }
+        //    catch
+        //    {
+        //        transaction.Rollback();
+        //        throw;
+        //    }
+        //}
 
         #endregion
 

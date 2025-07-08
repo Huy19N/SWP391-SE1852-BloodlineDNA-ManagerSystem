@@ -15,4 +15,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="APIGeneCare.suppress">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
 </Project>
