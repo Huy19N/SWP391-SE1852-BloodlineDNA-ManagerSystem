@@ -1,4 +1,4 @@
-﻿namespace APIGeneCare.Model.VnPay
+﻿namespace APIGeneCare.Model.Payment
 {
     public class PaymentInformationModel
     {

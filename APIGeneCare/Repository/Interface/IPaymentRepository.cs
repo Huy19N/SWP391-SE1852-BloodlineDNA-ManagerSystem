@@ -1,6 +1,7 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model.DTO;
-using APIGeneCare.Model.VnPay;
+using APIGeneCare.Model.Payment;
+using APIGeneCare.Model.Payment.VnPay;
 
 namespace APIGeneCare.Repository.Interface
 {

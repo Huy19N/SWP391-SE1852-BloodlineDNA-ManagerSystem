@@ -1,4 +1,4 @@
-﻿using APIGeneCare.Model.VnPay;
+﻿using APIGeneCare.Model.Payment.VnPay;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
@@ -189,7 +189,7 @@ namespace APIGeneCare.Libararies
         }
     }
 
-    public class VnPayCompare : IComparer<string>
+    internal class VnPayCompare : IComparer<string>
     {
         public int Compare(string x, string y)
         {
