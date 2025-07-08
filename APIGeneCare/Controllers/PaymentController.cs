@@ -143,7 +143,7 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("Response")]
+        [HttpGet("VNPayResponse")]
         public IActionResult PaymentCallbackVnpay()
         {
             try
@@ -157,16 +157,37 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreatePaymentUrlVnpay(PaymentInformationModel model)
+        public async Task<IActionResult> CreatePaymentUrlVnpay(PaymentInformationModel model)
         {
             try
             {
-                var url = _paymentRepository.CreateVNPayPaymentUrl(model, HttpContext);
-                if (url == null)
+                string url = null!;
+                switch (model.PaymentMethodId){
+                    case 1:
+                        {
+                            url = await Task.Run(() => _paymentRepository.CreateVNPayPaymentUrl(model, HttpContext));
+                            break;
+                        }
+                    case 2:
+                        {
+                            url = await Task.Run(() => _paymentRepository.CreateMomoPaymentUrlAsync(model, HttpContext));
+                            break;
+                        }
+                    default:
+                        {
+                            return Ok(new ApiResponse
+                            {
+                                Success = false,
+                                Message = "Error method id",
+                                Data = null
+                            });
+                        }
+                }
+                if (string.IsNullOrWhiteSpace(url))
                     return Ok(new ApiResponse
                     {
                         Success = false,
-                        Message = "Can't create Url",
+                        Message = "Can't create link",
                         Data = null
                     });
                 return Ok(new ApiResponse
@@ -183,29 +204,33 @@ namespace APIGeneCare.Controllers
 
         }
 
-        [HttpPost("Momo")]
-        public async Task<IActionResult> CreatePaymentUrlMomo(PaymentInformationModel model)
+        [HttpPost("MomoIPN")]
+        public async Task<IActionResult> MomoIPNCallBack()
         {
             try
             {
-                var url = await _paymentRepository.CreateMomoPaymentUrlAsync(model, HttpContext);
-                if (url == null)
-                    return Ok(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "Can't create Url",
-                        Data = null
-                    });
-                return Ok(new ApiResponse
+                if ( await _paymentRepository.MomoPaymentIPN(Request.Body))
                 {
-                    Success = true,
-                    Message = "Please redirect this link",
-                    Data = url
-                });
+                    return NoContent();
+                }
+                return NotFound();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error create payment url: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error processing Momo IPN callback: {ex.Message}");
+            }
+        }
+        [HttpGet("MomoResponse")]
+        public IActionResult PaymentCallbackMomo()
+        {
+            try
+            {
+                var url = _paymentRepository.MomoPaymentResponse(Request.Query);
+                return Redirect(url);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error processing payment callback: {ex.Message}");
             }
         }
     }

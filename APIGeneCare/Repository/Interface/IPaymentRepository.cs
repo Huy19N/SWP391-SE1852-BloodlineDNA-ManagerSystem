@@ -16,5 +16,7 @@ namespace APIGeneCare.Repository.Interface
         string VNPayPaymentResponse(IQueryCollection collections);
         PaymentResponseModel VNpayPaymentIPN(IQueryCollection collections);
         Task<string> CreateMomoPaymentUrlAsync(PaymentInformationModel model, HttpContext context);
+        public string MomoPaymentResponse(IQueryCollection collections);
+        Task<bool> MomoPaymentIPN(Stream _body);
     }
 }

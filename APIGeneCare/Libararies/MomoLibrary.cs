@@ -62,35 +62,46 @@ namespace APIGeneCare.Libararies
 
             return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
         }
-        private bool ValidateSignatureCreateLink(string signature, string hashKey)
+        private bool ValidateSignatureCreateLink(string signature, string accessKey, string hashKey)
         {
             var rspRaw = _responseData;
             var data = new StringBuilder();
 
             if (!rspRaw.ContainsKey("accessKey"))
             {
-                rspRaw.Add("accessKey", this.GetRequestData("accessKey"));
+                rspRaw.Add("accessKey", accessKey);
             }
-            if (rspRaw.ContainsKey("deeplink"))
+
+            if (rspRaw.ContainsKey("storeId"))
             {
-                rspRaw.Remove("deeplink");
+                rspRaw.Remove("storeId");
             }
-            if (rspRaw.ContainsKey("qrCodeUrl"))
+
+            if (rspRaw.ContainsKey("partnerUserId"))
             {
-                rspRaw.Remove("qrCodeUrl");
+                rspRaw.Remove("partnerUserId");
             }
-            if (rspRaw.ContainsKey("deeplinkMiniApp"))
-            {
-                rspRaw.Remove("deeplinkMiniApp");
-            }
-            if (rspRaw.ContainsKey("signature"))
-            {
-                rspRaw.Remove("signature");
-            }
+
             if (rspRaw.ContainsKey("userFee"))
             {
                 rspRaw.Remove("userFee");
             }
+
+            if (rspRaw.ContainsKey("promotionInfo"))
+            {
+                rspRaw.Remove("promotionInfo");
+            }
+
+            if (rspRaw.ContainsKey("paymentOption"))
+            {
+                rspRaw.Remove("paymentOption");
+            }
+
+            if (rspRaw.ContainsKey("signature"))
+            {
+                rspRaw.Remove("signature");
+            }
+            
 
             foreach (var (key, value) in _responseData)
             {
@@ -108,7 +119,6 @@ namespace APIGeneCare.Libararies
             {
                 return false;
             }
-
 
             return true;
         }
@@ -130,43 +140,33 @@ namespace APIGeneCare.Libararies
 
             return Signature;
         }
-        public MomoResponseModel? GetFullResponseDataOfCreateLink(IQueryCollection collection, string hashSecret)
+        public MomoResponseModel? GetFullResponse(IQueryCollection collection, string accessKey, string hashSecret)
         {
             foreach (var (key, value) in collection)
             {
-                if (!string.IsNullOrEmpty(key))
-                {
-                    this.AddResponseData(key, value);
-                }
+                this.AddResponseData(key, value);      
             }
-
-            var orderId = Convert.ToInt64(this.GetResponseData("orderId"));
-            var orderInfo = this.GetResponseData("orderInfo");
-
-            var transactionId = this.GetResponseData("transId");
-            var resultCode = this.GetResponseData("resultCode");
 
             var signature =
                 collection.FirstOrDefault(k => k.Key == "signature").Value; //hash của dữ liệu trả về
-            var checkSignature = ValidateSignatureCreateLink(signature!, hashSecret); //check Signature
+            var checkSignature = ValidateSignatureCreateLink(signature, accessKey, hashSecret); //check Signature
             
             if (!checkSignature)
                 return null;
             return new MomoResponseModel
             {
-                partnerCode = this.GetResponseData("partnerCode"),
-                orderId = orderId.ToString(),
-                requestId = this.GetResponseData("requestId"),
-                amount = Convert.ToDecimal(this.GetResponseData("amount")),
-                responseTime = Convert.ToInt64(this.GetResponseData("responseTime")),
-                message = this.GetResponseData("message"),
-                resultCode = resultCode,
-                payUrl = this.GetResponseData("payUrl"),
-                deeplink = this.GetResponseData("deeplink"),
-                qrCodeUrl = this.GetResponseData("qrCodeUrl"),
-                deeplinkMiniApp = this.GetResponseData("deeplinkMiniApp"),
-                signature = signature,
-                userFee = Convert.ToDecimal(this.GetResponseData("userFee"))
+                PartnerCode = this.GetResponseData("partnerCode"),
+                OrderId = this.GetResponseData("orderId"),
+                Amount = Convert.ToDecimal(this.GetResponseData("amount")),
+                OrderInfo = this.GetResponseData("orderInfo"),
+                OrderType = this.GetResponseData("orderType"),
+                TransId = this.GetResponseData("transId"),
+                ResultCode = this.GetResponseData("resultCode"),
+                Message = this.GetResponseData("message"),
+                PayType = this.GetResponseData("payType"),
+                ResponseTime = this.GetResponseData("responseTime"),
+                ExtraData = this.GetResponseData("extraData"),
+                Signature = this.GetResponseData("signature")
             };
         }
 
