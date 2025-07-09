@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using APIGeneCare.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
 {

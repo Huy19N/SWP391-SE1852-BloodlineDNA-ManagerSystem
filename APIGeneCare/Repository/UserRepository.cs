@@ -16,14 +16,16 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public static int PAGE_SIZE { get; set; } = 10;
         private readonly AppSettings _appSettings;
-
+        private readonly IConfiguration _configuration;
         public UserRepository(GeneCareContext context,
-            IOptionsMonitor<AppSettings> optionsMonitor)
+            IOptionsMonitor<AppSettings> optionsMonitor,
+            IConfiguration configuration)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
+            _configuration = configuration;
         }
-        public TokenModel GenerateToken(UserDTO user)
+        public TokenModel GenerateAccessToken(UserDTO user)
         {
             var jwtTokenHandler = new JsonWebTokenHandler();
             var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);

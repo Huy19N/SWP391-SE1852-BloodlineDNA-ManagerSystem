@@ -29,6 +29,26 @@ CREATE TABLE Users (
     [Password] NVARCHAR(100)
 );
 
+-- Bảng RefreshToken
+CREATE TABLE RefreshToken (
+    TokenID INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT FOREIGN KEY REFERENCES Users(UserID),
+    Token NVARCHAR(500),
+    JwtId NVARCHAR(500),
+    IssueAt DATETIME,
+    ExpiredAt DATETIME,
+	PasswordChangeAt DATETIME
+);
+
+--Bảng AccessTokenBlacklist
+CREATE TABLE AccessTokenBlacklist(
+	JwtId VARCHAR(50) PRIMARY KEY,
+	UserID INT FOREIGN KEY REFERENCES Users(UserID),
+	ExpireAt DATETIME,
+	Reason NVARCHAR(500)
+);
+
+
 -- Bảng Service
 CREATE TABLE [Service] (
     ServiceID INT PRIMARY KEY IDENTITY(1,1),
@@ -182,16 +202,6 @@ CREATE TABLE PaymentReturnLog(
 	ReturnedAt DateTime NOT NULL,
 	TransactionStatus NVARCHAR(50) NOT NULL,
 	ResponseCode NVARCHAR(50) NOT NULL
-);
-
--- Bảng RefreshToken
-CREATE TABLE RefreshToken (
-    TokenID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    Token NVARCHAR(500),
-    JwtId NVARCHAR(255),
-    IssueAt DATETIME,
-    ExpiredAt DATETIME
 );
 
 -- Bảng VerifyEmail
