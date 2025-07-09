@@ -33,11 +33,6 @@ function Sidebar (){
                         </Link>
                         </div>
                         : null}
-                        <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="#">
-                            <i className="bi bi-bookmark-check-fill me-2"></i> Status
-                        </Link>
-                        </div>
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="approve">
@@ -51,30 +46,30 @@ function Sidebar (){
                         </Link>
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to='#'>
-                            <i className="bi bi-chat-left-text-fill me-2"></i> Feedbacks
+                        <Link className="nav-link" to="#">
+                            <i className="bi bi-bookmark-check-fill me-2"></i> Status
                         </Link>
                         </div>
-                        {/* <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to='#'>
-                            <i className="bi bi-box"></i> Services
+                        <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to="#">
+                            <i class="bi bi-clipboard2-check-fill me-2"></i> Results
                         </Link>
                         </div>
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='#'>
-                            <i className="bi bi-box"></i> Blogs 
+                            <i className="bi bi-chat-left-text-fill me-2"></i> Feedbacks
                         </Link>
-                        </div> */}
+                        </div>
                         <div className={`click-dropdown tab_content_1`}>
                         <span className="nav-link dropdown-toggle" onClick={toggleDropdown}>
                             More
                         </span>
-
                         {/* Dropdown nội dung sẽ đẩy xuống */}
                         {isDropdownOpen && (
                             <ul className="slide-dropdown-content custom-dropdown">
                             <li><Link className="dropdown-item" to="#"><i className="bi bi-journal-text me-2"></i> Blogs</Link></li>
                             <li><Link className="dropdown-item" to="services"><i className="bi bi-box me-2"></i> Services</Link></li>
+                            <li><Link className="dropdown-item" to="price"><i className="bi bi-box me-2"></i> Services Price</Link></li>
                             <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> CollectionMethod</Link></li>
                             <li><Link className="dropdown-item" to="durations"><i className="bi bi-box me-2"></i> Durations</Link></li>
                             <li><Link className="dropdown-item" to="samples"><i className="bi bi-box me-2"></i> Samples</Link></li>

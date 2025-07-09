@@ -11,6 +11,7 @@ function Booking(){
     const [dataStatus, setDataStatus] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
+    const [search,setSearch] = useState('');
 
     const roleid = localStorage.getItem('roleId');
     const isStaff = roleid === '2';
@@ -81,7 +82,8 @@ function Booking(){
             resStatusAll,
             resDurationAll,
             resMethodAll,
-            resStepsAll
+            resStepsAll,
+            resResults
         ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
             api.get(`Users/GetAll`),
@@ -92,7 +94,8 @@ function Booking(){
             api.get(`Status/GetAllStatus`),
             api.get(`Durations/GetAllPaging`),
             api.get(`CollectionMethod/GetAll`),
-            api.get(`TestStep/getAllTestSteps`)
+            api.get(`TestStep/getAllTestSteps`),
+            api.get(`TestResults/GetAllPaging`)
         ]);
 
         const bookingList = resBooking.data.data;
@@ -101,6 +104,10 @@ function Booking(){
         const service = resServiceAll.data.data.find(s => s.serviceId === bookingList.serviceId);
         const status = resStatusAll.data.data.find(s => s.statusId === bookingList.statusId);
         const method = resMethodAll.data.data.find(m => m.methodId === bookingList.methodId);
+        const duration = resDurationAll.data.data.find(d => d.durationId === bookingList.durationId)
+        const result = resResults.data.find(r => r.resultId === bookingList.resultId);
+        
+
 
         const sampleMap = {};
         resSampleAll.data.data.forEach(sample => {
@@ -130,12 +137,13 @@ function Booking(){
                 user,
                 service,
                 status,
-                duration: resDurationAll.data.data.find(d => d.durationId === bookingList.durationId),
-                collectionMethod: method
+                duration,
+                collectionMethod: method,
+                result
             },
             patients,
             samples: resSampleAll.data.data,
-            processes
+            processes,
         });
 
         setShowOverlay(true);
@@ -170,13 +178,38 @@ function Booking(){
     };
 
     const statusID = parseInt(localStorage.getItem('statusId') || 1);
-    const filterBookings = dataBooking.filter(b => b.statusId !== statusID);
+    const filterBookings = dataBooking.filter((bookings) => {
+        const keyword = search.toLowerCase();
+        return(
+            bookings.statusId !== statusID && (
+                bookings.bookingId.toString().includes(keyword) ||
+                getUsername(bookings.userId).toLowerCase().includes(keyword) ||
+                getServiceName(bookings.serviceId).toLowerCase().includes(keyword) ||
+                getStatusName(bookings.statusId).toLowerCase().includes(keyword) ||
+                bookings.date?.split("T")[0].toString().includes(keyword) ||
+                getServiceType(bookings.serviceId).toLowerCase().includes(keyword)
+            )
+        );
+    });
+    
     console.log("filterStatusID", filterBookings);
 
     return (
             <div className="container mt-5">
                 <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary">
                     Booking List
+                </div>
+
+                <div className="row mb-3">
+                    <div className="col-md-4">
+                        <input
+                            type="text"
+                            placeholder="Search......."
+                            className="form-control"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <table className="table table-bordered table-hover align-middle shadow">
@@ -353,6 +386,35 @@ function Booking(){
                                             ) : <p>No test process data</p>}
                                         </div>
                                     </div>
+                                </div>
+
+                                {/* 5. Result */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header">
+                                            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#result">
+                                                5. Result Test
+                                            </button>
+                                        </h2>
+                                        <div id="result" className="accordion-collapse collapse">
+                                            <div className="accordion-body">
+                                                {detailData.booking.result ? (
+                                                    <table className="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Result</th>
+                                                                <th>Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>{detailData.booking.result.resultSummary}</td>
+                                                                <td>{detailData.booking.result.date?.split("T")[0]}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                ) : <p>No result data</p>}
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
 

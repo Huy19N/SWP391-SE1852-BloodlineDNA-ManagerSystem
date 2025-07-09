@@ -212,7 +212,7 @@ span#fcta-zalo-tracking {
 }
 
 .custom-dropdown {
-  background-color: #ffffff;
+  background-image: linear-gradient(to top, #fbf7f5 0%, #ceefff 100%);
   border: none;
   padding: 8px 0;
   justify-items: center;

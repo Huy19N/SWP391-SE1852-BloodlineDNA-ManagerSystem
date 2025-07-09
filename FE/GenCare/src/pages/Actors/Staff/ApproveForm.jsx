@@ -10,6 +10,7 @@ function Approve(){
     const [dataStatus, setDataStatus] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
+    const [search,setSearch] = useState('');
 
     const roleid = localStorage.getItem('roleId');
     const isStaff = roleid === '2';
@@ -73,23 +74,23 @@ function Approve(){
             resUserAll,
             resPatientAll, 
             resSampleAll, 
-            resProcessAll,
+            // resProcessAll,
             resServiceAll,
             resStatusAll,
             resDurationAll,
             resMethodAll,
-            resStepsAll
+            // resStepsAll
         ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
             api.get(`Users/GetAll`),
             api.get(`Patient/GetAll`),
             api.get(`Samples/GetAllPaging`),
-            api.get(`TestProcess/GetAllPaging`),
+            // api.get(`TestProcess/GetAllPaging`),
             api.get(`Services/GetAllPaging`),
             api.get(`Status/GetAllStatus`),
             api.get(`Durations/GetAllPaging`),
             api.get(`CollectionMethod/GetAll`),
-            api.get(`TestStep/getAllTestSteps`)
+            // api.get(`TestStep/getAllTestSteps`)
         ]);
 
         const bookingList = resBooking.data.data;
@@ -111,15 +112,15 @@ function Approve(){
                 sampleName: sampleMap[p.sampleId] || "Unknown"
             }));
 
-        const steps = resStepsAll.data.data;
+        // const steps = resStepsAll.data.data;
 
-        const processes = resProcessAll.data.data
-            .filter(p => p.bookingId === bookingId)
-            .map(p => ({
-                ...p,
-                step: steps.find(s => s.stepId === p.stepId),
-                status: resStatusAll.data.data.find(st => st.statusId === p.statusId)
-            }));
+        // const processes = resProcessAll.data.data
+        //     .filter(p => p.bookingId === bookingId)
+        //     .map(p => ({
+        //         ...p,
+        //         step: steps.find(s => s.stepId === p.stepId),
+        //         status: resStatusAll.data.data.find(st => st.statusId === p.statusId)
+        //     }));
 
         setDetailData({
             booking: {
@@ -132,7 +133,7 @@ function Approve(){
             },
             patients,
             samples: resSampleAll.data.data,
-            processes
+            // processes
         });
 
         setShowOverlay(true);
@@ -168,13 +169,37 @@ function Approve(){
         };
 
     const statusID = parseInt(localStorage.getItem('statusId') || 1);
-    const filterBookings = dataBooking.filter(b => b.statusId === statusID);
+    const filterBookings = dataBooking.filter((bookings) => {
+        const keyword = search.toLowerCase();
+        return(
+            bookings.statusId === statusID && (
+                bookings.bookingId.toString().includes(keyword) ||
+                getUsername(bookings.userId).toLowerCase().includes(keyword) ||
+                getServiceName(bookings.serviceId).toLowerCase().includes(keyword) ||
+                getStatusName(bookings.statusId).toLowerCase().includes(keyword) ||
+                bookings.date?.split("T")[0].toString().includes(keyword) ||
+                getServiceType(bookings.serviceId).toLowerCase().includes(keyword)
+            )
+        );
+    });
     console.log("filterStatusID", filterBookings);
 
     return(
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary">
                     Form List
+                </div>
+
+                <div className="row mb-3">
+                    <div className="col-md-4">
+                        <input
+                            type="text"
+                            placeholder="Search......."
+                            className="form-control"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
                 </div>
 
                 <table className="table table-bordered table-hover align-middle shadow">
@@ -319,36 +344,6 @@ function Approve(){
 
                                                 </table>
                                             ) : <p>No patient data</p>}
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* 4. Test Process */}
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testProcess">
-                                            4. Process Test
-                                        </button>
-                                    </h2>
-                                    <div id="testProcess" className="accordion-collapse collapse">
-                                        <div className="accordion-body">
-                                            {detailData.processes.length > 0 ? (
-                                                <table className="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Step</th>
-                                                            <th>Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {detailData.processes.map(p => (
-                                                            <tr key={p.processId}>
-                                                                <td>{p.step?.stepName}</td>
-                                                                <td>{p.status?.statusName}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            ) : <p>No test process data</p>}
                                         </div>
                                     </div>
                                 </div>

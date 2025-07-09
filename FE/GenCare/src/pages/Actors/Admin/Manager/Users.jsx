@@ -95,7 +95,8 @@ function Users(){
         const keyword = search.toLowerCase();
         return (
             user.userId.toString().includes(keyword) ||
-            user.email.toLowerCase().includes(keyword)
+            user.email.toLowerCase().includes(keyword) ||
+            dataRoles[user.roleId].toLowerCase().includes(keyword)
         );
     });
 
