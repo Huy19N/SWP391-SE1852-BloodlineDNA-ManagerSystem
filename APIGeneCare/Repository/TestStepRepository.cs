@@ -63,7 +63,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
 
 
@@ -84,7 +84,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

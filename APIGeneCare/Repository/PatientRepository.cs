@@ -82,7 +82,8 @@ namespace APIGeneCare.Repository
             }
             catch
             {
-                return false;
+                transaction.Rollback();
+                throw;
             }
         }
         public bool CreatePatient(PatientDTO patient)
@@ -114,7 +115,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdatePatient(PatientDTO patient)
@@ -148,7 +149,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeletePatientById(int id)
@@ -167,7 +168,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
 

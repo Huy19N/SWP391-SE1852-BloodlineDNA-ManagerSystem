@@ -116,7 +116,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateBlog(BlogDTO blog)
@@ -140,7 +140,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteBlogById(int id)
@@ -159,7 +159,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

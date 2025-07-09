@@ -100,7 +100,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateDuration(DurationDTO duration)
@@ -130,7 +130,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteDurationById(int id)
@@ -150,7 +150,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

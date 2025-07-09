@@ -89,7 +89,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateRole(RoleDTO role)
@@ -116,7 +116,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteRoleById(int id)
@@ -137,7 +137,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

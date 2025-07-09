@@ -116,7 +116,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateServicePrice(ServicePriceDTO servicePrice)
@@ -144,7 +144,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
 
             }
         }
@@ -165,7 +165,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

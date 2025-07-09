@@ -91,8 +91,6 @@ namespace APIGeneCare.Repository
             }).SingleOrDefault(tr => tr.ResultId == id);
         public bool CreateTestResults(TestResultDTO testResult)
         {
-
-
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -113,7 +111,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool UpdateTestResults(TestResultDTO testResult)
@@ -140,7 +138,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteTestResultsById(int id)
@@ -161,7 +159,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
     }

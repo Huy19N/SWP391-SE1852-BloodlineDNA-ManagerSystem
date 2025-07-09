@@ -24,7 +24,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public bool DeleteVerifyEmailByEmail(String email)
@@ -41,7 +41,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public VerifyEmail? GetVerifyEmailByEmail(string email)
@@ -64,7 +64,7 @@ namespace APIGeneCare.Repository
             catch
             {
                 transaction.Rollback();
-                return false;
+                throw;
             }
         }
         public async Task<bool> SendConfirmEmail(string email, string apiConfirmEmail)
@@ -172,7 +172,7 @@ namespace APIGeneCare.Repository
             }
             catch
             {
-                return false;
+                throw;
             }
         }
         public bool ConfirmEmail(string email, string key)
@@ -187,7 +187,7 @@ namespace APIGeneCare.Repository
             }
             catch
             {
-                return false;
+                throw;
             }
         }
     }
