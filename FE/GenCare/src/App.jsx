@@ -30,6 +30,7 @@ import CRUDDurations from './pages/Actors/Admin/Manager/Durations.jsx';
 import CRUDSamples from './pages/Actors/Admin/Manager/Samples.jsx';
 import CRUDStepTest from './pages/Actors/Admin/Manager/StepTest.jsx';
 import CRUDStatus from './pages/Actors/Admin/Manager/Status.jsx';
+import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -102,6 +103,7 @@ function App() {
           <Route path='samples' element={<CRUDSamples/>}/>
           <Route path='steptest' element={<CRUDStepTest/>}/>
           <Route path='status' element={<CRUDStatus/>}/>
+          <Route path='price' element={<CRUDPrice/>}/>
         </Route>
 
       <Route path='/payment' element={

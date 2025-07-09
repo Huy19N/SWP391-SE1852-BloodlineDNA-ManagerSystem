@@ -95,7 +95,7 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPut("Update")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTestStep(TestStepDTO testStep)
         {
             try
@@ -118,7 +118,7 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpDelete("DeleteById/{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult DeleteTestStepById(int id)
         {
             try
