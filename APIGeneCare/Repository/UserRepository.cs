@@ -2,86 +2,96 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace APIGeneCare.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly GeneCareContext _context;
+        private readonly Jwt _appSettings;
         public static int PAGE_SIZE { get; set; } = 10;
-        private readonly AppSettings _appSettings;
-        private readonly IConfiguration _configuration;
+
         public UserRepository(GeneCareContext context,
-            IOptionsMonitor<AppSettings> optionsMonitor,
-            IConfiguration configuration)
+            IOptionsMonitor<Jwt> optionsMonitor)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
-            _configuration = configuration;
         }
-        public TokenModel GenerateAccessToken(UserDTO user)
+        public async Task<Object?> Login(LoginModel model, HttpContext context)
         {
-            var jwtTokenHandler = new JsonWebTokenHandler();
-            var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
-            var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
-            if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
-
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("id", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, role.RoleName),
-                    new Claim("TokenId", Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),
-                SecurityAlgorithms.HmacSha512Signature)
-            };
-            var accessToken = jwtTokenHandler.CreateToken(tokenDescription);
-            var refreshToken = GenerateRefreshToken();
-
-            return new TokenModel
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
-                Role = role.RoleId,
-                userId = user.UserId,
-            };
-        }
-        private string GenerateRefreshToken()
-        {
-            var random = new byte[125];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(random);
-                return Convert.ToBase64String(random);
-            }
-        }
-        public UserDTO? Validate(LoginModel model)
-        {
-            var user = _context.Users
-                .SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null) return null;
+            var IpAddress = context.Connection.RemoteIpAddress?.ToString();
+            var UserAgent = context.Request.Headers["User-Agent"].ToString();
 
-            return new UserDTO
+            if (!string.IsNullOrEmpty(model.Password) &&
+                user.Password != model.Password)
+            {
+                var log = await _context.LogLogins.Where(x => x.Ipaddress == IpAddress)
+                    .OrderByDescending(x => x.LoginTime)
+                    .Take(_appSettings.MaxCountOfLogin)
+                    .ToListAsync();
+
+                int count = 0;
+                foreach (var x in log)
+                {
+                    if (x.Success) break;
+                    count++;
+                }
+                if (count > 0)
+                {
+                    var nearlyFailedLogin = log.First().LoginTime;
+                    if (nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count) < DateTime.UtcNow)
+                    {
+                        return new LockResponseModel
+                        {
+                            Success = false,
+                            Message = "Your account is locked due to too many failed login attempts. Please try again later.",
+                            LockoutEnd = nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
+                        };
+                    }
+                }
+                count++;
+                await _context.LogLogins.AddAsync(new LogLogin
+                {
+                    UserId = user.UserId,
+                    RefreshTokenId = null,
+                    Success = false,
+                    FailReason = "Invalid password",
+                    Ipaddress = IpAddress,
+                    UserAgent = UserAgent,
+                    LoginTime = DateTime.UtcNow,
+                });
+
+                _context.SaveChanges();
+                return new LockResponseModel
+                {
+                    Success = false,
+                    Message = "Your account is locked due to too many failed login attempts. Please try again later.",
+                    LockoutEnd = DateTime.UtcNow.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
+                };
+            }
+            ;
+
+            var UserDTO = new UserDTO
             {
                 UserId = user.UserId,
                 RoleId = user.RoleId,
+                IdentifyId = user.IdentifyId,
                 FullName = user.FullName,
                 Address = user.Address,
                 Email = user.Email,
                 Phone = user.Phone,
-                Password = user.Password
+                Password = user.Password,
+                UserAgent = context.Request.Headers["User-Agent"].ToString(),
+                IPAddress = context.Connection.RemoteIpAddress?.ToString(),
+                LastPwdChange = user.LastPwdChange,
             };
+
+            var token = await new RefreshTokenRepository(_context, (IOptionsMonitor<Jwt>)_appSettings).GenerateTokenModel(UserDTO);
+            return token;
         }
 
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)

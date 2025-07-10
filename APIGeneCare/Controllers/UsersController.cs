@@ -13,27 +13,37 @@ namespace APIGeneCare.Controllers
         public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Validate(LoginModel model)
+        public async Task<IActionResult> Validate(LoginModel loginModel)
         {
-
             try
             {
-                var user = await Task.Run(() => _userRepository.Validate(model));
-                if (user == null)
+                var model = await Task.Run(() => _userRepository.Login(loginModel, HttpContext));
+                if (model == null)
                 {
-                    return Unauthorized(new ApiResponse
+                    return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Unauthorized user",
+                        Message = "Not found user!",
                     });
                 }
-                var Token = await Task.Run(() => _userRepository.GenerateToken(user));
-
-                return Ok(new ApiResponse
+                if (model is LockResponseModel)
                 {
-                    Success = true,
-                    Message = "Authentication Success",
-                    Data = Token
+                    return StatusCode(StatusCodes.Status423Locked, model);
+                }
+
+                if (model is TokenModel)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Invalid login response",
+                        Data = model
+                    });
+                }
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
                 });
             }
             catch (Exception ex)

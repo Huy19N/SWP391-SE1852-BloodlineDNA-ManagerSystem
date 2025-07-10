@@ -1,5 +1,5 @@
 using APIGeneCare.Entities;
-using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -96,13 +96,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
 
+
+
         ClockSkew = TimeSpan.Zero // Disable the default clock skew of 5 minutes
 
     };
 });
 
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
 
+builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

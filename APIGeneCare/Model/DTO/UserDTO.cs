@@ -19,4 +19,12 @@ public partial class UserDTO
     public string? Phone { get; set; }
 
     public string? Password { get; set; }
+
+    public DateTime LastPwdChange { get; set; }
+
+    public string? IPAddress { get; set; }
+
+    public string? UserAgent { get; set; }
+
+    public string? DeviceInfo { get; set; }
 }
