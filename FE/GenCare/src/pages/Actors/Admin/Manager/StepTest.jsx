@@ -121,7 +121,7 @@ function StepTest(){
                 <tr>
                     <th>ID</th>
                     <th>Name TestStep</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -134,7 +134,7 @@ function StepTest(){
                     <tr key={step.stepId}>
                         <td>{step.stepId}</td>
                         <td>{step.stepName}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditStepTest(step)}>
@@ -145,7 +145,7 @@ function StepTest(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa TestStep*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (

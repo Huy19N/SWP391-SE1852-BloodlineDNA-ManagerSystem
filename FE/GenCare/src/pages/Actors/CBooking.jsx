@@ -11,6 +11,8 @@ function Booking(){
     const [dataStatus, setDataStatus] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
+    const [showUpdateResult, setShowUpdateResult] = useState(false);
+    const [editBookingResult, setEditBookingResult] = useState(null);
     const [search,setSearch] = useState('');
 
     const roleid = localStorage.getItem('roleId');
@@ -192,7 +194,21 @@ function Booking(){
         );
     });
     
-    console.log("filterStatusID", filterBookings);
+    const handleShowUpdateResult = async (booking) => {
+        try {
+            const res = await api.get(`Bookings/GetById/${booking.bookingId}`);
+            const fullBooking = res.data.data;
+
+            setEditBookingResult({
+                ...fullBooking,
+                resultId: booking.resultId || ''
+            });
+
+            setShowUpdateResult(true);
+        } catch (error) {
+            toast.error("Failed to load booking data.");
+        }
+    };
 
     return (
             <div className="container mt-5">
@@ -221,7 +237,7 @@ function Booking(){
                             <th>Service Type</th>
                             <th>Date</th>
                             <th>Status</th>
-                            {isAdmin && <th>Action</th>}
+                            {(isAdmin || isManager || isStaff) && <th>Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -238,16 +254,25 @@ function Booking(){
                                     <td>{getServiceType(booking.serviceId)}</td>
                                     <td>{booking.date?.split("T")[0]}</td>
                                     <td>{getStatusName(booking.statusId)}</td>
-                                    {isAdmin && (
-                                        <td>
+                                    <td>
+                                        {(isAdmin || isManager) && (
                                             <button className="btn btn-info me-2 shadow" onClick={() => fetchBookingDetail(booking.bookingId)}>
-                                                <i className="bi bi-pencil-square"></i>
+                                            <i className="bi bi-pencil-square"></i>
                                             </button>
+                                        )}
+                                        
+                                        {(isAdmin || isManager || isStaff) && (
+                                            <button className="btn btn-success me-2 shadow" onClick={() => handleShowUpdateResult(booking)}>
+                                            <i className="bi bi-clipboard2-check-fill"></i>
+                                            </button>
+                                        )}
+                                        
+                                        {(isAdmin || isManager) && (
                                             <button className="btn btn-danger shadow" onClick={() => fetchDelete(booking.bookingId)}>
-                                                <i className="bi bi-trash3-fill"></i>
+                                            <i className="bi bi-trash3-fill"></i>
                                             </button>
-                                        </td>
-                                    )}
+                                        )}
+                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -436,7 +461,50 @@ function Booking(){
                         </div>
                     </div>
                 )}
+                
 
+                {showUpdateResult && (
+                    <div className="update-overlay">
+                        <div className="update-box">
+                            <h5 className="text-center">Update Result for Booking</h5>
+                            <form onSubmit={async (e) => {
+                                e.preventDefault();
+                                try {
+                                    await api.put('Bookings/Update', editBookingResult);
+                                    toast.success("Result updated for booking!");
+                                    setShowUpdateResult(false);
+                                    fetchData();
+                                } catch (err) {
+                                    toast.error("Update failed!");
+                                }
+                            }}>
+                                <div className="mb-3">
+                                    <label>Booking ID:</label>
+                                    <input className="form-control" value={editBookingResult.bookingId} readOnly />
+                                </div>
+                                <div className="mb-3">
+                                    <label>Result ID:</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        value={editBookingResult.resultId}
+                                        onChange={(e) =>
+                                            setEditBookingResult({
+                                                ...editBookingResult,
+                                                resultId: parseInt(e.target.value)
+                                            })
+                                        }
+                                        required
+                                    />
+                                </div>
+                                <div className="text-end">
+                                    <button type="submit" className="btn btn-success me-2">Save</button>
+                                    <button className="btn btn-danger" onClick={() => setShowUpdateResult(false)}>Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
             </div>
         
     );

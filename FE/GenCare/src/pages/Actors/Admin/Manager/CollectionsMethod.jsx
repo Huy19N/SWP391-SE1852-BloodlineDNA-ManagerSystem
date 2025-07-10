@@ -120,7 +120,7 @@ function CollectionMethod(){
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -133,7 +133,7 @@ function CollectionMethod(){
                     <tr key={collection.methodId}>
                         <td>{collection.methodId}</td>
                         <td>{collection.methodName}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditCollection(collection)}>
@@ -144,7 +144,7 @@ function CollectionMethod(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa collection*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (

@@ -159,7 +159,7 @@ function ServicesPrice(){
                     <th>Type Service</th>
                     <th>Name Duration</th>
                     <th>Price</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -175,7 +175,7 @@ function ServicesPrice(){
                         <td>{getServiceType(price.serviceId)}</td>
                         <td>{getDuration(price.durationId)}</td>
                         <td>{price.price || 'Empty'}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditServicesPrice(price)}>
@@ -186,7 +186,7 @@ function ServicesPrice(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa Service priceId*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (

@@ -26,7 +26,7 @@ function Sidebar (){
                             <i className="bi bi-house-door-fill"></i> Dashboard
                         </Link>
                         </div>
-                        {isAdmin || isManager ?
+                        {isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="users">
                             <i className="bi bi-person-fill"></i> Users
@@ -40,26 +40,42 @@ function Sidebar (){
                         </Link>
                         </div>
                         : null}
+                        {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='dbbooking'>
                             <i className="bi bi-box2-fill me-2"></i> Bookings
                         </Link>
                         </div>
+                        : null}
+                        {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="#">
                             <i className="bi bi-bookmark-check-fill me-2"></i> Status
                         </Link>
                         </div>
+                        : null}
+                        {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="#">
+                        <Link className="nav-link" to="results">
                             <i class="bi bi-clipboard2-check-fill me-2"></i> Results
                         </Link>
                         </div>
+                        : null}
+                        {isStaff || isManager || isAdmin ?
+                        <div className='mb-2 mt-2 tab_content_1'>
+                        <Link className="nav-link" to='#'>
+                            <i className="bi bi-journal-text me-2"></i> Blogs
+                        </Link>
+                        </div>
+                        : null}
+                        {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='#'>
                             <i className="bi bi-chat-left-text-fill me-2"></i> Feedbacks
                         </Link>
                         </div>
+                        : null}
+                        {isAdmin || isManager ?
                         <div className={`click-dropdown tab_content_1`}>
                         <span className="nav-link dropdown-toggle" onClick={toggleDropdown}>
                             More
@@ -67,7 +83,6 @@ function Sidebar (){
                         {/* Dropdown nội dung sẽ đẩy xuống */}
                         {isDropdownOpen && (
                             <ul className="slide-dropdown-content custom-dropdown">
-                            <li><Link className="dropdown-item" to="#"><i className="bi bi-journal-text me-2"></i> Blogs</Link></li>
                             <li><Link className="dropdown-item" to="services"><i className="bi bi-box me-2"></i> Services</Link></li>
                             <li><Link className="dropdown-item" to="price"><i className="bi bi-box me-2"></i> Services Price</Link></li>
                             <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> CollectionMethod</Link></li>
@@ -78,6 +93,7 @@ function Sidebar (){
                             </ul>
                         )}
                         </div>
+                        : null}
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='/'>
                             <i className="bi bi-door-open-fill"></i> Back Home

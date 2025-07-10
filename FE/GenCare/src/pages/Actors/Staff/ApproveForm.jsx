@@ -74,23 +74,19 @@ function Approve(){
             resUserAll,
             resPatientAll, 
             resSampleAll, 
-            // resProcessAll,
             resServiceAll,
             resStatusAll,
             resDurationAll,
             resMethodAll,
-            // resStepsAll
         ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
             api.get(`Users/GetAll`),
             api.get(`Patient/GetAll`),
             api.get(`Samples/GetAllPaging`),
-            // api.get(`TestProcess/GetAllPaging`),
             api.get(`Services/GetAllPaging`),
             api.get(`Status/GetAllStatus`),
             api.get(`Durations/GetAllPaging`),
             api.get(`CollectionMethod/GetAll`),
-            // api.get(`TestStep/getAllTestSteps`)
         ]);
 
         const bookingList = resBooking.data.data;
@@ -112,16 +108,6 @@ function Approve(){
                 sampleName: sampleMap[p.sampleId] || "Unknown"
             }));
 
-        // const steps = resStepsAll.data.data;
-
-        // const processes = resProcessAll.data.data
-        //     .filter(p => p.bookingId === bookingId)
-        //     .map(p => ({
-        //         ...p,
-        //         step: steps.find(s => s.stepId === p.stepId),
-        //         status: resStatusAll.data.data.find(st => st.statusId === p.statusId)
-        //     }));
-
         setDetailData({
             booking: {
                 ...bookingList,
@@ -133,7 +119,6 @@ function Approve(){
             },
             patients,
             samples: resSampleAll.data.data,
-            // processes
         });
 
         setShowOverlay(true);
@@ -211,7 +196,7 @@ function Approve(){
                             <th>Service Type</th>
                             <th>Date</th>
                             <th>Status</th>
-                            {isAdmin && <th>Action</th>}
+                            {(isAdmin || isManager || isStaff) && <th>Action</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -228,7 +213,7 @@ function Approve(){
                                     <td>{getServiceType(booking.serviceId)}</td>
                                     <td>{booking.date?.split("T")[0]}</td>
                                     <td>{getStatusName(booking.statusId)}</td>
-                                    {isAdmin && (
+                                    {(isAdmin || isManager || isStaff) && (
                                         <td>
                                             <button className="btn btn-info me-2 shadow" onClick={() => fetchBookingDetail(booking.bookingId)}>
                                                 <i className="bi bi-pencil-square"></i>

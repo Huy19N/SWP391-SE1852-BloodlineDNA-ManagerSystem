@@ -121,7 +121,7 @@ function Samples(){
                 <tr>
                     <th>ID</th>
                     <th>Name Samples</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -134,7 +134,7 @@ function Samples(){
                     <tr key={sample.sampleId}>
                         <td>{sample.sampleId}</td>
                         <td>{sample.sampleName}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditSamples(sample)}>
@@ -145,7 +145,7 @@ function Samples(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa Samples*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (

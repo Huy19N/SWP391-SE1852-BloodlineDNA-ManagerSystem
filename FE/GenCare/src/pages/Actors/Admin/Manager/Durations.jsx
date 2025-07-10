@@ -121,7 +121,7 @@ function Durations(){
                 <tr>
                     <th>ID</th>
                     <th>Name Durations</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -134,7 +134,7 @@ function Durations(){
                     <tr key={duration.durationId}>
                         <td>{duration.durationId}</td>
                         <td>{duration.durationName}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditDurations(duration)}>
@@ -145,7 +145,7 @@ function Durations(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa duration*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (

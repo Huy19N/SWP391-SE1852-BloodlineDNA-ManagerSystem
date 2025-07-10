@@ -137,7 +137,7 @@ function Users(){
                     <td>{user.userId}</td>
                     <td>{user.email}</td>
                     <td>{dataRoles[user.roleId]}</td>
-                    {isAdmin ? 
+                    {isAdmin && (
                     <td>
                     <button className="btn btn-info ms-3 me-3"
                             onClick={() => setEditUser(user)}>
@@ -148,12 +148,12 @@ function Users(){
                         <i class="bi bi-trash3-fill fs-4"></i>
                         </button>{/*xoa user*/}
                     </td>
-                     : null}
+                    )}
                 </tr>
                 ))
             ) : (
                 <tr>
-                <td colSpan="3" className="text-center">No users found.</td>
+                <td colSpan="4" className="text-center">No users found.</td>
                 </tr>
             )}
             </tbody>

@@ -126,7 +126,7 @@ function Service(){
                     <th>Name Service</th>
                     <th>Type Service</th>
                     <th>description</th>
-                    {isAdmin ? <th>Action</th> : null}
+                    {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
                 <tbody>
@@ -141,7 +141,7 @@ function Service(){
                         <td>{service.serviceName}</td>
                         <td>{service.serviceType}</td>
                         <td>{service.description || 'Empty'}</td>
-                        {isAdmin || isManager ? 
+                        {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
                                 onClick={() => setEditService(service)}>
@@ -152,7 +152,7 @@ function Service(){
                             <i class="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa Service*/}
                         </td>
-                        : null}
+                        )}
                     </tr>
                     ))
                 ) : (
