@@ -21,7 +21,8 @@ import Account from './pages/Actors/InforAccount.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
-import Users from './pages/Actors/Admin/Manager/Users.jsx'
+import Users from './pages/Actors/Admin/Manager/Users.jsx';
+import Feedbacks from './pages/Actors/Feedbacks.jsx';
 import Layout from './pages/Actors/TotalLayout.jsx';
 import DBBooking from './pages/Actors/CBooking.jsx';
 import CRUDService from './pages/Actors/Admin/Manager/Services.jsx';
@@ -32,6 +33,7 @@ import CRUDStepTest from './pages/Actors/Admin/Manager/StepTest.jsx';
 import CRUDStatus from './pages/Actors/Admin/Manager/Status.jsx';
 import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
 import CRUDResults from './pages/Actors/Results.jsx';
+import CRUDBlog from './pages/Actors/Blog.jsx';
 
 import Login from './pages/Login.jsx';
 import Instruction from './pages/Instructions.jsx';
@@ -106,6 +108,8 @@ function App() {
           <Route path='status' element={<CRUDStatus/>}/>
           <Route path='price' element={<CRUDPrice/>}/>
           <Route path='results' element={<CRUDResults/>}/>
+          <Route path='feedback' element={<Feedbacks/>}/>
+          <Route path='blog' element={<CRUDBlog/>}/>
         </Route>
 
       <Route path='/payment' element={

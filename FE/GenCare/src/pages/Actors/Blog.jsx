@@ -1,18 +1,20 @@
 import React, {useEffect} from "react";
-import api from "../../../../config/axios.js";
+import api from "../../config/axios.js";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
-function Service(){
+function Blog(){
     const [isLoading, setIsLoading] = useState(false);
-    const [dataService, setDataService] = useState([]);
+    const [dataBlog, setDataBlog] = useState([]);
+    const [dataUser, setDataUser] = useState([]);
     const [search,setSearch] = useState('');
-    const [editService,setEditService] = useState(null);
+    const [editBlog,setEditBlog] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [fromDataService, setFromDataService] = useState({
-        serviceName: '',
-        serviceType: '',
-        description: ''
+    const [fromDataBlog, setFromDataBlog] = useState({
+        userId: '',
+        title: '',
+        content: '',
+        createdAt: ''
     });
 
 
@@ -25,35 +27,43 @@ function Service(){
         setIsLoading(true);
 
         try{
-            const resService = await api.get('Services/GetAllPaging');
-            const dataService = resService.data.data;
+            const [resBlog, resUser] = await Promise.all([
+                api.get('Blogs/GetAllPaging'),
+                api.get('Users/GetAll')
+            ]);
+            const dataBlog = resBlog.data.data;
+            const dataUser = resUser.data.data;
 
-            console.log("Service", dataService);
+            console.log("dataBlog", dataBlog);
+            console.log("dataUser", dataUser);
 
-            setDataService(dataService);
+            setDataBlog(dataBlog);
+            setDataUser(dataUser);
+
         }
         catch(error){
-            console.log("Error DataService", error.dataService);
-            toast.error("Failed Loading Data Service");
+            console.log("Error dataBlog", error.dataBlog);
+            console.log("Error Data User", error.dataUser);
+            toast.error("Failed Loading Data Blogs");
         }
         finally{
             setIsLoading(false);
         }
     }
 
-    //API gọi delete services
-    const fetchDelete = async (serviceId) => {
-        if(!window.confirm("Are you sure you want to delete this service?")) return;
+    //API gọi delete Blogs
+    const fetchDelete = async (blogId) => {
+        if(!window.confirm("Are you sure you want to delete this Blogs?")) return;
 
         try{
-            await api.delete(`Services/DeleteById/${serviceId}`);
-            toast.success("This user deleted successfully!");
+            await api.delete(`Blogs/DeleteById/${blogId}`);
+            toast.success("This Blogs deleted successfully!");
 
             fetchData();
         }
         catch (error){
             console.log("Delete error", error);
-            toast.error("Failed delete service this!")
+            toast.error("Failed delete Blogs this!")
         }
     }
 
@@ -63,33 +73,37 @@ function Service(){
 
     const handleCreateChange = (e) => {
     const { name, value } = e.target;
-    setFromDataService(prev => ({ ...prev, [name]: value }));
+    setFromDataBlog(prev => ({ ...prev, [name]: value }));
     };
 
     const handleCreateSubmit = async (e) => {
     e.preventDefault();
 
         try {
-            await api.post('/Services/Create', fromDataService);
-            toast.success("Service created successfully!");
+            await api.post('Blogs/Create', fromDataBlog);
+            toast.success("Blogs created successfully!");
             setShowCreateModal(false);
-            setFromDataService({ serviceName: '', serviceType: '', description: '' });
+            setFromDataBlog({ userId: '', title: '', content: '', createdAt: '' });
             fetchData();
         } catch (error) {
-            console.error("Error creating service", error);
-            toast.error("Failed to create service");
+            console.error("Error creating Blogs", error);
+            toast.error("Failed to create Blogs");
         }
     };
 
-
+    const getUsername = (userId) => {
+        const user = dataUser.find(u => u.userId === userId);
+        return user ? user.fullName : 'Empty';
+    };
 
     //Filter 
-    const filteredService = dataService.filter((service) => {
+    const filteredBlogs = dataBlog.filter((blog) => {
         const keyword = search.toLowerCase();
         return (
-            service.serviceId.toString().includes(keyword) ||
-            service.serviceName.toLowerCase().includes(keyword) || 
-            service.serviceType.toLowerCase().includes(keyword)
+            blog.blogId.toString().includes(keyword) ||
+            getUsername(blog.userId).toLowerCase().includes(keyword) || 
+            blog.title.toLowerCase().includes(keyword) ||
+            blog.createdAt.toString().includes(keyword)
         );
     });
 
@@ -98,7 +112,7 @@ function Service(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Services
+                Blog List
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -113,7 +127,7 @@ function Service(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Service
+                        Add New Blog
                     </button>
                 </div>
             </div>
@@ -123,9 +137,9 @@ function Service(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name Service</th>
-                    <th>Type Service</th>
-                    <th>description</th>
+                    <th>User Name</th>
+                    <th>Title</th>
+                    <th>Date</th>
                     {(isAdmin || isManager) ? <th>Action</th> : null}
                 </tr>
                 </thead>
@@ -134,70 +148,82 @@ function Service(){
                     <tr>
                     <td colSpan="5" className="text-center">Loading...</td>
                     </tr>
-                ) : filteredService.length > 0 ? (
-                    filteredService.map((service) => (
-                    <tr key={service.serviceId}>
-                        <td>{service.serviceId}</td>
-                        <td>{service.serviceName}</td>
-                        <td>{service.serviceType}</td>
-                        <td>{service.description || 'Empty'}</td>
+                ) : filteredBlogs.length > 0 ? (
+                    filteredBlogs.map((blog) => (
+                    <tr key={blog.blogId}>
+                        <td>{blog.blogId}</td>
+                        <td>{getUsername(blog.userId)}</td>
+                        <td>{blog.title}</td>
+                        <td>{blog.createdAt?.split("T")[0]}</td>
                         {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
-                                onClick={() => setEditService(service)}>
+                                onClick={() => setEditBlog(blog)}>
                             <i class="bi bi-pencil-square fs-4"></i>
-                            </button>{/*xem va update Service*/}
+                            </button>{/*xem va update blog */}
                         <button className="btn btn-danger"
-                                onClick={() => fetchDelete(service.serviceId)}>
+                                onClick={() => fetchDelete(blog.blogId)}>
                             <i class="bi bi-trash3-fill fs-4"></i>
-                            </button>{/*xoa Service*/}
+                            </button>{/*xoa blog*/}
                         </td>
                         )}
                     </tr>
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="5" className="text-center">No Service found.</td>
+                    <td colSpan="5" className="text-center">No blog found.</td>
                     </tr>
                 )}
                 </tbody>
             </table>
-            {/* Thêm service */}
+            {/* Thêm blog*/}
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New Service</h4>
+                        <h4 className="mb-3">Create New blog</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Service Name</label>
+                                <label className="form-label">UserID: </label>
                                 <input
-                                    type="text"
-                                    name="serviceName"
+                                    type="number"
+                                    name="userId"
                                     className="form-control"
-                                    value={fromDataService.serviceName}
+                                    value={fromDataBlog.userId}
                                     onChange={handleCreateChange}
                                     required
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Service Type</label>
+                                <label className="form-label">Title: </label>
                                 <input
                                     type="text"
-                                    name="serviceType"
+                                    name="title"
                                     className="form-control"
-                                    value={fromDataService.serviceType}
+                                    value={fromDataBlog.title}
                                     onChange={handleCreateChange}
                                     required
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Description</label>
+                                <label className="form-label">Content: </label>
                                 <textarea
-                                    name="description"
+                                    name="content"
                                     className="form-control"
-                                    value={fromDataService.description}
+                                    value={fromDataBlog.content}
                                     onChange={handleCreateChange}
-                                    rows={5}
+                                    rows={8}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Date: </label>
+                                <input
+                                    type="date"
+                                    name="createdAt"
+                                    className="form-control"
+                                    value={fromDataBlog.createdAt}
+                                    onChange={handleCreateChange}
+                                    required
                                 />
                             </div>
                             <div className="text-end">
@@ -211,60 +237,72 @@ function Service(){
 
 
             {/*Update here nha */}
-            {editService && (
+            {editBlog && (
             <div className="update-overlay">
             <div className="update-box">
                 <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Service ID: {editService.serviceId}</h5>
+                <h5>BlogID: {editBlog.blogId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
                     try {
-                    await api.put(`Services/Update`, editService);
+                    await api.put(`Blogs/Update`, editBlog);
                     toast.success("Cập nhật thành công!");
                     fetchData(); // reload lại bảng
-                    setEditService(null); // ẩn form
+                    setEditBlog(null); // ẩn form
                     } catch (err) {
                     toast.error("Cập nhật thất bại!");
                     }
                 }}
                 >
                 <div className="mb-2">
-                    <label>Name:</label>
+                    <label>userID: </label>
                     <input
-                    type="text"
+                    type="number"
                     className="form-control"
-                    value={editService.serviceName}
+                    value={editBlog.userId}
                     onChange={(e) =>
                         // ... là trải mảng/array thành các phần tử ví dụ là editUser có spread toàn bộ dữ liệu cũ (userId, roleId, phone,...)
                         //khi khai báo trong setEditUser thì nó sẽ giữ lại các dữ liệu (userId, roleId,...) và thay đổi dữ liệu email
-                        setEditService({ ...editService, serviceName: e.target.value })
+                        setEditBlog({ ...editBlog, userId: e.target.value })
                     }
                     />
                 </div>
 
                 <div className="mb-2">
-                    <label>Service Type:</label>
+                    <label>Title: </label>
                     <input
                     type="text"
                     className="form-control"
-                    value={editService.serviceType}
+                    value={editBlog.title}
                     onChange={(e) =>
-                        setEditService({ ...editService, serviceType: e.target.value })
+                        setEditBlog({ ...editBlog, title: e.target.value })
                     }
                     />
                 </div>
 
                 <div className="mb-2">
-                    <label>Description:</label>
+                    <label>Content: </label>
                     <textarea
-                    name="description"
+                    name="content"
                     className="form-control"
-                    value={editService.description}
+                    value={editBlog.content}
                     onChange={(e) =>
-                        setEditService({ ...editService, description: e.target.value })
+                        setEditBlog({ ...editBlog, content: e.target.value })
                     }
-                    rows={5}
+                    rows={8}
+                    />
+                </div>
+
+                <div className="mb-2">
+                    <label>Date: </label>
+                    <input
+                    type="date"
+                    className="form-control"
+                    value={editBlog.createdAt}
+                    onChange={(e) =>
+                        setEditBlog({ ...editBlog, createdAt: e.target.value })
+                    }
                     />
                 </div>
 
@@ -274,7 +312,7 @@ function Service(){
                 <button
                     className="btn btn-secondary"
                     type="button"
-                    onClick={() => setEditService(null)}
+                    onClick={() => setEditBlog(null)}
                 >
                     Cancel
                 </button>
@@ -286,4 +324,4 @@ function Service(){
     );
 }
 
-export default Service;
+export default Blog;

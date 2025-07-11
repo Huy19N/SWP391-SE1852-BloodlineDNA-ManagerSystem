@@ -63,14 +63,14 @@ function Sidebar (){
                         : null}
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to='#'>
+                        <Link className="nav-link" to='blog'>
                             <i className="bi bi-journal-text me-2"></i> Blogs
                         </Link>
                         </div>
                         : null}
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to='#'>
+                        <Link className="nav-link" to='feedback'>
                             <i className="bi bi-chat-left-text-fill me-2"></i> Feedbacks
                         </Link>
                         </div>
