@@ -16,8 +16,6 @@ public partial class LogLogin
 
     public string? UserAgent { get; set; }
 
-    public string? DeviceInfo { get; set; }
-
     public DateTime LoginTime { get; set; }
 
     public virtual RefreshToken? RefreshToken { get; set; }

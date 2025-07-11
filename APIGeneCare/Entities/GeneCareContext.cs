@@ -66,7 +66,7 @@ public partial class GeneCareContext : DbContext
     {
         modelBuilder.Entity<AccessTokenBlacklist>(entity =>
         {
-            entity.HasKey(e => e.JwtId).HasName("PK__AccessTo__32FE98A28C6B52EF");
+            entity.HasKey(e => e.JwtId).HasName("PK__AccessTo__32FE98A23EC5E62A");
 
             entity.ToTable("AccessTokenBlacklist");
 
@@ -85,7 +85,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E50FA867EBF");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E50996D40B1");
 
             entity.ToTable("Blog");
 
@@ -101,7 +101,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Booking__73951ACD08B055EC");
+            entity.HasKey(e => e.BookingId).HasName("PK__Booking__73951ACD795DD9DC");
 
             entity.ToTable("Booking");
 
@@ -142,7 +142,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<CollectionMethod>(entity =>
         {
-            entity.HasKey(e => e.MethodId).HasName("PK__Collecti__FC681FB18BD368BD");
+            entity.HasKey(e => e.MethodId).HasName("PK__Collecti__FC681FB1DF29F37C");
 
             entity.ToTable("CollectionMethod");
 
@@ -152,7 +152,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Duration>(entity =>
         {
-            entity.HasKey(e => e.DurationId).HasName("PK__Duration__AF77E816170CBEBE");
+            entity.HasKey(e => e.DurationId).HasName("PK__Duration__AF77E8161510DC51");
 
             entity.ToTable("Duration");
 
@@ -162,7 +162,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF6BC256681");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF62D96EACE");
 
             entity.ToTable("Feedback");
 
@@ -184,11 +184,10 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<LogLogin>(entity =>
         {
-            entity.HasKey(e => e.LogId).HasName("PK__LogLogin__5E54864814F38811");
+            entity.HasKey(e => e.LogId).HasName("PK__LogLogin__5E54864895F21406");
 
             entity.ToTable("LogLogin");
 
-            entity.Property(e => e.DeviceInfo).HasMaxLength(255);
             entity.Property(e => e.FailReason).HasMaxLength(255);
             entity.Property(e => e.Ipaddress)
                 .HasMaxLength(255)
@@ -196,7 +195,6 @@ public partial class GeneCareContext : DbContext
             entity.Property(e => e.LoginTime)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.UserAgent).HasMaxLength(255);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.RefreshToken).WithMany(p => p.LogLogins)
@@ -211,7 +209,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Patient>(entity =>
         {
-            entity.HasKey(e => e.PatientId).HasName("PK__Patient__970EC3467C64162A");
+            entity.HasKey(e => e.PatientId).HasName("PK__Patient__970EC3467358568A");
 
             entity.ToTable("Patient");
 
@@ -238,7 +236,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A3845EE9D3A");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A38D9232424");
 
             entity.ToTable("Payment");
 
@@ -264,7 +262,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<PaymentIpnlog>(entity =>
         {
-            entity.HasKey(e => e.IpnlogId).HasName("PK__PaymentI__956F903E4237FD55");
+            entity.HasKey(e => e.IpnlogId).HasName("PK__PaymentI__956F903EA666E82E");
 
             entity.ToTable("PaymentIPNLog");
 
@@ -281,7 +279,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D310D723E9");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D33D908C70");
 
             entity.ToTable("PaymentMethod");
 
@@ -294,7 +292,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<PaymentReturnLog>(entity =>
         {
-            entity.HasKey(e => e.ReturnLogId).HasName("PK__PaymentR__AA90652ECD4B52F4");
+            entity.HasKey(e => e.ReturnLogId).HasName("PK__PaymentR__AA90652EF9F5FBB2");
 
             entity.ToTable("PaymentReturnLog");
 
@@ -310,23 +308,21 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<RefreshToken>(entity =>
         {
-            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E3993460A15");
+            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E390953DE40");
 
             entity.ToTable("RefreshToken");
 
-            entity.HasIndex(e => e.Token, "UQ__RefreshT__1EB4F817E78A0788").IsUnique();
+            entity.HasIndex(e => e.Token, "UQ__RefreshT__1EB4F8170D89B533").IsUnique();
 
-            entity.HasIndex(e => e.JwtId, "UQ__RefreshT__32FE98A3BC76C114").IsUnique();
+            entity.HasIndex(e => e.JwtId, "UQ__RefreshT__32FE98A311D53857").IsUnique();
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.DeviceInfo).HasMaxLength(255);
             entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
             entity.Property(e => e.Ipaddress)
                 .HasMaxLength(255)
                 .HasColumnName("IPAddress");
-            entity.Property(e => e.JwtId).HasMaxLength(50);
+            entity.Property(e => e.JwtId).HasMaxLength(100);
             entity.Property(e => e.Token).HasMaxLength(500);
-            entity.Property(e => e.UserAgent).HasMaxLength(255);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens)
@@ -337,7 +333,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3AF40F639D");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A9A3FADEC");
 
             entity.ToTable("Role");
 
@@ -349,7 +345,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Sample>(entity =>
         {
-            entity.HasKey(e => e.SampleId).HasName("PK__Samples__8B99EC0ADF6FAD6C");
+            entity.HasKey(e => e.SampleId).HasName("PK__Samples__8B99EC0A0202A14C");
 
             entity.Property(e => e.SampleId).HasColumnName("SampleID");
             entity.Property(e => e.SampleName).HasMaxLength(200);
@@ -357,7 +353,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Service__C51BB0EA7E5445EB");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Service__C51BB0EA24EF8E29");
 
             entity.ToTable("Service");
 
@@ -368,7 +364,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<ServicePrice>(entity =>
         {
-            entity.HasKey(e => e.PriceId).HasName("PK__ServiceP__4957584F3566B487");
+            entity.HasKey(e => e.PriceId).HasName("PK__ServiceP__4957584F2E7A9516");
 
             entity.ToTable("ServicePrice");
 
@@ -387,7 +383,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Status__C8EE2043C1F81D8E");
+            entity.HasKey(e => e.StatusId).HasName("PK__Status__C8EE2043695881E0");
 
             entity.ToTable("Status");
 
@@ -397,7 +393,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<TestProcess>(entity =>
         {
-            entity.HasKey(e => e.ProcessId).HasName("PK__TestProc__1B39A976F23C77AB");
+            entity.HasKey(e => e.ProcessId).HasName("PK__TestProc__1B39A97617F61F73");
 
             entity.ToTable("TestProcess");
 
@@ -422,7 +418,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<TestResult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__976902281A389DC0");
+            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__9769022878B966CE");
 
             entity.ToTable("TestResult");
 
@@ -432,7 +428,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<TestStep>(entity =>
         {
-            entity.HasKey(e => e.StepId).HasName("PK__TestStep__24343337910CD8D0");
+            entity.HasKey(e => e.StepId).HasName("PK__TestStep__243433375AB0C044");
 
             entity.ToTable("TestStep");
 
@@ -442,9 +438,9 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACE4682C68");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCAC1156091C");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534E07502CF").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534F72105E3").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address).HasMaxLength(500);
@@ -462,19 +458,20 @@ public partial class GeneCareContext : DbContext
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Users__RoleID__267ABA7A");
         });
 
         modelBuilder.Entity<VerifyEmail>(entity =>
         {
-            entity.HasKey(e => e.Email).HasName("PK__VerifyEm__A9D10535201E5B41");
+            entity.HasKey(e => e.Key).HasName("PK__VerifyEm__C41E0288C54D68EA");
 
             entity.ToTable("VerifyEmail");
 
-            entity.Property(e => e.Email).HasMaxLength(200);
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
             entity.Property(e => e.Key).HasMaxLength(255);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(200);
+            entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);

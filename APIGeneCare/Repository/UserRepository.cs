@@ -1,35 +1,63 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Sockets;
 
 namespace APIGeneCare.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly GeneCareContext _context;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly Jwt _appSettings;
         public static int PAGE_SIZE { get; set; } = 10;
 
         public UserRepository(GeneCareContext context,
-            IOptionsMonitor<Jwt> optionsMonitor)
+            IOptionsMonitor<Jwt> optionsMonitor,
+            IRefreshTokenRepository refreshTokenRepository)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
+            _refreshTokenRepository = refreshTokenRepository;
         }
         public async Task<Object?> Login(LoginModel model, HttpContext context)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null) return null;
-            var IpAddress = context.Connection.RemoteIpAddress?.ToString();
+            var ipAddress = string.Empty;
+            try
+            {
+                var remoteIpAddress = context.Connection.RemoteIpAddress;
+
+                if (remoteIpAddress != null)
+                {
+                    if (remoteIpAddress.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
+                        remoteIpAddress = Dns.GetHostEntry(remoteIpAddress).AddressList
+                            .FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+                    }
+
+                    if (remoteIpAddress != null) ipAddress = remoteIpAddress.ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ipAddress = "127.0.0.1";
+            }
+
+
             var UserAgent = context.Request.Headers["User-Agent"].ToString();
 
             if (!string.IsNullOrEmpty(model.Password) &&
                 user.Password != model.Password)
             {
-                var log = await _context.LogLogins.Where(x => x.Ipaddress == IpAddress)
+                var log = await _context.LogLogins.Where(x => x.Ipaddress == ipAddress)
                     .OrderByDescending(x => x.LoginTime)
                     .Take(_appSettings.MaxCountOfLogin)
                     .ToListAsync();
@@ -60,7 +88,7 @@ namespace APIGeneCare.Repository
                     RefreshTokenId = null,
                     Success = false,
                     FailReason = "Invalid password",
-                    Ipaddress = IpAddress,
+                    Ipaddress = ipAddress,
                     UserAgent = UserAgent,
                     LoginTime = DateTime.UtcNow,
                 });
@@ -86,11 +114,10 @@ namespace APIGeneCare.Repository
                 Phone = user.Phone,
                 Password = user.Password,
                 UserAgent = context.Request.Headers["User-Agent"].ToString(),
-                IPAddress = context.Connection.RemoteIpAddress?.ToString(),
+                IPAddress = ipAddress,
                 LastPwdChange = user.LastPwdChange,
             };
-
-            var token = await new RefreshTokenRepository(_context, (IOptionsMonitor<Jwt>)_appSettings).GenerateTokenModel(UserDTO);
+            var token = await _refreshTokenRepository.GenerateTokenModel(UserDTO);
             return token;
         }
 

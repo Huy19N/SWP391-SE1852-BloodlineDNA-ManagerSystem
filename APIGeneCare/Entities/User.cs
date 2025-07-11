@@ -4,7 +4,7 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    public int? RoleId { get; set; }
+    public int RoleId { get; set; }
 
     public string? FullName { get; set; }
 
@@ -32,5 +32,5 @@ public partial class User
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
-    public virtual Role? Role { get; set; }
+    public virtual Role Role { get; set; } = null!;
 }

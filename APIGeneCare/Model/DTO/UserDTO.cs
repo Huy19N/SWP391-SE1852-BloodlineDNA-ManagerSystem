@@ -6,7 +6,7 @@ public partial class UserDTO
 {
     public int UserId { get; set; }
 
-    public int? RoleId { get; set; }
+    public int RoleId { get; set; }
 
     public string? FullName { get; set; }
 
@@ -26,5 +26,4 @@ public partial class UserDTO
 
     public string? UserAgent { get; set; }
 
-    public string? DeviceInfo { get; set; }
 }

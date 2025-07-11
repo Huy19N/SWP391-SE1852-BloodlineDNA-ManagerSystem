@@ -35,8 +35,8 @@ namespace APIGeneCare.Controllers
                 {
                     return Ok(new ApiResponse
                     {
-                        Success = false,
-                        Message = "Invalid login response",
+                        Success = true,
+                        Message = "Login response",
                         Data = model
                     });
                 }
@@ -229,7 +229,7 @@ namespace APIGeneCare.Controllers
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
-        public ActionResult UpdateUser(UserDTO user)
+        public IActionResult UpdateUser(UserDTO user)
         {
             try
             {
@@ -249,6 +249,48 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating user: {ex.Message}");
             }
         }
+
+        //[HttpPut("ForgetPasword")]
+        //public async Task<IActionResult> ForgetPassword(string email)
+        //{
+        //    try
+        //    {
+        //        if (resetPasswordModel == null || string.IsNullOrEmpty(resetPasswordModel.Email) ||
+        //            string.IsNullOrEmpty(resetPasswordModel.Password) ||
+        //            string.IsNullOrEmpty(resetPasswordModel.ConfirmPassword))
+        //        {
+        //            return BadRequest(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "Invalid reset password request",
+        //                Data = null
+        //            });
+        //        }
+        //        var isReset = _userRepository.ResetPassword(resetPasswordModel);
+        //        if (isReset)
+        //        {
+        //            return Ok(new ApiResponse
+        //            {
+        //                Success = true,
+        //                Message = "Password reset successfully",
+        //                Data = null
+        //            });
+        //        }
+        //        else
+        //        {
+        //            return NotFound(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "User not found or old password is incorrect",
+        //                Data = null
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, $"Error resetting password: {ex.Message}");
+        //    }
+        //}
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
         [HttpDelete("DeleteById/{id}")]

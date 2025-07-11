@@ -16,16 +16,39 @@ namespace APIGeneCare.Repository
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
         private readonly GeneCareContext _context;
-        private readonly Jwt _appSettings;
+        private readonly Jwt _jwt;
 
         public RefreshTokenRepository(GeneCareContext context,
             IOptionsMonitor<Jwt> optionsMonitor)
         {
             _context = context;
-            _appSettings = optionsMonitor.CurrentValue;
+            _jwt = optionsMonitor.CurrentValue;
         }
         public async Task<RefreshToken?> IsRefreshTokenValid(string token)
         {
+            //clear expired refresh tokens
+            var expiredTokens = await _context.RefreshTokens
+            .Where(rt => rt.ExpiredAt < DateTime.UtcNow)
+            .ToListAsync();
+
+            if (expiredTokens.Any())
+            {
+                foreach (var x in expiredTokens)
+                {
+                    // Remove the refresh token from the logLogin table
+                    var logLogin = await _context.LogLogins
+                        .Where(ll => ll.RefreshTokenId == x.RefreshTokenId)
+                        .ToArrayAsync();
+                    if (logLogin != null)
+                    {
+                        _context.LogLogins.RemoveRange(logLogin);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                _context.RefreshTokens.RemoveRange(expiredTokens);
+                await _context.SaveChangesAsync();
+            }
+
             try
             {
                 return await _context.RefreshTokens.Where(rt => rt.Token == token && rt.ExpiredAt > DateTime.UtcNow && !rt.Revoked)
@@ -41,7 +64,7 @@ namespace APIGeneCare.Repository
             try
             {
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
-                var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
+                var secretKeyBytes = Encoding.UTF8.GetBytes(_jwt.SecretKey);
                 var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
                 if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
                 var jwtId = DateTime.Now.Ticks.ToString() + Guid.NewGuid().ToString();
@@ -61,12 +84,12 @@ namespace APIGeneCare.Repository
                 };
 
                 var accessToken = jwtTokenHandler.CreateToken(tokenDescription);
-                var refreshToken = await GenerateRefreshToken(user, null, jwtId);
+                var refreshToken = await GenerateRefreshToken(user, jwtId);
                 return new TokenModel
                 {
                     AccessToken = jwtTokenHandler.WriteToken(accessToken),
                     RefreshToken = refreshToken,
-                    Role = 1,
+                    Role = user.RoleId,
                     userId = user.UserId
                 };
             }
@@ -94,7 +117,7 @@ namespace APIGeneCare.Repository
                 }
 
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
-                var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
+                var secretKeyBytes = Encoding.UTF8.GetBytes(_jwt.SecretKey);
                 var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
                 if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
                 var jwtId = DateTime.Now.Ticks.ToString() + Guid.NewGuid().ToString();
@@ -108,7 +131,7 @@ namespace APIGeneCare.Repository
                         new Claim(ClaimTypes.Role, role.RoleName),
                         new Claim(JwtRegisteredClaimNames.Jti, jwtId)
                     }),
-                    Expires = DateTime.UtcNow.AddDays(7),
+                    Expires = DateTime.UtcNow.AddMinutes(_jwt.MinAccessExpirationTime),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),
                     SecurityAlgorithms.HmacSha512Signature)
                 };
@@ -128,58 +151,33 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public async Task<string> GenerateRefreshToken(UserDTO user, string? oldRefreshToken, string jwtId)
+        public async Task<string> GenerateRefreshToken(UserDTO user, string jwtId)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
 
-                //clear expired refresh tokens
-                var expiredTokens = await _context.RefreshTokens
-                .Where(rt => rt.ExpiredAt < DateTime.UtcNow)
-                .ToListAsync();
-
-                if (expiredTokens.Any())
-                {
-                    foreach (var x in expiredTokens)
-                    {
-                        // Remove the refresh token from the logLogin table
-                        var logLogin = await _context.LogLogins
-                            .Where(ll => ll.RefreshTokenId == x.RefreshTokenId)
-                            .ToArrayAsync();
-                        if (logLogin != null)
-                        {
-                            _context.LogLogins.RemoveRange(logLogin);
-                            await _context.SaveChangesAsync();
-                        }
-                    }
-                    _context.RefreshTokens.RemoveRange(expiredTokens);
-                    await _context.SaveChangesAsync();
-                }
-
                 var random = new byte[125];
-                using var rng = RandomNumberGenerator.Create();
-                rng.GetBytes(random);
-                string token = Convert.ToBase64String(random);
-
-
-                var newRefreshToken = new RefreshToken
+                using (var rng = RandomNumberGenerator.Create())
                 {
-                    UserId = user.UserId,
-                    Token = token,
-                    JwtId = jwtId,
-                    CreatedAt = DateTime.UtcNow,
-                    ExpiredAt = DateTime.UtcNow.AddMinutes(_appSettings.MinRefreshExpirationTime),
-                    Revoked = false,
-                    Ipaddress = user.IPAddress,
-                    UserAgent = user.UserAgent,
-                    DeviceInfo = user.DeviceInfo
-                };
-                await _context.RefreshTokens.AddAsync(newRefreshToken);
-
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-                return token;
+                    rng.GetBytes(random);
+                    string token = Convert.ToBase64String(random).ToString();
+                    var newRefreshToken = new RefreshToken
+                    {
+                        UserId = user.UserId,
+                        Token = token,
+                        JwtId = jwtId,
+                        CreatedAt = DateTime.UtcNow,
+                        ExpiredAt = DateTime.UtcNow.AddMinutes(_jwt.MinRefreshExpirationTime),
+                        Revoked = false,
+                        Ipaddress = user.IPAddress,
+                        UserAgent = user.UserAgent,
+                    };
+                    await _context.RefreshTokens.AddAsync(newRefreshToken);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return token;
+                }
             }
             catch
             {

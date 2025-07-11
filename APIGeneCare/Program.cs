@@ -81,8 +81,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
 #endregion
 
-var secretKey = builder.Configuration["AppSettings:SecretKey"];
-var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? null!);
+var secretKey = builder.Configuration["Jwt:SecretKey"];
+var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? string.Empty);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -96,15 +96,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
 
-
-
         ClockSkew = TimeSpan.Zero // Disable the default clock skew of 5 minutes
 
     };
 });
-
+#region add configuration AppSettings
 builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
-
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<Vnpay>(builder.Configuration.GetSection("Vnpay"));
+builder.Services.Configure<Momo>(builder.Configuration.GetSection("Momo"));
+#endregion
 builder.Services.AddAuthorization();
 var app = builder.Build();
 

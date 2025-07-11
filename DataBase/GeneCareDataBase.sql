@@ -35,12 +35,12 @@ CREATE TABLE RefreshToken (
     RefreshTokenId INT PRIMARY KEY IDENTITY(1,1),
     UserID INT FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
     Token NVARCHAR(500) UNIQUE,
-    JwtId NVARCHAR(50) UNIQUE,
-    CreatedAt DATETIME,
-    ExpiredAt DATETIME,
+    JwtId NVARCHAR(100) UNIQUE,
+    CreatedAt DATETIME NOT NULL,
+    ExpiredAt DATETIME NOT NULL,
 	Revoked BIT NOT NULL DEFAULT 0,
 	IPAddress NVARCHAR(255),
-	UserAgent NVARCHAR(255)
+	UserAgent NVARCHAR(MAX)
 );
 
 --Bảng LogLogin
@@ -51,7 +51,7 @@ CREATE TABLE LogLogin(
 	Success BIT NOT NULL DEFAULT 0,
 	FailReason NVARCHAR(255),
 	IPAddress NVARCHAR(255),
-	UserAgent NVARCHAR(255),
+	UserAgent NVARCHAR(MAX),
 	LoginTime DATETIME NOT NULL DEFAULT GETDATE()
 );
 
@@ -220,10 +220,12 @@ CREATE TABLE PaymentReturnLog(
 
 -- Bảng VerifyEmail
 CREATE TABLE VerifyEmail (
-    Email NVARCHAR(200) PRIMARY KEY,
-    CreatedAt DATETIME,
-    ExpiredAt DATETIME,
-    [Key] NVARCHAR(255)
+	[Key] NVARCHAR(255) NOT NULL PRIMARY KEY,
+    Email NVARCHAR(200) NOT NULL,
+	IsResetPwd BIT NOT NULL,
+    CreatedAt DATETIME NOT NULL,
+    ExpiredAt DATETIME NOT NULL,
+    
 );
 
 
