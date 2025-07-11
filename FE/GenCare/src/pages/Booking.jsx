@@ -181,7 +181,7 @@ function Booking() {
     };
 
     const steps = getStepsByCollectionMethod(methodId);
-
+    const stepCount = steps.length.toString();//tính số bước để cho vào description
     //  Gửi lần lượt các testprocess
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
@@ -189,7 +189,7 @@ function Booking() {
         bookingId: bookingId,
         stepId: step,
         statusId: i === 0 ? 1 : 2,
-        description: "",
+        description: stepCount+" bước",
         updatedAt: new Date().toISOString()
       };
 
