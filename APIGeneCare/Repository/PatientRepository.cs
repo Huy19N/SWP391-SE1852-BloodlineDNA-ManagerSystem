@@ -41,12 +41,12 @@ namespace APIGeneCare.Repository
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
-        public bool CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        public int CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return false;
+                if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return 0;
 
                 var booking = new Booking
                 {
@@ -78,7 +78,7 @@ namespace APIGeneCare.Repository
                 }
                 _context.SaveChanges();
                 transaction.Commit();
-                return true;
+                return booking.BookingId;
             }
             catch
             {

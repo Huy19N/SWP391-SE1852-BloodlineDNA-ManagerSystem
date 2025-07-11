@@ -1,38 +1,62 @@
 // PaymentForm.jsx
-import React, { useState } from 'react';
-import api from '../../config/axios'; // Import axios đã cấu hình sẵn
+import  { useState, useEffect  } from 'react';
+import api from '../../config/axios'; 
 import { toast } from 'react-toastify';
 
 function PaymentForm() {
-  const [orderType, setOrderType] = useState("LegalService");
-  const [amount, setAmount] = useState(100000);
-  const [orderDescription, setOrderDescription] = useState("Payment for order LegalService");
-  const [name, setName] = useState("Nguyen Thanh Dat");
-  
+  const selectedService = JSON.parse(localStorage.getItem('selectedService')) || {};
+  const userId = localStorage.getItem("userId");
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
+  const [orderType, setOrderType] = useState(selectedService.mainType || "");
+  const [amount, setAmount] = useState(selectedService.price || 0);
+  const [orderDescription, setOrderDescription] = useState(
+    `Thanh toán dịch vụ ${selectedService.testType || ""}`
+  );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-    try {
-      const response = await api.post('/Payment', {
-        orderType,
-        amount,
-        orderDescription,
-        name
-      });
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!userId) return;
 
-      const result = response.data;
-      if (result.success) {
-        toast.success("Redirecting to VNPay...");
-        window.location.href = result.data; // Redirect đến link VNPay
-      } else {
-        toast.error("Failed to create payment.");
+      try {
+        const res = await api.get(`Users/getbyid/${userId}`);
+        const user = res.data.data;
+        if (user?.fullName) setName(user.fullName);
+        if (user?.email) setEmail(user.email);
+      } catch (err) {
+        console.error("Không thể lấy thông tin người dùng:", err);
       }
-    } catch (err) {
-      console.error("Payment error:", err);
-      toast.error("Payment request failed.");
+    };
+
+    fetchUser();
+  }, [userId]);
+
+ const handlePayment = async (e) => {
+  e.preventDefault();  
+
+  try {
+    const response = await api.post('/Payment', {
+      orderType,
+      amount,
+      bookingId: 1,
+      email
+    });
+
+    const result = response.data;
+    console.log(" Payment API response:", result);
+
+    if (result.success) {
+      toast.success("Redirecting to VNPay...");
+      window.location.href = result.data;
+    } else {
+      toast.error("Failed to create payment.");
     }
-  };
+  } catch (err) {
+    console.error("Payment error:", err);
+    toast.error("Payment request failed.");
+  }
+};
 
   return (
     <div className="container mt-5 p-5">
