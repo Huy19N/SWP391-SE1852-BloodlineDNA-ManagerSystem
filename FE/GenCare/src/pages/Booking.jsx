@@ -19,7 +19,9 @@ function Booking() {
     user: {
       fullName: '',
       gmail: '',
-      cccd: ''
+      cccd: '',
+      address: '',
+      phone: ''
     },
     person1: {
       fullName: '',
@@ -68,7 +70,9 @@ function Booking() {
             userId: user.userId,
             fullName: user.fullName,
             gmail: user.email,
-            cccd: user.identifyId
+            cccd: user.identifyId,
+            address: user.address,
+            phone: user.phone
           }
         }));
       } catch (error) {
@@ -115,6 +119,10 @@ function Booking() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+  if (!formData.user.fullName || !formData.user.cccd || !formData.user.address || !formData.user.phone) {
+  toast.error("Vui lòng điền đầy đủ thông tin người đăng ký!");
+  return;
+  }
 
   if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleID) {
     toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
@@ -127,6 +135,17 @@ function Booking() {
   }
 
   try {
+    // cập nhật user
+    const updatedUser = {
+    userId: parseInt(userId),
+    fullName: formData.user.fullName,
+    identifyId: formData.user.cccd,
+    address: formData.user.address , 
+    phone: formData.user.phone ,     
+    };
+    await api.put(`Users/Update/${userId}`, updatedUser);
+
+    //tạo bôking
     const bookingData = {
       userId: parseInt(userId),
       durationId: selectedService?.duration?.durationId || selectedService?.durationId,
@@ -177,8 +196,8 @@ function Booking() {
 
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
-      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-      const shortSteps = [1, 2, 6, 7, 8, 9];
+      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8];
+      const shortSteps = [1, 5, 6, 7, 8];
       return methodId === 1 ? fullSteps : shortSteps;
     };
 
@@ -190,7 +209,7 @@ function Booking() {
       const process = {
         bookingId: bookingId,
         stepId: step,
-        statusId: i === 0 ? 1 : 2,
+        statusId: i === 0 ? 3 : i === 1 ? 2 : 1,
         description: stepCount+" bước",
         updatedAt: new Date().toISOString()
       };
@@ -212,7 +231,6 @@ function Booking() {
     toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
   }
 };
-
 
   return (
   <div className="container mt-5 mb-4 p-4 rounded shadow bg-white">
@@ -242,13 +260,21 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">Gmail</label>
-        <input className="form-control" name="user.gmail" value={formData.user.gmail} type="email" onChange={handleChange} />
+        <input className="form-control" name="user.gmail" value={formData.user.gmail} type="email" onChange={handleChange} readOnly/>
       </div>
       <div className="mb-3">
         <label className="form-label">CCCD</label>
         <input className="form-control" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
       </div>
-
+      <div className="mb-3">
+        <label className="form-label">Địa chỉ</label>
+        <input className="form-control" name="user.address" value={formData.user.address} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Số điện thoại</label>
+        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange} />
+      </div>
+      
       {/* Người thứ nhất */}
       <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người thứ nhất</h4>
       <div className="mb-3">
