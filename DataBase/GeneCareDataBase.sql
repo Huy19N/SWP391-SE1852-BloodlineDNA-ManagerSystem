@@ -302,7 +302,7 @@ INSERT INTO TestStep(StepName)
   (N'Đã nhận bộ kit'),
   (N'Đã gửi mẫu'),
   (N'Đang chờ lấy mẫu'),
-  (N'Đã thu mẫu thành công'),
+  (N'Đã thu mẫu '),
   (N'Đang xét nghiệm'),
   (N'Trả kết quả xét nghiệm');
 go
