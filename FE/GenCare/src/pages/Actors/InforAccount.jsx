@@ -218,7 +218,7 @@ function Account(){
                     <div className="mb-2">
                         <label>Password:</label>
                         <input
-                        type="password"
+                        type="text"
                         className="form-control"
                         value={editUser.password}
                         onChange={(e) =>

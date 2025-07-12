@@ -49,13 +49,6 @@ function Sidebar (){
                         : null}
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="#">
-                            <i className="bi bi-bookmark-check-fill me-2"></i> Status
-                        </Link>
-                        </div>
-                        : null}
-                        {isStaff || isManager || isAdmin ?
-                        <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="results">
                             <i class="bi bi-clipboard2-check-fill me-2"></i> Results
                         </Link>

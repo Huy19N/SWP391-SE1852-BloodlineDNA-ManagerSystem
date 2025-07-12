@@ -58,7 +58,7 @@ export default function Header(){
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><NavLink className="dropdown-item" to="/account">Information</NavLink></li>
-                        <li><NavLink className="dropdown-item" to="/test-history">My Booking</NavLink></li>
+                        <li><NavLink className="dropdown-item" to="/mybooking">My Booking</NavLink></li>
                         <li><hr className="dropdown-divider" /></li>
                         {localStorage.getItem('token') ? (
                                 <li className="nav-item">
@@ -102,9 +102,6 @@ export default function Header(){
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/">About</NavLink>
                         </li>
-                        {/* <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/payment">Payment</NavLink>
-                        </li> */}
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
                         </li>

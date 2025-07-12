@@ -18,6 +18,7 @@ import Booking from './pages/Booking.jsx';
 import Payment from './pages/Payment/Payment.jsx';
 import PaymentSuccess from './pages/Payment/PaymentSuccess.jsx';
 import Account from './pages/Actors/InforAccount.jsx';
+import MyBooking from './pages/MyBooking.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
 import Approve from './pages/Actors/Staff/ApproveForm.jsx';
@@ -118,9 +119,19 @@ function App() {
         </ProtectedRoute>
       }/>
 
+      <Route path='/mybooking' element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <MyBooking/>
+        </ProtectedRoute>
+      }/>
+
       <Route path='/payment-success' element={<PaymentSuccess/>}/>
 
-      <Route path='/account' element={ <Account/>} />
+      <Route path='/account' element={
+        <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
+          <Account/>
+        </ProtectedRoute>
+      }/>
 
       {/* Các route từ InstructionInforPage */}
       <Route path="/payment-instruction" element={<InstructionInforPage type="payment" />} />

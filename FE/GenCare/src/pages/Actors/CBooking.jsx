@@ -36,7 +36,7 @@ function Booking(){
             
             // lưu status id vào local 
             const dataStatus = resStatus.data.data;
-            const statusId = dataStatus.find(s => s.statusId === 1)?.statusId;
+            const statusId = dataStatus.find(s => s.statusId === 5)?.statusId;
             localStorage.setItem('statusId', statusId);
             
             
@@ -179,7 +179,7 @@ function Booking(){
         return status ? status.statusName : 'Empty';
     };
 
-    const statusID = parseInt(localStorage.getItem('statusId') || 1);
+    const statusID = parseInt(localStorage.getItem('statusId') || 5);
     const filterBookings = dataBooking.filter((bookings) => {
         const keyword = search.toLowerCase();
         return(
@@ -382,35 +382,92 @@ function Booking(){
                                         </div>
                                     </div>
                                 </div>
-                                {/* 4. Test Process */}
+                                {/* 4. Process Test */}
                                 <div className="accordion-item">
-                                    <h2 className="accordion-header">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testProcess">
-                                            4. Process Test
-                                        </button>
-                                    </h2>
-                                    <div id="testProcess" className="accordion-collapse collapse">
-                                        <div className="accordion-body">
-                                            {detailData.processes.length > 0 ? (
-                                                <table className="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Step</th>
-                                                            <th>Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {detailData.processes.map(p => (
-                                                            <tr key={p.processId}>
-                                                                <td>{p.step?.stepName}</td>
-                                                                <td>{p.status?.statusName}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            ) : <p>No test process data</p>}
+                                <h2 className="accordion-header">
+                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testProcess">
+                                    4. Process Test
+                                    </button>
+                                </h2>
+                                <div id="testProcess" className="accordion-collapse collapse">
+                                    <div className="accordion-body">
+                                    {detailData.processes.length > 0 ? (
+                                        <>
+                                        <table className="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Step</th>
+                                                <th>Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {detailData.processes.map((p, index) => (
+                                                <tr key={p.processId}>
+                                                <td>{p.step?.stepName}</td>
+                                                <td>
+                                                    <select
+                                                    className="form-select"
+                                                    value={p.status?.statusId || ''}
+                                                    onChange={(e) => {
+                                                        const updatedProcesses = [...detailData.processes];
+                                                        const selectedStatus = dataStatus.find(
+                                                        s => s.statusId === parseInt(e.target.value)
+                                                        );
+                                                        updatedProcesses[index].status = selectedStatus;
+
+                                                        setDetailData(prev => ({
+                                                        ...prev,
+                                                        processes: updatedProcesses
+                                                        }));
+                                                    }}
+                                                    >
+                                                    {dataStatus.map(status => (
+                                                        <option key={status.statusId} value={status.statusId}>
+                                                        {status.statusName}
+                                                        </option>
+                                                    ))}
+                                                    </select>
+                                                </td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+
+                                        {/* Nút cập nhật tất cả các status */}
+                                        <div className="text-end">
+                                            <button
+                                            className="btn btn-info me-2"
+                                            onClick={async () => {
+                                                try {
+                                                const updatePromises = detailData.processes.map(p => {
+                                                    return api.put('TestProcess/Update', {
+                                                    processId: p.processId,
+                                                    bookingId: detailData.booking.bookingId,
+                                                    stepId: p.step?.stepId,
+                                                    statusId: p.status?.statusId,
+                                                    description: p.description || "",
+                                                    updatedAt: new Date().toISOString()
+                                                    });
+                                                });
+
+                                                await Promise.all(updatePromises);
+                                                toast.success("All process steps updated!");
+                                                fetchBookingDetail(detailData.booking.bookingId);
+                                                } catch (error) {
+                                                toast.error("Failed to update process steps");
+                                                console.error(error);
+                                                }
+                                            }}
+                                            >
+                                            Update All Steps
+                                            </button>
                                         </div>
+                                        </>
+                                    ) : (
+                                        <p>No test process data</p>
+                                    )}
                                     </div>
+                                </div>
                                 </div>
 
                                 {/* 5. Result */}

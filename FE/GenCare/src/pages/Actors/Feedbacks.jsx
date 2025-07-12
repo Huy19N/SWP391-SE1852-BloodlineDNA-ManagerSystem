@@ -41,6 +41,12 @@ function Feedbacks(){
             setDataFeedbacks(dataFeedback)
         }
         catch(error){
+
+            if (error.response && error.response.status === 404) {
+                setDataService([]); // Gán rỗng để vẫn hiển thị UI
+                setDataUsers([]); // Hoặc tùy ý
+                setDataFeedbacks([]); // Hoặc tùy ý
+            }
             console.log("Error DataService", error.dataService);
             console.log("Error dataUser", error.dataUser);
             console.log("Error dataFeedback", error.dataFeedback);
