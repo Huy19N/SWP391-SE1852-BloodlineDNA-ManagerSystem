@@ -26,7 +26,7 @@ function Sidebar (){
                             <i className="bi bi-house-door-fill"></i> Dashboard
                         </Link>
                         </div>
-                        {isAdmin ?
+                        {isAdmin || isManager || isStaff ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to="users">
                             <i className="bi bi-person-fill"></i> Users
