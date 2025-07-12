@@ -194,7 +194,7 @@ function Booking() {
       const process = {
         bookingId: bookingId,
         stepId: step,
-        statusId: i === 0 ? 3 : 1,
+        statusId: i === 0 ? 3 : i === 1 ? 2 : 1,
         description: stepCount+" bước",
         updatedAt: new Date().toISOString()
       };
