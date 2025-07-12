@@ -19,7 +19,9 @@ function Booking() {
     user: {
       fullName: '',
       gmail: '',
-      cccd: ''
+      cccd: '',
+      address: '',
+      phone: ''
     },
     person1: {
       fullName: '',
@@ -68,7 +70,9 @@ function Booking() {
             userId: user.userId,
             fullName: user.fullName,
             gmail: user.email,
-            cccd: user.identifyId
+            cccd: user.identifyId,
+            address: user.address,
+            phone: user.phone
           }
         }));
       } catch (error) {
@@ -177,8 +181,8 @@ function Booking() {
 
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
-      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-      const shortSteps = [1, 2, 6, 7, 8, 9];
+      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8];
+      const shortSteps = [1, 5, 6, 7, 8];
       return methodId === 1 ? fullSteps : shortSteps;
     };
 
@@ -190,7 +194,7 @@ function Booking() {
       const process = {
         bookingId: bookingId,
         stepId: step,
-        statusId: i === 0 ? 1 : 2,
+        statusId: i === 0 ? 3 : 1,
         description: stepCount+" bước",
         updatedAt: new Date().toISOString()
       };
@@ -247,6 +251,14 @@ function Booking() {
       <div className="mb-3">
         <label className="form-label">CCCD</label>
         <input className="form-control" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Địa chỉ</label>
+        <input className="form-control" name="user.address" value={formData.user.address} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Số điện thoại</label>
+        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange} />
       </div>
 
       {/* Người thứ nhất */}

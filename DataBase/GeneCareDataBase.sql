@@ -282,7 +282,7 @@ VALUES
 go
 INSERT INTO Status(StatusName)
 VALUES
-(N'Chờ xác nhận'),
+(N'Chưa thực hiện'),
 (N'Đang thực hiện'),
 (N'Hoàn thành'),
 (N'Đã hủy'),
@@ -297,8 +297,7 @@ INSERT INTO Samples(SampleName)
 go
 INSERT INTO TestStep(StepName)
   VALUES
-  (N'Đang chờ xác nhận'),
-  (N'Đã xác nhận'),
+  (N'Xác nhận'),
   (N'Đang gửi bộ kit'),
   (N'Đã nhận bộ kit'),
   (N'Đã gửi mẫu'),
