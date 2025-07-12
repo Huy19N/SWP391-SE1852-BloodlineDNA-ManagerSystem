@@ -163,7 +163,9 @@ function Booking() {
 
     console.log("Dữ liệu gửi đi:", bookingData);
     const response = await api.post("Patient/CreatePatientWithBooking", bookingData);
-
+    if (response.data?.data?.bookingId) {
+    localStorage.setItem("bookingId", response.data.data.bookingId);
+  }
     //  Lấy bookingId từ response 
     const bookingId = response?.data?.data?.bookingId;
     const methodId = selectedService?.collectionMethodId;

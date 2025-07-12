@@ -245,60 +245,68 @@ VALUES
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 
-(N'dân sự', N'Cha/Mẹ-Con'),
-(N'dân sự', N'Anh/Chị-Em'),
-(N'dân sự', N'song sinh'),
-(N'dân sự', N'Cô/Chú-Cháu'),
-(N'dân sự', N'Dì/Cậu-Cháu'),
-(N'dân sự', N'Ông/Bà-Cháu'),
+(N'Dân sự', N'Cha/Mẹ-Con'),
+(N'Dân sự', N'Anh/Chị-Em'),
+(N'Dân sự', N'song sinh'),
+(N'Dân sự', N'Cô/Chú-Cháu'),
+(N'Dân sự', N'Dì/Cậu-Cháu'),
+(N'Dân sự', N'Ông/Bà-Cháu'),
 
-(N'pháp lý', N'Cha/Mẹ-Con'),
-(N'pháp lý', N'Anh/Chị-Em'),
-(N'pháp lý', N'song sinh'),
-(N'pháp lý', N'Cô/Chú-Cháu'),
-(N'pháp lý', N'Dì/Cậu-Cháu'),
-(N'pháp lý', N'Ông/Bà-Cháu');
+(N'Pháp lý', N'Cha/Mẹ-Con'),
+(N'Pháp lý', N'Anh/Chị-Em'),
+(N'Pháp lý', N'song sinh'),
+(N'Pháp lý', N'Cô/Chú-Cháu'),
+(N'Pháp lý', N'Dì/Cậu-Cháu'),
+(N'Pháp lý', N'Ông/Bà-Cháu');
 go
 INSERT INTO Duration(DurationName )
 VALUES
-(N'gói 6h'),
-(N'gói 24h'),
-(N'gói 48h');
+(N'Gói 6h'),
+(N'Gói 24h'),
+(N'Gói 48h');
 go
 INSERT INTO ServicePrice(ServiceID,DurationID,Price)
 VALUES
-(1,1,N'2500000'),
-(1,2,N'2000000'),
-(1,3,N'1500000'),
-(7,1,N'3500000'),
-(7,2,N'3000000'),
-(7,3,N'2500000');
+(1,1,2500000),
+(1,2,2000000),
+(1,3,1500000),
+(7,1,3500000),
+(7,2,3000000),
+(7,3,2500000);
 go
 INSERT INTO CollectionMethod (MethodName)
 VALUES
-(N'tự thu mẫu tại nhà'),
-(N'thu mẫu tại nhà'),
-(N'thu mẫu tại cơ sở y tế');
+(N'Tự thu mẫu tại nhà'),
+(N'Thu mẫu tại nhà'),
+(N'Thu mẫu tại cơ sở y tế');
 go
 INSERT INTO Status(StatusName)
 VALUES
-(N'chờ xác nhận'),
-(N'đã thu mẫu'),
-(N'đang thực hiện'),
-(N'hoàn thành');
-go
-INSERT INTO Booking(UserID,DurationID,ServiceID,MethodID,AppointmentTime,StatusID,Date)
-VALUES
-(1,1,1,1,'2025-07-02 13:36:47.930',1,'2025-07-02 13:36:47.930');
+(N'Chờ xác nhận'),
+(N'Đang thực hiện'),
+(N'Hoàn thành'),
+(N'Đã hủy'),
+(N'Đang chờ duyệt');
 go
 INSERT INTO Samples(SampleName)
  VALUES
- (N'máu'),
+ (N'Máu'),
  (N'Móng tay/chân'),
  (N'Tóc'),
  (N'Niêm mạc miệng');
 go
-
+INSERT INTO TestStep(StepName)
+  VALUES
+  (N'Đang chờ xác nhận'),
+  (N'Đã xác nhận'),
+  (N'Đang gửi bộ kit'),
+  (N'Đã nhận bộ kit'),
+  (N'Đã gửi mẫu'),
+  (N'Đang chờ lấy mẫu'),
+  (N'Đã thu mẫu thành công'),
+  (N'Đang xét nghiệm'),
+  (N'Trả kết quả xét nghiệm');
+go
 INSERT INTO PaymentMethod(PaymentMethodId,MethodName, IconURL)
 VALUES
 (1, N'VNPAY', 'https://cdn.brandfetch.io/idV02t6WJs/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B'),

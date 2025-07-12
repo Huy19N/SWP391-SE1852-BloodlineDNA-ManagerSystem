@@ -1,16 +1,17 @@
 // PaymentForm.jsx
-import  { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../config/axios'; 
 import { toast } from 'react-toastify';
 
 function PaymentForm() {
-  const selectedService = JSON.parse(localStorage.getItem('selectedService')) || {};
+  const selectedService = JSON.parse(localStorage.getItem('selectedService')) ;
   const userId = localStorage.getItem("userId");
+  const bookingId = localStorage.getItem("bookingId");
 
   const [orderType, setOrderType] = useState(selectedService.mainType || "");
   const [amount, setAmount] = useState(selectedService.price || 0);
   const [orderDescription, setOrderDescription] = useState(
-    `Thanh toán dịch vụ ${selectedService.testType || ""}`
+    `Thanh toán dịch vụ ${selectedService.testType }`
   );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,31 +33,37 @@ function PaymentForm() {
     fetchUser();
   }, [userId]);
 
- const handlePayment = async (e) => {
-  e.preventDefault();  
+  const handlePayment = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await api.post('/Payment', {
-      orderType,
-      amount,
-      bookingId: 1,
-      email
-    });
-
-    const result = response.data;
-    console.log(" Payment API response:", result);
-
-    if (result.success) {
-      toast.success("Redirecting to VNPay...");
-      window.location.href = result.data;
-    } else {
-      toast.error("Failed to create payment.");
+    // Kiểm tra dữ liệu đầu vào
+    if (!bookingId || !email || amount <= 0) {
+      toast.error("Thiếu thông tin thanh toán!");
+      return;
     }
-  } catch (err) {
-    console.error("Payment error:", err);
-    toast.error("Payment request failed.");
-  }
-};
+
+    try {
+      const response = await api.post('/Payment', {
+        paymentMethodId: 0,
+        orderType,
+        amount,
+        bookingId: Number(bookingId),
+        email
+      });
+
+      const result = response.data;
+      if (result.success) {
+        toast.success("thành công");
+        window.location.href = result.data;
+      } else {
+        toast.error("lỗi xác nhận");
+        console.log(" phản hồi API:", result);
+      }
+    } catch (err) {
+      console.error("lỗi xác nhận:", err);
+      toast.error("lỗi");
+    }
+  };
 
   return (
     <div className="container mt-5 p-5">
