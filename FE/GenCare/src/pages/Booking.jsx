@@ -162,7 +162,44 @@ function Booking() {
     };
 
     console.log("Dữ liệu gửi đi:", bookingData);
-    await api.post("Patient/CreatePatientWithBooking", bookingData);
+    const response = await api.post("Patient/CreatePatientWithBooking", bookingData);
+
+    //  Lấy bookingId từ response 
+    const bookingId = response?.data?.data?.bookingId;
+    const methodId = selectedService?.collectionMethodId;
+
+    if (!bookingId) {
+      toast.error("Không thể lấy bookingId để tạo testprocess.");
+      return;
+    }
+
+    //  lấy bước dựa theo colectionmethod
+    const getStepsByCollectionMethod = (methodId) => {
+      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const shortSteps = [1, 2, 6, 7, 8, 9];
+      return methodId === 1 ? fullSteps : shortSteps;
+    };
+
+    const steps = getStepsByCollectionMethod(methodId);
+    const stepCount = steps.length.toString();//tính số bước để cho vào description
+    //  Gửi lần lượt các testprocess
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i];
+      const process = {
+        bookingId: bookingId,
+        stepId: step,
+        statusId: i === 0 ? 1 : 2,
+        description: stepCount+" bước",
+        updatedAt: new Date().toISOString()
+      };
+
+      try {
+        await api.post("/TestProcess/Create", process);
+        console.log(` Đã tạo bước ${step}`);
+      } catch (err) {
+        console.error(` Lỗi khi tạo bước ${step}:`, err);
+      }
+    }
 
     toast.success("Đăng ký thành công!");
     navigate("/payment");

@@ -1,4 +1,5 @@
-﻿using APIGeneCare.Model;
+﻿using APIGeneCare.Entities;
+using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -92,13 +93,14 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var isCreate = _patientRepository.CreatePatientWithBooking(bookingWithPatient);
-                if (isCreate)
+                var bookingId = _patientRepository.CreatePatientWithBooking(bookingWithPatient);
+                if (bookingId > 0)
                 {
                     return Ok(new ApiResponse
                     {
                         Success = true,
-                        Message = "Create Successful"
+                        Message = "Create Successful",
+                        Data = new { bookingId }
                     });
                 }
                 else
