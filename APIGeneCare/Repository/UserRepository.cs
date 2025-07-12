@@ -1,85 +1,124 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net;
+using System.Net.Sockets;
 
 namespace APIGeneCare.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly GeneCareContext _context;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly Jwt _appSettings;
         public static int PAGE_SIZE { get; set; } = 10;
-        private readonly AppSettings _appSettings;
 
         public UserRepository(GeneCareContext context,
-            IOptionsMonitor<AppSettings> optionsMonitor)
+            IOptionsMonitor<Jwt> optionsMonitor,
+            IRefreshTokenRepository refreshTokenRepository)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
+            _refreshTokenRepository = refreshTokenRepository;
         }
-        public TokenModel GenerateToken(UserDTO user)
+        public async Task<Object?> Login(LoginModel model, HttpContext context)
         {
-            var jwtTokenHandler = new JsonWebTokenHandler();
-            var secretKeyBytes = Encoding.UTF8.GetBytes(_appSettings.SecretKey);
-            var role = _context.Roles.SingleOrDefault(r => r.RoleId == user.RoleId);
-            if (role == null || String.IsNullOrWhiteSpace(role.RoleName)) return null!;
-
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("id", user.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, role.RoleName),
-                    new Claim("TokenId", Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes),
-                SecurityAlgorithms.HmacSha512Signature)
-            };
-            var accessToken = jwtTokenHandler.CreateToken(tokenDescription);
-            var refreshToken = GenerateRefreshToken();
-
-            return new TokenModel
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken,
-                Role = role.RoleId,
-                userId = user.UserId,
-            };
-        }
-        private string GenerateRefreshToken()
-        {
-            var random = new byte[125];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(random);
-                return Convert.ToBase64String(random);
-            }
-        }
-        public UserDTO? Validate(LoginModel model)
-        {
-            var user = _context.Users
-                .SingleOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null) return null;
+            var ipAddress = string.Empty;
+            try
+            {
+                var remoteIpAddress = context.Connection.RemoteIpAddress;
 
-            return new UserDTO
+                if (remoteIpAddress != null)
+                {
+                    if (remoteIpAddress.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
+                        remoteIpAddress = Dns.GetHostEntry(remoteIpAddress).AddressList
+                            .FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+                    }
+
+                    if (remoteIpAddress != null) ipAddress = remoteIpAddress.ToString();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ipAddress = "127.0.0.1";
+            }
+
+
+            var UserAgent = context.Request.Headers["User-Agent"].ToString();
+
+            if (!string.IsNullOrEmpty(model.Password) &&
+                user.Password != model.Password)
+            {
+                var log = await _context.LogLogins.Where(x => x.Ipaddress == ipAddress)
+                    .OrderByDescending(x => x.LoginTime)
+                    .Take(_appSettings.MaxCountOfLogin)
+                    .ToListAsync();
+
+                int count = 0;
+                foreach (var x in log)
+                {
+                    if (x.Success) break;
+                    count++;
+                }
+                if (count > 0)
+                {
+                    var nearlyFailedLogin = log.First().LoginTime;
+                    if (nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count) < DateTime.UtcNow)
+                    {
+                        return new LockResponseModel
+                        {
+                            Success = false,
+                            Message = "Your account is locked due to too many failed login attempts. Please try again later.",
+                            LockoutEnd = nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
+                        };
+                    }
+                }
+                count++;
+                await _context.LogLogins.AddAsync(new LogLogin
+                {
+                    UserId = user.UserId,
+                    RefreshTokenId = null,
+                    Success = false,
+                    FailReason = "Invalid password",
+                    Ipaddress = ipAddress,
+                    UserAgent = UserAgent,
+                    LoginTime = DateTime.UtcNow,
+                });
+
+                _context.SaveChanges();
+                return new LockResponseModel
+                {
+                    Success = false,
+                    Message = "Your account is locked due to too many failed login attempts. Please try again later.",
+                    LockoutEnd = DateTime.UtcNow.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
+                };
+            }
+            ;
+
+            var UserDTO = new UserDTO
             {
                 UserId = user.UserId,
                 RoleId = user.RoleId,
+                IdentifyId = user.IdentifyId,
                 FullName = user.FullName,
                 Address = user.Address,
                 Email = user.Email,
                 Phone = user.Phone,
-                Password = user.Password
+                Password = user.Password,
+                UserAgent = context.Request.Headers["User-Agent"].ToString(),
+                IPAddress = ipAddress,
+                LastPwdChange = user.LastPwdChange,
             };
+            var token = await _refreshTokenRepository.GenerateTokenModel(UserDTO);
+            return token;
         }
 
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)

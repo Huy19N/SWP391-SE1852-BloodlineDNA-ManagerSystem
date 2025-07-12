@@ -160,7 +160,7 @@ namespace APIGeneCare.Repository
             try
             {
                 if (testProcess == null) return false;
-                var existTestProcess = GetTestProcessById(testProcess.ProcessId);
+                var existTestProcess = _context.TestProcesses.FirstOrDefault(x=> x.ProcessId == testProcess.ProcessId);
                 if (existTestProcess == null) return false;
 
                 existTestProcess.BookingId = testProcess.BookingId;

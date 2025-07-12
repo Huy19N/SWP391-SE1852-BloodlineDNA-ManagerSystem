@@ -1,14 +1,23 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Repository.Interface;
+using MailKit.Net.Smtp;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace APIGeneCare.Repository
 {
     public class VerifyEmailRepository : IVerifyEmailRepository
     {
         private readonly GeneCareContext _context;
-        public static int PAGE_SIZE { get; set; } = 10;
-        public VerifyEmailRepository(GeneCareContext context) => _context = context;
+        public readonly EmailSettings _emailSettings;
+        public VerifyEmailRepository(GeneCareContext context, IOptionsMonitor<EmailSettings> query)
+        {
+            _context = context;
+            _emailSettings = query.CurrentValue;
+        }
         public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
@@ -71,8 +80,7 @@ namespace APIGeneCare.Repository
         {
             try
             {
-                var send = new SendConfirmEmailModel();
-                var key = Guid.NewGuid().ToString();
+                var key = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().ToString();
                 if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(apiConfirmEmail)) return false;
                 #region body
                 var body = $"<!DOCTYPE html>\r\n" +
@@ -149,10 +157,11 @@ namespace APIGeneCare.Repository
                 {
                     bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
                     {
-                        Email = email,
-                        CreatedAt = DateTime.Now,
-                        ExpiredAt = DateTime.Now.AddMinutes(10),
                         Key = key,
+                        Email = email,
+                        IsResetPwd = false,
+                        CreatedAt = DateTime.UtcNow,
+                        ExpiredAt = DateTime.UtcNow.AddMinutes(_emailSettings.ExpiredConfirmAt),
                     }));
                 }
                 else
@@ -166,7 +175,225 @@ namespace APIGeneCare.Repository
                     }));
                 }
 
-                await send.SendEmailAsync(email, "Confirm email by GeneCare", body);
+                await SendEmailAsync(email, "Confirm email by GeneCare", body);
+
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<bool> SendEmailConfirmForgetPassword(string email, string apiConfirmEmail)
+        {
+            try
+            {
+
+                if (_context.Users.FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower()) == null) return false;
+
+                
+                var key = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().ToString();
+                if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(apiConfirmEmail)) return false;
+                #region body
+                var body = $@"
+                <!DOCTYPE html>
+                <html lang=""vi"">
+                <head>
+                  <meta charset=""UTF-8"">
+                  <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                  <title>Thắp Lại Ánh Sáng - GeneCare</title>
+                  <link href=""https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"" rel=""stylesheet"">
+                  <style>
+                    @keyframes fadeIn {{
+                      from {{ opacity: 0; transform: scale(0.9); }}
+                      to {{ opacity: 1; transform: scale(1); }}
+                    }}
+                    @keyframes bounce {{
+                      0%, 20%, 50%, 80%, 100% {{ transform: translateY(0); }}
+                      40% {{ transform: translateY(-15px); }}
+                      60% {{ transform: translateY(-7px); }}
+                    }}
+                    @keyframes gradientShift {{
+                      0% {{ background-position: 0% 50%; }}
+                      50% {{ background-position: 100% 50%; }}
+                      100% {{ background-position: 0% 50%; }}
+                    }}
+                    @keyframes sparkle {{
+                      0% {{ opacity: 0; transform: translateY(0); }}
+                      50% {{ opacity: 1; transform: translateY(10px); }}
+                      100% {{ opacity: 0; transform: translateY(20px); }}
+                    }}
+                    body {{
+                      margin: 0;
+                      padding: 0;
+                      font-family: 'Quicksand', sans-serif;
+                      background: linear-gradient(135deg, #FFF0F5, #E0FFFF);
+                      overflow: hidden;
+                    }}
+                    .star {{
+                      position: absolute;
+                      width: 8px;
+                      height: 8px;
+                      background: rgba(255,255,255,0.8);
+                      border-radius: 50%;
+                      animation: sparkle 3s infinite;
+                    }}
+                    .container {{
+                      background: #fff;
+                      max-width: 650px;
+                      margin: 60px auto;
+                      border-radius: 20px;
+                      box-shadow: 0 12px 50px rgba(0,0,0,0.25);
+                      padding: 50px 40px;
+                      text-align: center;
+                      position: relative;
+                      animation: fadeIn 1.2s ease-out;
+                      border: 3px solid #FFC0CB;
+                    }}
+                    .container::before {{
+                      content: '';
+                      position: absolute;
+                      top: -5px; left: -5px; right: -5px; bottom: -5px;
+                      border-radius: 25px;
+                      background: linear-gradient(270deg, #FFDEE9, #B5FFFC, #FFDEE9);
+                      background-size: 600% 600%;
+                      z-index: -1;
+                      animation: gradientShift 10s ease infinite;
+                      filter: blur(15px);
+                    }}
+                    .icon {{
+                      font-size: 80px;
+                      color: #FF69B4;
+                      margin-bottom: 25px;
+                      animation: bounce 2s infinite;
+                      text-shadow: 0 4px 20px rgba(255,105,180,0.6);
+                    }}
+                    h2 {{
+                      color: #FF1493;
+                      font-size: 30px;
+                      margin-bottom: 18px;
+                      font-weight: 700;
+                      letter-spacing: 1px;
+                    }}
+                    p {{
+                      color: #555;
+                      font-size: 17px;
+                      line-height: 1.8;
+                      margin-bottom: 35px;
+                      max-width: 550px;
+                      margin-left: auto;
+                      margin-right: auto;
+                    }}
+                    p strong {{
+                      color: #FF1493;
+                    }}
+                    .btn-confirm {{
+                      display: inline-block;
+                      padding: 18px 48px;
+                      background: linear-gradient(90deg, #FF6FD8 0%, #3813C2 100%);
+                      color: #fff;
+                      border-radius: 12px;
+                      text-decoration: none;
+                      font-weight: 700;
+                      font-size: 19px;
+                      transition: all 0.4s ease;
+                      box-shadow: 0 8px 25px rgba(255,105,180,0.4);
+                      text-transform: uppercase;
+                      position: relative;
+                      overflow: hidden;
+                    }}
+                    .btn-confirm::before {{
+                      content: '';
+                      position: absolute;
+                      top: 0;
+                      left: -100%;
+                      width: 100%;
+                      height: 100%;
+                      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+                      transition: all 0.7s ease;
+                      transform: skewX(-20deg);
+                    }}
+                    .btn-confirm:hover {{
+                      transform: translateY(-5px) scale(1.05);
+                      box-shadow: 0 15px 40px rgba(255,105,180,0.6);
+                    }}
+                    .btn-confirm:hover::before {{
+                      left: 100%;
+                    }}
+                    .footer {{
+                      margin-top: 50px;
+                      color: #888;
+                      font-size: 14px;
+                      line-height: 1.7;
+                      border-top: 1px dashed #ddd;
+                      padding-top: 25px;
+                    }}
+                    .footer strong {{
+                      color: #FF1493;
+                    }}
+                    @media (max-width: 700px) {{
+                      .container {{
+                        padding: 40px 25px;
+                      }}
+                      .icon {{ font-size: 60px; }}
+                      h2 {{ font-size: 26px; }}
+                      p {{ font-size: 16px; }}
+                      .btn-confirm {{
+                        padding: 14px 30px;
+                        font-size: 17px;
+                      }}
+                    }}
+                  </style>
+                </head>
+                <body>
+                  <div class=""star"" style=""top:10%; left:20%; animation-delay:0s;""></div>
+                  <div class=""star"" style=""top:30%; left:70%; animation-delay:1s;""></div>
+                  <div class=""star"" style=""top:50%; left:40%; animation-delay:2s;""></div>
+                  <div class=""star"" style=""top:70%; left:80%; animation-delay:1.5s;""></div>
+                  <div class=""container"">
+                    <div class=""icon"">&#128302;</div>
+                    <h2>Thắp Lại Ánh Sáng Cho Hành Trình Của Bạn!</h2>
+                    <p>
+                      Xin chào, nhà lữ hành dũng cảm của <strong>GeneCare</strong>!<br><br>
+                      Đôi khi trong hành trình dài, ta cần một ngọn lửa mới để tiếp tục khám phá. Chúng tôi vừa nhận được tín hiệu yêu cầu <strong>khôi phục mật khẩu</strong> cho tài khoản của bạn.<br>
+                      Đừng lo, ánh sáng đang chờ bạn ở phía trước. Một cú chạm nhẹ, bạn sẽ khôi phục sức mạnh, mở ra những điều kỳ diệu phía sau cánh cửa.<br>
+                      Hãy nhấn vào nút dưới đây để bắt đầu tái sinh và tiếp tục hành trình vĩ đại của riêng bạn:
+                    </p>
+                    <a href=""{apiConfirmEmail}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
+                    <div class=""footer"">
+                      Nếu bạn không phải người gửi yêu cầu, xin hãy bỏ qua email này như một vì sao băng thoáng qua.<br><br>
+                      Luôn đồng hành và bảo vệ bạn,<br>
+                      <strong>Đội ngũ GeneCare</strong> – Nơi Mọi Cuộc Hành Trình Khỏe Mạnh Bắt Đầu
+                    </div>
+                  </div>
+                </body>
+                </html>
+                ";
+                #endregion
+                var verifyEmail = GetVerifyEmailByEmail(email);
+                if (verifyEmail != null)
+                {
+                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
+                    {
+                        Email = email,
+                        CreatedAt = DateTime.Now,
+                        ExpiredAt = DateTime.Now.AddMinutes(10),
+                        Key = key,
+                    }));
+                }
+                else
+                {
+                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
+                    {
+                        Key = key,
+                        Email = email,
+                        IsResetPwd = true,
+                        CreatedAt = DateTime.Now,
+                        ExpiredAt = DateTime.Now.AddMinutes(_emailSettings.ExpiredConfirmAt)
+                    }));
+                }
+
+                await SendEmailAsync(email, "Confirm email by GeneCare", body);
 
                 return true;
             }
@@ -189,6 +416,21 @@ namespace APIGeneCare.Repository
             {
                 throw;
             }
+        }
+
+        private async Task SendEmailAsync(string toEmail, string subject, string body)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("GeneCare", _emailSettings.SmtpUser));
+            message.To.Add(new MailboxAddress("", toEmail));
+            message.Subject = subject;
+            message.Body = new TextPart("html") { Text = body };
+
+            using var client = new SmtpClient();
+            await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+            await client.AuthenticateAsync(_emailSettings.SmtpUser, _emailSettings.SmtpPass);
+            await client.SendAsync(message);
+            await client.DisconnectAsync(true);
         }
     }
 }

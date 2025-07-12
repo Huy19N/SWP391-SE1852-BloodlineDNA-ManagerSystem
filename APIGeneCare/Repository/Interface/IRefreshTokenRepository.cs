@@ -1,13 +1,15 @@
-﻿using APIGeneCare.Model.DTO;
+﻿using APIGeneCare.Entities;
+using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 
 namespace APIGeneCare.Repository.Interface
 {
     public interface IRefreshTokenRepository
     {
-        IEnumerable<RefreshTokenDTO> GetAllRefreshTokensPaging(string? typeSearch, string? search, string? sortBy, int? page);
-        RefreshTokenDTO? GetRefreshTokenById(int id);
-        bool CreateRefreshToken(RefreshTokenDTO refreshToken);
-        bool UpdateRefreshToken(RefreshTokenDTO refreshToken);
-        bool DeleteRefreshTokenById(int id);
+        Task<RefreshToken?> IsRefreshTokenValid(string token);
+        Task<TokenModel> GenerateTokenModel(UserDTO user);
+        Task<string> GenerateAccessTokenByRefToken(string token);
+        Task<string> GenerateRefreshToken(UserDTO user, string jwtId);
+        Task<bool> DeleteRefreshTokenByUser(UserDTO user);
     }
 }

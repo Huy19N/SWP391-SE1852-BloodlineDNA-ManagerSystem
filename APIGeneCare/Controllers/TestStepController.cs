@@ -1,7 +1,6 @@
 ﻿using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
