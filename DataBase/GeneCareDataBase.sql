@@ -232,7 +232,7 @@ CREATE TABLE VerifyEmail (
 -------------------------------------------INSERT DATA---------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES
 (1, N'Customer'),
-(2, N'Employee'),
+(2, N'Staff'),
 (3, N'Manage'),
 (4, N'Admin');
 go
