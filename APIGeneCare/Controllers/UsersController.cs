@@ -13,27 +13,37 @@ namespace APIGeneCare.Controllers
         public UsersController(IUserRepository userRepository) => _userRepository = userRepository;
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Validate(LoginModel model)
+        public async Task<IActionResult> Validate(LoginModel loginModel)
         {
-
             try
             {
-                var user = await Task.Run(() => _userRepository.Validate(model));
-                if (user == null)
+                var model = await Task.Run(() => _userRepository.Login(loginModel, HttpContext));
+                if (model == null)
                 {
-                    return Unauthorized(new ApiResponse
+                    return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "Unauthorized user",
+                        Message = "Not found user!",
                     });
                 }
-                var Token = await Task.Run(() => _userRepository.GenerateToken(user));
-
-                return Ok(new ApiResponse
+                if (model is LockResponseModel)
                 {
-                    Success = true,
-                    Message = "Authentication Success",
-                    Data = Token
+                    return StatusCode(StatusCodes.Status423Locked, model);
+                }
+
+                if (model is TokenModel)
+                {
+                    return Ok(new ApiResponse
+                    {
+                        Success = true,
+                        Message = "Login response",
+                        Data = model
+                    });
+                }
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = "What are you doing?",
                 });
             }
             catch (Exception ex)
@@ -219,7 +229,7 @@ namespace APIGeneCare.Controllers
         // put: api/Users/id
         //Updates a specific user by ID.
         [HttpPut("Update/{id}")]
-        public ActionResult UpdateUser(UserDTO user)
+        public IActionResult UpdateUser(UserDTO user)
         {
             try
             {
@@ -239,6 +249,48 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating user: {ex.Message}");
             }
         }
+
+        //[HttpPut("ForgetPasword")]
+        //public async Task<IActionResult> ForgetPassword(string email)
+        //{
+        //    try
+        //    {
+        //        if (resetPasswordModel == null || string.IsNullOrEmpty(resetPasswordModel.Email) ||
+        //            string.IsNullOrEmpty(resetPasswordModel.Password) ||
+        //            string.IsNullOrEmpty(resetPasswordModel.ConfirmPassword))
+        //        {
+        //            return BadRequest(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "Invalid reset password request",
+        //                Data = null
+        //            });
+        //        }
+        //        var isReset = _userRepository.ResetPassword(resetPasswordModel);
+        //        if (isReset)
+        //        {
+        //            return Ok(new ApiResponse
+        //            {
+        //                Success = true,
+        //                Message = "Password reset successfully",
+        //                Data = null
+        //            });
+        //        }
+        //        else
+        //        {
+        //            return NotFound(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "User not found or old password is incorrect",
+        //                Data = null
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, $"Error resetting password: {ex.Message}");
+        //    }
+        //}
         // DELETE: api/Users/id
         //Deletes a specific user by ID.
         [HttpDelete("DeleteById/{id}")]

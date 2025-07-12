@@ -20,13 +20,47 @@ CREATE TABLE Role (
 -- Bảng Users
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
-    RoleID INT FOREIGN KEY REFERENCES Role(RoleID),
+    RoleID INT NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
     FullName NVARCHAR(150),
 	IdentifyID INT,
     [Address] NVARCHAR(500),
     Email NVARCHAR(200) NOT NULL UNIQUE,
     Phone VARCHAR(20),
-    [Password] NVARCHAR(100)
+    [Password] NVARCHAR(100),
+	LastPwdChange DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+-- Bảng RefreshToken
+CREATE TABLE RefreshToken (
+    RefreshTokenId INT PRIMARY KEY IDENTITY(1,1),
+    UserID INT FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
+    Token NVARCHAR(500) UNIQUE,
+    JwtId NVARCHAR(100) UNIQUE,
+    CreatedAt DATETIME NOT NULL,
+    ExpiredAt DATETIME NOT NULL,
+	Revoked BIT NOT NULL DEFAULT 0,
+	IPAddress NVARCHAR(255),
+	UserAgent NVARCHAR(MAX)
+);
+
+--Bảng LogLogin
+CREATE TABLE LogLogin(
+	LogId INT PRIMARY KEY IDENTITY(1,1),
+	UserID INT FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
+	RefreshTokenId INT NULL FOREIGN KEY REFERENCES RefreshToken(RefreshTokenId),
+	Success BIT NOT NULL DEFAULT 0,
+	FailReason NVARCHAR(255),
+	IPAddress NVARCHAR(255),
+	UserAgent NVARCHAR(MAX),
+	LoginTime DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+--Bảng AccessTokenBlacklist
+CREATE TABLE AccessTokenBlacklist(
+	JwtId VARCHAR(50) PRIMARY KEY,
+	UserID INT FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
+	ExpireAt DATETIME NOT NULL,
+	Reason NVARCHAR(500)
 );
 
 -- Bảng Service
@@ -184,22 +218,14 @@ CREATE TABLE PaymentReturnLog(
 	ResponseCode NVARCHAR(50) NOT NULL
 );
 
--- Bảng RefreshToken
-CREATE TABLE RefreshToken (
-    TokenID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    Token NVARCHAR(500),
-    JwtId NVARCHAR(255),
-    IssueAt DATETIME,
-    ExpiredAt DATETIME
-);
-
 -- Bảng VerifyEmail
 CREATE TABLE VerifyEmail (
-    Email NVARCHAR(200) PRIMARY KEY,
-    CreatedAt DATETIME,
-    ExpiredAt DATETIME,
-    [Key] NVARCHAR(255)
+	[Key] NVARCHAR(255) NOT NULL PRIMARY KEY,
+    Email NVARCHAR(200) NOT NULL,
+	IsResetPwd BIT NOT NULL,
+    CreatedAt DATETIME NOT NULL,
+    ExpiredAt DATETIME NOT NULL,
+    
 );
 
 
@@ -210,12 +236,12 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 (3, N'Manage'),
 (4, N'Admin');
 go
-INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password)
+INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password, LastPwdChange)
 VALUES 
-(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123'),
-(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123'),
-(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123'),
-(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123');
+(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123', DATEADD(day, -7, GETDATE())),
+(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123', DATEADD(day, -7, GETDATE())),
+(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123', DATEADD(day, -7, GETDATE())),
+(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123', DATEADD(day, -7, GETDATE()));
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 

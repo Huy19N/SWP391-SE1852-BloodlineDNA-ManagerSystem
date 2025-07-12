@@ -1,10 +1,11 @@
 using APIGeneCare.Entities;
-using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Repository;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,23 @@ builder.Services.AddCors(options =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Enter your JWT Bearer token in the format **Bearer {your token}**",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+});
 
 // 
 builder.Services.AddCors(options =>
@@ -37,9 +54,7 @@ builder.Services.AddCors(options =>
 });
 
 
-//
-
-
+// 
 builder.Services.AddDbContext<GeneCareContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -66,8 +81,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
 #endregion
 
-var secretKey = builder.Configuration["AppSettings:SecretKey"];
-var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? null!);
+var secretKey = builder.Configuration["Jwt:SecretKey"];
+var secretKeyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey ?? string.Empty);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -85,9 +100,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
     };
 });
-
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-
+#region add configuration AppSettings
+builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<Vnpay>(builder.Configuration.GetSection("Vnpay"));
+builder.Services.Configure<Momo>(builder.Configuration.GetSection("Momo"));
+#endregion
+builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

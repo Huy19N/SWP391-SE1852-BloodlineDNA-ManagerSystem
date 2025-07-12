@@ -2,10 +2,12 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Entities;
 using APIGeneCare.Libararies;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Model.Payment;
 using APIGeneCare.Model.Payment.VnPay;
 using APIGeneCare.Repository.Interface;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System.Text;
 using System.Text.Json;
@@ -16,9 +18,16 @@ namespace APIGeneCare.Repository
     {
         private readonly GeneCareContext _context;
         private readonly IConfiguration _configuration;
-        public PaymentRepository(GeneCareContext context, IConfiguration configuration)
+        private readonly Vnpay _vnpay;
+        private readonly Momo _momo;
+        public PaymentRepository(GeneCareContext context, 
+            IOptionsMonitor<Vnpay> vnpayOptions,
+            IOptionsMonitor<Momo> momoOptions,
+            IConfiguration configuration)
         {
             _context = context;
+            _vnpay = vnpayOptions.CurrentValue;
+            _momo = momoOptions.CurrentValue;
             _configuration = configuration;
         }
 
@@ -136,7 +145,7 @@ namespace APIGeneCare.Repository
                     TransactionNo = null,
                     BankTranNo = null,
                     Amount = model.Amount,
-                    Currency = _configuration["Vnpay:CurrCode"],
+                    Currency = _vnpay.CurrCode,
                     PaymentDate = timeNow,
                     OrderInfo = null,
                     SecureHash = null,
@@ -145,21 +154,21 @@ namespace APIGeneCare.Repository
                 };
                 _context.Payments.Add(payment);
                 _context.SaveChanges();
-                pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
-                pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
-                pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:TmnCode"]);
+                pay.AddRequestData("vnp_Version", _vnpay.Version);
+                pay.AddRequestData("vnp_Command", _vnpay.Command);
+                pay.AddRequestData("vnp_TmnCode", _vnpay.TmnCode);
                 pay.AddRequestData("vnp_Amount", ((int)model.Amount * 100).ToString());
                 pay.AddRequestData("vnp_CreateDate", timeNow.ToString("yyyyMMddHHmmss"));
-                pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
+                pay.AddRequestData("vnp_CurrCode", _vnpay.CurrCode);
                 pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
-                pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
+                pay.AddRequestData("vnp_Locale", _vnpay.Locale);
                 pay.AddRequestData("vnp_OrderInfo", $"{payment.PaymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
-                pay.AddRequestData("vnp_OrderType", model.OrderType);
-                pay.AddRequestData("vnp_ReturnUrl", _configuration["Vnpay:ReturnUrl"]);
+                pay.AddRequestData("vnp_OrderType", model.OrderType ?? string.Empty);
+                pay.AddRequestData("vnp_ReturnUrl", _vnpay.ReturnUrl);
                 pay.AddRequestData("vnp_TxnRef", tick);
 
                 var paymentUrl =
-                    pay.CreateRequestUrl(_configuration["Vnpay:EndpointURL"], _configuration["Vnpay:HashSecret"]);
+                    pay.CreateRequestUrl(_vnpay.EndpointURL,_vnpay.HashSecret);
 
                 var requestData = pay.GetAllRequestData();
                 requestData.TryGetValue("vnp_OrderInfo", out var orderInfo);
@@ -167,8 +176,8 @@ namespace APIGeneCare.Repository
 
                 payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
 
-                payment.OrderInfo = orderInfo.ToString();
-                payment.SecureHash = secureHash.ToString();
+                payment.OrderInfo = orderInfo?.ToString();
+                payment.SecureHash = secureHash?.ToString();
                 payment.RawData = JsonSerializer.Serialize(requestData);
 
                 _context.SaveChanges();
@@ -193,11 +202,11 @@ namespace APIGeneCare.Repository
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 var pay = new VnPayLibrary();
 
-                var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
+                var response = pay.GetFullResponseData(collections,_vnpay.HashSecret);
 
                 if (response.Success)
                 {
-                    var orderInfoSplit = response.OrderInfo.Split("|");
+                    var orderInfoSplit = response.OrderInfo?.Split("|");
                     long paymentId = long.Parse(orderInfoSplit[0]);
 
                     var paymentReturnLog = new PaymentReturnLog
@@ -205,8 +214,8 @@ namespace APIGeneCare.Repository
                         PaymentId = paymentId,
                         RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReturnedAt = timeNow,
-                        ResponseCode = response.ResponseCode,
-                        TransactionStatus = response.TransactionStatus,
+                        ResponseCode = response.ResponseCode ?? string.Empty,
+                        TransactionStatus = response.TransactionStatus ?? string.Empty,
                     };
                     _context.PaymentReturnLogs.Add(paymentReturnLog);
 
@@ -248,11 +257,11 @@ namespace APIGeneCare.Repository
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 var pay = new VnPayLibrary();
 
-                var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
+                var response = pay.GetFullResponseData(collections,_vnpay.HashSecret);
 
                 if (response.Success)
                 {
-                    var orderInfoSplit = response.OrderInfo.Split("|");
+                    var orderInfoSplit = response.OrderInfo?.Split("|");
                     long paymentId = long.Parse(orderInfoSplit[0]);
 
                     var paymentIpnlog = new PaymentIpnlog
@@ -260,8 +269,8 @@ namespace APIGeneCare.Repository
                         PaymentId = paymentId,
                         RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReceivedAt = timeNow,
-                        ResponseCode = response.ResponseCode,
-                        TransactionStatus = response.TransactionStatus,
+                        ResponseCode = response.ResponseCode ?? string.Empty,
+                        TransactionStatus = response.TransactionStatus ?? string.Empty,
                     };
                     _context.PaymentIpnlogs.Add(paymentIpnlog);
 
@@ -318,7 +327,7 @@ namespace APIGeneCare.Repository
                     TransactionNo = null,
                     BankTranNo = null,
                     Amount = model.Amount,
-                    Currency = _configuration["Momo:currency"],
+                    Currency = _momo.Currency,
                     PaymentDate = timeNow,
                     OrderInfo = null,
                     SecureHash = null,
@@ -330,20 +339,20 @@ namespace APIGeneCare.Repository
 
                 payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
 
-                pay.AddRequestData("accessKey", _configuration["Momo:accessKey"]);
+                pay.AddRequestData("accessKey", _momo.AccessKey);
                 pay.AddRequestData("amount", ((long)model.Amount).ToString());
                 pay.AddRequestData("extraData", "");
-                pay.AddRequestData("ipnUrl", _configuration["Momo:ipnUrl"]);
+                pay.AddRequestData("ipnUrl", _momo.IpnUrl);
                 pay.AddRequestData("orderId", payment.PaymentId.ToString());
                 pay.AddRequestData("orderInfo", $"{payment.PaymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
-                pay.AddRequestData("partnerCode", _configuration["Momo:partnerCode"]);
-                pay.AddRequestData("redirectUrl", _configuration["Momo:redirectUrl"]);
+                pay.AddRequestData("partnerCode",_momo.PartnerCode);
+                pay.AddRequestData("redirectUrl",_momo.RedirectUrl);
                 pay.AddRequestData("requestId", requestId);
-                pay.AddRequestData("requestType", _configuration["Momo:requestType"]);
+                pay.AddRequestData("requestType",_momo.RequestType);
 
-                var signature = pay.GenerateSignature(_configuration["Momo:HashSecret"]);
+                var signature = pay.GenerateSignature(_momo.HashSecret);
                 pay.AddRequestData("signature", signature);
-                pay.AddRequestData("lang", _configuration["Momo:lang"]);
+                pay.AddRequestData("lang", _momo.Lang);
 
                 var requestData = pay.GetAllRequestData();
                 var JSONRequestData = JsonSerializer.Serialize(requestData);
@@ -392,7 +401,7 @@ namespace APIGeneCare.Repository
 
                 var pay = new MomoLibrary();
 
-                var response = pay.GetFullResponse(collections, _configuration["Momo:accessKey"], _configuration["Momo:HashSecret"]);
+                var response = pay.GetFullResponse(collections, _momo.AccessKey,_momo.HashSecret);
 
                 if (response != null)
                 {
@@ -403,8 +412,8 @@ namespace APIGeneCare.Repository
                         PaymentId = paymentId,
                         RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReturnedAt = timeNow,
-                        ResponseCode = response.ResultCode,
-                        TransactionStatus = response.ResultCode,
+                        ResponseCode = response.ResultCode ?? string.Empty,
+                        TransactionStatus = response.ResultCode ?? string.Empty,
                     };
                     _context.PaymentReturnLogs.Add(paymentReturnLog);
 
@@ -457,19 +466,19 @@ namespace APIGeneCare.Repository
 
                 var pay = new MomoLibrary();
 
-                var response = pay.GetFullResponse(collections, _configuration["Momo:accessKey"], _configuration["Momo:HashSecret"]);
+                var response = pay.GetFullResponse(collections, _momo.AccessKey , _momo.HashSecret);
 
                 if (response != null)
                 {
-                    long paymentId = long.Parse(response.OrderId);
+                    long paymentId = long.Parse(response.OrderId ?? string.Empty);
 
                     var paymentIpnlog = new PaymentIpnlog
                     {
                         PaymentId = paymentId,
                         RawData = JsonSerializer.Serialize(pay.GetAllResponseData()),
                         ReceivedAt = timeNow,
-                        ResponseCode = response.ResultCode,
-                        TransactionStatus = response.ResultCode,
+                        ResponseCode = response.ResultCode ?? string.Empty,
+                        TransactionStatus = response.ResultCode ?? string.Empty,
                     };
                     _context.PaymentIpnlogs.Add(paymentIpnlog);
 
