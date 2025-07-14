@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import api from '../config/axios';
+import { parse, format } from 'date-fns';
 
 const userId = localStorage.getItem("userId");
 
 function Booking() {
   const navigate = useNavigate();
+
 
   const [selectedService, setSelectedService] = useState({});
   const [formData, setFormData] = useState({
@@ -136,22 +138,43 @@ function Booking() {
 
   try {
     // cập nhật user
+    const userRes = await api.get(`/Users/getbyid/${userId}`);
+    const existingUser = userRes.data.data;
+
     const updatedUser = {
-    userId: parseInt(userId),
-    fullName: formData.user.fullName,
-    identifyId: formData.user.cccd,
-    address: formData.user.address , 
-    phone: formData.user.phone ,     
+      ...existingUser, // giữ lại password, roleId, lastPwdChange, ...
+      fullName: formData.user.fullName,
+      email: formData.user.gmail,
+      identifyId: formData.user.cccd,
+      address: formData.user.address,
+      phone: formData.user.phone,
+      lastPwdChange: new Date().toISOString(), 
     };
     await api.put(`Users/Update/${userId}`, updatedUser);
 
+    const getAppointmentTime = (dayStr, slotStr) => {
+    const timeMap = {
+    'slot 1': '08:00',
+    'slot 2': '10:00',
+    'slot 3': '13:00',
+    'slot 4': '15:00',
+    };
+
+  const time = timeMap[slotStr] || '08:00';
+  const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
+
+  //ghép ngày và giờ lại thành chuỗi 
+  const dateTimeString = format(parsedDate, 'yyyy-MM-dd') + 'T' + time + ':00';
+  return new Date(dateTimeString).toISOString();
+  };
+    
     //tạo bôking
     const bookingData = {
       userId: parseInt(userId),
       durationId: selectedService?.duration?.durationId || selectedService?.durationId,
       serviceId: selectedService?.serviceId,
       methodId: selectedService?.collectionMethodId,
-      appointmentTime: new Date().toISOString(),
+      appointmentTime: getAppointmentTime(selectedService?.appointmentDay, selectedService?.appointmentSlot),
       date: new Date().toISOString(),
       statusId: 1,
       patients: [
@@ -181,6 +204,10 @@ function Booking() {
     };
 
     console.log("Dữ liệu gửi đi:", bookingData);
+    if (!formData.user.gmail) {
+    toast.error("Không thể cập nhật vì thiếu email. Vui lòng cập nhật Gmail trong thông tin người dùng.");
+    return;
+    }
     const response = await api.post("Patient/CreatePatientWithBooking", bookingData);
     if (response.data?.data?.bookingId) {
     localStorage.setItem("bookingId", response.data.data.bookingId);
@@ -260,7 +287,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">Gmail</label>
-        <input className="form-control" name="user.gmail" value={formData.user.gmail} type="email" onChange={handleChange} readOnly/>
+        <input className="form-control bg-light" name="user.gmail" value={formData.user.gmail} type="email" onChange={handleChange} readOnly/>
       </div>
       <div className="mb-3">
         <label className="form-label">CCCD</label>
