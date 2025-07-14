@@ -6,12 +6,12 @@ export default defineConfig({
   plugins: [react()],
 
   server: {
-    host: true,              // Cho phép truy cập từ bên ngoài
+    host: true,
     port: 5173,
     strictPort: true,
     cors: true,
     allowedHosts: [
-      '0c05-118-69-70-166.ngrok-free.app'  // 👈 Thêm domain ngrok ở đây
+      '4e52b0b055e2.ngrok-free.app'
     ]
   },
 })
