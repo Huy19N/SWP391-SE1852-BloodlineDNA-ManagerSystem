@@ -46,7 +46,7 @@ namespace APIGeneCare.Repository
 
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 ipAddress = "127.0.0.1";
             }

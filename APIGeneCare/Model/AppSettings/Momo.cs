@@ -3,7 +3,7 @@
     public class Momo
     {
         public string PartnerCode { get; set; } = string.Empty;
-        public string RedirectUrl { get; set;} = string.Empty;
+        public string RedirectUrl { get; set; } = string.Empty;
         public string IpnUrl { get; set; } = string.Empty;
         public string RequestType { get; set; } = string.Empty;
         public string Lang { get; set; } = string.Empty;

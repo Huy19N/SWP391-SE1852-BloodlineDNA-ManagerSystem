@@ -4,9 +4,12 @@ namespace APIGeneCare.Repository.Interface
 {
     public interface IVerifyEmailRepository
     {
-        bool ConfirmEmail(string email, string key);
-        Task<bool> SendConfirmEmail(string email, string apiConfirmEmail);
-        Task<bool> SendEmailConfirmForgetPassword(string email, string apiConfirmEmail);
+        Task<bool> SendConfirmEmail(string email);
+        Task<bool> ConfirmEmail(string email, string key);
+
+        Task<bool> SendEmailConfirmForgetPassword(string email);
+        Task<bool> ConfirmForgetPassword(string email, string key);
+
         VerifyEmail? GetVerifyEmailByEmail(string email);
         bool CreateVerifyEmail(VerifyEmail verifyEmail);
         bool UpdateVerifyEmail(VerifyEmail verifyEmail);

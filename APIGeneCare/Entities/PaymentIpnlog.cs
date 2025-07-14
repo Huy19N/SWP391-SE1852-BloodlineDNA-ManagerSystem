@@ -4,7 +4,7 @@ public partial class PaymentIpnlog
 {
     public long IpnlogId { get; set; }
 
-    public long PaymentId { get; set; }
+    public string PaymentId { get; set; } = null!;
 
     public string RawData { get; set; } = null!;
 

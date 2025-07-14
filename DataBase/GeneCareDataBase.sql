@@ -182,7 +182,7 @@ CREATE TABLE PaymentMethod(
 
 -- Bảng Payment
 CREATE TABLE Payment (
-    PaymentId BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+    PaymentId VARCHAR(200) PRIMARY KEY NOT NULL,
 	BookingId INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
 	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
 	TransactionStatus NVARCHAR(50),
@@ -201,7 +201,7 @@ CREATE TABLE Payment (
 -- Bảng PaymentIPNLog
 CREATE TABLE PaymentIPNLog(
 	IPNLogId BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	PaymentId BIGINT FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
+	PaymentId VARCHAR(200) FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
 	RawData NVARCHAR(MAX) NOT NULL,
 	ReceivedAt DateTime NOT NULL,
 	TransactionStatus NVARCHAR(50) NOT NULL,
@@ -211,7 +211,7 @@ CREATE TABLE PaymentIPNLog(
 -- Bảng PaymentReturnLog
 CREATE TABLE PaymentReturnLog(
 	ReturnLogId	 BIGINT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-	PaymentId BIGINT FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
+	PaymentId VARCHAR(200) FOREIGN KEY REFERENCES Payment(PaymentId) NOT NULL,
 	RawData NVARCHAR(MAX) NOT NULL,
 	ReturnedAt DateTime NOT NULL,
 	TransactionStatus NVARCHAR(50) NOT NULL,

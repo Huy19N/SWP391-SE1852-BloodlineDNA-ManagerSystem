@@ -100,11 +100,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
     };
 });
-#region add configuration AppSettings
+#region add configuration appsettings.json
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.Configure<Vnpay>(builder.Configuration.GetSection("Vnpay"));
 builder.Services.Configure<Momo>(builder.Configuration.GetSection("Momo"));
+builder.Services.Configure<FontEnd>(builder.Configuration.GetSection("FontEnd"));
 #endregion
 builder.Services.AddAuthorization();
 var app = builder.Build();
