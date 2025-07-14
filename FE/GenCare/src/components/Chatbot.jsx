@@ -22,11 +22,11 @@ export default function AIChatWidget() {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer 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',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'google/gemma-3-12b-it:free',
+          model: 'tngtech/deepseek-r1t2-chimera:free',
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content }))
         })
       });
