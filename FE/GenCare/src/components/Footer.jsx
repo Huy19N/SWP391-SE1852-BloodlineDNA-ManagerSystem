@@ -45,13 +45,6 @@ function Footer(){
                     
                     <div className="col-md-4 col-lg-4 col-xl-4 mx-auto mb-4">
                     <h6 className="text-uppercase fw-bold mb-4">Newsletter</h6>
-                        <p>Subscribe newsletter for the latest offers and news</p>
-                        <form className="input-group mb-3">
-                            <input type="email" className="form-control" placeholder="Email mail" required></input>
-                            <button className="btn btn-outline-secondary" type="submit">
-                                <i className="bi bi-send-fill"></i>
-                            </button>
-                        </form>
                         <div>
                             <a href="#" className="me-3 text-reset"><i className="bi bi-facebook fs-4"></i></a>
                             <a href="#" className="me-3 text-reset"><i className="bi bi-instagram fs-4"></i></a>

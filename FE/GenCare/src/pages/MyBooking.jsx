@@ -183,7 +183,7 @@ function MyBooking() {
             {/* Overlay Detail View (reuse your existing overlay component for detailData) */}
             {showOverlay && detailData && (
                 <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
-                    <div className="bg-white p-4 rounded shadow" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
+                    <div className="bg-white p-4 rounded shadow border-bottom" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
                         <h5>Booking Detail - #{detailData.booking.bookingId}</h5>
                         <p><strong>Service Name:</strong> {detailData.booking.service?.serviceName}</p>
                         <p><strong>Service Type:</strong> {detailData.booking.service?.serviceType}</p>
@@ -196,20 +196,7 @@ function MyBooking() {
                     </div>
 
                     {/* 2. User Info */}
-                    {/* <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
-                        <h2 className="">
-                                2. Information User
-                        </h2>
-                        <div>
-                        <div className="bg-white p-4 rounded shadow" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
-                            <p><strong>Full Name:</strong> {detailData.booking.user?.fullName}</p>
-                            <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
-                            <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
-                            <p><strong>Identify ID:</strong> {detailData.booking.user?.identifyId}</p>
-                            <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
-                        </div>
-                        </div>
-                    </div> */}
+                    
                 </div>
             )}
 

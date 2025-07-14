@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
 import Zalo from './components/Zalo.jsx';
+import ChatBot from './components/Chatbot.jsx';
 import ProtectedRoute from './pages/ProtectReute/protectedRoute.jsx';
 
 import Services from './pages/Services.jsx';
@@ -58,6 +59,7 @@ function App() {
     <>
     {!isAnonymous && <Header />}
     {!isAnonymous && <Zalo />}
+    {!isAnonymous && <ChatBot />}
     
     <Routes>
       {/*trang Home*/}

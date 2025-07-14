@@ -1,0 +1,78 @@
+import React, { useState } from 'react';
+import img1 from '../assets/blood-drop-svgrepo-com.svg';
+import '../css/index.css';
+
+export default function AIChatWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const toggleChat = () => setIsOpen(!isOpen);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMsg = { role: 'user', content: input };
+    setMessages(prev => [...prev, userMsg]);
+    setInput('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer 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',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'google/gemma-3-12b-it:free',
+          messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content }))
+        })
+      });
+      const data = await res.json();
+      const aiReply = data.choices?.[0]?.message?.content || 'Sorry, I could not understand.';
+      setMessages(prev => [...prev, { role: 'assistant', content: aiReply }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Error talking to AI.' }]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="chat-container">
+      {isOpen && (
+        <div className="chat-box">
+          <div className="chat-header">AI Chat Support</div>
+          <div className="chat-messages">
+            {messages.map((msg, idx) => (
+              <div key={idx} className={`chat-message ${msg.role}`}>
+                {msg.content}
+              </div>
+            ))}
+            {loading && <div className="chat-message assistant">Think...</div>}
+          </div>
+          <div className="chat-input">
+            <input
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              placeholder="Type your message..."
+            />
+            <button onClick={handleSend}>Send</button>
+          </div>
+        </div>
+      )}
+
+      <div className="ai-chat-button" onClick={toggleChat}>
+        <div className="ai-chat-label">
+          AI Chat
+        </div>
+        <div className="ai-chat-icon">
+          <img src={img1} alt="Chat" />
+        </div>    
+      </div>
+    </div>
+  );
+}
