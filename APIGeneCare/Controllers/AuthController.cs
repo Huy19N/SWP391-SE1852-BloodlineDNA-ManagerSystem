@@ -158,7 +158,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                var tokenModel = await _authRepository.GoogleLoginCallback(code, state, HttpContext);
+                string tokenModel = await _authRepository.GoogleLoginCallback(code, state, HttpContext);
                 if (tokenModel == null)
                 {
                     return BadRequest(new ApiResponse
@@ -167,12 +167,7 @@ namespace APIGeneCare.Controllers
                         Message = "Failed to authenticate with Google."
                     });
                 }
-                return Ok(new ApiResponse
-                {
-                    Success = true,
-                    Message = "Google login successful.",
-                    Data = tokenModel
-                });
+                return Redirect(tokenModel);
             }
             catch (Exception ex)
             {

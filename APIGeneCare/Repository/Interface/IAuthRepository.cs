@@ -6,7 +6,7 @@ namespace APIGeneCare.Repository.Interface
     {
         Task<Object?> Login(LoginModel model, HttpContext context);
         string GenerateUrlGoogleLogin();
-        Task<Object?> GoogleLoginCallback(string code, string state, HttpContext context);
+        Task<string?> GoogleLoginCallback(string code, string state, HttpContext context);
 
     }
 }
