@@ -1,9 +1,11 @@
 ﻿// This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.Payment;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace APIGeneCare.Controllers
 {
@@ -12,7 +14,8 @@ namespace APIGeneCare.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentRepository _paymentRepository;
-        public PaymentController(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
+        public PaymentController(IPaymentRepository paymentRepository,
+            IOptionsMonitor<AppSettings> appSetting) => _paymentRepository = paymentRepository;
 
         [HttpGet("GetALl")]
         public async Task<IActionResult> GetAllPayments()
@@ -133,7 +136,7 @@ namespace APIGeneCare.Controllers
                     });
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return Ok(new
                 {

@@ -7,9 +7,9 @@ namespace APIGeneCare.Repository.Interface
     public interface IRefreshTokenRepository
     {
         Task<RefreshToken?> IsRefreshTokenValid(string token);
-        Task<TokenModel> GenerateTokenModel(UserDTO user);
+        Task<TokenModel> GenerateTokenModel(UserRefeshToken user);
         Task<string> GenerateAccessTokenByRefToken(string token);
-        Task<string> GenerateRefreshToken(UserDTO user, string jwtId);
+        Task<string> GenerateRefreshToken(UserRefeshToken user, string jwtId);
         Task<bool> DeleteRefreshTokenByUser(UserDTO user);
     }
 }

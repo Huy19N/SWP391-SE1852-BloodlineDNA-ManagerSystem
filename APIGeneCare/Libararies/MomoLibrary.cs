@@ -138,6 +138,7 @@ namespace APIGeneCare.Libararies
 
             var signature =
                 collection.FirstOrDefault(k => k.Key == "signature").Value; //hash của dữ liệu trả về
+
             var checkSignature = ValidateSignatureCreateLink(signature, accessKey, hashSecret); //check Signature
 
             if (!checkSignature)

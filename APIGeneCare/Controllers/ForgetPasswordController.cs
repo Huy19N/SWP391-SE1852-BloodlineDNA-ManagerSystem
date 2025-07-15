@@ -1,19 +1,20 @@
 ﻿using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VerifyEmailController : ControllerBase
+    public class ForgetPasswordController : ControllerBase
     {
         private readonly IVerifyEmailRepository _verifyEmailRepository;
-        public VerifyEmailController(IVerifyEmailRepository verifyEmailRepository) => _verifyEmailRepository = verifyEmailRepository;
-
-        #region VerifyEmail
-        [HttpPost("SendVerifyEmail")]
-        public async Task<IActionResult> SendVerifyEmail(string email)
+        public ForgetPasswordController(IVerifyEmailRepository verifyEmailRepository) => _verifyEmailRepository = verifyEmailRepository;
+        
+        #region Forget Password
+        [HttpPost("SendEmailConfirmForgetPassword")]
+        public async Task<IActionResult> SendEmailConfirmForgetPassword(string email)
         {
             try
             {
@@ -24,7 +25,7 @@ namespace APIGeneCare.Controllers
                         Message = "Email is required"
                     });
 
-                var isSend = await _verifyEmailRepository.SendConfirmEmail(email);
+                var isSend = await _verifyEmailRepository.SendEmailConfirmForgetPassword(email);
                 if (!isSend)
                 {
                     return BadRequest(new ApiResponse
@@ -45,11 +46,12 @@ namespace APIGeneCare.Controllers
             }
         }
 
-        [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string email, string key)
+        [HttpPut("confirmForgetPassword")]
+        public async Task<IActionResult> ConfirmForgetPassword(string email, string key, string password, string confirmPassword)
         {
             try
             {
+
                 if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(key))
                 {
                     return BadRequest(new ApiResponse
@@ -58,43 +60,38 @@ namespace APIGeneCare.Controllers
                         Message = "What are you doing?"
                     });
                 }
-                var verifyEmail = _verifyEmailRepository.GetVerifyEmailByEmail(email);
-                if (verifyEmail == null)
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "not found verify email"
-                    });
-                if (verifyEmail.Key?.ToLower() != key.ToLower())
+
+                if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
                 {
-                    return NotFound(new ApiResponse
+                    return BadRequest(new ApiResponse
                     {
                         Success = false,
-                        Message = "The key not match!"
+                        Message = "Password and confirm password is required"
                     });
                 }
-                bool isConfirm = await _verifyEmailRepository.ConfirmEmail(email, key);
+                
+                bool isConfirm = await _verifyEmailRepository.ConfirmForgetPassword(email, key, password);
                 if (!isConfirm)
                 {
                     return Ok(new ApiResponse
                     {
                         Success = false,
-                        Message = "Link expired"
+                        Message = "Key is not available"
                     });
                 }
                 return Ok(new ApiResponse
                 {
                     Success = true,
-                    Message = "Confirm email success"
+                    Message = "Confirm forget password success"
                 });
-
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"error confirm email:{ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"error confirm forget password:{ex.Message}");
             }
         }
         #endregion
+
 
     }
 }

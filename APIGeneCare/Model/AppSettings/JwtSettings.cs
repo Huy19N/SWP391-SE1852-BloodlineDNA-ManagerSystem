@@ -1,6 +1,6 @@
 ﻿namespace APIGeneCare.Model.AppSettings
 {
-    public class Jwt
+    public class JwtSettings
     {
         public string SecretKey { get; set; } = string.Empty;
         public double MinAccessExpirationTime { get; set; } = 0;

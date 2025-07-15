@@ -2,7 +2,7 @@
 
 public class PaymentDTO
 {
-    public long PaymentId { get; set; }
+    public string PaymentId { get; set; } = null!;
 
     public int BookingId { get; set; }
 
