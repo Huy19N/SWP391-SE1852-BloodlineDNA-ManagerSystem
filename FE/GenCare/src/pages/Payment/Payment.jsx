@@ -26,7 +26,7 @@ function Payment() {
 
     try {
       const res = await axios.post("https://localhost:7722/api/Payment", paymentData);
-      window.location.href = res.data.data; // Redirect to VNPAY or MOMO
+       window.location.href = res.data.data;
     } catch (err) {
       console.error("Thanh toán lỗi:", err);
       alert("Thanh toán thất bại");
