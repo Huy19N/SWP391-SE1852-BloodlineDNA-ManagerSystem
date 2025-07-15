@@ -1,56 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import api from '../../config/axios.js';
-import { ToastContainer, toast } from 'react-toastify';
-import Home from '../Home.jsx';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 
-    function PaymentSuccess() {
-        const [isLoading, setIsLoading] = useState(false);
-        const [dataPayment, setDataPayment] = useState([]);
-        
-        const fetchPayment = async (e) => {
-            setIsLoading(true);
+export default function PaymentSuccess() {
+  const [searchParams] = useSearchParams();
+  const [status, setStatus] = useState('Đang xử lý...');
 
-            try{
-                const [resPay, resService] = await Promise.all ([
-                    api.get('Payment/GetALl'),
-                    // api.get('')
-                ]);
-                const dataPay = resPay.data.data;
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const res = await axios.get('https://localhost:7722/api/Payment/VNPayResponse', {
+          params: Object.fromEntries([...searchParams]),
+        });
 
-                setDataPayment(dataPay);
-                console.log(dataPay);
-            }
-            catch(error){
-                console.log(error.dataPay);
-                toast.error("Error Data Payment");
-            }
-        }
-
-        useEffect (() => {
-            fetchPayment();
-        },[])
-
-        return (
-            <div>
-                <div style={{ padding: "40px", textAlign: "center" }}>
-                    <h1 className="text-success">Payment Successfully!</h1>
-                    <p><strong>Payment ID:</strong> {dataPayment.paymentId || " "}</p>
-                    <p><strong>Booking ID:</strong> {dataPayment.bookingId}</p>
-                    <p><strong>Customer Name:</strong> {dataPayment.paymentDate}</p>
-                    <p><strong>Order Description:</strong></p>
-                    <p><strong>Amount :</strong> VND</p>
-                    <p><strong>Order Type :</strong> </p>
-                </div>
-                <div>
-                    <button className="btn btn-primary">
-                        <a className="text-light text-decoration-none" href="/">
-                        Back Home
-                        </a>
-                    </button>
-                </div>
-            </div>
+        setStatus(
+          res.data.transactionStatus === '00'
+            ? ' Thanh toán thành công!'
+            : ' Thanh toán thất bại'
         );
-}
+      } catch (err) {
+        setStatus(' Không xác minh được trạng thái thanh toán');
+        console.error(err);
+      }
+    };
 
-export default PaymentSuccess;
+    fetchStatus();
+  }, [searchParams]);
+
+  return (
+    <div className="container text-center mt-5">
+      <h2>Kết quả thanh toán</h2>
+      <p>{status}</p>
+    </div>
+  );
+}
