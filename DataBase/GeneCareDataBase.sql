@@ -283,7 +283,6 @@ go
 INSERT INTO Status(StatusName)
 VALUES
 (N'Chưa thanh toán'),
-(N'Đã thanh toán'),
 (N'Chưa thực hiện'),
 (N'Đang thực hiện'),
 (N'Hoàn thành'),
