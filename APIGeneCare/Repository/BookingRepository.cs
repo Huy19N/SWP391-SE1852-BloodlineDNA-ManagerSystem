@@ -1,7 +1,9 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model;
+using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.Extensions.Options;
 
 
 namespace APIGeneCare.Repository
@@ -9,8 +11,14 @@ namespace APIGeneCare.Repository
     public class BookingRepository : IBookingRepository
     {
         private readonly GeneCareContext _context;
+        private readonly AppSettings _appSettings;
         public static int PAGE_SIZE { get; set; } = 10;
-        public BookingRepository(GeneCareContext context) => _context = context;
+        public BookingRepository(GeneCareContext context,
+            IOptionsMonitor<AppSettings> appSettings)
+        {
+            _context = context;
+            _appSettings = appSettings.CurrentValue;
+        }
         public IEnumerable<BookingDTO> GetAllBookingsPaging(string? typeSearch, string? search, string? sortBy, int? page)
         {
             var allBooking = _context.Bookings.AsQueryable();
@@ -133,6 +141,8 @@ namespace APIGeneCare.Repository
             }).FirstOrDefault(b => b.BookingId == id);
         public bool CreateBooking(BookingDTO booking)
         {
+            var timeInfor = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+            
             if (booking == null)
             {
                 return false;
@@ -149,7 +159,7 @@ namespace APIGeneCare.Repository
                     ResultId = booking.ResultId,
                     AppointmentTime = booking.AppointmentTime,
                     StatusId = booking.StatusId,
-                    Date = booking.Date,
+                    Date = TimeZoneInfo.ConvertTime(booking.Date??DateTime.UtcNow, timeInfor)
                 });
                 _context.SaveChanges();
                 transaction.Commit();
