@@ -17,18 +17,22 @@ namespace APIGeneCare.Repository
     public class PaymentRepository : IPaymentRepository
     {
         private readonly GeneCareContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly Vnpay _vnpay;
-        private readonly Momo _momo;
-        public PaymentRepository(GeneCareContext context, 
-            IOptionsMonitor<Vnpay> vnpayOptions,
-            IOptionsMonitor<Momo> momoOptions,
+        private readonly AppSettings _appSettings;
+        private readonly VnpaySettings _vnpay;
+        private readonly MomoSettings _momo;
+        private readonly FontEndSettings _fontEnd;
+        public PaymentRepository(GeneCareContext context,
+            IOptionsMonitor<AppSettings> appSettings,
+            IOptionsMonitor<VnpaySettings> vnpayOptions,
+            IOptionsMonitor<MomoSettings> momoOptions,
+            IOptionsMonitor<FontEndSettings> fontEnd,
             IConfiguration configuration)
         {
             _context = context;
+            _appSettings = appSettings.CurrentValue;
             _vnpay = vnpayOptions.CurrentValue;
             _momo = momoOptions.CurrentValue;
-            _configuration = configuration;
+            _fontEnd = fontEnd.CurrentValue;
         }
 
         public IEnumerable<PaymentMethod> GetAllPaymentMethods()
@@ -90,8 +94,11 @@ namespace APIGeneCare.Repository
         {
             try
             {
-                int currentMonth = DateTime.Now.Month;
-                int currentYear = DateTime.Now.Year;
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+
+                int currentMonth = timeNow.Month;
+                int currentYear = timeNow.Year;
                 int quarter = (currentMonth - 1) / 3 + 1;
                 int startMonth = (quarter - 1) * 3 + 1;
                 int endMonth = startMonth + 2;
@@ -131,13 +138,16 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
                 var tick = DateTime.Now.Ticks.ToString();
+                var paymentId = tick + Guid.NewGuid().ToString();
+
                 var pay = new VnPayLibrary();
 
                 var payment = new Payment
                 {
+                    PaymentId = paymentId,
                     BookingId = model.BookingId,
                     PaymentMethodId = model.PaymentMethodId,
                     TransactionStatus = null,
@@ -154,6 +164,7 @@ namespace APIGeneCare.Repository
                 };
                 _context.Payments.Add(payment);
                 _context.SaveChanges();
+
                 pay.AddRequestData("vnp_Version", _vnpay.Version);
                 pay.AddRequestData("vnp_Command", _vnpay.Command);
                 pay.AddRequestData("vnp_TmnCode", _vnpay.TmnCode);
@@ -162,19 +173,24 @@ namespace APIGeneCare.Repository
                 pay.AddRequestData("vnp_CurrCode", _vnpay.CurrCode);
                 pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
                 pay.AddRequestData("vnp_Locale", _vnpay.Locale);
-                pay.AddRequestData("vnp_OrderInfo", $"{payment.PaymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
+                pay.AddRequestData("vnp_OrderInfo", $"{paymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
                 pay.AddRequestData("vnp_OrderType", model.OrderType ?? string.Empty);
                 pay.AddRequestData("vnp_ReturnUrl", _vnpay.ReturnUrl);
                 pay.AddRequestData("vnp_TxnRef", tick);
 
                 var paymentUrl =
-                    pay.CreateRequestUrl(_vnpay.EndpointURL,_vnpay.HashSecret);
+                    pay.CreateRequestUrl(_vnpay.EndpointURL, _vnpay.HashSecret);
 
                 var requestData = pay.GetAllRequestData();
                 requestData.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 requestData.TryGetValue("vnp_SecureHash", out var secureHash);
 
                 payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
+
+                if (payment == null)
+                {
+                    throw new Exception("Payment not found after creation.");
+                }
 
                 payment.OrderInfo = orderInfo?.ToString();
                 payment.SecureHash = secureHash?.ToString();
@@ -196,18 +212,22 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 var pay = new VnPayLibrary();
 
-                var response = pay.GetFullResponseData(collections,_vnpay.HashSecret);
+                var response = pay.GetFullResponseData(collections, _vnpay.HashSecret);
 
                 if (response.Success)
                 {
                     var orderInfoSplit = response.OrderInfo?.Split("|");
-                    long paymentId = long.Parse(orderInfoSplit[0]);
+                    if (orderInfoSplit == null || orderInfoSplit.Length < 1)
+                    {
+                        throw new Exception("Invalid order information format.");
+                    }
+                    string paymentId = orderInfoSplit[0];
 
                     var paymentReturnLog = new PaymentReturnLog
                     {
@@ -235,7 +255,7 @@ namespace APIGeneCare.Repository
                     _context.SaveChanges();
                 }
 
-                var url = _configuration["ReturnAfterPay"];
+                var url = _fontEnd.ReturnAfterPay;
                 transaction.Commit();
                 return url!;
             }
@@ -251,18 +271,22 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
                 collections.TryGetValue("vnp_OrderInfo", out var orderInfo);
                 var pay = new VnPayLibrary();
 
-                var response = pay.GetFullResponseData(collections,_vnpay.HashSecret);
+                var response = pay.GetFullResponseData(collections, _vnpay.HashSecret);
 
                 if (response.Success)
                 {
                     var orderInfoSplit = response.OrderInfo?.Split("|");
-                    long paymentId = long.Parse(orderInfoSplit[0]);
+                    if (orderInfoSplit == null || orderInfoSplit.Length < 1)
+                    {
+                        throw new Exception("Invalid order information format.");
+                    }
+                    string paymentId = orderInfoSplit[0];
 
                     var paymentIpnlog = new PaymentIpnlog
                     {
@@ -310,9 +334,11 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
                 var tick = DateTime.Now.Ticks.ToString();
+                var paymentId = tick + Guid.NewGuid().ToString();
+
                 var requestId = Guid.NewGuid().ToString() + tick;
                 using var httpClient = new HttpClient();
 
@@ -320,6 +346,7 @@ namespace APIGeneCare.Repository
 
                 var payment = new Payment
                 {
+                    PaymentId = paymentId,
                     BookingId = model.BookingId,
                     PaymentMethodId = model.PaymentMethodId,
                     TransactionStatus = null,
@@ -339,16 +366,21 @@ namespace APIGeneCare.Repository
 
                 payment = _context.Payments.FirstOrDefault(x => x.PaymentId == payment.PaymentId);
 
+                if (payment == null)
+                {
+                    throw new Exception("Payment not found after creation.");
+                }
+
                 pay.AddRequestData("accessKey", _momo.AccessKey);
                 pay.AddRequestData("amount", ((long)model.Amount).ToString());
                 pay.AddRequestData("extraData", "");
                 pay.AddRequestData("ipnUrl", _momo.IpnUrl);
                 pay.AddRequestData("orderId", payment.PaymentId.ToString());
-                pay.AddRequestData("orderInfo", $"{payment.PaymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
-                pay.AddRequestData("partnerCode",_momo.PartnerCode);
-                pay.AddRequestData("redirectUrl",_momo.RedirectUrl);
+                pay.AddRequestData("orderInfo", $"{paymentId}|{model.PaymentMethodId}|{model.Email}|{model.Amount}|{model.BookingId}");
+                pay.AddRequestData("partnerCode", _momo.PartnerCode);
+                pay.AddRequestData("redirectUrl", _momo.RedirectUrl);
                 pay.AddRequestData("requestId", requestId);
-                pay.AddRequestData("requestType",_momo.RequestType);
+                pay.AddRequestData("requestType", _momo.RequestType);
 
                 var signature = pay.GenerateSignature(_momo.HashSecret);
                 pay.AddRequestData("signature", signature);
@@ -362,6 +394,12 @@ namespace APIGeneCare.Repository
 
                 var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(responseBody);
                 // convert Dictionary<string, string> to IQueryCollection
+
+                if (dict == null || !dict.ContainsKey("payUrl") || !dict.ContainsKey("resultCode"))
+                {
+                    throw new Exception("Invalid response from MoMo API.");
+                }
+
                 var queryDict = dict.ToDictionary(
                     kv => kv.Key,
                     kv => new StringValues(kv.Value?.ToString())
@@ -395,17 +433,21 @@ namespace APIGeneCare.Repository
             try
             {
                 collections.TryGetValue("orderInfo", out var orderInfo);
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
 
                 var pay = new MomoLibrary();
 
-                var response = pay.GetFullResponse(collections, _momo.AccessKey,_momo.HashSecret);
+                var response = pay.GetFullResponse(collections, _momo.AccessKey, _momo.HashSecret);
 
                 if (response != null)
                 {
-                    long paymentId = long.Parse(response.OrderId);
+                    if (string.IsNullOrEmpty(response.OrderId))
+                    {
+                        throw new Exception("OrderId is missing in the response.");
+                    }
+                    string paymentId = response.OrderId;
 
                     var paymentReturnLog = new PaymentReturnLog
                     {
@@ -433,7 +475,7 @@ namespace APIGeneCare.Repository
                     _context.SaveChanges();
                 }
 
-                var url = _configuration["ReturnAfterPay"];
+                var url = _fontEnd.ReturnAfterPay;
                 transaction.Commit();
                 return url!;
             }
@@ -452,6 +494,12 @@ namespace APIGeneCare.Repository
                 using var reader = new StreamReader(_body);
                 var body = await reader.ReadToEndAsync();
                 var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(body);
+
+                if (dict == null || !dict.ContainsKey("orderInfo"))
+                {
+                    throw new Exception("Invalid IPN data received from MoMo.");
+                }
+
                 var queryDict = dict.ToDictionary(
                     kv => kv.Key,
                     kv => new StringValues(kv.Value?.ToString())
@@ -460,17 +508,17 @@ namespace APIGeneCare.Repository
                 IQueryCollection collections = new QueryCollection(queryDict);
 
                 collections.TryGetValue("orderInfo", out var orderInfo);
-                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_configuration["TimeZoneId"]);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
 
                 var pay = new MomoLibrary();
 
-                var response = pay.GetFullResponse(collections, _momo.AccessKey , _momo.HashSecret);
+                var response = pay.GetFullResponse(collections, _momo.AccessKey, _momo.HashSecret);
 
                 if (response != null)
                 {
-                    long paymentId = long.Parse(response.OrderId ?? string.Empty);
+                    string paymentId = response.OrderId ?? string.Empty;
 
                     var paymentIpnlog = new PaymentIpnlog
                     {

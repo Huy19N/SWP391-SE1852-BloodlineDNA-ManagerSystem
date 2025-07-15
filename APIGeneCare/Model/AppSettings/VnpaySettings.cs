@@ -1,6 +1,6 @@
 ﻿namespace APIGeneCare.Model.AppSettings
 {
-    public class Vnpay
+    public class VnpaySettings
     {
         public string TmnCode { get; set; } = string.Empty;
         public string Command { get; set; } = string.Empty;

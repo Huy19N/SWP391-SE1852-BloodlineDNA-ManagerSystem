@@ -1,5 +1,4 @@
 ﻿using APIGeneCare.Entities;
-using APIGeneCare.Model;
 using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Repository.Interface;
 using MailKit.Net.Smtp;
@@ -13,11 +12,22 @@ namespace APIGeneCare.Repository
     {
         private readonly GeneCareContext _context;
         public readonly EmailSettings _emailSettings;
-        public VerifyEmailRepository(GeneCareContext context, IOptionsMonitor<EmailSettings> query)
+        public readonly AppSettings _appSettings;
+        public readonly JwtSettings _jwtSettings;
+        public readonly FontEndSettings _fontEndSettings;
+        public VerifyEmailRepository(GeneCareContext context,
+            IOptionsMonitor<EmailSettings> emailSettings,
+            IOptionsMonitor<AppSettings> appSettings,
+            IOptionsMonitor<JwtSettings> jwtSettings,
+            IOptionsMonitor<FontEndSettings> fontEnd)
         {
             _context = context;
-            _emailSettings = query.CurrentValue;
+            _emailSettings = emailSettings.CurrentValue;
+            _appSettings = appSettings.CurrentValue;
+            _jwtSettings = jwtSettings.CurrentValue;
+            _fontEndSettings = fontEnd.CurrentValue;
         }
+        
         public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
@@ -36,6 +46,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
+
         public bool DeleteVerifyEmailByEmail(String email)
         {
             if (email == null) return false;
@@ -55,6 +66,7 @@ namespace APIGeneCare.Repository
         }
         public VerifyEmail? GetVerifyEmailByEmail(string email)
             => _context.VerifyEmails.Find(email);
+
         public bool UpdateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
@@ -76,12 +88,16 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
-        public async Task<bool> SendConfirmEmail(string email, string apiConfirmEmail)
+        public async Task<bool> SendConfirmEmail(string email)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var key = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().ToString();
-                if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(apiConfirmEmail)) return false;
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+
+                var key = timeNow.Ticks.ToString() + Guid.NewGuid().ToString();
+                if (string.IsNullOrWhiteSpace(email)) return false;
                 #region body
                 var body = $"<!DOCTYPE html>\r\n" +
                     $"<html>" +
@@ -144,7 +160,7 @@ namespace APIGeneCare.Repository
                     $"<br>\r\nCảm ơn bạn đã đăng ký tài khoản tại GeneCare." +
                     $"<br>\r\nVui lòng nhấn nút bên dưới để xác nhận email của bạn:\r\n    " +
                     $"</p>\r\n    " +
-                    $"<a href=\"{apiConfirmEmail}email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
+                    $"<a href=\"{_fontEndSettings.ReturnAfterConfirmEmail}?email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
                     $"<div class=\"footer\">\r\n      Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này." +
                     $"<br>\r\n      Trân trọng," +
                     $"<br>\r\n      Đội ngũ GeneCare\r\n    " +
@@ -152,48 +168,44 @@ namespace APIGeneCare.Repository
                     $"</body>\r\n" +
                     $"</html>\r\n";
                 #endregion
-                var verifyEmail = GetVerifyEmailByEmail(email);
-                if (verifyEmail != null)
-                {
-                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
-                    {
-                        Key = key,
-                        Email = email,
-                        IsResetPwd = false,
-                        CreatedAt = DateTime.UtcNow,
-                        ExpiredAt = DateTime.UtcNow.AddMinutes(_emailSettings.ExpiredConfirmAt),
-                    }));
-                }
-                else
-                {
-                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
-                    {
-                        Email = email,
-                        CreatedAt = DateTime.Now,
-                        ExpiredAt = DateTime.Now.AddMinutes(10),
-                        Key = key,
-                    }));
-                }
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Email.Trim().ToLower() == email.Trim().ToLower()).ToArrayAsync();
 
+                await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
+                await _context.SaveChangesAsync();
+
+                bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
+                {
+                    Key = key,
+                    Email = email,
+                    IsResetPwd = false,
+                    CreatedAt = timeNow,
+                    ExpiredAt = timeNow.AddMinutes(_emailSettings.ExpiredConfirmAt)
+                }));
                 await SendEmailAsync(email, "Confirm email by GeneCare", body);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
 
                 return true;
             }
             catch
             {
+                await transaction.RollbackAsync();
                 throw;
             }
         }
-        public async Task<bool> SendEmailConfirmForgetPassword(string email, string apiConfirmEmail)
+        public async Task<bool> SendEmailConfirmForgetPassword(string email)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
                 if (_context.Users.FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower()) == null) return false;
 
-                
                 var key = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().ToString();
-                if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(apiConfirmEmail)) return false;
+                if (string.IsNullOrWhiteSpace(email)) return false;
                 #region body
                 var body = $@"
                 <!DOCTYPE html>
@@ -359,7 +371,7 @@ namespace APIGeneCare.Repository
                       Đừng lo, ánh sáng đang chờ bạn ở phía trước. Một cú chạm nhẹ, bạn sẽ khôi phục sức mạnh, mở ra những điều kỳ diệu phía sau cánh cửa.<br>
                       Hãy nhấn vào nút dưới đây để bắt đầu tái sinh và tiếp tục hành trình vĩ đại của riêng bạn:
                     </p>
-                    <a href=""{apiConfirmEmail}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
+                    <a href=""{_fontEndSettings.ReturnAfterResetPassword}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
                     <div class=""footer"">
                       Nếu bạn không phải người gửi yêu cầu, xin hãy bỏ qua email này như một vì sao băng thoáng qua.<br><br>
                       Luôn đồng hành và bảo vệ bạn,<br>
@@ -370,67 +382,148 @@ namespace APIGeneCare.Repository
                 </html>
                 ";
                 #endregion
-                var verifyEmail = GetVerifyEmailByEmail(email);
-                if (verifyEmail != null)
-                {
-                    bool isSave = await Task.Run(() => UpdateVerifyEmail(new VerifyEmail
-                    {
-                        Email = email,
-                        CreatedAt = DateTime.Now,
-                        ExpiredAt = DateTime.Now.AddMinutes(10),
-                        Key = key,
-                    }));
-                }
-                else
-                {
-                    bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
-                    {
-                        Key = key,
-                        Email = email,
-                        IsResetPwd = true,
-                        CreatedAt = DateTime.Now,
-                        ExpiredAt = DateTime.Now.AddMinutes(_emailSettings.ExpiredConfirmAt)
-                    }));
-                }
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Email.Trim().ToLower() == email.Trim().ToLower()).ToArrayAsync();
 
+                await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
+                await _context.SaveChangesAsync();
+
+                bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
+                {
+                    Key = key,
+                    Email = email,
+                    IsResetPwd = true,
+                    CreatedAt = timeNow,
+                    ExpiredAt = timeNow.AddMinutes(_emailSettings.ExpiredConfirmAt)
+                }));
                 await SendEmailAsync(email, "Confirm email by GeneCare", body);
+                
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
 
                 return true;
             }
             catch
             {
+                await transaction.RollbackAsync();
                 throw;
             }
         }
-        public bool ConfirmEmail(string email, string key)
+
+        public async Task<bool> ConfirmForgetPassword(string email, string key, string password)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                var verifyEmail = GetVerifyEmailByEmail(email);
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                if (verifyEmail?.ExpiredAt < DateTime.Now)
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key && 
+                    x.Email.Trim().ToLower() == email.Trim().ToLower() && x.IsResetPwd).ToArrayAsync();
+
+                if (verifyEmail == null || verifyEmail.Length == 0)
                     return false;
-                return DeleteVerifyEmailByEmail(email);
+
+                _context.VerifyEmails.RemoveRange(verifyEmail);
+                await _context.SaveChangesAsync();
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower());
+
+                if (user != null)
+                {
+                    user.Password = password;
+                    user.LastPwdChange = timeNow;
+
+                    var tokens = await _context.RefreshTokens
+                        .Where(x => x.UserId == user.UserId)
+                        .ToListAsync();
+
+                    foreach (var token in tokens)
+                    {
+                        token.Revoked = true;
+                        _context.AccessTokenBlacklists.Add(new AccessTokenBlacklist
+                        {
+                            JwtId = token.JwtId,
+                            UserId = token.UserId,
+                            ExpireAt = timeNow.AddMinutes(_jwtSettings.MinAccessExpirationTime),
+                            Reason = "Password changed"
+                        });
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
+                else
+                {
+                    await transaction.RollbackAsync();
+                    throw new Exception("User not found");
+                }
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return true;
             }
             catch
             {
+                await transaction.RollbackAsync();
                 throw;
             }
+        }
+        public async Task<bool> ConfirmEmail(string email, string key)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+                var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key &&
+                    x.Email.Trim().ToLower() == email.Trim().ToLower() && !x.IsResetPwd).ToArrayAsync();
+
+                if (verifyEmail == null || verifyEmail.Length == 0)
+                    return false;
+
+                await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<bool> CheckFo(string email)
+        {
+            var verifyEmail = await _context.VerifyEmails.FirstOrDefaultAsync(x => x.Email.Trim().ToLower() == email.Trim().ToLower());
+            return verifyEmail == null;
         }
 
         private async Task SendEmailAsync(string toEmail, string subject, string body)
         {
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("GeneCare", _emailSettings.SmtpUser));
-            message.To.Add(new MailboxAddress("", toEmail));
-            message.Subject = subject;
-            message.Body = new TextPart("html") { Text = body };
+            try
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("GeneCare", _emailSettings.SmtpUser));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = subject;
+                message.Body = new TextPart("html") { Text = body };
 
-            using var client = new SmtpClient();
-            await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(_emailSettings.SmtpUser, _emailSettings.SmtpPass);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+                using var client = new SmtpClient();
+                await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(_emailSettings.SmtpUser, _emailSettings.SmtpPass);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error SendEmailAsync: " + ex);
+            }
+            
         }
     }
 }

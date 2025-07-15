@@ -12,6 +12,5 @@ namespace APIGeneCare.Repository.Interface
         bool CreateUser(UserDTO user);
         bool UpdateUser(UserDTO user);
         bool DeleteUserById(int id);
-        public Task<Object?> Login(LoginModel model, HttpContext context);
     }
 }
