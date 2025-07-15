@@ -181,6 +181,7 @@ namespace APIGeneCare.Repository
                     };
                     await _context.RefreshTokens.AddAsync(newRefreshToken);
                     await _context.SaveChangesAsync();
+
                     await transaction.CommitAsync();
                     return token;
                 }

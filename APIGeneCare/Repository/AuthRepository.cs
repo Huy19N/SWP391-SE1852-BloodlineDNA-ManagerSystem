@@ -158,7 +158,7 @@ namespace APIGeneCare.Repository
 
         }
 
-        public async Task<object?> GoogleLoginCallback(string code, string state, HttpContext context)
+        public async Task<string?> GoogleLoginCallback(string code, string state, HttpContext context)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -207,7 +207,6 @@ namespace APIGeneCare.Repository
                 };
 
                 using var httpClient = new HttpClient();
-                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                 var tokenResponse = await httpClient.SendAsync(tokenRequest);
                 var tokenContent = await tokenResponse.Content.ReadAsStringAsync();
                 if (!tokenResponse.IsSuccessStatusCode) return null;
@@ -249,10 +248,9 @@ namespace APIGeneCare.Repository
                         Address = null,
                     });
                     await _context.SaveChangesAsync();
-                    await transaction.CommitAsync();
-
                     user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
                 }
+                await transaction.CommitAsync();
 
                 var userRefeshToken = new UserRefeshToken
                 {
@@ -276,7 +274,7 @@ namespace APIGeneCare.Repository
                     url.Append($"?AccessToken={token.AccessToken}&{token.RefreshToken}");
                 }
 
-                return url;
+                return url.ToString();
             }
             catch
             {
