@@ -64,7 +64,7 @@ const LoginRegister = () => {
       console.log('Login loaded: ', fromDataLogin);
 
 
-      const response = await api.post('Users/Login', fromDataLogin);
+      const response = await api.post('Auth/Login', fromDataLogin);
       console.log('Login response: ', response.data.data);
 
 
@@ -80,6 +80,7 @@ const LoginRegister = () => {
         console.log("UserId :", responseData.userId);
         // Lưu token và role vào localStorage
         localStorage.setItem('token', responseData.accessToken);
+        localStorage.setItem('refreshToken', responseData.refreshToken);
         localStorage.setItem('roleId', responseData.role);
         localStorage.setItem('userId',responseData.userId);
         const roleID = responseData.role;
@@ -124,7 +125,7 @@ const LoginRegister = () => {
     try{
       console.log("Register loaded: ", fromDataRegister);
 
-      const response = await api.post("Users/Register", fromDataRegister);
+      const response = await api.post("Auth/Register", fromDataRegister);
       console.log('Register response: ', response.data.data);
       
       if(response.status === 200) {

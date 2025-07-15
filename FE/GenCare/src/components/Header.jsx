@@ -10,6 +10,8 @@ export default function Header(){
     const handleLogout = () => {
         // Xóa token và roleId khỏi localStorage
         localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('refreshToken');
         localStorage.removeItem('roleId');
         // Chuyển hướng về trang đăng nhập hoặc trang chủ
         navigate('/login')
@@ -21,7 +23,8 @@ export default function Header(){
     const handleLogin = () => {
         // Kiểm tra xem người dùng đã đăng nhập hay chưa
         const isLoggedIn = localStorage.getItem('token'); //lấy token đăng nhập trong localStorage
-        if (isLoggedIn) {
+        const isLoggedInRefresh = localStorage.getItem('refreshToken'); //lấy refreshToken đăng nhập trong localStorage
+        if (isLoggedIn && isLoggedInRefresh) {
             const roleId = localStorage.getItem('roleId'); //lấy roleId đăng nhập trong localStorage
             // Kiểm tra xem người dùng có phải là admin hay không
             const isAdmin = roleId === '4';

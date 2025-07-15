@@ -31,7 +31,7 @@ function Approve(){
             
             // lưu status id vào local 
             const dataStatus = resStatus.data.data;
-            const statusId = dataStatus.find(s => s.statusId === 5)?.statusId;
+            const statusId = dataStatus.find(s => s.statusId === 6)?.statusId;
             localStorage.setItem('statusId', statusId);
             
             
@@ -153,7 +153,7 @@ function Approve(){
             return status ? status.statusName : 'Empty';
         };
 
-    const statusID = parseInt(localStorage.getItem('statusId') || 5);
+    const statusID = parseInt(localStorage.getItem('statusId') || 6);
     const filterBookings = dataBooking.filter((bookings) => {
         const keyword = search.toLowerCase();
         return(

@@ -36,7 +36,7 @@ function Booking(){
             
             // lưu status id vào local 
             const dataStatus = resStatus.data.data;
-            const statusId = dataStatus.find(s => s.statusId === 5)?.statusId;
+            const statusId = dataStatus.find(s => s.statusId === 6)?.statusId;
             localStorage.setItem('statusId', statusId);
             
             
@@ -179,7 +179,7 @@ function Booking(){
         return status ? status.statusName : 'Empty';
     };
 
-    const statusID = parseInt(localStorage.getItem('statusId') || 5);
+    const statusID = parseInt(localStorage.getItem('statusId') || 6);
     const filterBookings = dataBooking.filter((bookings) => {
         const keyword = search.toLowerCase();
         return(
@@ -372,7 +372,11 @@ function Booking(){
                                                                 <td>{p.identifyId}</td>
                                                                 <td>{p.sampleName}</td>
                                                                 <td>{p.relationship}</td>
-                                                                <td>{p.hasTestedDNA ? 'Yes' : 'No'}</td>
+                                                                { p.hasTestedDna ? (
+                                                                    <td className="text-success">Yes</td>
+                                                                ) : (
+                                                                    <td className="text-danger">No</td>
+                                                                )}
                                                             </tr>
                                                         ))}
                                                     </tbody>
