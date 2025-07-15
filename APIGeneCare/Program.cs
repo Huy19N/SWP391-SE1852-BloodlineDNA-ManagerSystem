@@ -63,7 +63,7 @@ builder.Services.AddDbContext<GeneCareContext>(opt =>
 });
 
 #region addSingLeton, addScoped, addTransient
-builder.Services.AddScoped<IAuthRepository,AuthRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<ICollectionMethodRepository, CollectionMethodRepository>();

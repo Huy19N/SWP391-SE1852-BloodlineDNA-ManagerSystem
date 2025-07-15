@@ -1,6 +1,5 @@
 ﻿using APIGeneCare.Model;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIGeneCare.Controllers
@@ -11,7 +10,7 @@ namespace APIGeneCare.Controllers
     {
         private readonly IVerifyEmailRepository _verifyEmailRepository;
         public ForgetPasswordController(IVerifyEmailRepository verifyEmailRepository) => _verifyEmailRepository = verifyEmailRepository;
-        
+
         #region Forget Password
         [HttpPost("SendEmailConfirmForgetPassword")]
         public async Task<IActionResult> SendEmailConfirmForgetPassword(string email)
@@ -69,7 +68,7 @@ namespace APIGeneCare.Controllers
                         Message = "Password and confirm password is required"
                     });
                 }
-                
+
                 bool isConfirm = await _verifyEmailRepository.ConfirmForgetPassword(email, key, password);
                 if (!isConfirm)
                 {

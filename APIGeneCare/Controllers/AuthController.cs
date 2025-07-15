@@ -2,7 +2,6 @@
 using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -150,7 +149,7 @@ namespace APIGeneCare.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,$"An error occurred while generating the Google login URL: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while generating the Google login URL: {ex.Message}");
             }
         }
 
@@ -180,7 +179,7 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred during Google login callback: {ex.Message}");
             }
         }
-        
+
         [HttpGet("GetAccessToken")]
         public async Task<IActionResult> GetAccessToken([FromQuery] string refreshToken)
         {

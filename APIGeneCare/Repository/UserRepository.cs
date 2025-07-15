@@ -3,10 +3,7 @@ using APIGeneCare.Model;
 using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Net;
-using System.Net.Sockets;
 
 namespace APIGeneCare.Repository
 {

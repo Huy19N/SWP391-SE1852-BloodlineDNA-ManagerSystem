@@ -27,7 +27,7 @@ namespace APIGeneCare.Repository
             _jwtSettings = jwtSettings.CurrentValue;
             _fontEndSettings = fontEnd.CurrentValue;
         }
-        
+
         public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {
             if (verifyEmail == null) return false;
@@ -396,7 +396,7 @@ namespace APIGeneCare.Repository
                     ExpiredAt = timeNow.AddMinutes(_emailSettings.ExpiredConfirmAt)
                 }));
                 await SendEmailAsync(email, "Confirm email by GeneCare", body);
-                
+
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
@@ -417,7 +417,7 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key && 
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key &&
                     x.Email.Trim().ToLower() == email.Trim().ToLower() && x.IsResetPwd).ToArrayAsync();
 
                 if (verifyEmail == null || verifyEmail.Length == 0)
@@ -487,7 +487,7 @@ namespace APIGeneCare.Repository
                 await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                
+
                 return true;
             }
             catch
@@ -523,7 +523,7 @@ namespace APIGeneCare.Repository
             {
                 throw new Exception("Error SendEmailAsync: " + ex);
             }
-            
+
         }
     }
 }
