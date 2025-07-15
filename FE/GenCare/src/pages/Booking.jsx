@@ -250,13 +250,25 @@ function Booking() {
     }
 
     toast.success("Đăng ký thành công!");
-    navigate("/payment");
+    navigate("/payment", {
+      state: {
+        bookingId: response?.data?.data?.bookingId,
+        price: selectedService?.price,
+        user: {
+          fullName: formData.user.fullName,
+          email: formData.user.gmail
+        },
+        appointmentTime: `${selectedService?.appointmentDay} - ${selectedService?.appointmentSlot}`
+      }
+    });
 
   } catch (error) {
     console.error("Lỗi khi gửi đăng ký:", error);
     console.log("Chi tiết:", error.response?.data);
     toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
   }
+
+  
 };
 
   return (
