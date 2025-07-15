@@ -7,5 +7,5 @@
         public string RedirectUrl { get; set; } = string.Empty;
         public string Scope { get; set; } = string.Empty;
         public string ReturnAfterLogin { get; set; } = string.Empty;
-    }    
+    }
 }

@@ -1,20 +1,13 @@
 ﻿using APIGeneCare.Entities;
 using APIGeneCare.Model;
 using APIGeneCare.Model.AppSettings;
-using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
-using Azure.Core;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Globalization;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 
@@ -117,7 +110,8 @@ namespace APIGeneCare.Repository
                     Message = "Your account is locked due to too many failed login attempts. Please try again later.",
                     LockoutEnd = dateNow.AddMinutes(_jwtSettings.LockoutTimeEachFaildCountInMinutes * count)
                 };
-            };
+            }
+            ;
 
             var userRefeshToken = new UserRefeshToken
             {
@@ -141,7 +135,7 @@ namespace APIGeneCare.Repository
         public string GenerateUrlGoogleLogin()
         {
             try
-                {
+            {
                 var clientId = _googleLoginSettings.ClientId;
                 var redirectUri = _googleLoginSettings.RedirectUrl;
                 var scope = _googleLoginSettings.Scope;
@@ -161,7 +155,7 @@ namespace APIGeneCare.Repository
             {
                 throw;
             }
-            
+
         }
 
         public async Task<object?> GoogleLoginCallback(string code, string state, HttpContext context)
@@ -239,16 +233,16 @@ namespace APIGeneCare.Repository
                     phoneNumber = phoneNumbers[0].GetProperty("value").GetString();
 
                 // 3. Tạo user nếu chưa có, hoặc lấy user từ DB
-                var user = await _context.Users.FirstOrDefaultAsync(x=>x.Email == email);
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
                 if (user == null)
                 {
-                    
+
                     await _context.Users.AddAsync(new User
                     {
                         Email = email,
                         FullName = name,
                         Phone = phoneNumber,
-                        Password = dateNow.Ticks + Guid.NewGuid().ToString(), 
+                        Password = dateNow.Ticks + Guid.NewGuid().ToString(),
                         LastPwdChange = dateNow,
                         RoleId = 1,
                         IdentifyId = null,
@@ -277,7 +271,7 @@ namespace APIGeneCare.Repository
                 {
                     url.Append($"?AccessToken={token.AccessToken}&{token.RefreshToken}");
                 }
-                
+
                 return url;
             }
             catch
@@ -285,7 +279,7 @@ namespace APIGeneCare.Repository
                 await transaction.RollbackAsync();
                 throw;
             }
-            
+
         }
     }
 }
