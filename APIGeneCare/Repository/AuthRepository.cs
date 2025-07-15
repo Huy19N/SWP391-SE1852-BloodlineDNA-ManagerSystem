@@ -248,6 +248,10 @@ namespace APIGeneCare.Repository
                         IdentifyId = null,
                         Address = null,
                     });
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
                 }
 
                 var userRefeshToken = new UserRefeshToken

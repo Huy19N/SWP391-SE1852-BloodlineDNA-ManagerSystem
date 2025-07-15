@@ -7,6 +7,5 @@ namespace APIGeneCare.Model
         public string? IPAddress { get; set; }
 
         public string? UserAgent { get; set; }
-
     }
 }
