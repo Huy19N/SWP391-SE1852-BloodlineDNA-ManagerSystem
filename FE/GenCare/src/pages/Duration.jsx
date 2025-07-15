@@ -97,7 +97,7 @@ function Duration() {
                     <tbody>
                       <tr>
                         <td colSpan="2" className="text-center fw-bold fs-5 text-decoration-underline">
-                          {item.price.toLocaleString("vi-VN")} đ / 1 người
+                          {item.price.toLocaleString("vi-VN")} đ / 1 lần
                         </td>
                       </tr>
                       <tr><td></td><td>Kết quả bảo mật tuyệt đối</td></tr>
