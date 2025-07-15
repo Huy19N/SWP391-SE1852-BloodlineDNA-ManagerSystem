@@ -1,6 +1,6 @@
 ﻿namespace APIGeneCare.Model.AppSettings
 {
-    public class Momo
+    public class MomoSettings
     {
         public string PartnerCode { get; set; } = string.Empty;
         public string RedirectUrl { get; set; } = string.Empty;

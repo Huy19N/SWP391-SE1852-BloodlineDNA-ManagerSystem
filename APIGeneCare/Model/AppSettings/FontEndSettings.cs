@@ -1,8 +1,8 @@
 ﻿namespace APIGeneCare.Model.AppSettings
 {
-    public class FontEnd
+    public class FontEndSettings
     {
-        public string HomeURL { get; set; } = string.Empty;
+        public string HomeUrl { get; set; } = string.Empty;
         public string ReturnAfterPay { get; set; } = string.Empty;
         public string ReturnAfterResetPassword { get; set; } = string.Empty;
         public string ReturnAfterConfirmEmail { get; set; } = string.Empty;

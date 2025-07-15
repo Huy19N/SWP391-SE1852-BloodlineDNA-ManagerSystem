@@ -16,12 +16,15 @@ namespace APIGeneCare.Repository
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
         private readonly GeneCareContext _context;
-        private readonly Jwt _jwt;
+        private readonly AppSettings _appSettings;
+        private readonly JwtSettings _jwt;
 
         public RefreshTokenRepository(GeneCareContext context,
-            IOptionsMonitor<Jwt> optionsMonitor)
+            IOptionsMonitor<AppSettings> appSettings,
+            IOptionsMonitor<JwtSettings> optionsMonitor)
         {
             _context = context;
+            _appSettings = appSettings.CurrentValue;
             _jwt = optionsMonitor.CurrentValue;
         }
         public async Task<RefreshToken?> IsRefreshTokenValid(string token)
@@ -59,7 +62,8 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
-        public async Task<TokenModel> GenerateTokenModel(UserDTO user)
+
+        public async Task<TokenModel> GenerateTokenModel(UserRefeshToken user)
         {
             try
             {
@@ -151,12 +155,14 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public async Task<string> GenerateRefreshToken(UserDTO user, string jwtId)
+        public async Task<string> GenerateRefreshToken(UserRefeshToken user, string jwtId)
         {
+            var timeInfor = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
+            var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeInfor);
+
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-
                 var random = new byte[125];
                 using (var rng = RandomNumberGenerator.Create())
                 {
@@ -167,8 +173,8 @@ namespace APIGeneCare.Repository
                         UserId = user.UserId,
                         Token = token,
                         JwtId = jwtId,
-                        CreatedAt = DateTime.UtcNow,
-                        ExpiredAt = DateTime.UtcNow.AddMinutes(_jwt.MinRefreshExpirationTime),
+                        CreatedAt = timeNow,
+                        ExpiredAt = timeNow.AddMinutes(_jwt.MinRefreshExpirationTime),
                         Revoked = false,
                         Ipaddress = user.IPAddress,
                         UserAgent = user.UserAgent,

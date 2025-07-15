@@ -61,6 +61,7 @@ builder.Services.AddDbContext<GeneCareContext>(opt =>
 });
 
 #region addSingLeton, addScoped, addTransient
+builder.Services.AddScoped<IAuthRepository,AuthRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<ICollectionMethodRepository, CollectionMethodRepository>();
@@ -79,6 +80,15 @@ builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 builder.Services.AddScoped<ITestStepRepository, TestStepRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVerifyEmailRepository, VerifyEmailRepository>();
+#endregion
+#region add configuration appsettings.json
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<GoogleLoginSettings>(builder.Configuration.GetSection("GoogleLogin"));
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<VnpaySettings>(builder.Configuration.GetSection("Vnpay"));
+builder.Services.Configure<MomoSettings>(builder.Configuration.GetSection("Momo"));
+builder.Services.Configure<FontEndSettings>(builder.Configuration.GetSection("FontEnd"));
 #endregion
 
 var secretKey = builder.Configuration["Jwt:SecretKey"];
@@ -100,14 +110,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
     };
 });
-#region add configuration appsettings.json
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.Configure<Vnpay>(builder.Configuration.GetSection("Vnpay"));
-builder.Services.Configure<Momo>(builder.Configuration.GetSection("Momo"));
-builder.Services.Configure<FontEnd>(builder.Configuration.GetSection("FontEnd"));
-#endregion
+
 builder.Services.AddAuthorization();
 var app = builder.Build();
 

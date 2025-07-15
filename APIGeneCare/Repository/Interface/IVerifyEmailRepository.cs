@@ -8,7 +8,7 @@ namespace APIGeneCare.Repository.Interface
         Task<bool> ConfirmEmail(string email, string key);
 
         Task<bool> SendEmailConfirmForgetPassword(string email);
-        Task<bool> ConfirmForgetPassword(string email, string key);
+        Task<bool> ConfirmForgetPassword(string email, string key, string password);
 
         VerifyEmail? GetVerifyEmailByEmail(string email);
         bool CreateVerifyEmail(VerifyEmail verifyEmail);

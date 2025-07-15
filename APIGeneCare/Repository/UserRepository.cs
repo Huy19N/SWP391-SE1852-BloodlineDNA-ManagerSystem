@@ -14,111 +14,16 @@ namespace APIGeneCare.Repository
     {
         private readonly GeneCareContext _context;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly Jwt _appSettings;
+        private readonly JwtSettings _appSettings;
         public static int PAGE_SIZE { get; set; } = 10;
 
         public UserRepository(GeneCareContext context,
-            IOptionsMonitor<Jwt> optionsMonitor,
+            IOptionsMonitor<JwtSettings> optionsMonitor,
             IRefreshTokenRepository refreshTokenRepository)
         {
             _context = context;
             _appSettings = optionsMonitor.CurrentValue;
             _refreshTokenRepository = refreshTokenRepository;
-        }
-        public async Task<Object?> Login(LoginModel model, HttpContext context)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            if (user == null) return null;
-            var ipAddress = string.Empty;
-            try
-            {
-                var remoteIpAddress = context.Connection.RemoteIpAddress;
-
-                if (remoteIpAddress != null)
-                {
-                    if (remoteIpAddress.AddressFamily == AddressFamily.InterNetworkV6)
-                    {
-                        remoteIpAddress = Dns.GetHostEntry(remoteIpAddress).AddressList
-                            .FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-                    }
-
-                    if (remoteIpAddress != null) ipAddress = remoteIpAddress.ToString();
-
-                }
-            }
-            catch
-            {
-                ipAddress = "127.0.0.1";
-            }
-
-
-            var UserAgent = context.Request.Headers["User-Agent"].ToString();
-
-            if (!string.IsNullOrEmpty(model.Password) &&
-                user.Password != model.Password)
-            {
-                var log = await _context.LogLogins.Where(x => x.Ipaddress == ipAddress)
-                    .OrderByDescending(x => x.LoginTime)
-                    .Take(_appSettings.MaxCountOfLogin)
-                    .ToListAsync();
-
-                int count = 0;
-                foreach (var x in log)
-                {
-                    if (x.Success) break;
-                    count++;
-                }
-                if (count > 0)
-                {
-                    var nearlyFailedLogin = log.First().LoginTime;
-                    if (nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count) < DateTime.UtcNow)
-                    {
-                        return new LockResponseModel
-                        {
-                            Success = false,
-                            Message = "Your account is locked due to too many failed login attempts. Please try again later.",
-                            LockoutEnd = nearlyFailedLogin.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
-                        };
-                    }
-                }
-                count++;
-                await _context.LogLogins.AddAsync(new LogLogin
-                {
-                    UserId = user.UserId,
-                    RefreshTokenId = null,
-                    Success = false,
-                    FailReason = "Invalid password",
-                    Ipaddress = ipAddress,
-                    UserAgent = UserAgent,
-                    LoginTime = DateTime.UtcNow,
-                });
-
-                _context.SaveChanges();
-                return new LockResponseModel
-                {
-                    Success = false,
-                    Message = "Your account is locked due to too many failed login attempts. Please try again later.",
-                    LockoutEnd = DateTime.UtcNow.AddMinutes(_appSettings.LockoutTimeEachFaildCountInMinutes * count)
-                };
-            }
-            ;
-
-            var UserDTO = new UserDTO
-            {
-                UserId = user.UserId,
-                RoleId = user.RoleId,
-                IdentifyId = user.IdentifyId,
-                FullName = user.FullName,
-                Address = user.Address,
-                Email = user.Email,
-                Phone = user.Phone,
-                Password = user.Password,
-                UserAgent = context.Request.Headers["User-Agent"].ToString(),
-                IPAddress = ipAddress,
-                LastPwdChange = user.LastPwdChange,
-            };
-            var token = await _refreshTokenRepository.GenerateTokenModel(UserDTO);
-            return token;
         }
 
         public IEnumerable<UserDTO> GetAllUsersPaging(String? typeSearch, String? search, String? sortBy, int? page)

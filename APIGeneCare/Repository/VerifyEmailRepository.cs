@@ -13,18 +13,20 @@ namespace APIGeneCare.Repository
         private readonly GeneCareContext _context;
         public readonly EmailSettings _emailSettings;
         public readonly AppSettings _appSettings;
-        public readonly FontEnd _fontEnd;
+        public readonly JwtSettings _jwtSettings;
+        public readonly FontEndSettings _fontEndSettings;
         public VerifyEmailRepository(GeneCareContext context,
             IOptionsMonitor<EmailSettings> emailSettings,
             IOptionsMonitor<AppSettings> appSettings,
-            IOptionsMonitor<FontEnd> fontEnd)
+            IOptionsMonitor<JwtSettings> jwtSettings,
+            IOptionsMonitor<FontEndSettings> fontEnd)
         {
             _context = context;
             _emailSettings = emailSettings.CurrentValue;
             _appSettings = appSettings.CurrentValue;
-            _fontEnd = fontEnd.CurrentValue;
+            _jwtSettings = jwtSettings.CurrentValue;
+            _fontEndSettings = fontEnd.CurrentValue;
         }
-
         
         public bool CreateVerifyEmail(VerifyEmail verifyEmail)
         {
@@ -44,6 +46,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
+
         public bool DeleteVerifyEmailByEmail(String email)
         {
             if (email == null) return false;
@@ -157,7 +160,7 @@ namespace APIGeneCare.Repository
                     $"<br>\r\nCảm ơn bạn đã đăng ký tài khoản tại GeneCare." +
                     $"<br>\r\nVui lòng nhấn nút bên dưới để xác nhận email của bạn:\r\n    " +
                     $"</p>\r\n    " +
-                    $"<a href=\"{_fontEnd.ReturnAfterConfirmEmail}?email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
+                    $"<a href=\"{_fontEndSettings.ReturnAfterConfirmEmail}?email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
                     $"<div class=\"footer\">\r\n      Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này." +
                     $"<br>\r\n      Trân trọng," +
                     $"<br>\r\n      Đội ngũ GeneCare\r\n    " +
@@ -368,7 +371,7 @@ namespace APIGeneCare.Repository
                       Đừng lo, ánh sáng đang chờ bạn ở phía trước. Một cú chạm nhẹ, bạn sẽ khôi phục sức mạnh, mở ra những điều kỳ diệu phía sau cánh cửa.<br>
                       Hãy nhấn vào nút dưới đây để bắt đầu tái sinh và tiếp tục hành trình vĩ đại của riêng bạn:
                     </p>
-                    <a href=""{_fontEnd.ReturnAfterResetPassword}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
+                    <a href=""{_fontEndSettings.ReturnAfterResetPassword}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
                     <div class=""footer"">
                       Nếu bạn không phải người gửi yêu cầu, xin hãy bỏ qua email này như một vì sao băng thoáng qua.<br><br>
                       Luôn đồng hành và bảo vệ bạn,<br>
@@ -406,7 +409,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public async Task<bool> ConfirmForgetPassword(string email, string key)
+        public async Task<bool> ConfirmForgetPassword(string email, string key, string password)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -420,8 +423,43 @@ namespace APIGeneCare.Repository
                 if (verifyEmail == null || verifyEmail.Length == 0)
                     return false;
 
-                await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
+                _context.VerifyEmails.RemoveRange(verifyEmail);
                 await _context.SaveChangesAsync();
+
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower());
+
+                if (user != null)
+                {
+                    user.Password = password;
+                    user.LastPwdChange = timeNow;
+
+                    var tokens = await _context.RefreshTokens
+                        .Where(x => x.UserId == user.UserId)
+                        .ToListAsync();
+
+                    foreach (var token in tokens)
+                    {
+                        token.Revoked = true;
+                        _context.AccessTokenBlacklists.Add(new AccessTokenBlacklist
+                        {
+                            JwtId = token.JwtId,
+                            UserId = token.UserId,
+                            ExpireAt = timeNow.AddMinutes(_jwtSettings.MinAccessExpirationTime),
+                            Reason = "Password changed"
+                        });
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
+                else
+                {
+                    await transaction.RollbackAsync();
+                    throw new Exception("User not found");
+                }
+                await _context.SaveChangesAsync();
+
                 await transaction.CommitAsync();
 
                 return true;
@@ -457,6 +495,12 @@ namespace APIGeneCare.Repository
                 await transaction.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<bool> CheckFo(string email)
+        {
+            var verifyEmail = await _context.VerifyEmails.FirstOrDefaultAsync(x => x.Email.Trim().ToLower() == email.Trim().ToLower());
+            return verifyEmail == null;
         }
 
         private async Task SendEmailAsync(string toEmail, string subject, string body)

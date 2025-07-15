@@ -18,14 +18,14 @@ namespace APIGeneCare.Repository
     {
         private readonly GeneCareContext _context;
         private readonly AppSettings _appSettings;
-        private readonly Vnpay _vnpay;
-        private readonly Momo _momo;
-        private readonly FontEnd _fontEnd;
+        private readonly VnpaySettings _vnpay;
+        private readonly MomoSettings _momo;
+        private readonly FontEndSettings _fontEnd;
         public PaymentRepository(GeneCareContext context,
             IOptionsMonitor<AppSettings> appSettings,
-            IOptionsMonitor<Vnpay> vnpayOptions,
-            IOptionsMonitor<Momo> momoOptions,
-            IOptionsMonitor<FontEnd> fontEnd,
+            IOptionsMonitor<VnpaySettings> vnpayOptions,
+            IOptionsMonitor<MomoSettings> momoOptions,
+            IOptionsMonitor<FontEndSettings> fontEnd,
             IConfiguration configuration)
         {
             _context = context;
