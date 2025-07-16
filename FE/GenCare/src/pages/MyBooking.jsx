@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import html2pdf from "html2pdf.js";
 import api from "../config/axios.js";
 import img1 from "../assets/GenCare.png";
+import TimeLine from "../components/TimeLine.jsx"
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
@@ -11,6 +12,7 @@ import { Link } from "react-router-dom";
     const [dataService, setDataService] = useState([]);
     const [dataDuration, setDataDuration] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
+    const [resStepsAll, setResStepsAll] = useState([]);
     const [search, setSearch] = useState("");
     const [detailData, setDetailData] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
@@ -27,7 +29,7 @@ import { Link } from "react-router-dom";
             api.get("Durations/GetAllPaging"),
             api.get("Status/GetAllStatus"),
         ]);
-
+        
         setDataBooking(resBooking.data.data.filter((b) => b.userId === userId));
         setDataService(resService.data.data);
         setDataDuration(resDuration.data.data);
@@ -47,9 +49,17 @@ import { Link } from "react-router-dom";
     const fetchBookingDetail = async (bookingId) => {
         try {
         const [
-            resBooking, resUserAll, resPatientAll, resSampleAll,
-            resProcessAll, resServiceAll, resStatusAll, resDurationAll,
-            resMethodAll, resStepsAll, resResults
+            resBooking, 
+            resUserAll, 
+            resPatientAll, 
+            resSampleAll,
+            resProcessAll, 
+            resServiceAll, 
+            resStatusAll, 
+            resDurationAll,
+            resMethodAll, 
+            resStepsAll, 
+            resResults
         ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
             api.get(`Users/GetAll`),
@@ -65,6 +75,7 @@ import { Link } from "react-router-dom";
         ]);
 
         const booking = resBooking.data.data;
+        const step = resStepsAll.data.data;
         const user = resUserAll.data.data.find(u => u.userId === booking.userId);
         const service = resServiceAll.data.data.find(s => s.serviceId === booking.serviceId);
         const status = resStatusAll.data.data.find(s => s.statusId === booking.statusId);
@@ -92,7 +103,9 @@ import { Link } from "react-router-dom";
             step: steps.find(s => s.stepId === p.stepId),
             status: resStatusAll.data.data.find(st => st.statusId === p.statusId)
             }));
-
+        
+        // Set detail data
+        setResStepsAll(step);
         setDetailData({
             booking: { ...booking, user, service, status, duration, collectionMethod: method, result },
             patients,
@@ -105,6 +118,7 @@ import { Link } from "react-router-dom";
         toast.error("Failed to load booking detail");
         }
     };
+    
 
     const exportToPDF = () => {
     if (!detailData || !pdfRef.current) return;
@@ -193,70 +207,85 @@ import { Link } from "react-router-dom";
         {/* Overlay */}
         {showOverlay && detailData && (
             <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
-            <div className="bg-white p-4 rounded shadow border-bottom" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
-                <h5 className="mb-3 border-bottom border-primary pb-2">Booking Detail - #{detailData.booking.bookingId}</h5>
+                <div className="bg-white p-4 rounded shadow border-bottom" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
+                    <div>
+                        <h5 className="mb-3 border-bottom border-primary pb-2 text-center">Booking Detail - #{detailData.booking.bookingId}</h5>
+                    </div>
+                    {console.log(detailData.booking.status?.statusId)}
+                    {/* Process Test realtime */}
+                    {(detailData.booking.status?.statusName === "Đang thực hiện" || detailData.booking.status?.statusName === "Hoàn thành") && (
+                    <div className="mb-3 border-bottom border-primary pb-2">
+                    <h5 className="m-4 text-center">Process Test</h5>
+                        <TimeLine
+                        steps={resStepsAll}
+                        processes={detailData.processes}
+                        />
+                    </div>
+                    )}
+                    
 
-                <div className="mb-3 border-bottom border-primary pb-2">
-                <h5>Service Info</h5>
-                <p><strong>Service Name:</strong> {detailData.booking.service?.serviceName}</p>
-                <p><strong>Service Type:</strong> {detailData.booking.service?.serviceType}</p>
-                <p><strong>Duration:</strong> {detailData.booking.duration?.durationName}</p>
-                <p><strong>Collection Method:</strong> {detailData.booking.collectionMethod?.methodName}</p>
-                <p><strong>Date:</strong> {detailData.booking?.date?.split("T")[0]}</p>
-                <p><strong>Appointment:</strong> {detailData.booking?.appointmentTime?.split("T")[0]}</p>
-                <p><strong>Status:</strong> {detailData.booking.status?.statusName}</p>
-                <p><strong>Result:</strong> {detailData.booking.result?.resultSummary || "Not result yet"}</p>
-                {detailData.booking.result?.resultSummary && detailData.booking.result?.date && (
-                    <p><strong>Date Public Result:</strong> {detailData.booking.result?.date.split("T")[0]}</p>
-                )}
+                    {/* Service Info */}
+                    <div className="mb-3 border-bottom border-primary pb-2">
+                        <h5>Service Info</h5>
+                        <p><strong>Service Name:</strong> {detailData.booking.service?.serviceName}</p>
+                        <p><strong>Service Type:</strong> {detailData.booking.service?.serviceType}</p>
+                        <p><strong>Duration:</strong> {detailData.booking.duration?.durationName}</p>
+                        <p><strong>Collection Method:</strong> {detailData.booking.collectionMethod?.methodName}</p>
+                        <p><strong>Date:</strong> {detailData.booking?.date?.split("T")[0]}</p>
+                        <p><strong>Appointment:</strong> {detailData.booking?.appointmentTime?.split("T")[0]}</p>
+                        <p><strong>Status:</strong> {detailData.booking.status?.statusName}</p>
+                        <p><strong>Result:</strong> {detailData.booking.result?.resultSummary || "Not result yet"}</p>
+                        {detailData.booking.result?.resultSummary && detailData.booking.result?.date && (
+                            <p><strong>Date Public Result:</strong> {detailData.booking.result?.date.split("T")[0]}</p>
+                        )}
+                    </div>
+
+                    <div className="mb-3 border-bottom border-primary pb-2">
+                        <h5>User Info</h5>
+                        <p><strong>Name:</strong> {detailData.booking.user?.fullName}</p>
+                        <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
+                        <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
+                        <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
+                        <p><strong>CCCD:</strong> {detailData.booking.user?.identifyId}</p>
+                    </div>
+
+                    <div>
+                        <h5>Patient Info</h5>
+                        {detailData.patients.length > 0 ? (
+                            <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Full Name</th>
+                                <th>BirthDate</th>
+                                <th>Gender</th>
+                                <th>Identify ID</th>
+                                <th>Sample Name</th>
+                                <th>Relationship</th>
+                                <th>DNA Tested</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {detailData.patients.map(p => (
+                                <tr key={p.patientId}>
+                                    <td>{p.fullName}</td>
+                                    <td>{p.birthDate}</td>
+                                    <td>{p.gender}</td>
+                                    <td>{p.identifyId}</td>
+                                    <td>{p.sampleName}</td>
+                                    <td>{p.relationship}</td>
+                                    <td className={p.hasTestedDna ? "text-success" : "text-danger"}>
+                                    {p.hasTestedDna ? "Yes" : "No"}
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                            </table>
+                        ) : <p>No patient data</p>}
+                    </div>
+
+                    <button className="btn btn-success me-2" onClick={exportToPDF}>Download PDF</button>
+                    <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Close</button>
                 </div>
-
-                <div className="mb-3 border-bottom border-primary pb-2">
-                <h5>User Info</h5>
-                <p><strong>Name:</strong> {detailData.booking.user?.fullName}</p>
-                <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
-                <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
-                <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
-                <p><strong>CCCD:</strong> {detailData.booking.user?.identifyId}</p>
-                </div>
-
-                <div>
-                <h5>Patient Info</h5>
-                {detailData.patients.length > 0 ? (
-                    <table className="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th>Full Name</th>
-                        <th>BirthDate</th>
-                        <th>Gender</th>
-                        <th>Identify ID</th>
-                        <th>Sample Name</th>
-                        <th>Relationship</th>
-                        <th>DNA Tested</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {detailData.patients.map(p => (
-                        <tr key={p.patientId}>
-                            <td>{p.fullName}</td>
-                            <td>{p.birthDate}</td>
-                            <td>{p.gender}</td>
-                            <td>{p.identifyId}</td>
-                            <td>{p.sampleName}</td>
-                            <td>{p.relationship}</td>
-                            <td className={p.hasTestedDna ? "text-success" : "text-danger"}>
-                            {p.hasTestedDna ? "Yes" : "No"}
-                            </td>
-                        </tr>
-                        ))}
-                    </tbody>
-                    </table>
-                ) : <p>No patient data</p>}
-                </div>
-
-                <button className="btn btn-success me-2" onClick={exportToPDF}>Download PDF</button>
-                <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Close</button>
-            </div>
             </div>
         )}
 
@@ -328,14 +357,18 @@ import { Link } from "react-router-dom";
                     </table>
                     ) : <p>No patient data</p>}
 
+                    {detailData.booking.result?.resultSummary ? 
                     <div style={{ marginTop: "40px" }}>
                         <p><strong>Người lập phiếu:</strong> CN. Nguyễn Gia Huy</p>
                         <p><strong>Ngày:</strong> {new Date().toLocaleDateString()}</p>
                     </div>
+                    : null }
 
+                    {detailData.booking.result?.resultSummary ? 
                     <div style={{ textAlign: "start", marginTop: "40px" }}>
                         <img src={img1} alt="stamp" style={{ width: "120px", opacity: 0.6 }} />
                     </div>
+                    : null }
 
             </div>
         </div>

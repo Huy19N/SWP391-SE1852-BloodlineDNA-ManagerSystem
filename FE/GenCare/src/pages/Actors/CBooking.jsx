@@ -36,8 +36,12 @@ function Booking(){
             
             // lưu status id vào local 
             const dataStatus = resStatus.data.data;
-            const statusId = dataStatus.find(s => s.statusId === 6)?.statusId;
-            localStorage.setItem('statusId', statusId);
+            const statusId_Approve = dataStatus.find(s => s.statusId === 6)?.statusId;
+            const statusId_NotPay = dataStatus.find(s => s.statusId === 1)?.statusId;
+            const statusId_Notdo = dataStatus.find(s => s.statusId === 2)?.statusId;
+            localStorage.setItem('statusId_Approve', statusId_Approve);
+            localStorage.setItem('statusId_NotPay', statusId_NotPay);
+            localStorage.setItem('statusId_Notdo', statusId_Notdo);
             
             
 
@@ -179,11 +183,13 @@ function Booking(){
         return status ? status.statusName : 'Empty';
     };
 
-    const statusID = parseInt(localStorage.getItem('statusId') || 6);
+    const statusID_Approve = parseInt(localStorage.getItem('statusId_Approve') || 6);
+    const statusID_NotPay = parseInt(localStorage.getItem('statusId_NotPay') || 1);
+    const statusID_NotDo = parseInt(localStorage.getItem('statusId_Notdo') || 2);
     const filterBookings = dataBooking.filter((bookings) => {
         const keyword = search.toLowerCase();
         return(
-            bookings.statusId !== statusID && (
+                bookings.statusId !== statusID_NotPay && bookings.statusId !== statusID_NotDo && bookings.statusId !== statusID_Approve && (
                 bookings.bookingId.toString().includes(keyword) ||
                 getUsername(bookings.userId).toLowerCase().includes(keyword) ||
                 getServiceName(bookings.serviceId).toLowerCase().includes(keyword) ||
@@ -210,6 +216,8 @@ function Booking(){
         }
     };
 
+    console.log(detailData);
+
     return (
             <div className="container mt-5">
                 <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary">
@@ -220,7 +228,7 @@ function Booking(){
                     <div className="col-md-4">
                         <input
                             type="text"
-                            placeholder="Search......."
+                            placeholder="Tìm......."
                             className="form-control"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -232,18 +240,18 @@ function Booking(){
                     <thead className="table-primary text-center">
                         <tr>
                             <th>ID</th>
-                            <th>User Name</th>
-                            <th>Service Name</th>
-                            <th>Service Type</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            {(isAdmin || isManager || isStaff) && <th>Action</th>}
+                            <th>Tên tài khoản</th>
+                            <th>Tên Dịch vụ</th>
+                            <th>Loại dịch vụ</th>
+                            <th>Ngày Đăng Ký</th>
+                            <th>Trạng Thái</th>
+                            {(isAdmin || isManager || isStaff) && <th>Hành động</th>}
                         </tr>
                     </thead>
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan="7" className="text-center">Loading...</td>
+                                <td colSpan="7" className="text-center">Đang Tải...</td>
                             </tr>
                         ) : filterBookings.length > 0 ? (
                             filterBookings.map((booking) => (
@@ -277,7 +285,7 @@ function Booking(){
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7" className="text-center">No booking data found.</td>
+                                <td colSpan="7" className="text-center">Không có ai đặt cả.</td>
                             </tr>
                         )}
                     </tbody>
@@ -287,25 +295,25 @@ function Booking(){
                 {showOverlay && detailData && (
                     <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center z-3">
                         <div className="bg-white p-4 rounded shadow-lg overflow-auto" style={{ width: "80%", maxHeight: "90vh" }}>
-                            <h4 className="mb-3">Booking Details</h4>
+                            <h4 className="mb-3">Nội dung của đặt chỗ</h4>
                             <div className="accordion" id="accordionBookingDetail">
 
                                 {/* 1. Booking Info */}
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bookingInfo">
-                                            1. Information Booking
+                                            1. Thông tin đặt chỗ
                                         </button>
                                     </h2>
                                     <div id="bookingInfo" className="accordion-collapse collapse show">
                                         <div className="accordion-body">
-                                            <p><strong>Booking ID:</strong> {detailData.booking.bookingId}</p>
-                                            <p><strong>Service:</strong> {detailData.booking.service?.serviceName} - {detailData.booking.service?.serviceType}</p>
-                                            <p><strong>Duration:</strong> {detailData.booking.duration?.durationName}</p>
-                                            <p><strong>Collection Method:</strong> {detailData.booking.collectionMethod?.methodName}</p>
-                                            <p><strong>Appointment:</strong> {detailData.booking.appointmentTime}</p>
+                                            <p><strong>ID:</strong> {detailData.booking.bookingId}</p>
+                                            <p><strong>Dịch vụ:</strong> {detailData.booking.service?.serviceName} - {detailData.booking.service?.serviceType}</p>
+                                            <p><strong>Thời gian:</strong> {detailData.booking.duration?.durationName}</p>
+                                            <p><strong>Phương Thức thu thập:</strong> {detailData.booking.collectionMethod?.methodName}</p>
+                                            <p><strong>Lịch đặt chỗ:</strong> {detailData.booking.appointmentTime}</p>
                                             <div className="mb-3">
-                                                <label className="form-label"><strong>Status:</strong></label>
+                                                <label className="form-label"><strong>Trạng thái:</strong></label>
                                                 <select className="form-select" value={detailData.booking.statusId || ''} onChange={(e) => {
                                                     setDetailData(prev => ({
                                                         ...prev,
@@ -327,16 +335,16 @@ function Booking(){
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#userInfo">
-                                            2. Information User
+                                            2. Thông tin người dùng
                                         </button>
                                     </h2>
                                     <div id="userInfo" className="accordion-collapse collapse">
                                         <div className="accordion-body">
-                                            <p><strong>Full Name:</strong> {detailData.booking.user?.fullName}</p>
+                                            <p><strong>Họ và Tên:</strong> {detailData.booking.user?.fullName}</p>
                                             <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
-                                            <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
-                                            <p><strong>Identify ID:</strong> {detailData.booking.user?.identifyId}</p>
-                                            <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
+                                            <p><strong>Số điện thoại:</strong> {detailData.booking.user?.phone}</p>
+                                            <p><strong>CCCD:</strong> {detailData.booking.user?.identifyId}</p>
+                                            <p><strong>Vị trí:</strong> {detailData.booking.user?.address}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -345,7 +353,7 @@ function Booking(){
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                         <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#patients">
-                                            3. Information Patients
+                                            3. Thông tin Khách hàng
                                         </button>
                                     </h2>
                                     <div id="patients" className="accordion-collapse collapse">
@@ -354,13 +362,13 @@ function Booking(){
                                                 <table className="table table-bordered">
                                                     <thead>
                                                         <tr>
-                                                            <th>Full Name</th>
-                                                            <th>BirthDate</th>
-                                                            <th>Gender</th>
-                                                            <th>Identify ID</th>
-                                                            <th>Sample Name</th> {/* Thay vì Sample Type */}
-                                                            <th>Relationship</th>
-                                                            <th>DNA Tested</th>
+                                                            <th>Họ và Tên</th>
+                                                            <th>Ngày Sinh</th>
+                                                            <th>Giới tính</th>
+                                                            <th>CCCD</th>
+                                                            <th>Mẫu Vật</th> {/* Thay vì Sample Type */}
+                                                            <th>Mối quan hệ</th>
+                                                            <th>Đã từng kiểm tra chưa</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -373,16 +381,16 @@ function Booking(){
                                                                 <td>{p.sampleName}</td>
                                                                 <td>{p.relationship}</td>
                                                                 { p.hasTestedDna ? (
-                                                                    <td className="text-success">Yes</td>
+                                                                    <td className="text-success">Có</td>
                                                                 ) : (
-                                                                    <td className="text-danger">No</td>
+                                                                    <td className="text-danger">Không</td>
                                                                 )}
                                                             </tr>
                                                         ))}
                                                     </tbody>
 
                                                 </table>
-                                            ) : <p>No patient data</p>}
+                                            ) : <p>Không có dữ liệu về Khách hàng</p>}
                                         </div>
                                     </div>
                                 </div>
@@ -390,7 +398,7 @@ function Booking(){
                                 <div className="accordion-item">
                                 <h2 className="accordion-header">
                                     <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#testProcess">
-                                    4. Process Test
+                                    4. Quá trình kiểm tra
                                     </button>
                                 </h2>
                                 <div id="testProcess" className="accordion-collapse collapse">
@@ -400,8 +408,8 @@ function Booking(){
                                         <table className="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>Step</th>
-                                                <th>Status</th>
+                                                <th>Bước</th>
+                                                <th>Trạng thái</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -463,12 +471,12 @@ function Booking(){
                                                 }
                                             }}
                                             >
-                                            Update All Steps
+                                            Cập nhật tất cả
                                             </button>
                                         </div>
                                         </>
                                     ) : (
-                                        <p>No test process data</p>
+                                        <p>Không có quá trình kiểm tra nào</p>
                                     )}
                                     </div>
                                 </div>
@@ -478,7 +486,7 @@ function Booking(){
                                 <div className="accordion-item">
                                     <h2 className="accordion-header">
                                             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#result">
-                                                5. Result Test
+                                                5. Kết quả
                                             </button>
                                         </h2>
                                         <div id="result" className="accordion-collapse collapse">
@@ -487,8 +495,8 @@ function Booking(){
                                                     <table className="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th>Result</th>
-                                                                <th>Date</th>
+                                                                <th>Kết quả</th>
+                                                                <th>Ngày Công Bố</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -498,7 +506,7 @@ function Booking(){
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                ) : <p>No result data</p>}
+                                                ) : <p>Không có dữ liệu</p>}
                                             </div>
                                         </div>
                                 </div>
@@ -515,9 +523,9 @@ function Booking(){
                                         toast.error("Failed to update booking status.");
                                     }
                                 }}>
-                                    Update Status
+                                    Cập nhật Trạng thái
                                 </button>
-                                <button className="btn btn-danger" onClick={() => setShowOverlay(false)}>Close</button>
+                                <button className="btn btn-danger" onClick={() => setShowOverlay(false)}>Đóng</button>
                             </div>
                         </div>
                     </div>
@@ -527,7 +535,7 @@ function Booking(){
                 {showUpdateResult && (
                     <div className="update-overlay">
                         <div className="update-box">
-                            <h5 className="text-center">Update Result for Booking</h5>
+                            <h5 className="text-center">Cập Nhật Kết Quả DNA</h5>
                             <form onSubmit={async (e) => {
                                 e.preventDefault();
                                 try {
@@ -540,11 +548,11 @@ function Booking(){
                                 }
                             }}>
                                 <div className="mb-3">
-                                    <label>Booking ID:</label>
+                                    <label>ID của Đặt Chỗ:</label>
                                     <input className="form-control" value={editBookingResult.bookingId} readOnly />
                                 </div>
                                 <div className="mb-3">
-                                    <label>Result ID:</label>
+                                    <label>ID của Kết Quả:</label>
                                     <input
                                         type="number"
                                         className="form-control"
@@ -559,8 +567,8 @@ function Booking(){
                                     />
                                 </div>
                                 <div className="text-end">
-                                    <button type="submit" className="btn btn-success me-2">Save</button>
-                                    <button className="btn btn-danger" onClick={() => setShowUpdateResult(false)}>Cancel</button>
+                                    <button type="submit" className="btn btn-success me-2">Lưu</button>
+                                    <button className="btn btn-danger" onClick={() => setShowUpdateResult(false)}>Hủy</button>
                                 </div>
                             </form>
                         </div>

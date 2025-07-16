@@ -8,7 +8,7 @@ namespace APIGeneCare.Repository
     public class TestProcessRepository : ITestProcessRepository
     {
         private readonly GeneCareContext _context;
-        public static int PAGE_SIZE { get; set; } = 10;
+        public static int PAGE_SIZE { get; set; } = 100;
         public TestProcessRepository(GeneCareContext context) => _context = context;
 
         public IEnumerable<TestProcessDTO> GetAllTestProcessPaging(string? typeSearch, string? search, string? sortBy, int? page)
