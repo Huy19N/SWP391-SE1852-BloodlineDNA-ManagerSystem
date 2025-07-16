@@ -17,7 +17,6 @@ import Blog from './pages/Blog.jsx';
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
 import Payment from './pages/Payment/Payment.jsx';
-import PaymentSuccess from './pages/Payment/PaymentSuccess.jsx';
 import Account from './pages/Actors/InforAccount.jsx';
 import MyBooking from './pages/MyBooking.jsx';
 
@@ -126,8 +125,6 @@ function App() {
           <MyBooking/>
         </ProtectedRoute>
       }/>
-
-      <Route path='/payment-success' element={<PaymentSuccess/>}/>
 
       <Route path='/account' element={
         <ProtectedRoute allowedRoles={[1, 2, 3, 4]}>
