@@ -154,10 +154,11 @@ function Approve(){
         };
 
     const statusID = parseInt(localStorage.getItem('statusId_Approve') || 6);
+    const statusID_NotPay = parseInt(localStorage.getItem('statusId_NotPay') || 1);
     const filterBookings = dataBooking.filter((bookings) => {
         const keyword = search.toLowerCase();
         return(
-            bookings.statusId === statusID && (
+                bookings.statusId === statusID && (
                 bookings.bookingId.toString().includes(keyword) ||
                 getUsername(bookings.userId).toLowerCase().includes(keyword) ||
                 getServiceName(bookings.serviceId).toLowerCase().includes(keyword) ||
@@ -168,6 +169,20 @@ function Approve(){
         );
     });
     console.log("filterStatusID", filterBookings);
+
+    const filterBookingsTest = dataBooking.filter((bookings) => {
+        const keyword = search.toLowerCase();
+        return(
+                bookings.statusId === statusID_NotPay && (
+                bookings.bookingId.toString().includes(keyword) ||
+                getUsername(bookings.userId).toLowerCase().includes(keyword) ||
+                getServiceName(bookings.serviceId).toLowerCase().includes(keyword) ||
+                getStatusName(bookings.statusId).toLowerCase().includes(keyword) ||
+                bookings.date?.split("T")[0].toString().includes(keyword) ||
+                getServiceType(bookings.serviceId).toLowerCase().includes(keyword)
+                )
+        );
+    });
 
     return(
         <div className="container mt-5">
@@ -187,51 +202,103 @@ function Approve(){
                     </div>
                 </div>
 
-                <table className="table table-bordered table-hover align-middle shadow">
-                    <thead className="table-primary text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Service Name</th>
-                            <th>Service Type</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            {(isAdmin || isManager || isStaff) && <th>Action</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {isLoading ? (
+                <div className="table-responsive mb-5">
+                    <h5 className="border-bottom border-primary text-center mb-4">Mẫu Đăng Ký Đang Chờ Duyệt</h5>
+                    <table className="table table-bordered table-hover align-middle shadow">
+                        <thead className="table-primary text-center">
                             <tr>
-                                <td colSpan="7" className="text-center">Loading...</td>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Service Name</th>
+                                <th>Service Type</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                {(isAdmin || isManager || isStaff) && <th>Action</th>}
                             </tr>
-                        ) : filterBookings.length > 0 ? (
-                            filterBookings.map((booking) => (
-                                <tr key={booking.bookingId} className="text-center">
-                                    <td>{booking.bookingId}</td>
-                                    <td>{getUsername(booking.userId)}</td>
-                                    <td>{getServiceName(booking.serviceId)}</td>
-                                    <td>{getServiceType(booking.serviceId)}</td>
-                                    <td>{booking.date?.split("T")[0]}</td>
-                                    <td>{getStatusName(booking.statusId)}</td>
-                                    {(isAdmin || isManager || isStaff) && (
-                                        <td>
-                                            <button className="btn btn-info me-2 shadow" onClick={() => fetchBookingDetail(booking.bookingId)}>
-                                                <i className="bi bi-pencil-square"></i>
-                                            </button>
-                                            <button className="btn btn-danger shadow" onClick={() => fetchDelete(booking.bookingId)}>
-                                                <i className="bi bi-trash3-fill"></i>
-                                            </button>
-                                        </td>
-                                    )}
+                        </thead>
+                        <tbody>
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center">Loading...</td>
                                 </tr>
-                            ))
-                        ) : (
+                            ) : filterBookings.length > 0 ? (
+                                filterBookings.map((booking) => (
+                                    <tr key={booking.bookingId} className="text-center">
+                                        <td>{booking.bookingId}</td>
+                                        <td>{getUsername(booking.userId)}</td>
+                                        <td>{getServiceName(booking.serviceId)}</td>
+                                        <td>{getServiceType(booking.serviceId)}</td>
+                                        <td>{booking.date?.split("T")[0]}</td>
+                                        <td>{getStatusName(booking.statusId)}</td>
+                                        {(isAdmin || isManager || isStaff) && (
+                                            <td>
+                                                <button className="btn btn-info me-2 shadow" onClick={() => fetchBookingDetail(booking.bookingId)}>
+                                                    <i className="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button className="btn btn-danger shadow" onClick={() => fetchDelete(booking.bookingId)}>
+                                                    <i className="bi bi-trash3-fill"></i>
+                                                </button>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="text-center">No booking data found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div className="table-responsive mb-5">
+                    <h5 className="border-bottom border-primary text-center mb-4">Mẫu Đăng Ký chưa Thanh toán</h5>
+                    <table className="table table-bordered table-hover align-middle shadow">
+                        <thead className="table-primary text-center">
                             <tr>
-                                <td colSpan="7" className="text-center">No booking data found.</td>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Service Name</th>
+                                <th>Service Type</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                {(isAdmin || isManager || isStaff) && <th>Action</th>}
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center">Loading...</td>
+                                </tr>
+                            ) : filterBookingsTest.length > 0 ? (
+                                filterBookingsTest.map((booking) => (
+                                    <tr key={booking.bookingId} className="text-center">
+                                        <td>{booking.bookingId}</td>
+                                        <td>{getUsername(booking.userId)}</td>
+                                        <td>{getServiceName(booking.serviceId)}</td>
+                                        <td>{getServiceType(booking.serviceId)}</td>
+                                        <td>{booking.date?.split("T")[0]}</td>
+                                        <td>{getStatusName(booking.statusId)}</td>
+                                        {(isAdmin || isManager || isStaff) && (
+                                            <td>
+                                                <button className="btn btn-info me-2 shadow" onClick={() => fetchBookingDetail(booking.bookingId)}>
+                                                    <i className="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button className="btn btn-danger shadow" onClick={() => fetchDelete(booking.bookingId)}>
+                                                    <i className="bi bi-trash3-fill"></i>
+                                                </button>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="text-center">No booking data found.</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* Xem chi tiết Form Booking */}
                 {showOverlay && detailData && (
