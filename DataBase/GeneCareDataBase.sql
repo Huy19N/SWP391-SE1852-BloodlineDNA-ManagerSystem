@@ -299,6 +299,7 @@ go
 INSERT INTO TestStep(StepName)
   VALUES
   (N'Chưa thanh toán'),
+  (N'Đã thanh toán'),
   (N'Xác nhận'),
   (N'Đang gửi bộ kit'),
   (N'Đã nhận bộ kit'),
