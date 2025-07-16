@@ -223,8 +223,8 @@ function Booking() {
 
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
-      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8];
-      const shortSteps = [1, 5, 6, 7, 8];
+      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const shortSteps = [1, 2, 3, 7, 8, 9, 10];
       return methodId === 1 ? fullSteps : shortSteps;
     };
 
@@ -233,19 +233,29 @@ function Booking() {
     //  Gửi lần lượt các testprocess
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
+
+      let statusId;
+      if (i < 3) {
+        statusId = 4; // 3 bước đầu
+      } else if (i === 3) {
+        statusId = 3; // bước thứ 4
+      } else {
+        statusId = 2; // các bước còn lại
+      }
+
       const process = {
         bookingId: bookingId,
         stepId: step,
-        statusId: i === 0 ? 3 : i === 1 ? 2 : 1,
-        description: stepCount+" bước",
+        statusId: statusId,
+        description: stepCount + " bước",
         updatedAt: new Date().toISOString()
       };
 
       try {
         await api.post("/TestProcess/Create", process);
-        console.log(` Đã tạo bước ${step}`);
+        console.log(`Đã tạo bước ${step} với statusId ${statusId}`);
       } catch (err) {
-        console.error(` Lỗi khi tạo bước ${step}:`, err);
+        console.error(`Lỗi khi tạo bước ${step}:`, err);
       }
     }
 
