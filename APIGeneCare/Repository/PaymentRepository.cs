@@ -212,7 +212,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                StringBuilder url = new StringBuilder( _fontEnd.ReturnAfterPay);
+                StringBuilder url = new StringBuilder(_fontEnd.ReturnAfterPay);
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 

@@ -183,7 +183,7 @@ CREATE TABLE PaymentMethod(
 -- Bảng Payment
 CREATE TABLE Payment (
     PaymentId VARCHAR(200) PRIMARY KEY NOT NULL,
-	BookingId INT  NOT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE CASCADE,
+	BookingId INT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE SET NULL,
 	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
 	TransactionStatus NVARCHAR(50),
 	ResponseCode NVARCHAR(50),

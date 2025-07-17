@@ -142,7 +142,7 @@ namespace APIGeneCare.Repository
         public bool CreateBooking(BookingDTO booking)
         {
             var timeInfor = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
-            
+
             if (booking == null)
             {
                 return false;
@@ -159,7 +159,7 @@ namespace APIGeneCare.Repository
                     ResultId = booking.ResultId,
                     AppointmentTime = booking.AppointmentTime,
                     StatusId = booking.StatusId,
-                    Date = TimeZoneInfo.ConvertTime(booking.Date??DateTime.UtcNow, timeInfor)
+                    Date = TimeZoneInfo.ConvertTime(booking.Date ?? DateTime.UtcNow, timeInfor)
                 });
                 _context.SaveChanges();
                 transaction.Commit();
