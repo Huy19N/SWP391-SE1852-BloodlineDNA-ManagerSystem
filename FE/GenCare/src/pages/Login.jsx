@@ -6,6 +6,7 @@ import '../css/login.css';
 
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
+  const [dataLoginGoogle, setDataLoginGoogle] = useState([]);
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // Loading state for form submission
@@ -153,6 +154,39 @@ const LoginRegister = () => {
     }
   };
 
+
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await api.get('Auth/GoogleLogin');
+      console.log('Google Login response: ', response.data.data);
+      
+      if (response.status === 200) {
+        // Nếu có data trả về
+        if (response.data.data) {
+          console.log('Google Login response data: ', response.data.data);
+          setDataLoginGoogle(response.data.data);
+          localStorage.setItem('token', response.data.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.data.refreshToken);
+          localStorage.setItem('roleId', response.data.data.role);
+          localStorage.setItem('userId',response.data.data.userId);
+          window.location.href = response.data.data;
+          // toast.success("Đăng nhập thành công!");
+        }
+      } else if (response.status === 204) {
+        // No content nhưng thành công
+        // toast.success("Đăng nhập thành công!");
+        // navigate('/');
+      }
+    } catch (err) {
+      console.error('Google Login error: ', err);
+      toast.error("Đăng nhập bằng Google thất bại!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100" style={{background: 'linear-gradient(90deg,#e2e2e2, #c9d6ff)'}}>
       <div className="auth-container" id="container" ref={containerRef}>
@@ -205,7 +239,7 @@ const LoginRegister = () => {
             <p className="text-center mb-3">or Login with social platforms</p>
 
             <div className="social-icons d-flex justify-content-center gap-2">
-              <a href="#" className="social-link">
+              <a className="social-link" onClick={handleGoogleLogin}>
                 <i className="bi bi-google"></i>
               </a>
             </div>
@@ -267,7 +301,7 @@ const LoginRegister = () => {
             <p className="text-center mb-3">or Register with social platforms</p>
 
             <div className="social-icons d-flex justify-content-center gap-2">
-              <a href="#" className="social-link">
+              <a className="social-link" onClick={handleGoogleLogin}>
                 <i className="bi bi-google"></i>
               </a>
             </div>
