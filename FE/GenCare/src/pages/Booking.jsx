@@ -236,11 +236,11 @@ function Booking() {
 
       let statusId;
       if (i < 3) {
-        statusId = 4; // 3 bước đầu
+        statusId = 4; 
       } else if (i === 3) {
-        statusId = 3; // bước thứ 4
+        statusId = 3;
       } else {
-        statusId = 2; // các bước còn lại
+        statusId = 2; 
       }
 
       const process = {
@@ -413,8 +413,8 @@ const genderOptions = [
 
 const testedOptions = [
   { value: '', label: '-- Hãy chọn --' },
-  { value: 'true', label: 'Rồi nè' },
-  { value: 'false', label: 'Chưa nè' }
+  { value: 'true', label: 'Đã từng xét nghiệm trước đây' },
+  { value: 'false', label: 'Chưa từng xét nghiệm trước đây' }
 ];
 
 const sampleOptions = [
