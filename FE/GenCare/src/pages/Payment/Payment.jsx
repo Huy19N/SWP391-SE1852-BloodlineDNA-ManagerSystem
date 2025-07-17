@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import api from "../../config/axios.js";
 import axios from "axios";
 
 function Payment() {
   const { state } = useLocation();
+  const [method, setMethod] = useState(1);
+
   const {
     bookingId,
     user,
     appointmentTime,
     price
   } = state || {};
-
-  const [method, setMethod] = React.useState(1);
 
   const handlePay = async () => {
     if (!bookingId || !user?.email || !price) return;
@@ -25,8 +26,23 @@ function Payment() {
     };
 
     try {
-      const res = await axios.post("https://localhost:7722/api/Payment", paymentData);
-       window.location.href = res.data.data;
+      // Bước 1: Gửi yêu cầu thanh toán
+      const res = await api.post("Payment", paymentData);
+
+      // Bước 2: Âm thầm GET booking
+      const bookingRes = await api.get(`Bookings/GetById/${bookingId}`);
+      const bookingData = bookingRes.data.data;
+
+      // Bước 3: Cập nhật statusId thành 6
+      const updatedBooking = {
+        ...bookingData,
+        statusId: 6
+      };
+
+      await api.put("Bookings/Update", updatedBooking);
+
+      // Bước 4: Điều hướng đến trang thanh toán
+      window.location.href = res.data.data;
     } catch (err) {
       console.error("Thanh toán lỗi:", err);
       alert("Thanh toán thất bại");
