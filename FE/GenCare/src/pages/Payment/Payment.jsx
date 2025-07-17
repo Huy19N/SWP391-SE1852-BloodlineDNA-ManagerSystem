@@ -54,7 +54,7 @@ function Payment() {
   }
 
   return (
-    <div className="container mt-5 p-4 border rounded" style={{ maxWidth: 600 }}>
+    <div className="container mt-5 p-4 border rounded " style={{ maxWidth: 600 }}>
       <h2 className="mb-4 text-center">Thanh toán dịch vụ</h2>
 
       <p><strong>Họ tên:</strong> {user.fullName}</p>
