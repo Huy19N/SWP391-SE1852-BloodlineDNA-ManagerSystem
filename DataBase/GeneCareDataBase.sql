@@ -245,19 +245,26 @@ VALUES
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 
-(N'Dân sự', N'Cha/Mẹ-Con'),
-(N'Dân sự', N'Anh/Chị-Em'),
+(N'Dân sự', N'Cha-Con'),
+(N'Dân sự', N'Mẹ-Con'),
+(N'Dân sự', N'Anh-Em'),
+(N'Dân sự', N'Chị-Em'),
 (N'Dân sự', N'song sinh'),
-(N'Dân sự', N'Cô/Chú-Cháu'),
-(N'Dân sự', N'Dì/Cậu-Cháu'),
-(N'Dân sự', N'Ông/Bà-Cháu'),
+(N'Dân sự', N'Chú/Cậu-Cháu'),
+(N'Dân sự', N'Cô/Dì-Cháu'),
+(N'Dân sự', N'Ông-Cháu'),
+(N'Dân sự', N'Bà-Cháu'),
 
-(N'Pháp lý', N'Cha/Mẹ-Con'),
-(N'Pháp lý', N'Anh/Chị-Em'),
+(N'Pháp lý', N'Cha-Con'),
+(N'Pháp lý', N'Mẹ-Con'),
+(N'Pháp lý', N'Anh-Em'),
+(N'Pháp lý', N'Chị-Em'),
 (N'Pháp lý', N'song sinh'),
-(N'Pháp lý', N'Cô/Chú-Cháu'),
-(N'Pháp lý', N'Dì/Cậu-Cháu'),
-(N'Pháp lý', N'Ông/Bà-Cháu');
+(N'Pháp lý', N'Chú/Cậu-Cháu'),
+(N'Pháp lý', N'Cô/Dì-Cháu'),
+(N'Pháp lý', N'Ông-Cháu'),
+(N'Pháp lý', N'Bà-Cháu'),
+(N'Pháp lý', N'Truy vết tội phạm');
 go
 INSERT INTO Duration(DurationName )
 VALUES
