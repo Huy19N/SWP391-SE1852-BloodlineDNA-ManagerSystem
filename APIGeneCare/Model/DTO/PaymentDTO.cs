@@ -4,7 +4,7 @@ public class PaymentDTO
 {
     public string PaymentId { get; set; } = null!;
 
-    public int BookingId { get; set; }
+    public int? BookingId { get; set; }
 
     public long PaymentMethodId { get; set; }
 

@@ -128,7 +128,7 @@ CREATE TABLE TestStep (
 -- Bảng TestProcess (dùng StepID, StatusID)
 CREATE TABLE TestProcess (
     ProcessID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE CASCADE,
     StepID INT FOREIGN KEY REFERENCES TestStep(StepID),
     StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
     Description NVARCHAR(MAX),
@@ -154,7 +154,7 @@ CREATE TABLE Samples (
 -- Bảng Patient
 CREATE TABLE Patient (
     PatientID INT PRIMARY KEY IDENTITY(1,1), 
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+    BookingID  INT  NOT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE CASCADE,
 	SampleID INT FOREIGN KEY REFERENCES Samples(SampleID),
     FullName NVARCHAR(200) NOT NULL,
     BirthDate DATE NOT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE PaymentMethod(
 -- Bảng Payment
 CREATE TABLE Payment (
     PaymentId VARCHAR(200) PRIMARY KEY NOT NULL,
-	BookingId INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+	BookingId INT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE SET NULL,
 	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
 	TransactionStatus NVARCHAR(50),
 	ResponseCode NVARCHAR(50),

@@ -212,6 +212,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                StringBuilder url = new StringBuilder(_fontEnd.ReturnAfterPay);
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
@@ -252,12 +253,12 @@ namespace APIGeneCare.Repository
                             existingPayment.HavePaid = true;
                         }
                     }
+                    url.Append($"?paymentId={paymentId}");
                     _context.SaveChanges();
                 }
 
-                var url = _fontEnd.ReturnAfterPay;
                 transaction.Commit();
-                return url!;
+                return url.ToString();
             }
             catch
             {
@@ -432,6 +433,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                StringBuilder url = new StringBuilder(_fontEnd.ReturnAfterPay);
                 collections.TryGetValue("orderInfo", out var orderInfo);
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
@@ -472,12 +474,12 @@ namespace APIGeneCare.Repository
                             existingPayment.HavePaid = true;
                         }
                     }
+                    url.Append($"?paymentId={paymentId}");
                     _context.SaveChanges();
                 }
 
-                var url = _fontEnd.ReturnAfterPay;
                 transaction.Commit();
-                return url!;
+                return url.ToString();
             }
             catch
             {
