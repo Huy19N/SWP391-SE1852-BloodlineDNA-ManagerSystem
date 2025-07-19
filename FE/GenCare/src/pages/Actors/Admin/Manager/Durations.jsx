@@ -95,7 +95,7 @@ function Durations(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Durations
+                Thời Lượng
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -110,7 +110,7 @@ function Durations(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Durations
+                        Thêm Thời Lượng Mới
                     </button>
                 </div>
             </div>
@@ -120,14 +120,14 @@ function Durations(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name Durations</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Tên</th>
+                    {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="3" className="text-center">Loading...</td>
+                    <td colSpan="3" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredDurations.length > 0 ? (
                     filteredDurations.map((duration) => (
@@ -150,7 +150,7 @@ function Durations(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="3" className="text-center">No Durations found.</td>
+                    <td colSpan="3" className="text-center">Không Tìm Thấy Thời Lượng Nào.</td>
                     </tr>
                 )}
                 </tbody>
@@ -161,10 +161,10 @@ function Durations(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New Durations</h4>
+                        <h4 className="mb-3">Tạo Thêm Thời Lượng</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Durations Name</label>
+                                <label className="form-label">Tên Thời Lượng</label>
                                 <input
                                     type="text"
                                     name="durationName"
@@ -175,8 +175,8 @@ function Durations(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -188,8 +188,8 @@ function Durations(){
             {editDurations && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Durations ID: {editDurations.durationId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>ID: {editDurations.durationId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -204,7 +204,7 @@ function Durations(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>Durations Name:</label>
+                    <label>Tên Thời Lượng:</label>
                     <input
                     type="text"
                     className="form-control"
@@ -218,14 +218,14 @@ function Durations(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditDurations(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>

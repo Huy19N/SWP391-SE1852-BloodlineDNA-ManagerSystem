@@ -94,7 +94,7 @@ function CollectionMethod(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Collection Method
+                Phương Thức Xét Nghiệm
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -109,7 +109,7 @@ function CollectionMethod(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Method
+                        Thêm Phương Thức Mới
                     </button>
                 </div>
             </div>
@@ -119,14 +119,14 @@ function CollectionMethod(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Tên</th>
+                    {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="3" className="text-center">Loading...</td>
+                    <td colSpan="3" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredCollection.length > 0 ? (
                     filteredCollection.map((collection) => (
@@ -149,7 +149,7 @@ function CollectionMethod(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="3" className="text-center">No collection found.</td>
+                    <td colSpan="3" className="text-center">Không Có Pương Thức.</td>
                     </tr>
                 )}
                 </tbody>
@@ -159,10 +159,10 @@ function CollectionMethod(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New collection</h4>
+                        <h4 className="mb-3">Tạo Thêm Phương Thức</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Service Name</label>
+                                <label className="form-label">Tên Dịch Vụ</label>
                                 <input
                                     type="text"
                                     name="methodName"
@@ -173,8 +173,8 @@ function CollectionMethod(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -186,8 +186,8 @@ function CollectionMethod(){
             {editCollection && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Collections ID: {editCollection.methodId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>ID: {editCollection.methodId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -202,7 +202,7 @@ function CollectionMethod(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>Method Name:</label>
+                    <label>Tên Phương Thức:</label>
                     <input
                     type="text"
                     className="form-control"
@@ -216,14 +216,14 @@ function CollectionMethod(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditCollection(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>
