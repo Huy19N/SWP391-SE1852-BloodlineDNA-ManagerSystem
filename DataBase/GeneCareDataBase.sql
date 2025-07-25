@@ -76,7 +76,7 @@ CREATE TABLE Duration (
     DurationID INT PRIMARY KEY IDENTITY(1,1),
     DurationName NVARCHAR(100),
     [Time] TIME,
-    IsDeleted BIT DEFAULT 0
+    IsDeleted BIT NOT NULL DEFAULT 0
 );
 
 -- Bảng ServicePrice

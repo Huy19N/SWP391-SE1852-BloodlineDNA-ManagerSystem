@@ -60,15 +60,17 @@ namespace APIGeneCare.Repository
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
                 Time = d.Time,
+                IsDeleted = d.IsDeleted,
             });
 
         }
         public IEnumerable<DurationDTO> GetAllDurations()
-            => _context.Durations.Select(d => new DurationDTO
+            => _context.Durations.Where(d => !d.IsDeleted).Select(d => new DurationDTO
             {
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
                 Time = d.Time,
+                IsDeleted = d.IsDeleted
             }).ToList();
         public DurationDTO? GetDurationById(int id)
             => _context.Durations.Select(d => new DurationDTO
@@ -141,7 +143,7 @@ namespace APIGeneCare.Repository
             {
                 var duration = _context.Durations.Find(id);
                 if (duration == null) return false;
-                _context.Durations.Remove(duration);
+                duration.IsDeleted = true;
 
                 _context.SaveChanges();
                 transaction.Commit();

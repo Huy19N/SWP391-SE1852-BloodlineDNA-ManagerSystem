@@ -47,7 +47,7 @@ namespace APIGeneCare.Repository
             try
             {
                 if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return 0;
-
+                if (_context.Durations.Find(bookingWithPatient.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
                 var booking = new Booking
                 {
                     UserId = bookingWithPatient.UserId,

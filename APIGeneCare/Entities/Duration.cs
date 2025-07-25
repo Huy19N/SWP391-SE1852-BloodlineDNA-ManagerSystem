@@ -8,6 +8,8 @@ public partial class Duration
 
     public TimeOnly? Time { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<ServicePrice> ServicePrices { get; set; } = new List<ServicePrice>();

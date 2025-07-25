@@ -2,6 +2,7 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace APIGeneCare.Controllers
 {
@@ -137,7 +138,32 @@ namespace APIGeneCare.Controllers
         {
             try
             {
+               
+                user.IdentifyId = user.IdentifyId?.Trim();
+                user.Phone = user.Phone?.Trim();
+
+                if (!string.IsNullOrWhiteSpace(user.IdentifyId) && !Regex.IsMatch(user.IdentifyId.Trim(), @"^\d+$"))
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Identity id just containt number",
+                        Data = null
+                    });
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.IdentifyId) && !Regex.IsMatch(user.Phone.Trim(), @"^\d+$"))
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Phone Number just containt number",
+                        Data = null
+                    });
+                }
+
                 var isUpdate = _userRepository.UpdateUser(user);
+
                 if (isUpdate)
                     return NoContent();
                 else

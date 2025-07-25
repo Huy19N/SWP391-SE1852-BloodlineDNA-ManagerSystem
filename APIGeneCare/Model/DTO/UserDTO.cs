@@ -10,7 +10,7 @@ public partial class UserDTO
 
     public string? FullName { get; set; }
 
-    public int? IdentifyId { get; set; }
+    public string? IdentifyId { get; set; }
 
     public string? Address { get; set; }
 

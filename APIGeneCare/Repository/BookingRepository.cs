@@ -150,6 +150,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (_context.Durations.Find(booking.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
                 _context.Bookings.Add(new Booking
                 {
                     UserId = booking.UserId,
