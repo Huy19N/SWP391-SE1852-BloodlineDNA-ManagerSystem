@@ -22,10 +22,10 @@ CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
     RoleID INT NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
     FullName NVARCHAR(150),
-	IdentifyID INT,
+	IdentifyID VARCHAR(13),
     [Address] NVARCHAR(500),
     Email NVARCHAR(200) NOT NULL UNIQUE,
-    Phone VARCHAR(20),
+    Phone VARCHAR(12),
     [Password] NVARCHAR(100),
 	LastPwdChange DATETIME NOT NULL DEFAULT GETDATE()
 );
@@ -75,7 +75,8 @@ CREATE TABLE [Service] (
 CREATE TABLE Duration (
     DurationID INT PRIMARY KEY IDENTITY(1,1),
     DurationName NVARCHAR(100),
-    [Time] TIME
+    [Time] TIME,
+    IsDeleted BIT DEFAULT 0
 );
 
 -- Bảng ServicePrice
@@ -159,7 +160,7 @@ CREATE TABLE Patient (
     FullName NVARCHAR(200) NOT NULL,
     BirthDate DATE NOT NULL,
     Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
-    IdentifyID NVARCHAR(50),
+    IdentifyID VARCHAR(13),
     HasTestedDNA BIT NOT NULL,
     Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
 );
@@ -238,10 +239,10 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 go
 INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password, LastPwdChange)
 VALUES 
-(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123', DATEADD(day, -7, GETDATE())),
-(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123', DATEADD(day, -7, GETDATE())),
-(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123', DATEADD(day, -7, GETDATE())),
-(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123', DATEADD(day, -7, GETDATE()));
+(1, N'ThuanCustomer','097209090921',N'HCM',N't@cus','0909508280','123', DATEADD(day, -7, GETDATE())),
+(2, N'ThuanStaff','09720909092',N'HCM',N't@sta','0909508280','123', DATEADD(day, -7, GETDATE())),
+(3, N'ThuanManager','09720909092',N'HCM',N't@mana','0909508280','123', DATEADD(day, -7, GETDATE())),
+(4, N'ThuanAdmin','09720909092',N'HCM',N't@ad','0909508280','123', DATEADD(day, -7, GETDATE()));
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 
