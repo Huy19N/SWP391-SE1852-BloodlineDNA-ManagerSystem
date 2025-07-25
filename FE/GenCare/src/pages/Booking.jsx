@@ -121,20 +121,63 @@ function Booking() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  if (!formData.user.fullName || !formData.user.cccd || !formData.user.address || !formData.user.phone) {
-  toast.error("Vui lòng điền đầy đủ thông tin người đăng ký!");
-  return;
+  const { fullName, cccd, address, phone } = formData.user;
+  const { person1, person2 } = formData;
+
+  // Kiểm tra input người đăng ký
+  if (!fullName.trim() || !address.trim() || !cccd || !phone) {
+    toast.error("Vui lòng điền đầy đủ thông tin người đăng ký.");
+    return ;
   }
 
-  if (!formData.person1.fullName || !formData.person1.birthDate || !formData.person1.gender || !formData.person1.sampleID) {
+  const cccdRegex = /^\d{12}$/;
+  if (!cccdRegex.test(String(cccd).trim())) {
+    toast.error("CCCD không hợp lệ. Phải đủ 12 chữ số.");
+    return ;
+  }
+
+  const phoneRegex = /^\d{9,10}$/;
+  if (!phoneRegex.test(String(phone).trim())) {
+    toast.error("Số điện thoại không hợp lệ. Phải từ 9 đến 10 chữ số.");
+    return ;
+  }
+
+  //Kiểm tra người thứ nhất
+  if (!person1.fullName || !person1.birthDate || !person1.gender || !person1.hasTestedDna || !person1.sampleID || !person1.relationToPerson2) {
     toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
-    return;
+    return ;
   }
 
-  if (!formData.person2.fullName || !formData.person2.birthDate || !formData.person2.gender || !formData.person2.sampleID) {
-    toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
-    return;
+  const year1 = new Date(person1.birthDate).getFullYear();
+  const now = new Date().getFullYear();
+  if (year1 < 1890 || year1 > now) {
+    toast.error("Năm sinh của người thứ nhất không hợp lệ. Phải từ 1890 đến hiện tại.");
+    return ;
   }
+
+  if (/\d/.test(person1.relationToPerson2)) {
+    toast.error("Mối quan hệ của người thứ nhất không được chứa số.");
+    return ;
+  }
+
+  // Kiểm tra người thứ hai
+  if (!person2.fullName || !person2.birthDate || !person2.gender || !person2.hasTestedDna || !person2.sampleID || !person2.relationToPerson1) {
+    toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
+    return ;
+  }
+
+  const year2 = new Date(person2.birthDate).getFullYear();
+  if (year2 < 1890 || year2 > now) {
+    toast.error("Năm sinh của người thứ hai không hợp lệ. Phải từ 1890 đến hiện tại.");
+    return ;
+  }
+
+  if (/\d/.test(person2.relationToPerson1)) {
+    toast.error("Mối quan hệ của người thứ hai không được chứa số.");
+    return ;
+  }
+
+
 
   try {
     // cập nhật user
@@ -270,8 +313,7 @@ function Booking() {
     console.log("Chi tiết:", error.response?.data);
     toast.error("Đã xảy ra lỗi, vui lòng thử lại.");
   }
-
-  
+ 
 };
 
   return (
@@ -306,7 +348,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">CCCD</label>
-        <input className="form-control" name="user.cccd" value={formData.user.cccd} onChange={handleChange} />
+        <input className="form-control" name="user.cccd" value={formData.user.cccd} onChange={handleChange} inputMode="numeric" pattern="\d*" />
       </div>
       <div className="mb-3">
         <label className="form-label">Địa chỉ</label>
@@ -314,7 +356,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">Số điện thoại</label>
-        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange} />
+        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange} inputMode="numeric" pattern="\d*" />
       </div>
       
       {/* Người thứ nhất */}
