@@ -234,7 +234,7 @@ function Booking() {
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
 
-      const statusId = (i === 0) ? 1 : 2;
+      const statusId = (i === 0) ? 3 : 2;
 
       const process = {
         bookingId: bookingId,
