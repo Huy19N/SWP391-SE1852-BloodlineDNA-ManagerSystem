@@ -223,8 +223,8 @@ function Booking() {
 
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
-      const fullSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      const shortSteps = [1, 2, 3, 7, 8, 9, 10];
+      const fullSteps = [1, 2, 3, 4];
+      const shortSteps = [2, 3, 4];
       return methodId === 1 ? fullSteps : shortSteps;
     };
 
@@ -234,14 +234,7 @@ function Booking() {
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
 
-      let statusId;
-      if (i < 3) {
-        statusId = 4; 
-      } else if (i === 3) {
-        statusId = 3;
-      } else {
-        statusId = 2; 
-      }
+      const statusId = (i === 0) ? 1 : 2;
 
       const process = {
         bookingId: bookingId,
