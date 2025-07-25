@@ -111,19 +111,22 @@ namespace APIGeneCare.Repository
                     return _context.Payments
                         .Where(p => p.PaymentDate.Year == currentYear &&
                                     p.PaymentDate.Month >= startMonth &&
-                                    p.PaymentDate.Month <= endMonth)
+                                    p.PaymentDate.Month <= endMonth &&
+                                    p.HavePaid)
                         .Sum(p => p.Amount);
                 }
                 else if (type == 3)
                 {
                     return _context.Payments
-                        .Where(p => p.PaymentDate.Month == currentMonth)
+                        .Where(p => p.PaymentDate.Month == currentMonth && 
+                        p.HavePaid)
                         .Sum(p => p.Amount);
                 }
                 return _context.Payments
                     .Where(p => p.PaymentDate.Day == DateTime.Now.Day &&
                                 p.PaymentDate.Month == currentMonth &&
-                                p.PaymentDate.Year == currentYear)
+                                p.PaymentDate.Year == currentYear && 
+                                p.HavePaid)
                     .Sum(p => p.Amount);
             }
             catch
