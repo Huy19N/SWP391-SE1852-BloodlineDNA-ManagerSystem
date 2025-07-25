@@ -168,7 +168,7 @@ function Home() {
               <p>
                 Với đội ngũ chuyên gia cao cấp nhiều năm kinh nghiệm được đào tạo chuyên nghiệp...
               </p>
-              <a href="#" className="btn btn-danger rounded-pill px-4 mt-3">Contact</a>
+              <a href="#" className="btn btn-danger rounded-pill px-4 mt-3">Liên hệ</a>
             </div>
             <div className="col-md-6 position-relative mt-4 mt-md-0">
               <img src={img3} alt="DNA" className="img-fluid rounded shadow" />
@@ -269,8 +269,8 @@ function Home() {
               />
             </div>
             <div className="col-md-6 text-center">
-              <h5 className="text-secondary mb-2">THE FEEDBACK FROM OUR CUSTOMER</h5>
-              <h2 className="fw-bold mb-5">What Customer Say</h2>
+              <h5 className="text-secondary mb-2">PHẢN HỒI TỪ KHÁCH HÀNG CỦA CHÚNG TÔI</h5>
+              <h2 className="fw-bold mb-5">Họ đã nói gì?</h2>
               <div id="customerFeedbackCarousel" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active">
