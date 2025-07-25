@@ -69,6 +69,15 @@ namespace APIGeneCare.Controllers
                     });
                 }
 
+                if (password.Count() < 8)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Number characters of Password must more than or equar 8"
+                    });
+                }
+
                 bool isConfirm = await _verifyEmailRepository.ConfirmForgetPassword(email, key, password);
                 if (!isConfirm)
                 {
@@ -90,7 +99,37 @@ namespace APIGeneCare.Controllers
             }
         }
         #endregion
+        #region Set New Password
+        //[HttpPut("SetNewPassword")]
+        //public async Task<IActionResult> SetNewPassword(string currentPassword, string newPassword, string confirmNewPasword)
+        //{
+        //    try
+        //    {
 
+        //        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(key))
+        //        {
+        //            return BadRequest(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "What are you doing?"
+        //            });
+        //        }
+
+        //        if (string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(confirmNewPasword))
+        //        {
+        //            return BadRequest(new ApiResponse
+        //            {
+        //                Success = false,
+        //                Message = "Password and confirm password is required"
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, $"error confirm forget password:{ex.Message}");
+        //    }
+        //}
+        #endregion
 
     }
 }
