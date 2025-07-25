@@ -130,9 +130,9 @@ function Booking() {
     return ;
   }
 
-  const cccdRegex = /^\d{12}$/;
+  const cccdRegex = /^\d{11}$/;
   if (!cccdRegex.test(String(cccd).trim())) {
-    toast.error("CCCD không hợp lệ. Phải đủ 12 chữ số.");
+    toast.error("CCCD không hợp lệ. Phải đủ 11 chữ số.");
     return ;
   }
 
