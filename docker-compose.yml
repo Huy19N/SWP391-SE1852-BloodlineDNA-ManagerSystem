@@ -27,7 +27,7 @@ services:
 
   frontend:
     build:
-      context: ./FE/Genecare
+      context: ./FE/GenCare
     container_name: genecare-frontend
     ports:
       - "5173:80"

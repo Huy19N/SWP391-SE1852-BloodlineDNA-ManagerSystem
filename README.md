@@ -33,3 +33,8 @@
  - Quản lý rating, feedback.
  - Quản lý hồ sơ người dùng, lịch sử đặt xét nghiệm.
  - Dashboard & Report.
+
+# build Docker docker-compose.yml
+docker-compose build
+docker-compose logs -f 
+docker-compose down
