@@ -28,6 +28,7 @@ function Payment() {
     try {
       // Bước 1: Gửi yêu cầu thanh toán
       const res = await api.post("Payment", paymentData);
+      console.log("Kết quả thanh toán:", res.data.data);
 
       // Bước 2: Âm thầm GET booking
       const bookingRes = await api.get(`Bookings/GetById/${bookingId}`);
@@ -36,7 +37,7 @@ function Payment() {
       // Bước 3: Cập nhật statusId thành 6
       const updatedBooking = {
         ...bookingData,
-        statusId: 6
+        statusId: 3
       };
 
       await api.put("Bookings/Update", updatedBooking);

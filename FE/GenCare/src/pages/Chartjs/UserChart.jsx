@@ -15,10 +15,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
         // Cấu hình mapping tên Role
         const roleMap = {
-            1: "Customer",
-            2: "Staff",
-            3: "Manager",
-            4: "Admin"
+            1: "Khách Hàng",
+            2: "Nhân Viên",
+            3: "Quản Lý",
+            4: "Quản Trị Viên"
         };
 
         useEffect(() => {
@@ -40,7 +40,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
                 setChartData({
                 labels,
                 datasets: [{
-                    label: 'User Count by Role',
+                    label: 'Số lượng người dùng theo vai trò',
                     data,
                     backgroundColor: [
                     'rgba(255, 99, 132, 0.6)',   
@@ -52,7 +52,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
                 }]
                 });
             } catch (err) {
-                console.error('Error fetching user data:', err);
+                console.error('Lỗi Dữ Liệu:', err);
             }
             };
 
@@ -61,11 +61,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
         return (
             <div className="ms-4 mt-5 pt-4 bg-white rounded shadow card">
-            <h5 className="text-center text-primary">USER REPORT</h5>
+            <h5 className="text-center text-primary">Báo Cáo Dữ Liệu Người Dùng</h5>
             {chartData ? (
                 <Pie data={chartData} />
             ) : (
-                <p className='text-center text-danger'>Loading chart...</p>
+                <p className='text-center text-danger'>Đang tải biểu đồ...</p>
             )}
             </div>
         );

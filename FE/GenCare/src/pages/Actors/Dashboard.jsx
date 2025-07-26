@@ -16,7 +16,7 @@ function Dashboard() {
 
 
     //totalmout có chia ra năm tháng và quý và ngày, 1 là năm , 2 là quý , 3 là tháng, 4 là ngày 
-    const type = 1;
+    const type = 2;
     //API user
     const fetchDataUser = async (e) => {
         setIsLoading(true);

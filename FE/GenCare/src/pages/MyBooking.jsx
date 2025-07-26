@@ -278,8 +278,10 @@ import { Link } from "react-router-dom";
                             <p><strong>Date:</strong> {detailData.booking?.date?.split("T")[0]}</p>
                             <p><strong>Appointment:</strong> {detailData.booking?.appointmentTime?.split("T")[0]}</p>
                             <p><strong>Status:</strong> {detailData.booking.status?.statusName}</p>
-                            <p><strong>Result:</strong> {detailData.booking.result?.resultSummary || "Not result yet"}</p>
-                            {detailData.booking.result?.resultSummary && detailData.booking.result?.date && (
+                            {detailData.booking.status?.statusName === "Hoàn thành" ?
+                            <p><strong>Result:</strong> {detailData.booking.result?.resultSummary}</p>
+                            : <p><strong>Result:</strong> Chưa Có Kết Quả.</p>}
+                            {detailData.booking.result?.resultSummary && detailData.booking.result?.date && detailData.booking.status?.statusName === "Hoàn thành" &&(
                                 <p><strong>Date Public Result:</strong> {detailData.booking.result?.date.split("T")[0]}</p>
                             )}
                         </div>
@@ -326,7 +328,7 @@ import { Link } from "react-router-dom";
                                 </table>
                             ) : <p>No patient data</p>}
                         </div>
-
+                        
                         <button className="btn btn-success me-2" onClick={exportToPDF}>Tải Tệp PDF</button>
                         <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Đóng</button>
                     </div>

@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import api from '../config/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import OTPModal from '../components/OTPmodal.jsx';
 import '../css/login.css';
 
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [dataLoginGoogle, setDataLoginGoogle] = useState([]);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [registerEmail, setRegisterEmail] = useState("");
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // Loading state for form submission
@@ -48,6 +51,26 @@ const LoginRegister = () => {
       }
     }
   }, [isActive]);
+
+
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const accessToken = params.get("AccessToken");
+  const refreshToken = params.get("RefreshToken");
+  const roleId = params.get("RoleId");
+  const userId = params.get("UserId");
+
+  if (accessToken && refreshToken && roleId && userId) {
+    // Lưu thông tin vào localStorage
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("roleId", roleId);
+    localStorage.setItem("userId", userId);
+
+    toast.success("Đăng nhập bằng Google thành công!");
+    navigate("/"); // chuyển về trang chủ
+  }
+}, []);
 
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -115,41 +138,47 @@ const LoginRegister = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validate password and confirmPassword match
+    // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp nhau không
     if (fromDataRegister.password !== fromDataRegister.confirmPassword) {
-      toast.error("Passwords do not match!");
+      toast.error("Mật Khẩu Không Trùng Khớp!");
+      setIsLoading(false);
+      return;
+    }
+
+    // Kiểm tra định dạng email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(fromDataRegister.email)) {
+      toast.error("Email không hợp lệ! Vui lòng nhập đúng định dạng (ví dụ: example@gmail.com)");
+      setIsLoading(false);
+      return;
+    }
+
+    // Kiểm tra định dạng mật khẩu
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[\S]{6,20}$/;
+    if (!passwordRegex.test(fromDataRegister.password)) {
+      toast.error("Mật khẩu phải chứa ít nhất 1 số, 1 ký tự đặc biệt và không chứa khoảng trắng!");
       setIsLoading(false);
       return;
     }
 
     // Call Register API here
-    try{
-      console.log("Register loaded: ", fromDataRegister);
-
+      try {
       const response = await api.post("Auth/Register", fromDataRegister);
-      console.log('Register response: ', response.data.data);
-      
-      if(response.status === 200) {
-        // Nếu có data trả về
-        
-          if(response.data.data){
-            console.log('Register response data: ', response.data.data);
-          }
-          } else if (response.status === 204) {
-            // No content nhưng thành công
-            toast.success("Đăng nhập thành công!");
-            navigate('/login'); // Chuyển hướng về trang chủ sau khi đăng nhập thành công
-          }
-          
-          // Điều hướng về trang đăng nhập
-          setIsActive(false);
-          toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
-    }
-    catch (err){
+
+      if (response.status === 200 || response.status === 204) {
+        // Gửi verify email
+        await api.post(`VerifyEmail/SendVerifyEmail`, null, {
+          params: { email: fromDataRegister.email },
+        });
+
+        setRegisterEmail(fromDataRegister.email);
+        setShowOTPModal(true); // Hiện modal nhập OTP
+        toast.success("Vui lòng kiểm tra email để xác minh!");
+      }
+    } catch (err) {
       console.error('Register error: ', err);
-      toast.error("Đã có tài khoản này rồi vui lòng tạo một tài khoản mới!")
-    }
-    finally{
+      toast.error("Tài khoản đã tồn tại!");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -166,11 +195,11 @@ const LoginRegister = () => {
         // Nếu có data trả về
         if (response.data.data) {
           console.log('Google Login response data: ', response.data.data);
-          setDataLoginGoogle(response.data.data);
-          localStorage.setItem('token', response.data.data.accessToken);
-          localStorage.setItem('refreshToken', response.data.data.refreshToken);
-          localStorage.setItem('roleId', response.data.data.role);
-          localStorage.setItem('userId',response.data.data.userId);
+          // setDataLoginGoogle(response.data.data);
+          // localStorage.setItem('token', response.data.data.accessToken);
+          // localStorage.setItem('refreshToken', response.data.data.refreshToken);
+          // localStorage.setItem('roleId', response.data.data.role);
+          // localStorage.setItem('userId',response.data.data.userId);
           window.location.href = response.data.data;
           // toast.success("Đăng nhập thành công!");
         }
@@ -190,6 +219,16 @@ const LoginRegister = () => {
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100" style={{background: 'linear-gradient(90deg,#e2e2e2, #c9d6ff)'}}>
       <div className="auth-container" id="container" ref={containerRef}>
+          <OTPModal
+            show={showOTPModal}
+            email={registerEmail}
+            onClose={() => setShowOTPModal(false)}
+            onVerified={() => {
+              setShowOTPModal(false);
+              toast.success("Tài khoản đã xác minh thành công!");
+              navigate('/login');
+            }}
+          />
         {/* Login Form */}
         <div className="form-box login">
           <form onSubmit={handleLoginSubmit}>

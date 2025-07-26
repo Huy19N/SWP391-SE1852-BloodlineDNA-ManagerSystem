@@ -20,9 +20,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
         try {
           const res = await api.get('/Payment/GetAll');
           const payments = res.data.data;
+          console.log('Payments data:', payments);
 
+          const paidPayments = payments.filter(p => p.havePaid === true);
+          
           const profitByDate = {};
-          payments.forEach(p => {
+          paidPayments.forEach(p => {
             const date = p.paymentDate?.split('T')[0];
             if (!profitByDate[date]) profitByDate[date] = 0;
             profitByDate[date] += p.amount;
@@ -30,12 +33,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
           const labels = Object.keys(profitByDate).sort();
           const data = labels.map(date => profitByDate[date]);
-
+          
           setChartData({
             labels,
             datasets: [
               {
-                label: 'Profit per Day (VNĐ)',
+                label: 'Lợi Nhuận Trong Ngày (VNĐ)',
                 data,
                 backgroundColor: [
 
@@ -57,7 +60,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
     return (
       <div className="ms-3 mt-5 p-5 bg-white rounded shadow card" style={{width: '1030px', height: '590px'}}>
-        <h5 className="mb-5 text-primary">DAILY PROFIT OVERVIEW</h5>
+        <h5 className="mb-5 text-primary">TỔNG QUAN LỢI NHUẬN HÀNG NGÀY</h5>
         {chartData.labels ? (
           <Bar
             data={chartData}
@@ -74,7 +77,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
             }}
           />
         ) : (
-          <p className='text-center text-danger'>Loading chart...</p>
+          <p className='text-center text-danger'>Đang tải biểu đồ...</p>
         )}
       </div>
     );

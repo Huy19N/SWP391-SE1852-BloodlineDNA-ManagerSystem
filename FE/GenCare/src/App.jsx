@@ -21,7 +21,6 @@ import Account from './pages/Actors/InforAccount.jsx';
 import MyBooking from './pages/MyBooking.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
-import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 import Users from './pages/Actors/Admin/Manager/Users.jsx';
 import Feedbacks from './pages/Actors/Feedbacks.jsx';
 import Layout from './pages/Actors/TotalLayout.jsx';
@@ -33,7 +32,6 @@ import CRUDSamples from './pages/Actors/Admin/Manager/Samples.jsx';
 import CRUDStepTest from './pages/Actors/Admin/Manager/StepTest.jsx';
 import CRUDStatus from './pages/Actors/Admin/Manager/Status.jsx';
 import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
-import CRUDResults from './pages/Actors/Results.jsx';
 import CRUDBlog from './pages/Actors/Blog.jsx';
 
 import Login from './pages/Login.jsx';
@@ -99,7 +97,6 @@ function App() {
           </ProtectedRoute>}>
           <Route index element={<Dashboard/>}/>
           <Route path='dashboard' element={<Dashboard/>}/>
-          <Route path='approve' element={<Approve/>}/>
           <Route path='users' element={<Users/>}/>
           <Route path='dbbooking' element={<DBBooking/>}/>
           <Route path='services' element={<CRUDService/>}/>
@@ -109,7 +106,6 @@ function App() {
           <Route path='steptest' element={<CRUDStepTest/>}/>
           <Route path='status' element={<CRUDStatus/>}/>
           <Route path='price' element={<CRUDPrice/>}/>
-          <Route path='results' element={<CRUDResults/>}/>
           <Route path='feedback' element={<Feedbacks/>}/>
           <Route path='blog' element={<CRUDBlog/>}/>
         </Route>
