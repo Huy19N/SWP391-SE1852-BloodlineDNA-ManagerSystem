@@ -13,11 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Build Database Docker image
+        working-directory: ./DataBase
+        run: docker build . --file Dockerfile --tag genecare-database:latest
 
-      - name: Start SQL Server using GitHub Action
-        uses: sharathck087/sqlserver-github-action@v1
-        with:
-          sa-password: 12345
-          show-log: false
+      - name: Build Backend Docker image
+        working-directory: ./APIGeneCare
+        run: docker build . --file Dockerfile --tag genecare-backend:latest
+
+      - name: Build Frontend Docker image
+        working-directory: ./FE/Genecare
+        run: docker build . --file Dockerfile --tag genecare-frontend:latest
