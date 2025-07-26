@@ -5,7 +5,6 @@ using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 
 
 namespace APIGeneCare.Repository
@@ -160,7 +159,7 @@ namespace APIGeneCare.Repository
             {
                 return false;
             }
-            var price =  _context.ServicePrices.FirstOrDefault(sp => sp.PriceId == booking.PriceId && !sp.IsDeleted);
+            var price = _context.ServicePrices.FirstOrDefault(sp => sp.PriceId == booking.PriceId && !sp.IsDeleted);
             if (price == null)
             {
                 throw new Exception("Price is deleted");

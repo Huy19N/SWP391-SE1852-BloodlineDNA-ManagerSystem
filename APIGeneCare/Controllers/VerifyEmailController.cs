@@ -17,13 +17,13 @@ namespace APIGeneCare.Controllers
         {
             try
             {
+
                 if (string.IsNullOrWhiteSpace(email))
                     return BadRequest(new ApiResponse
                     {
                         Success = false,
                         Message = "Email is required"
                     });
-
                 var isSend = await _verifyEmailRepository.SendConfirmEmail(email);
                 if (!isSend)
                 {
@@ -46,11 +46,11 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string email, string key)
+        public async Task<IActionResult> ConfirmEmail(string email, string otp)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(key))
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(otp))
                 {
                     return BadRequest(new ApiResponse
                     {
@@ -58,22 +58,23 @@ namespace APIGeneCare.Controllers
                         Message = "What are you doing?"
                     });
                 }
-                var verifyEmail = _verifyEmailRepository.GetVerifyEmailByEmail(email);
+
+                if (otp.Trim().Length < 6) 
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "OTP must have 6 characters!"
+                    });
+                }
+                var verifyEmail = _verifyEmailRepository.GetVerifyEmailByEmail(email, otp);
                 if (verifyEmail == null)
                     return NotFound(new ApiResponse
                     {
                         Success = false,
-                        Message = "not found verify email"
+                        Message = "Not found OTP"
                     });
-                if (verifyEmail.Key?.ToLower() != key.ToLower())
-                {
-                    return NotFound(new ApiResponse
-                    {
-                        Success = false,
-                        Message = "The key not match!"
-                    });
-                }
-                bool isConfirm = await _verifyEmailRepository.ConfirmEmail(email, key);
+                bool isConfirm = await _verifyEmailRepository.ConfirmEmail(email, otp);
                 if (!isConfirm)
                 {
                     return Ok(new ApiResponse
