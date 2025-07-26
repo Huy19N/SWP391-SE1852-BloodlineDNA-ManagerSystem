@@ -8,7 +8,5 @@ public partial class Duration
 
     public bool IsDeleted { get; set; }
 
-    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-
     public virtual ICollection<ServicePrice> ServicePrices { get; set; } = new List<ServicePrice>();
 }

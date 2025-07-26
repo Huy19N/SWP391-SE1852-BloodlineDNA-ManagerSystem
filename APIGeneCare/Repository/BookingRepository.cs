@@ -3,7 +3,9 @@ using APIGeneCare.Model;
 using APIGeneCare.Model.AppSettings;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 
 namespace APIGeneCare.Repository
@@ -33,14 +35,6 @@ namespace APIGeneCare.Repository
                     if (int.TryParse(search, out int userid))
                         allBooking = _context.Bookings.Where(b => b.UserId == userid);
 
-                if (typeSearch.Equals("durationid", StringComparison.CurrentCultureIgnoreCase))
-                    if (int.TryParse(search, out int durationid))
-                        allBooking = _context.Bookings.Where(b => b.DurationId == durationid);
-
-                if (typeSearch.Equals("serviceid", StringComparison.CurrentCultureIgnoreCase))
-                    if (int.TryParse(search, out int serviceid))
-                        allBooking = _context.Bookings.Where(b => b.ServiceId == serviceid);
-
                 if (typeSearch.Equals("status", StringComparison.CurrentCultureIgnoreCase))
                     if (int.TryParse(search, out int status))
                         allBooking = _context.Bookings.Where(b => b.StatusId == status);
@@ -64,18 +58,6 @@ namespace APIGeneCare.Repository
 
                 if (sortBy.Equals("userid_desc", StringComparison.CurrentCultureIgnoreCase))
                     allBooking = allBooking.OrderByDescending(b => b.UserId);
-
-                if (sortBy.Equals("durationid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allBooking = allBooking.OrderBy(b => b.DurationId);
-
-                if (sortBy.Equals("durationid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allBooking = allBooking.OrderByDescending(b => b.DurationId);
-
-                if (sortBy.Equals("serviceid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allBooking = allBooking.OrderBy(b => b.ServiceId);
-
-                if (sortBy.Equals("serviceid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allBooking = allBooking.OrderByDescending(b => b.ServiceId);
 
                 if (sortBy.Equals("status_asc", StringComparison.CurrentCultureIgnoreCase))
                     allBooking = allBooking.OrderBy(b => b.Status);
@@ -104,8 +86,7 @@ namespace APIGeneCare.Repository
             {
                 BookingId = b.BookingId,
                 UserId = b.UserId,
-                DurationId = b.DurationId,
-                ServiceId = b.ServiceId,
+                PriceId = b.PriceId,
                 MethodId = b.MethodId,
                 ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
@@ -118,8 +99,7 @@ namespace APIGeneCare.Repository
             {
                 BookingId = b.BookingId,
                 UserId = b.UserId,
-                DurationId = b.DurationId,
-                ServiceId = b.ServiceId,
+                PriceId = b.PriceId,
                 MethodId = b.MethodId,
                 ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
@@ -131,15 +111,14 @@ namespace APIGeneCare.Repository
             {
                 BookingId = b.BookingId,
                 UserId = b.UserId,
-                DurationId = b.DurationId,
-                ServiceId = b.ServiceId,
+                PriceId = b.PriceId,
                 MethodId = b.MethodId,
                 ResultId = b.ResultId,
                 AppointmentTime = b.AppointmentTime,
                 StatusId = b.StatusId,
                 Date = b.Date,
             }).FirstOrDefault(b => b.BookingId == id);
-        public bool CreateBooking(BookingDTO booking)
+        public async Task<bool> CreateBooking(BookingDTO booking)
         {
             var timeInfor = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
 
@@ -150,21 +129,15 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                if (_context.Durations.Find(booking.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
-
-                var servicePrice = _context.ServicePrices
-                    .Where(sp => sp.ServiceId == booking.ServiceId && sp.DurationId == booking.DurationId && !sp.IsDeleted)
-                    .ToList();
-
-                if (servicePrice == null || !servicePrice.Any())
+                var price = await _context.ServicePrices.FirstOrDefaultAsync(sp => sp.PriceId == booking.PriceId && !sp.IsDeleted);
+                if (price == null)
                 {
-                    throw new Exception("Price for this service is deleted");
+                    throw new Exception("Price is deleted");
                 }
                 _context.Bookings.Add(new Booking
                 {
                     UserId = booking.UserId,
-                    DurationId = booking.DurationId,
-                    ServiceId = booking.ServiceId,
+                    PriceId = booking.PriceId,
                     MethodId = booking.MethodId,
                     ResultId = booking.ResultId,
                     AppointmentTime = booking.AppointmentTime,
@@ -187,6 +160,11 @@ namespace APIGeneCare.Repository
             {
                 return false;
             }
+            var price =  _context.ServicePrices.FirstOrDefault(sp => sp.PriceId == booking.PriceId && !sp.IsDeleted);
+            if (price == null)
+            {
+                throw new Exception("Price is deleted");
+            }
             var existingBooking = _context.Bookings.Find(booking.BookingId);
             if (existingBooking == null)
             {
@@ -195,9 +173,9 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+
                 existingBooking.UserId = booking.UserId;
-                existingBooking.DurationId = booking.DurationId;
-                existingBooking.ServiceId = booking.ServiceId;
+                existingBooking.PriceId = booking.PriceId;
                 existingBooking.StatusId = booking.StatusId;
                 existingBooking.MethodId = booking.MethodId;
                 existingBooking.ResultId = booking.ResultId;

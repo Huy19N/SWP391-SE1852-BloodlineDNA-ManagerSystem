@@ -160,7 +160,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-               servicePrice.IsDeleted = true;
+                servicePrice.IsDeleted = true;
 
                 _context.SaveChanges();
                 transaction.Commit();

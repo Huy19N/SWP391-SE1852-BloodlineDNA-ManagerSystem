@@ -2,6 +2,8 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace APIGeneCare.Repository
 {
@@ -17,29 +19,6 @@ namespace APIGeneCare.Repository
             #region Search by type
             if (!String.IsNullOrWhiteSpace(typeSearch) && !String.IsNullOrWhiteSpace(search))
             {
-                if (typeSearch.Equals("feedbackid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int feedbackid))
-                    {
-                        allFeedbacks = _context.Feedbacks.Where(f => f.FeedbackId == feedbackid);
-                    }
-                }
-
-                if (typeSearch.Equals("userid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int userid))
-                    {
-                        allFeedbacks = _context.Feedbacks.Where(f => f.UserId == userid);
-                    }
-                }
-
-                if (typeSearch.Equals("serviceid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int serviceid))
-                    {
-                        allFeedbacks = _context.Feedbacks.Where(f => f.ServiceId == serviceid);
-                    }
-                }
 
                 if (typeSearch.Equals("comment", StringComparison.CurrentCultureIgnoreCase))
                     allFeedbacks = _context.Feedbacks.Where(f => !String.IsNullOrWhiteSpace(f.Comment) &&
@@ -57,23 +36,6 @@ namespace APIGeneCare.Repository
             #region Sort by
             if (!String.IsNullOrWhiteSpace(sortBy))
             {
-                if (sortBy.Equals("feedbackid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderBy(f => f.FeedbackId);
-
-                if (sortBy.Equals("feedbackid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderByDescending(f => f.FeedbackId);
-
-                if (sortBy.Equals("userid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderBy(f => f.UserId);
-
-                if (sortBy.Equals("userid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderByDescending(f => f.UserId);
-
-                if (sortBy.Equals("serviceid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderBy(f => f.ServiceId);
-
-                if (sortBy.Equals("serviceid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allFeedbacks = allFeedbacks.OrderByDescending(f => f.ServiceId);
 
                 if (sortBy.Equals("createdat_asc", StringComparison.CurrentCultureIgnoreCase))
                     allFeedbacks = allFeedbacks.OrderBy(f => f.CreatedAt);
@@ -99,9 +61,7 @@ namespace APIGeneCare.Repository
             var result = PaginatedList<Feedback>.Create(allFeedbacks, page ?? 1, PAGE_SIZE);
             return result.Select(f => new FeedbackDTO
             {
-                FeedbackId = f.FeedbackId,
-                UserId = f.UserId,
-                ServiceId = f.ServiceId,
+                BookingId = f.BookingId,
                 CreatedAt = f.CreatedAt,
                 Comment = f.Comment,
                 Rating = f.Rating
@@ -110,23 +70,27 @@ namespace APIGeneCare.Repository
         public IEnumerable<FeedbackDTO> GetAllFeedbacks()
             => _context.Feedbacks.Select(f => new FeedbackDTO
             {
-                FeedbackId = f.FeedbackId,
-                UserId = f.UserId,
-                ServiceId = f.ServiceId,
+                BookingId = f.BookingId,
                 CreatedAt = f.CreatedAt,
                 Comment = f.Comment,
                 Rating = f.Rating
             }).ToList();
-        public FeedbackDTO? GetFeedbackById(int id)
-            => _context.Feedbacks.Select(f => new FeedbackDTO
+        public async Task<IEnumerable<FeedbackDTO>> GetAllFeedbacksByUserId(int UserId)
+            => await _context.Feedbacks.Where(f => f.Booking.UserId == UserId).Select(f => new FeedbackDTO
             {
-                FeedbackId = f.FeedbackId,
-                UserId = f.UserId,
-                ServiceId = f.ServiceId,
+                BookingId = f.BookingId,
                 CreatedAt = f.CreatedAt,
                 Comment = f.Comment,
                 Rating = f.Rating
-            }).SingleOrDefault(f => f.FeedbackId == id);
+            }).ToListAsync();
+        public FeedbackDTO? GetFeedbackByBookingId(int id)
+            => _context.Feedbacks.Select(f => new FeedbackDTO
+            {
+                BookingId = f.BookingId,
+                CreatedAt = f.CreatedAt,
+                Comment = f.Comment,
+                Rating = f.Rating
+            }).FirstOrDefault(f => f.BookingId == id);
         public bool CreateFeedback(FeedbackDTO feedback)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -138,9 +102,7 @@ namespace APIGeneCare.Repository
                 }
                 _context.Feedbacks.Add(new Feedback
                 {
-                    FeedbackId = feedback.FeedbackId,
-                    UserId = feedback.UserId,
-                    ServiceId = feedback.ServiceId,
+                    BookingId = feedback.BookingId,
                     CreatedAt = feedback.CreatedAt,
                     Comment = feedback.Comment,
                     Rating = feedback.Rating
@@ -167,13 +129,12 @@ namespace APIGeneCare.Repository
                     return false;
                 }
 
-                var existingFeedback = _context.Feedbacks.Find(feedback.FeedbackId);
+                var existingFeedback = _context.Feedbacks.Find(feedback.BookingId);
                 if (existingFeedback == null)
                 {
                     return false;
                 }
-                existingFeedback.UserId = feedback.UserId;
-                existingFeedback.ServiceId = feedback.ServiceId;
+                existingFeedback.BookingId = feedback.BookingId;
                 existingFeedback.CreatedAt = feedback.CreatedAt;
                 existingFeedback.Comment = feedback.Comment;
                 existingFeedback.Rating = feedback.Rating;
@@ -188,7 +149,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
-        public bool DeleteFeedbackById(int id)
+        public bool DeleteFeedbackByBookingId(int id)
         {
             using var transaction = _context.Database.BeginTransaction();
             try

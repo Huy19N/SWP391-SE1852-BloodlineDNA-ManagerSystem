@@ -12,6 +12,8 @@ public partial class ServicePrice
 
     public bool IsDeleted { get; set; }
 
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
     public virtual Duration? Duration { get; set; }
 
     public virtual Service? Service { get; set; }
