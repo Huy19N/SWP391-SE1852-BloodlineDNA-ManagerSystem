@@ -42,9 +42,9 @@ function Blog(){
 
         }
         catch(error){
-            console.log("Error dataBlog", error.dataBlog);
-            console.log("Error Data User", error.dataUser);
-            toast.error("Failed Loading Data Blogs");
+            console.log("Lỗi DataBlog", error.dataBlog);
+            console.log("Lỗi Data User", error.dataUser);
+            toast.error("Thất bại khi tải dữ liệu Blog!");
         }
         finally{
             setIsLoading(false);
@@ -53,17 +53,17 @@ function Blog(){
 
     //API gọi delete Blogs
     const fetchDelete = async (blogId) => {
-        if(!window.confirm("Are you sure you want to delete this Blogs?")) return;
+        if(!window.confirm("Bạn có đồng ý blog này không?")) return;
 
         try{
             await api.delete(`Blogs/DeleteById/${blogId}`);
-            toast.success("This Blogs deleted successfully!");
+            toast.success("Blog này đã xóa thành công!");
 
             fetchData();
         }
         catch (error){
-            console.log("Delete error", error);
-            toast.error("Failed delete Blogs this!")
+            console.log("Xóa Lỗi", error);
+            toast.error("Thất Bại khi xóa blog này!")
         }
     }
 
@@ -81,19 +81,19 @@ function Blog(){
 
         try {
             await api.post('Blogs/Create', fromDataBlog);
-            toast.success("Blogs created successfully!");
+            toast.success("Blog này đã tạo thành công!");
             setShowCreateModal(false);
             setFromDataBlog({ userId: '', title: '', content: '', createdAt: '' });
             fetchData();
         } catch (error) {
-            console.error("Error creating Blogs", error);
-            toast.error("Failed to create Blogs");
+            console.error("Lỗi tạo blog", error);
+            toast.error("Thất bại tạo blog này");
         }
     };
 
     const getUsername = (userId) => {
         const user = dataUser.find(u => u.userId === userId);
-        return user ? user.fullName : 'Empty';
+        return user ? user.fullName : 'trống';
     };
 
     //Filter 
@@ -112,7 +112,7 @@ function Blog(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Blog List
+                Danh Sách về Blog
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -127,7 +127,7 @@ function Blog(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Blog
+                        Thêm Blog mới
                     </button>
                 </div>
             </div>
@@ -136,17 +136,17 @@ function Blog(){
             <table className="table table-bordered table-hover shadow">
                 <thead className="table-primary text-center">
                 <tr>
-                    <th>ID</th>
-                    <th>User Name</th>
-                    <th>Title</th>
-                    <th>Date</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Mã</th>
+                    <th>Tên NGười Dùng</th>
+                    <th>Tựa Đề</th>
+                    <th>Ngày</th>
+                    {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="5" className="text-center">Loading...</td>
+                    <td colSpan="5" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredBlogs.length > 0 ? (
                     filteredBlogs.map((blog) => (
@@ -171,7 +171,7 @@ function Blog(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="5" className="text-center">No blog found.</td>
+                    <td colSpan="5" className="text-center">Không có blog nào cả.</td>
                     </tr>
                 )}
                 </tbody>
@@ -180,10 +180,10 @@ function Blog(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New blog</h4>
+                        <h4 className="mb-3">Tạo Blog Mới</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">UserID: </label>
+                                <label className="form-label">Mã Người Dùng: </label>
                                 <input
                                     type="number"
                                     name="userId"
@@ -194,7 +194,7 @@ function Blog(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Title: </label>
+                                <label className="form-label">Tựa Đề: </label>
                                 <input
                                     type="text"
                                     name="title"
@@ -205,7 +205,7 @@ function Blog(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Content: </label>
+                                <label className="form-label">Nội Dung: </label>
                                 <textarea
                                     name="content"
                                     className="form-control"
@@ -216,7 +216,7 @@ function Blog(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Date: </label>
+                                <label className="form-label">Ngày: </label>
                                 <input
                                     type="date"
                                     name="createdAt"
@@ -227,8 +227,8 @@ function Blog(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -240,8 +240,8 @@ function Blog(){
             {editBlog && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>BlogID: {editBlog.blogId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>Mẫ: {editBlog.blogId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -256,7 +256,7 @@ function Blog(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>userID: </label>
+                    <label>Mã Người Dùng: </label>
                     <input
                     type="number"
                     className="form-control"
@@ -270,7 +270,7 @@ function Blog(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Title: </label>
+                    <label>Tựa Đề: </label>
                     <input
                     type="text"
                     className="form-control"
@@ -282,7 +282,7 @@ function Blog(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Content: </label>
+                    <label>Nội Dung: </label>
                     <textarea
                     name="content"
                     className="form-control"
@@ -295,7 +295,7 @@ function Blog(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Date: </label>
+                    <label>Ngày: </label>
                     <input
                     type="date"
                     className="form-control"
@@ -307,14 +307,14 @@ function Blog(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditBlog(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>

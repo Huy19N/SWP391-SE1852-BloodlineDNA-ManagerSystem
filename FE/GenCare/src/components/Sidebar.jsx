@@ -67,8 +67,6 @@ function Sidebar (){
                             <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> Phương Thức Xét Nghiệm</Link></li>
                             <li><Link className="dropdown-item" to="durations"><i className="bi bi-box me-2"></i> Thời lượng</Link></li>
                             <li><Link className="dropdown-item" to="samples"><i className="bi bi-box me-2"></i> Mẫu</Link></li>
-                            <li><Link className="dropdown-item" to="steptest"><i className="bi bi-box me-2"></i> Các Bước Xét Nghiệm</Link></li>
-                            <li><Link className="dropdown-item" to="status"><i className="bi bi-box me-2"></i> Trạng Thái</Link></li>
                             </ul>
                         )}
                         </div>

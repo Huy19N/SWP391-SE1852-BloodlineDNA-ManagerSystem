@@ -29,8 +29,6 @@ import CRUDService from './pages/Actors/Admin/Manager/Services.jsx';
 import CRUDCollectionMethod from './pages/Actors/Admin/Manager/CollectionsMethod.jsx';
 import CRUDDurations from './pages/Actors/Admin/Manager/Durations.jsx';
 import CRUDSamples from './pages/Actors/Admin/Manager/Samples.jsx';
-import CRUDStepTest from './pages/Actors/Admin/Manager/StepTest.jsx';
-import CRUDStatus from './pages/Actors/Admin/Manager/Status.jsx';
 import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
 import CRUDBlog from './pages/Actors/Blog.jsx';
 
@@ -103,8 +101,6 @@ function App() {
           <Route path='collectionmethod' element={<CRUDCollectionMethod/>}/>
           <Route path='durations' element={<CRUDDurations/>}/>
           <Route path='samples' element={<CRUDSamples/>}/>
-          <Route path='steptest' element={<CRUDStepTest/>}/>
-          <Route path='status' element={<CRUDStatus/>}/>
           <Route path='price' element={<CRUDPrice/>}/>
           <Route path='feedback' element={<Feedbacks/>}/>
           <Route path='blog' element={<CRUDBlog/>}/>
@@ -134,7 +130,7 @@ function App() {
       <Route path="/sample-collection-guide" element={<InstructionInforPage type="sample" />} />
       <Route path="/prenatal-dna-testing" element={<InstructionInforPage type="prenatal" />} />
       <Route path="/dna-identification-remains" element={<InstructionInforPage type="remains" />} />
-      <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />      
+      <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />
     </Routes>
     
     {!isAnonymous && <Footer />}

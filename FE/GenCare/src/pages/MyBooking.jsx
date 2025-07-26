@@ -45,16 +45,16 @@ import { Link } from "react-router-dom";
         setDataDuration(resDuration.data.data);
         setDataStatus(resStatus.data.data);
         } catch (error) {
-        toast.error("Failed to load booking data");
+        toast.error("Thất bại tải dữ liệu đặt chỗ");
         } finally {
         setIsLoading(false);
         }
     };
 
-    const getServiceName = (id) => dataService.find((s) => s.serviceId === id)?.serviceName || "Empty";
-    const getServiceType = (id) => dataService.find((s) => s.serviceId === id)?.serviceType || "Empty";
-    const getDurationName = (id) => dataDuration.find((d) => d.durationId === id)?.durationName || "Empty";
-    const getStatusName = (id) => dataStatus.find((s) => s.statusId === id)?.statusName || "Empty";
+    const getServiceName = (id) => dataService.find((s) => s.serviceId === id)?.serviceName || "Trống";
+    const getServiceType = (id) => dataService.find((s) => s.serviceId === id)?.serviceType || "Trống";
+    const getDurationName = (id) => dataDuration.find((d) => d.durationId === id)?.durationName || "Trống";
+    const getStatusName = (id) => dataStatus.find((s) => s.statusId === id)?.statusName || "Trống";
 
     const fetchBookingDetail = async (bookingId) => {
         try {
@@ -102,7 +102,7 @@ import { Link } from "react-router-dom";
             .filter(p => p.bookingId === bookingId)
             .map(p => ({
             ...p,
-            sampleName: sampleMap[p.sampleId] || "Unknown"
+            sampleName: sampleMap[p.sampleId] || "Không"
             }));
 
         const steps = resStepsAll.data.data;
@@ -125,7 +125,7 @@ import { Link } from "react-router-dom";
 
         setShowOverlay(true);
         } catch (error) {
-        toast.error("Failed to load booking detail");
+        toast.error("Thất bại tải nội dung đặt chỗ");
         }
     };
     
@@ -135,7 +135,7 @@ import { Link } from "react-router-dom";
 
     const opt = {
         margin: 0.5,
-        filename: `Booking_${detailData.booking?.user?.fullName || "Unknown"}_${detailData.booking?.service?.serviceName || "Service"}.pdf`,
+        filename: `Booking_${detailData.booking?.user?.fullName || "Không"}_${detailData.booking?.service?.serviceName || "Service"}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
@@ -155,7 +155,7 @@ import { Link } from "react-router-dom";
 
     const handleSubmitFeedback = async () => {
     if (!feedbackText) {
-        toast.warning("Please enter your feedback.");
+        toast.warning("Làm ơn nhập phản hồi của bạn.");
         return;
     }
 
@@ -167,11 +167,11 @@ import { Link } from "react-router-dom";
         comment: feedbackText,
         rating: rating,
     });
-        toast.success("Thank you for your feedback!");
+        toast.success("Cảm ơn bạn đã đưa ra lời khuyên cho chúng tôi!");
         setShowFeedbackModal(false);
         setFeedbackText("");
     } catch (error) {
-        toast.error("Failed to submit feedback.");
+        toast.error("Thất bại tạo phản hồi.");
     }
 };
 
@@ -205,7 +205,7 @@ import { Link } from "react-router-dom";
                 </div>
                 <div className="col-md-4">
                 <button className="btn btn-primary">
-                    <Link className="text-light text-decoration-none" to="/services">New Booking</Link>
+                    <Link className="text-light text-decoration-none" to="/services">Thêm</Link>
                 </button>
                 </div>
             </div>
@@ -213,18 +213,18 @@ import { Link } from "react-router-dom";
             <table className="table table-bordered table-hover align-middle shadow">
                 <thead className="table-primary text-center">
                 <tr>
-                    <th>ID</th>
-                    <th>Service Name</th>
-                    <th>Service Type</th>
-                    <th>Duration</th>
-                    <th>Appointment</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th>Mã</th>
+                    <th>Tên Dịch Vụ</th>
+                    <th>Loại Dịch Vụ</th>
+                    <th>Thời Lượng</th>
+                    <th>Ngày Đặt chỗ</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
-                    <tr><td colSpan="7">Loading...</td></tr>
+                    <tr><td colSpan="7">Tải...</td></tr>
                 ) : filterBookings.length > 0 ? (
                     filterBookings.map((booking) => (
                     <tr key={booking.bookingId}>
@@ -243,7 +243,7 @@ import { Link } from "react-router-dom";
                     </tr>
                     ))
                 ) : (
-                    <tr><td colSpan="7" className="text-center">No booking data found.</td></tr>
+                    <tr><td colSpan="7" className="text-center">Hiện bạn chưa có đặt nào.</td></tr>
                 )}
                 </tbody>
             </table>
@@ -253,13 +253,13 @@ import { Link } from "react-router-dom";
                 <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center">
                     <div className="bg-white p-4 rounded shadow border-bottom" style={{ width: "80%", maxHeight: "90vh", overflowY: "auto" }}>
                         <div>
-                            <h5 className="mb-3 border-bottom border-primary pb-2 text-center">Booking Detail - #{detailData.booking.bookingId}</h5>
+                            <h5 className="mb-3 border-bottom border-primary pb-2 text-center">Nội dung của Đặt Chỗ của bạn - #{detailData.booking.bookingId}</h5>
                         </div>
                         {console.log(detailData.booking.status?.statusId)}
                         {/* Process Test realtime */}
                         {(detailData.booking.status?.statusName === "Đang thực hiện" || detailData.booking.status?.statusName === "Hoàn thành") && (
                         <div className="mb-3 border-bottom border-primary pb-2">
-                        <h5 className="m-4 text-center">Process Test</h5>
+                        <h5 className="m-4 text-center">Quá trình kiểm tra</h5>
                             <TimeLine
                             steps={resStepsAll}
                             processes={detailData.processes}
@@ -270,44 +270,44 @@ import { Link } from "react-router-dom";
 
                         {/* Service Info */}
                         <div className="mb-3 border-bottom border-primary pb-2">
-                            <h5>Service Info</h5>
-                            <p><strong>Service Name:</strong> {detailData.booking.service?.serviceName}</p>
-                            <p><strong>Service Type:</strong> {detailData.booking.service?.serviceType}</p>
-                            <p><strong>Duration:</strong> {detailData.booking.duration?.durationName}</p>
-                            <p><strong>Collection Method:</strong> {detailData.booking.collectionMethod?.methodName}</p>
-                            <p><strong>Date:</strong> {detailData.booking?.date?.split("T")[0]}</p>
-                            <p><strong>Appointment:</strong> {detailData.booking?.appointmentTime?.split("T")[0]}</p>
-                            <p><strong>Status:</strong> {detailData.booking.status?.statusName}</p>
+                            <h4 className="text-success">Nội Dung Dịch Vụ</h4>
+                            <p><strong>Tên Dịch Vụ:</strong> {detailData.booking.service?.serviceName}</p>
+                            <p><strong>Loại Dịch Vụ:</strong> {detailData.booking.service?.serviceType}</p>
+                            <p><strong>Thời Lượng:</strong> {detailData.booking.duration?.durationName}</p>
+                            <p><strong>Phương thức thu mẫu:</strong> {detailData.booking.collectionMethod?.methodName}</p>
+                            <p><strong>Ngày Đăng Ký:</strong> {detailData.booking?.date?.split("T")[0]}</p>
+                            <p><strong>Ngày Đặt Chỗ:</strong> {detailData.booking?.appointmentTime?.split("T")[0]}</p>
+                            <p><strong>Trạng Thái:</strong> {detailData.booking.status?.statusName}</p>
                             {detailData.booking.status?.statusName === "Hoàn thành" ?
-                            <p><strong>Result:</strong> {detailData.booking.result?.resultSummary}</p>
-                            : <p><strong>Result:</strong> Chưa Có Kết Quả.</p>}
+                            <p><strong>Kết Quả:</strong> {detailData.booking.result?.resultSummary}</p>
+                            : <p><strong>Kết Quả:</strong> Chưa Có Kết Quả.</p>}
                             {detailData.booking.result?.resultSummary && detailData.booking.result?.date && detailData.booking.status?.statusName === "Hoàn thành" &&(
-                                <p><strong>Date Public Result:</strong> {detailData.booking.result?.date.split("T")[0]}</p>
+                                <p><strong>Ngày Công Bố Kết Quả:</strong> {detailData.booking.result?.date.split("T")[0]}</p>
                             )}
                         </div>
 
                         <div className="mb-3 border-bottom border-primary pb-2">
-                            <h5>User Info</h5>
-                            <p><strong>Name:</strong> {detailData.booking.user?.fullName}</p>
+                            <h5>Thông TIn Người Dùng</h5>
+                            <p><strong>Tên:</strong> {detailData.booking.user?.fullName}</p>
                             <p><strong>Email:</strong> {detailData.booking.user?.email}</p>
-                            <p><strong>Phone:</strong> {detailData.booking.user?.phone}</p>
-                            <p><strong>Address:</strong> {detailData.booking.user?.address}</p>
+                            <p><strong>Số Điên Thoại:</strong> {detailData.booking.user?.phone}</p>
+                            <p><strong>Vị Trí:</strong> {detailData.booking.user?.address}</p>
                             <p><strong>CCCD:</strong> {detailData.booking.user?.identifyId}</p>
                         </div>
 
                         <div>
-                            <h5>Patient Info</h5>
+                            <h5>Thông Tin Người Xét Nghiệm</h5>
                             {detailData.patients.length > 0 ? (
                                 <table className="table table-bordered">
                                 <thead>
                                     <tr>
-                                    <th>Full Name</th>
-                                    <th>BirthDate</th>
-                                    <th>Gender</th>
-                                    <th>Identify ID</th>
-                                    <th>Sample Name</th>
-                                    <th>Relationship</th>
-                                    <th>DNA Tested</th>
+                                    <th>Tên Đầy ĐỦ</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Giới Tính</th>
+                                    <th>CCCD</th>
+                                    <th>Mẫu</th>
+                                    <th>Mỗi Quan Hệ Dự Đoán</th>
+                                    <th>Đã Xét Nghiệm Chưa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -320,13 +320,13 @@ import { Link } from "react-router-dom";
                                         <td>{p.sampleName}</td>
                                         <td>{p.relationship}</td>
                                         <td className={p.hasTestedDna ? "text-success" : "text-danger"}>
-                                        {p.hasTestedDna ? "Yes" : "No"}
+                                        {p.hasTestedDna ? "Rồi" : "Chưa"}
                                         </td>
                                     </tr>
                                     ))}
                                 </tbody>
                                 </table>
-                            ) : <p>No patient data</p>}
+                            ) : <p>Không Có dữ liệu.</p>}
                         </div>
                         
                         <button className="btn btn-success me-2" onClick={exportToPDF}>Tải Tệp PDF</button>
@@ -340,51 +340,51 @@ import { Link } from "react-router-dom";
             {detailData && (
             <div style={{ display: "none" }}>
                 <div ref={pdfRef} className="p-4" style={{ fontFamily: 'Arial, sans-serif', width: "800px" }}>
-                        <h2 style={{ borderBottom: "2px solid #007bff", paddingBottom: "10px" }}>Booking Detail - #{detailData.booking.bookingId}</h2>
+                        <h2 style={{ borderBottom: "2px solid #007bff", paddingBottom: "10px" }}>Nội Dung Đặt Chỗ - #{detailData.booking.bookingId}</h2>
 
                         {/* Service Info */}
-                        <h4 style={{ color: "#007bff" }}>Service Information</h4>
+                        <h4 style={{ color: "#007bff" }}>Thông Tin Dịch Vụ</h4>
                         <table style={{ width: "100%", marginBottom: "20px" }}>
                         <tbody>
-                            <tr><td><strong>Service Name:</strong></td><td>{detailData.booking.service?.serviceName}</td></tr>
-                            <tr><td><strong>Service Type:</strong></td><td>{detailData.booking.service?.serviceType}</td></tr>
-                            <tr><td><strong>Duration:</strong></td><td>{detailData.booking.duration?.durationName}</td></tr>
-                            <tr><td><strong>Collection Method:</strong></td><td>{detailData.booking.collectionMethod?.methodName}</td></tr>
-                            <tr><td><strong>Date:</strong></td><td>{detailData.booking.date?.split("T")[0]}</td></tr>
-                            <tr><td><strong>Appointment:</strong></td><td>{detailData.booking.appointmentTime?.split("T")[0]}</td></tr>
-                            <tr><td><strong>Status:</strong></td><td>{detailData.booking.status?.statusName}</td></tr>
-                            <tr><td><strong>Result:</strong></td><td>{detailData.booking.result?.resultSummary || "Not yet"}</td></tr>
+                            <tr><td><strong>Tên Dịch Vụ:</strong></td><td>{detailData.booking.service?.serviceName}</td></tr>
+                            <tr><td><strong>Loại Dịch Vụ:</strong></td><td>{detailData.booking.service?.serviceType}</td></tr>
+                            <tr><td><strong>Thời Lượng:</strong></td><td>{detailData.booking.duration?.durationName}</td></tr>
+                            <tr><td><strong>Phương Thức Thu Mẫu:</strong></td><td>{detailData.booking.collectionMethod?.methodName}</td></tr>
+                            <tr><td><strong>Ngày Đăng Ký:</strong></td><td>{detailData.booking.date?.split("T")[0]}</td></tr>
+                            <tr><td><strong>Ngày Đặt Chỗ:</strong></td><td>{detailData.booking.appointmentTime?.split("T")[0]}</td></tr>
+                            <tr><td><strong>Trạng Thái:</strong></td><td>{detailData.booking.status?.statusName}</td></tr>
+                            <tr><td><strong>Kết Quả:</strong></td><td>{detailData.booking.result?.resultSummary || "Not yet"}</td></tr>
                             {detailData.booking.result?.date && (
-                            <tr><td><strong>Date Public Result:</strong></td><td>{detailData.booking.result.date?.split("T")[0]}</td></tr>
+                            <tr><td><strong>Ngày Công Bố Kết Quả:</strong></td><td>{detailData.booking.result.date?.split("T")[0]}</td></tr>
                             )}
                         </tbody>
                         </table>
 
                         {/* User Info */}
-                        <h4 style={{ color: "#007bff" }}>User Information</h4>
+                        <h4 style={{ color: "#007bff" }}>Thông Tin Người Dùng</h4>
                         <table style={{ width: "100%", marginBottom: "20px" }}>
                         <tbody>
-                            <tr><td><strong>Name:</strong></td><td>{detailData.booking.user?.fullName}</td></tr>
+                            <tr><td><strong>Tên:</strong></td><td>{detailData.booking.user?.fullName}</td></tr>
                             <tr><td><strong>Email:</strong></td><td>{detailData.booking.user?.email}</td></tr>
-                            <tr><td><strong>Phone:</strong></td><td>{detailData.booking.user?.phone}</td></tr>
-                            <tr><td><strong>Address:</strong></td><td>{detailData.booking.user?.address}</td></tr>
+                            <tr><td><strong>Số Điện thoại:</strong></td><td>{detailData.booking.user?.phone}</td></tr>
+                            <tr><td><strong>Vị Trí:</strong></td><td>{detailData.booking.user?.address}</td></tr>
                             <tr><td><strong>CCCD:</strong></td><td>{detailData.booking.user?.identifyId}</td></tr>
                         </tbody>
                         </table>
 
                         {/* Patient Info */}
-                        <h4 style={{ color: "#007bff" }}>Patient Information</h4>
+                        <h4 style={{ color: "#007bff" }}>Thông Tin Khách Hàng Xét Nghiệm</h4>
                         {detailData.patients.length > 0 ? (
                         <table style={{ width: "100%", borderCollapse: "collapse" }} border="1">
                             <thead>
                             <tr>
-                                <th>Full Name</th>
-                                <th>BirthDate</th>
-                                <th>Gender</th>
-                                <th>Identify ID</th>
-                                <th>Sample Name</th>
-                                <th>Relationship</th>
-                                <th>DNA Tested</th>
+                                <th>Tên Đầy ĐỦ</th>
+                                <th>Ngày Sinh</th>
+                                <th>Giới Tính</th>
+                                <th>CCCD</th>
+                                <th>Mẫu</th>
+                                <th>Mối Quan Hệ Dự Đoán</th>
+                                <th>Đã Xét Nghiệm Chưa</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -396,12 +396,12 @@ import { Link } from "react-router-dom";
                                 <td>{p.identifyId}</td>
                                 <td>{p.sampleName}</td>
                                 <td>{p.relationship}</td>
-                                <td>{p.hasTestedDna ? "Yes" : "No"}</td>
+                                <td>{p.hasTestedDna ? "Rồi" : "Chưa"}</td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
-                        ) : <p>No patient data</p>}
+                        ) : <p>Không có dữ liệu</p>}
 
                         {detailData.booking.result?.resultSummary ? 
                         <div style={{textAlign: "start", marginTop: "10px" }}>

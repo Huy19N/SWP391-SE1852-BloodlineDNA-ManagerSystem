@@ -14,6 +14,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
   function Chart() {
     const [chartData, setChartData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       const fetchPayments = async () => {
@@ -61,7 +62,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
     return (
       <div className="ms-3 mt-5 p-5 bg-white rounded shadow card" style={{width: '1030px', height: '590px'}}>
         <h5 className="mb-5 text-primary">TỔNG QUAN LỢI NHUẬN HÀNG NGÀY</h5>
-        {chartData.labels ? (
+          
+          {isLoading  ? (
+
+            <p className='text-center text-danger'>Đang tải biểu đồ...</p>
+            
+        ): chartData.labels ? (
           <Bar
             data={chartData}
             options={{
@@ -77,7 +83,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
             }}
           />
         ) : (
-          <p className='text-center text-danger'>Đang tải biểu đồ...</p>
+          <p className='text-center text-danger'>Hiện Không Có Dữ Liệu Doanh Thu.</p>
         )}
       </div>
     );

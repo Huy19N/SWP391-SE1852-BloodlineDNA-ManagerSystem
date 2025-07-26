@@ -41,7 +41,7 @@ const TestProgressTimeline = ({ steps, processes }) => {
                 {index + 1}
                 </div>
                 <div style={{ fontSize: '12px', fontWeight: '500' }}>{step.stepName}</div>
-                <div style={{ fontSize: '10px', color: 'gray' }}>{getStatus(step.stepId)}</div>
+                <div style={{ fontSize: '20px', color: 'gray' }}>{getStatus(step.stepId)}</div>
             </div>
             );
         })}

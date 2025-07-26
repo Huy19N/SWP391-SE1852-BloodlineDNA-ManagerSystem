@@ -46,10 +46,10 @@ function ServicesPrice(){
 
         }
         catch(error){
-            console.log("Error DataServicesPrice", error.dataServicesPrice);
-            console.log("Error Data Service", error.dataService);
-            console.log("Error Data Duration", error.dataDuration);
-            toast.error("Failed Loading Data ServicesPrice");
+            console.log("Lỗi Dữ liệu ServicePrice", error.dataServicesPrice);
+            console.log("Lỗi Dữ liệu Service", error.dataService);
+            console.log("Lỗi Dữ liệu Duration", error.dataDuration);
+            toast.error("THất bại tải dữ liệu Services Price!");
         }
         finally{
             setIsLoading(false);
@@ -58,17 +58,17 @@ function ServicesPrice(){
 
     //API gọi delete ServicesPrice
     const fetchDelete = async (priceId) => {
-        if(!window.confirm("Are you sure you want to delete this Services Price?")) return;
+        if(!window.confirm("Bạn muốn xóa giá của dịch vụ này đúng không?")) return;
 
         try{
             await api.delete(`ServicePrices/DeleteById/${priceId}`);
-            toast.success("This user deleted successfully!");
+            toast.success("Xóa giá dịch vụ này thành công!");
 
             fetchData();
         }
         catch (error){
-            console.log("Delete error", error);
-            toast.error("Failed delete Services Price this!")
+            console.log("Xóa lỗi", error);
+            toast.error("Thất bại xóa giá của dịch vụ này!")
         }
     }
 
@@ -86,29 +86,29 @@ function ServicesPrice(){
 
         try {
             await api.post('ServicePrices/Create', fromDataServicesPrice);
-            toast.success("Service created successfully!");
+            toast.success("Giá dịch vụ này tạo thành công!");
             setShowCreateModal(false);
             setFromDataServicesPrice({ serviceId: '', durationId: '', price: '' });
             fetchData();
         } catch (error) {
-            console.error("Error creating Service Prices", error);
-            toast.error("Failed to create Service Prices");
+            console.error("Lỗi tạo ServicePrice", error);
+            toast.error("Thất bại tạo giá dịch vụ này!");
         }
     };
 
     const getServiceName = (serviceId) => {
         const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceName : 'Empty';
+        return service ? service.serviceName : 'Trống';
     };
 
     const getServiceType = (serviceId) => {
         const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceType : 'Empty';
+        return service ? service.serviceType : 'Trống';
     };
 
     const getDuration = (durationId) => {
         const duration = dataDuration.find(d => d.durationId === durationId);
-        return duration ? duration.durationName : 'Empty';
+        return duration ? duration.durationName : 'Trống';
     };
 
 
@@ -130,13 +130,13 @@ function ServicesPrice(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Service Prices List
+                Danh sách giá dịch vụ
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
                     <input
                         type="text"
-                        placeholder="Search Name or Id..."
+                        placeholder="Tìm..."
                         className="form-control"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -145,7 +145,7 @@ function ServicesPrice(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Services Prices
+                        Thêm mới giá dịch vụ
                     </button>
                 </div>
             </div>
@@ -154,18 +154,18 @@ function ServicesPrice(){
             <table className="table table-bordered table-hover shadow">
                 <thead className="table-primary text-center">
                 <tr>
-                    <th>ID</th>
-                    <th>Name Service</th>
-                    <th>Type Service</th>
-                    <th>Name Duration</th>
-                    <th>Price</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Mã</th>
+                    <th>Tên Dịch Vụ</th>
+                    <th>Loại Dịch Vụ</th>
+                    <th>Thời Lượng</th>
+                    <th>Giá</th>
+                    {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="6" className="text-center">Loading...</td>
+                    <td colSpan="6" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredServicePrices.length > 0 ? (
                     filteredServicePrices.map((price) => (
@@ -174,7 +174,7 @@ function ServicesPrice(){
                         <td>{getServiceName(price.serviceId)}</td>
                         <td>{getServiceType(price.serviceId)}</td>
                         <td>{getDuration(price.durationId)}</td>
-                        <td>{price.price || 'Empty'}</td>
+                        <td>{price.price || 'trống'}</td>
                         {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
@@ -191,7 +191,7 @@ function ServicesPrice(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="6" className="text-center">No Services Price found.</td>
+                    <td colSpan="6" className="text-center">Không có Giá Của Dịch Vụ nào.</td>
                     </tr>
                 )}
                 </tbody>
@@ -200,10 +200,10 @@ function ServicesPrice(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New Services Price</h4>
+                        <h4 className="mb-3">Tạo Giá Mới</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">ServiceID: </label>
+                                <label className="form-label">Mã Dịch Vụ: </label>
                                 <input
                                     type="number"
                                     name="serviceId"
@@ -214,7 +214,7 @@ function ServicesPrice(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">DurationID: </label>
+                                <label className="form-label">Mã Thời Lượng: </label>
                                 <input
                                     type="number"
                                     name="durationId"
@@ -225,7 +225,7 @@ function ServicesPrice(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Price: </label>
+                                <label className="form-label">Giá: </label>
                                 <input
                                     type="number"
                                     name="price"
@@ -236,8 +236,8 @@ function ServicesPrice(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -249,8 +249,8 @@ function ServicesPrice(){
             {editServicesPrice && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>PriceID: {editServicesPrice.priceId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>Mã Giá: {editServicesPrice.priceId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -265,7 +265,7 @@ function ServicesPrice(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>ServiceID: </label>
+                    <label>Mã Dịch Vụ: </label>
                     <input
                     type="number"
                     className="form-control"
@@ -279,7 +279,7 @@ function ServicesPrice(){
                 </div>
 
                 <div className="mb-2">
-                    <label>DurationID: </label>
+                    <label>Mã Thời Lượng: </label>
                     <input
                     type="number"
                     className="form-control"
@@ -291,7 +291,7 @@ function ServicesPrice(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Price: </label>
+                    <label>Giá: </label>
                     <input
                     type="number"
                     className="form-control"
@@ -303,14 +303,14 @@ function ServicesPrice(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditServicesPrice(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>

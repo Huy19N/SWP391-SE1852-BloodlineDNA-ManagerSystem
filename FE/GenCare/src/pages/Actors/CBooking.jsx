@@ -10,8 +10,8 @@ function Booking(){
     const [dataStatus, setDataStatus] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
-    const [newResultSummary, setNewResultSummary] = useState(''); // Thêm lại state cho input
-    const [newResultDate, setNewResultDate] = useState(''); // Thêm lại state cho input
+    const [newResultSummary, setNewResultSummary] = useState('');
+    const [newResultDate, setNewResultDate] = useState(''); 
     const [fromDataResults, setFromDataResults] = useState({
         date: '',
         resultSummary: ''
@@ -112,7 +112,7 @@ function Booking(){
                 .filter(p => p.bookingId === bookingId)
                 .map(p => ({
                     ...p,
-                    sampleName: sampleMap[p.sampleId] || "Unknown"
+                    sampleName: sampleMap[p.sampleId] || "Không"
                 }));
 
             const steps = resStepsAll.data.data;
@@ -143,8 +143,8 @@ function Booking(){
             setShowOverlay(true);
             setViewMode(!!result); // Set viewMode to true if result exists
         } catch (error) {
-            toast.error("Failed to load booking detail");
-            console.error("Detail fetch error:", error);
+            toast.error("Thất bại tải dữ liệu Của đặt chỗ");
+            console.error("Lỗi của booing detail:", error);
         }
     };
 
@@ -154,22 +154,22 @@ function Booking(){
 
     const getUsername = (userId) => {
         const user = dataUser.find(u => u.userId === userId);
-        return user ? user.fullName : 'Empty';
+        return user ? user.fullName : 'Trống';
     };
 
     const getServiceName = (serviceId) => {
         const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceName : 'Empty';
+        return service ? service.serviceName : 'Trống';
     };
 
     const getServiceType = (serviceId) => {
         const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceType : 'Empty';
+        return service ? service.serviceType : 'Trống';
     };
 
     const getStatusName = (statusId) => {
         const status = dataStatus.find(u => u.statusId === statusId);
-        return status ? status.statusName : 'Empty';
+        return status ? status.statusName : 'Trống';
     };
 
     const statusID_NotPay = parseInt(localStorage.getItem('statusId_NotPay') || 1);
@@ -323,7 +323,7 @@ function Booking(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary">
-                Booking List
+                Danh Sách Đặt Chỗ
             </div>
 
             <div className="row mb-3">
@@ -341,7 +341,7 @@ function Booking(){
             <table className="table table-bordered table-hover align-middle shadow">
                 <thead className="table-primary text-center">
                     <tr>
-                        <th>ID</th>
+                        <th>Mã</th>
                         <th>Tên tài khoản</th>
                         <th>Tên Dịch vụ</th>
                         <th>Loại dịch vụ</th>
@@ -400,7 +400,7 @@ function Booking(){
                                 </h2>
                                 <div id="bookingInfo" className="accordion-collapse collapse show">
                                     <div className="accordion-body">
-                                        <p><strong>ID:</strong> {detailData.booking.bookingId}</p>
+                                        <p><strong>Mã:</strong> {detailData.booking.bookingId}</p>
                                         <p><strong>Dịch vụ:</strong> {detailData.booking.service?.serviceName} - {detailData.booking.service?.serviceType}</p>
                                         <p><strong>Thời gian:</strong> {detailData.booking.duration?.durationName}</p>
                                         <p><strong>Phương Thức thu thập:</strong> {detailData.booking.collectionMethod?.methodName}</p>
@@ -604,7 +604,7 @@ function Booking(){
                                             <div className="text-end">
                                                 <button
                                                 className="btn btn-warning me-2"
-                                                onClick={() => setViewMode(false)} // Switch to edit mode
+                                                onClick={() => setViewMode(false)}
                                                 >
                                                 Chỉnh sửa
                                                 </button>
@@ -658,7 +658,7 @@ function Booking(){
                                     setShowOverlay(false);
                                     fetchData();
                                 } catch (err) {
-                                    toast.error("Failed to update booking status.");
+                                    toast.error("Thất bại cập nhật trạng thái đặt chỗ.");
                                 }
                             }}>
                                 Cập nhật Trạng thái
