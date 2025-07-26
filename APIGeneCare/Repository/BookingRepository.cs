@@ -151,6 +151,15 @@ namespace APIGeneCare.Repository
             try
             {
                 if (_context.Durations.Find(booking.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
+
+                var servicePrice = _context.ServicePrices
+                    .Where(sp => sp.ServiceId == booking.ServiceId && sp.DurationId == booking.DurationId && !sp.IsDeleted)
+                    .ToList();
+
+                if (servicePrice == null || !servicePrice.Any())
+                {
+                    throw new Exception("Price for this service is deleted");
+                }
                 _context.Bookings.Add(new Booking
                 {
                     UserId = booking.UserId,

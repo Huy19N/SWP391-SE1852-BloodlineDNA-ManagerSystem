@@ -86,6 +86,7 @@ namespace APIGeneCare.Repository
                 ServiceId = sp.ServiceId,
                 DurationId = sp.DurationId,
                 Price = sp.Price,
+                IsDeleted = sp.IsDeleted,
             });
         }
         public ServicePriceDTO? GetServicePriceById(int id)
@@ -95,6 +96,7 @@ namespace APIGeneCare.Repository
                 ServiceId = sp.ServiceId,
                 DurationId = sp.DurationId,
                 Price = sp.Price,
+                IsDeleted = sp.IsDeleted,
             }).SingleOrDefault(sp => sp.PriceId == id);
         public bool CreateServicePrice(ServicePriceDTO servicePrice)
         {
@@ -133,10 +135,13 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                existingServicePrice.ServiceId = servicePrice.ServiceId;
-                existingServicePrice.DurationId = servicePrice.DurationId;
-                existingServicePrice.Price = servicePrice.Price;
-
+                existingServicePrice.IsDeleted = true;
+                _context.ServicePrices.Add(new ServicePrice
+                {
+                    ServiceId = servicePrice.ServiceId,
+                    DurationId = servicePrice.DurationId,
+                    Price = servicePrice.Price
+                });
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
@@ -145,7 +150,6 @@ namespace APIGeneCare.Repository
             {
                 transaction.Rollback();
                 throw;
-
             }
         }
         public bool DeleteServicePriceById(int id)
@@ -156,7 +160,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                _context.ServicePrices.Remove(servicePrice);
+               servicePrice.IsDeleted = true;
 
                 _context.SaveChanges();
                 transaction.Commit();

@@ -138,7 +138,7 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-               
+
                 user.IdentifyId = user.IdentifyId?.Trim();
                 user.Phone = user.Phone?.Trim();
 

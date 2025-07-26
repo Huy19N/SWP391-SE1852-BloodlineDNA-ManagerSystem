@@ -6,8 +6,6 @@ public partial class Duration
 
     public string? DurationName { get; set; }
 
-    public TimeOnly? Time { get; set; }
-
     public bool IsDeleted { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();

@@ -111,13 +111,21 @@ CREATE TABLE TestResult (
 CREATE TABLE Booking (
     BookingID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
+    PriceID INT FOREIGN KEY REFERENCES ServicePrice(PriceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
 	ResultID INT FOREIGN KEY REFERENCES TestResult(ResultID),
     AppointmentTime DATETIME,
     StatusID INT FOREIGN KEY REFERENCES [Status](StatusID),
     [Date] DATETIME
+);
+
+-- Bảng Feedback
+CREATE TABLE Feedback (
+    BookingID INT PRIMARY KEY,
+    CreatedAt DATETIME NOT NULL,
+    Comment NVARCHAR(MAX),
+    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
+    CONSTRAINT FK_Feedback_Booking FOREIGN KEY (BookingID) REFERENCES Booking(BookingID)
 );
 
 -- Bảng TestStep
@@ -136,15 +144,7 @@ CREATE TABLE TestProcess (
     UpdatedAt DATETIME
 );
 
--- Bảng Feedback
-CREATE TABLE Feedback (
-    FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID) NOT NULL,
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID) NOT NULL,
-    CreatedAt DATETIME NOT NULL,
-    Comment NVARCHAR(MAX),
-    Rating INT NOT NULL
-);
+
 
 -- Bảng Samples
 CREATE TABLE Samples (

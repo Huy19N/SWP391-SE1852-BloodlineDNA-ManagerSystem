@@ -60,13 +60,13 @@ public partial class GeneCareContext : DbContext
     public virtual DbSet<VerifyEmail> VerifyEmails { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("name = DefaultConnection");
+        => optionsBuilder.UseSqlServer("Name = DefaultConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AccessTokenBlacklist>(entity =>
         {
-            entity.HasKey(e => e.JwtId).HasName("PK__AccessTo__32FE98A2232E1622");
+            entity.HasKey(e => e.JwtId).HasName("PK__AccessTo__32FE98A2B7AF8C29");
 
             entity.ToTable("AccessTokenBlacklist");
 
@@ -85,7 +85,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E507E1DF270");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E506CE386B3");
 
             entity.ToTable("Blog");
 
@@ -96,12 +96,12 @@ public partial class GeneCareContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Blog__UserID__5EBF139D");
+                .HasConstraintName("FK__Blog__UserID__5FB337D6");
         });
 
         modelBuilder.Entity<Booking>(entity =>
         {
-            entity.HasKey(e => e.BookingId).HasName("PK__Booking__73951ACD3BAAD6F5");
+            entity.HasKey(e => e.BookingId).HasName("PK__Booking__73951ACD06629B74");
 
             entity.ToTable("Booking");
 
@@ -117,32 +117,32 @@ public partial class GeneCareContext : DbContext
 
             entity.HasOne(d => d.Duration).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.DurationId)
-                .HasConstraintName("FK__Booking__Duratio__47DBAE45");
+                .HasConstraintName("FK__Booking__Duratio__48CFD27E");
 
             entity.HasOne(d => d.Method).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.MethodId)
-                .HasConstraintName("FK__Booking__MethodI__49C3F6B7");
+                .HasConstraintName("FK__Booking__MethodI__4AB81AF0");
 
             entity.HasOne(d => d.Result).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.ResultId)
-                .HasConstraintName("FK__Booking__ResultI__4AB81AF0");
+                .HasConstraintName("FK__Booking__ResultI__4BAC3F29");
 
             entity.HasOne(d => d.Service).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__Booking__Service__48CFD27E");
+                .HasConstraintName("FK__Booking__Service__49C3F6B7");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.StatusId)
-                .HasConstraintName("FK__Booking__StatusI__4BAC3F29");
+                .HasConstraintName("FK__Booking__StatusI__4CA06362");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__Booking__UserID__46E78A0C");
+                .HasConstraintName("FK__Booking__UserID__47DBAE45");
         });
 
         modelBuilder.Entity<CollectionMethod>(entity =>
         {
-            entity.HasKey(e => e.MethodId).HasName("PK__Collecti__FC681FB1D9663902");
+            entity.HasKey(e => e.MethodId).HasName("PK__Collecti__FC681FB1EAB88BF5");
 
             entity.ToTable("CollectionMethod");
 
@@ -152,7 +152,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Duration>(entity =>
         {
-            entity.HasKey(e => e.DurationId).HasName("PK__Duration__AF77E816EA6B0B64");
+            entity.HasKey(e => e.DurationId).HasName("PK__Duration__AF77E81641CBA17F");
 
             entity.ToTable("Duration");
 
@@ -162,7 +162,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF606B66042");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDF65B0B2C69");
 
             entity.ToTable("Feedback");
 
@@ -174,17 +174,17 @@ public partial class GeneCareContext : DbContext
             entity.HasOne(d => d.Service).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.ServiceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Feedback__Servic__5629CD9C");
+                .HasConstraintName("FK__Feedback__Servic__571DF1D5");
 
             entity.HasOne(d => d.User).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Feedback__UserID__5535A963");
+                .HasConstraintName("FK__Feedback__UserID__5629CD9C");
         });
 
         modelBuilder.Entity<LogLogin>(entity =>
         {
-            entity.HasKey(e => e.LogId).HasName("PK__LogLogin__5E548648E6C01650");
+            entity.HasKey(e => e.LogId).HasName("PK__LogLogin__5E548648C53BF298");
 
             entity.ToTable("LogLogin");
 
@@ -209,7 +209,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Patient>(entity =>
         {
-            entity.HasKey(e => e.PatientId).HasName("PK__Patient__970EC346D84C6513");
+            entity.HasKey(e => e.PatientId).HasName("PK__Patient__970EC34685EC07FE");
 
             entity.ToTable("Patient");
 
@@ -227,16 +227,16 @@ public partial class GeneCareContext : DbContext
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Patients)
                 .HasForeignKey(d => d.BookingId)
-                .HasConstraintName("FK__Patient__Booking__5AEE82B9");
+                .HasConstraintName("FK__Patient__Booking__5BE2A6F2");
 
             entity.HasOne(d => d.Sample).WithMany(p => p.Patients)
                 .HasForeignKey(d => d.SampleId)
-                .HasConstraintName("FK__Patient__SampleI__5BE2A6F2");
+                .HasConstraintName("FK__Patient__SampleI__5CD6CB2B");
         });
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A38C5DA96DB");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payment__9B556A38A8909830");
 
             entity.ToTable("Payment");
 
@@ -255,17 +255,17 @@ public partial class GeneCareContext : DbContext
             entity.HasOne(d => d.Booking).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.BookingId)
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__Payment__Booking__6383C8BA");
+                .HasConstraintName("FK__Payment__Booking__6477ECF3");
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.PaymentMethodId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Payment__Payment__6477ECF3");
+                .HasConstraintName("FK__Payment__Payment__656C112C");
         });
 
         modelBuilder.Entity<PaymentIpnlog>(entity =>
         {
-            entity.HasKey(e => e.IpnlogId).HasName("PK__PaymentI__956F903E7C8A3608");
+            entity.HasKey(e => e.IpnlogId).HasName("PK__PaymentI__956F903E17BFD82F");
 
             entity.ToTable("PaymentIPNLog");
 
@@ -280,12 +280,12 @@ public partial class GeneCareContext : DbContext
             entity.HasOne(d => d.Payment).WithMany(p => p.PaymentIpnlogs)
                 .HasForeignKey(d => d.PaymentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PaymentIP__Payme__6754599E");
+                .HasConstraintName("FK__PaymentIP__Payme__68487DD7");
         });
 
         modelBuilder.Entity<PaymentMethod>(entity =>
         {
-            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D3F47EA1D7");
+            entity.HasKey(e => e.PaymentMethodId).HasName("PK__PaymentM__DC31C1D33F022AA8");
 
             entity.ToTable("PaymentMethod");
 
@@ -298,7 +298,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<PaymentReturnLog>(entity =>
         {
-            entity.HasKey(e => e.ReturnLogId).HasName("PK__PaymentR__AA90652E9F23B369");
+            entity.HasKey(e => e.ReturnLogId).HasName("PK__PaymentR__AA90652E6A96CDC6");
 
             entity.ToTable("PaymentReturnLog");
 
@@ -312,18 +312,18 @@ public partial class GeneCareContext : DbContext
             entity.HasOne(d => d.Payment).WithMany(p => p.PaymentReturnLogs)
                 .HasForeignKey(d => d.PaymentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PaymentRe__Payme__6A30C649");
+                .HasConstraintName("FK__PaymentRe__Payme__6B24EA82");
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
         {
-            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E39A66A037C");
+            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshT__F5845E390E5DDE54");
 
             entity.ToTable("RefreshToken");
 
-            entity.HasIndex(e => e.Token, "UQ__RefreshT__1EB4F8179826CC7B").IsUnique();
+            entity.HasIndex(e => e.Token, "UQ__RefreshT__1EB4F817016066F8").IsUnique();
 
-            entity.HasIndex(e => e.JwtId, "UQ__RefreshT__32FE98A319533589").IsUnique();
+            entity.HasIndex(e => e.JwtId, "UQ__RefreshT__32FE98A3871B5564").IsUnique();
 
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
@@ -342,7 +342,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3AAE39D789");
+            entity.HasKey(e => e.RoleId).HasName("PK__Role__8AFACE3A63D7BA2A");
 
             entity.ToTable("Role");
 
@@ -354,7 +354,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Sample>(entity =>
         {
-            entity.HasKey(e => e.SampleId).HasName("PK__Samples__8B99EC0AEC5331E1");
+            entity.HasKey(e => e.SampleId).HasName("PK__Samples__8B99EC0AC8A2A2D8");
 
             entity.Property(e => e.SampleId).HasColumnName("SampleID");
             entity.Property(e => e.SampleName).HasMaxLength(200);
@@ -362,7 +362,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Service>(entity =>
         {
-            entity.HasKey(e => e.ServiceId).HasName("PK__Service__C51BB0EAFDB58F3D");
+            entity.HasKey(e => e.ServiceId).HasName("PK__Service__C51BB0EA774B5BFD");
 
             entity.ToTable("Service");
 
@@ -373,12 +373,13 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<ServicePrice>(entity =>
         {
-            entity.HasKey(e => e.PriceId).HasName("PK__ServiceP__4957584FB5D7F651");
+            entity.HasKey(e => e.PriceId).HasName("PK__ServiceP__4957584F2881BD28");
 
             entity.ToTable("ServicePrice");
 
             entity.Property(e => e.PriceId).HasColumnName("PriceID");
             entity.Property(e => e.DurationId).HasColumnName("DurationID");
+            entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
 
             entity.HasOne(d => d.Duration).WithMany(p => p.ServicePrices)
@@ -392,7 +393,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Status__C8EE204351A1D5CE");
+            entity.HasKey(e => e.StatusId).HasName("PK__Status__C8EE2043AC31290D");
 
             entity.ToTable("Status");
 
@@ -402,7 +403,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<TestProcess>(entity =>
         {
-            entity.HasKey(e => e.ProcessId).HasName("PK__TestProc__1B39A976B0058199");
+            entity.HasKey(e => e.ProcessId).HasName("PK__TestProc__1B39A976BE8DA5A9");
 
             entity.ToTable("TestProcess");
 
@@ -415,20 +416,20 @@ public partial class GeneCareContext : DbContext
             entity.HasOne(d => d.Booking).WithMany(p => p.TestProcesses)
                 .HasForeignKey(d => d.BookingId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__TestProce__Booki__5070F446");
+                .HasConstraintName("FK__TestProce__Booki__5165187F");
 
             entity.HasOne(d => d.Status).WithMany(p => p.TestProcesses)
                 .HasForeignKey(d => d.StatusId)
-                .HasConstraintName("FK__TestProce__Statu__52593CB8");
+                .HasConstraintName("FK__TestProce__Statu__534D60F1");
 
             entity.HasOne(d => d.Step).WithMany(p => p.TestProcesses)
                 .HasForeignKey(d => d.StepId)
-                .HasConstraintName("FK__TestProce__StepI__5165187F");
+                .HasConstraintName("FK__TestProce__StepI__52593CB8");
         });
 
         modelBuilder.Entity<TestResult>(entity =>
         {
-            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__9769022896D540B9");
+            entity.HasKey(e => e.ResultId).HasName("PK__TestResu__97690228566DC637");
 
             entity.ToTable("TestResult");
 
@@ -438,7 +439,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<TestStep>(entity =>
         {
-            entity.HasKey(e => e.StepId).HasName("PK__TestStep__24343337BFE84E0F");
+            entity.HasKey(e => e.StepId).HasName("PK__TestStep__24343337D7E81398");
 
             entity.ToTable("TestStep");
 
@@ -448,9 +449,9 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACA80EC593");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CCACBE0E3D8C");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534FAB4D52E").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053410EAC449").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Address).HasMaxLength(500);
@@ -477,7 +478,7 @@ public partial class GeneCareContext : DbContext
 
         modelBuilder.Entity<VerifyEmail>(entity =>
         {
-            entity.HasKey(e => e.Key).HasName("PK__VerifyEm__C41E0288D52A6F7C");
+            entity.HasKey(e => e.Key).HasName("PK__VerifyEm__C41E028850891626");
 
             entity.ToTable("VerifyEmail");
 
