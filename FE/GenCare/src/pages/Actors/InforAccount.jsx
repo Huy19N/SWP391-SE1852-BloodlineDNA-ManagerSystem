@@ -46,7 +46,7 @@ function Account(){
                 <div className="d-flex flex-column justify-content-center align-items-center bg-primary text-white p-4" style={{ width: '35%' }}>
                     <img className="img-fluid img-thumbnail bg-primary border border-0 rounded-circle w-50" src={img1} />
                     <div className="h2 m-4 p-4">
-                        Tài Khoản Của Bạn
+                        Tài Khoản
                     </div>
                 </div>
                 {/* Right side */}
