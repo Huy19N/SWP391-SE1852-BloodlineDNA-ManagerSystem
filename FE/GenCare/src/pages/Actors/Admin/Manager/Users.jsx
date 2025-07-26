@@ -195,16 +195,18 @@ function Users(){
 
             <div className="mb-2">
                 <label>Vai Trò:</label>
-                <input
-                type="number"
-                className="form-control"
-                placeholder="1: Khách Hàng, 2: Nhân Viên, 3: Quản Lý, 4: Quản Trị Viên"
-                value={editUser.roleId}
-                onChange={(e) =>
+                <select
+                    className="form-control"
+                    value={editUser.roleId}
+                    onChange={(e) =>
                     setEditUser({ ...editUser, roleId: parseInt(e.target.value) })
-                }
-                />
-                <h6 className="text-danger">Chú ý hãy nhập số theo như trên vào vai trò để thay đổi vai trò của tài khoản này!</h6>
+                    }
+                >
+                    <option value={1}>Khách Hàng</option>
+                    <option value={2}>Nhân Viên</option>
+                    <option value={3}>Quản Lý</option>
+                    <option value={4}>Quản Trị Viên</option>
+                </select>
             </div>
 
             <div className="mb-2">

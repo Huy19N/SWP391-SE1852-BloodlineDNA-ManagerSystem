@@ -14,7 +14,7 @@ function ServicesPrice(){
     const [fromDataServicesPrice, setFromDataServicesPrice] = useState({
         serviceId: '',
         durationId: '',
-        price: ''
+        price: '',
     });
 
 
@@ -88,7 +88,7 @@ function ServicesPrice(){
             await api.post('ServicePrices/Create', fromDataServicesPrice);
             toast.success("Giá dịch vụ này tạo thành công!");
             setShowCreateModal(false);
-            setFromDataServicesPrice({ serviceId: '', durationId: '', price: '' });
+            setFromDataServicesPrice({ serviceId: '', durationId: '', price: ''});
             fetchData();
         } catch (error) {
             console.error("Lỗi tạo ServicePrice", error);
@@ -159,6 +159,7 @@ function ServicesPrice(){
                     <th>Loại Dịch Vụ</th>
                     <th>Thời Lượng</th>
                     <th>Giá</th>
+                    <th>Trạng Thái</th>
                     {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
@@ -175,6 +176,7 @@ function ServicesPrice(){
                         <td>{getServiceType(price.serviceId)}</td>
                         <td>{getDuration(price.durationId)}</td>
                         <td>{price.price || 'trống'}</td>
+                        <td>{price.isDeleted ? "Đã xóa" : "Còn hoạt động"}</td>
                         {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
@@ -300,6 +302,23 @@ function ServicesPrice(){
                         setEditServicesPrice({ ...editServicesPrice, price: e.target.value })
                     }
                     />
+                </div>
+
+                <div className="mb-2">
+                    <label>Trạng Thái: </label>
+                    <select
+                        className="form-control"
+                        value={editServicesPrice.isDeleted ? "true" : "false"}
+                        onChange={(e) =>
+                        setEditServicesPrice({
+                            ...editServicesPrice,
+                            isDeleted: e.target.value === "true",
+                        })
+                        }
+                    >
+                        <option value="false">Còn hoạt động</option>
+                        <option value="true">Đã xóa</option>
+                    </select>
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">

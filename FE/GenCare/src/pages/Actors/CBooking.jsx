@@ -6,8 +6,10 @@ function Booking(){
     const [isLoading, setIsLoading] = useState(false);
     const [dataBooking, setDataBooking] = useState([]);
     const [dataUser, setDataUser] = useState([]);
-    const [dataService, setDataService] = useState([]);
+    const [dataServicesPrice, setDataServicesPrice] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
+    const [dataService, setDataService] = useState([]);
+    const [dataDuration, setDataDuration] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
     const [newResultSummary, setNewResultSummary] = useState('');
@@ -28,21 +30,24 @@ function Booking(){
         setIsLoading(true);
 
         try{
-            const [resBooking, resUser, resService, resStatus] = await Promise.all([
+            const [resBooking, resUser, resServicePrice, resStatus, resService, resDuration] = await Promise.all([
                 api.get('Bookings/GetAll'),
                 api.get('Users/GetAll'),
-                api.get('Services/GetAllPaging'),
+                api.get('ServicePrices/GetAllPaging'),
                 api.get('Status/GetAllStatus'),
+                api.get('Services/GetAllPaging'),
+                api.get('Durations/GetAllPaging')
             ]);
-
             const dataStatus = resStatus.data.data;
             const statusId_NotPay = dataStatus.find(s => s.statusId === 1)?.statusId;
             localStorage.setItem('statusId_Approve', statusId_NotPay);
 
             setDataBooking(resBooking.data.data);
             setDataUser(resUser.data.data);
-            setDataService(resService.data.data);
+            setDataServicesPrice(resServicePrice.data.data);
             setDataStatus(resStatus.data.data);
+            setDataService(resService.data.data);
+            setDataDuration(resDuration.data.data);
         }
         catch(error){
             toast.error("Error Data!");
@@ -74,33 +79,36 @@ function Booking(){
                 resPatientAll, 
                 resSampleAll, 
                 resProcessAll,
-                resServiceAll,
                 resStatusAll,
-                resDurationAll,
                 resMethodAll,
                 resStepsAll,
-                resResults
+                resResults,
+                resServicePrice,
+                resServiceAll,
+                resDurationAll
             ] = await Promise.all([
                 api.get(`Bookings/GetById/${bookingId}`),
                 api.get(`Users/GetAll`),
                 api.get(`Patient/GetAll`),
                 api.get(`Samples/GetAllPaging`),
                 api.get(`TestProcess/GetAllPaging`),
-                api.get(`Services/GetAllPaging`),
                 api.get(`Status/GetAllStatus`),
-                api.get(`Durations/GetAllPaging`),
                 api.get(`CollectionMethod/GetAll`),
                 api.get(`TestStep/getAllTestSteps`),
-                api.get(`TestResults/GetAllPaging`)
+                api.get(`TestResults/GetAllPaging`),
+                api.get(`ServicePrices/GetAllPaging`),
+                api.get(`Services/GetAllPaging`),
+                api.get(`Durations/GetAllPaging`)
             ]);
 
             const bookingList = resBooking.data.data;
 
             const user = resUserAll.data.data.find(u => u.userId === bookingList.userId);
-            const service = resServiceAll.data.data.find(s => s.serviceId === bookingList.serviceId);
+            const price = resServicePrice.data.data.find(p => p.priceId === bookingList.priceId);
+            const service = resServiceAll.data.data.find(s => s.serviceId === price?.serviceId);
+            const duration = resDurationAll.data.data.find(d => d.durationId === price?.durationId);
             const status = resStatusAll.data.data.find(s => s.statusId === bookingList.statusId);
             const method = resMethodAll.data.data.find(m => m.methodId === bookingList.methodId);
-            const duration = resDurationAll.data.data.find(d => d.durationId === bookingList.durationId)
             const result = resResults.data.find(r => r.resultId === bookingList.resultId);
 
             const sampleMap = {};
@@ -141,12 +149,13 @@ function Booking(){
             });
 
             setShowOverlay(true);
-            setViewMode(!!result); // Set viewMode to true if result exists
+            setViewMode(!!result);
         } catch (error) {
             toast.error("Thất bại tải dữ liệu Của đặt chỗ");
-            console.error("Lỗi của booing detail:", error);
+            console.error("Lỗi của booking detail:", error);
         }
     };
+
 
     useEffect(() => {
         fetchData();
@@ -157,15 +166,24 @@ function Booking(){
         return user ? user.fullName : 'Trống';
     };
 
-    const getServiceName = (serviceId) => {
-        const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceName : 'Trống';
+    const getServiceName = (priceID) => {
+        const price = dataServicesPrice.find(u => u.priceId === priceID);
+        const service = dataService.find(s => s.serviceId === price?.serviceId);
+        return service?.serviceName || 'Trống';
     };
 
-    const getServiceType = (serviceId) => {
-        const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceType : 'Trống';
+
+    const getServiceType = (priceID) => {
+        const price = dataServicesPrice.find(u => u.priceId === priceID);
+        const service = dataService.find(s => s.serviceId === price?.serviceId);
+        return service?.serviceType || 'Trống';
     };
+
+    // const getDurationName = (priceID) => {
+    //     const price = dataServicesPrice.find(p => p.priceId === priceID);
+    //     const duration = dataDuration.find(d => d.durationId === price?.durationId);
+    //     return duration?.durationName || 'Trống';
+    // };
 
     const getStatusName = (statusId) => {
         const status = dataStatus.find(u => u.statusId === statusId);
@@ -240,8 +258,7 @@ function Booking(){
             await api.put('Bookings/Update', {
                 bookingId: b.bookingId,
                 userId: b.userId,
-                serviceId: b.serviceId,
-                durationId: b.durationId,
+                priceId: b.priceId,
                 methodId: b.methodId,
                 appointmentTime: b.appointmentTime,
                 statusId: b.statusId,
@@ -360,8 +377,8 @@ function Booking(){
                             <tr key={booking.bookingId} className="text-center">
                                 <td>{booking.bookingId}</td>
                                 <td>{getUsername(booking.userId)}</td>
-                                <td>{getServiceName(booking.serviceId)}</td>
-                                <td>{getServiceType(booking.serviceId)}</td>
+                                <td>{getServiceName(booking.priceId)}</td>
+                                <td>{getServiceType(booking.priceId)}</td>
                                 <td>{booking.date?.split("T")[0]}</td>
                                 <td>{getStatusName(booking.statusId)}</td>
                                 <td>
