@@ -22,7 +22,7 @@ export default function AIChatWidget() {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer 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',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -33,6 +33,7 @@ export default function AIChatWidget() {
       const data = await res.json();
       const aiReply = data.choices?.[0]?.message?.content || 'Sorry, I could not understand.';
       setMessages(prev => [...prev, { role: 'assistant', content: aiReply }]);
+    // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error talking to AI.' }]);
     } finally {
