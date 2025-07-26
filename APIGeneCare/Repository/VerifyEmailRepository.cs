@@ -15,6 +15,7 @@ namespace APIGeneCare.Repository
         public readonly AppSettings _appSettings;
         public readonly JwtSettings _jwtSettings;
         public readonly FontEndSettings _fontEndSettings;
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         public VerifyEmailRepository(GeneCareContext context,
             IOptionsMonitor<EmailSettings> emailSettings,
             IOptionsMonitor<AppSettings> appSettings,
@@ -53,7 +54,7 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                _context.VerifyEmails.Remove(GetVerifyEmailByEmail(email) ?? null!);
+                _context.VerifyEmails.Remove(_context.VerifyEmails.FirstOrDefault(x => x.Email == email) ?? null!);
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
@@ -64,30 +65,9 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
-        public VerifyEmail? GetVerifyEmailByEmail(string email)
-            => _context.VerifyEmails.Find(email);
+        public VerifyEmail? GetVerifyEmailByEmail(string email, string otp)
+            => _context.VerifyEmails.FirstOrDefault(x => x.Email == email && x.Otp == otp);
 
-        public bool UpdateVerifyEmail(VerifyEmail verifyEmail)
-        {
-            if (verifyEmail == null) return false;
-            var existVerifyEmail = GetVerifyEmailByEmail(verifyEmail.Email);
-            if (existVerifyEmail == null) return false;
-            using var transaction = _context.Database.BeginTransaction();
-            try
-            {
-                existVerifyEmail.ExpiredAt = verifyEmail.ExpiredAt;
-                existVerifyEmail.CreatedAt = verifyEmail.CreatedAt;
-                existVerifyEmail.Key = verifyEmail.Key;
-                _context.SaveChanges();
-                transaction.Commit();
-                return true;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-        }
         public async Task<bool> SendConfirmEmail(string email)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
@@ -95,8 +75,10 @@ namespace APIGeneCare.Repository
             {
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
+                
+                Random random = new Random();
+                string otp = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
 
-                var key = timeNow.Ticks.ToString() + Guid.NewGuid().ToString();
                 if (string.IsNullOrWhiteSpace(email)) return false;
                 #region body
                 var body = $"<!DOCTYPE html>\r\n" +
@@ -158,10 +140,10 @@ namespace APIGeneCare.Repository
                     $"<h2>Xác nhận Email của bạn</h2>\r\n    " +
                     $"<p>Chào bạn," +
                     $"<br>\r\nCảm ơn bạn đã đăng ký tài khoản tại GeneCare." +
-                    $"<br>\r\nVui lòng nhấn nút bên dưới để xác nhận email của bạn:\r\n    " +
+                    $"<br>\r\nVui lòng nhập mã OTP bên dưới để xác nhận email của bạn:\r\n    " +
                     $"</p>\r\n    " +
-                    $"<a href=\"{_fontEndSettings.ReturnAfterConfirmEmail}?email={email}&key={key}\" class=\"btn-confirm\">Xác nhận Email</a>\r\n    " +
-                    $"<div class=\"footer\">\r\n      Nếu bạn không đăng ký tài khoản, vui lòng bỏ qua email này." +
+                    $"<a class=\"btn-confirm\">{otp}</a>\r\n    " +
+                    $"<div class=\"footer\">\r\n      Nếu bạn không yêu cầu, vui lòng bỏ qua email này." +
                     $"<br>\r\n      Trân trọng," +
                     $"<br>\r\n      Đội ngũ GeneCare\r\n    " +
                     $"</div>\r\n  </div>\r\n" +
@@ -173,14 +155,15 @@ namespace APIGeneCare.Repository
                 await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
                 await _context.SaveChangesAsync();
 
-                bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
+                _context.VerifyEmails.Add(new VerifyEmail
                 {
-                    Key = key,
+                    Otp = otp,
                     Email = email,
                     IsResetPwd = false,
                     CreatedAt = timeNow,
                     ExpiredAt = timeNow.AddMinutes(_emailSettings.ExpiredConfirmAt)
-                }));
+                });
+
                 await SendEmailAsync(email, "Confirm email by GeneCare", body);
 
                 await _context.SaveChangesAsync();
@@ -203,8 +186,10 @@ namespace APIGeneCare.Repository
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
                 if (_context.Users.FirstOrDefaultAsync(u => u.Email.Trim().ToLower() == email.Trim().ToLower()) == null) return false;
+                
+                Random random = new Random();
+                string otp = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
 
-                var key = DateTime.UtcNow.Ticks.ToString() + Guid.NewGuid().ToString();
                 if (string.IsNullOrWhiteSpace(email)) return false;
                 #region body
                 var body = $@"
@@ -213,7 +198,7 @@ namespace APIGeneCare.Repository
                 <head>
                   <meta charset=""UTF-8"">
                   <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-                  <title>Thắp Lại Ánh Sáng - GeneCare</title>
+                  <title>Quên mật khẩu - GeneCare</title>
                   <link href=""https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"" rel=""stylesheet"">
                   <style>
                     @keyframes fadeIn {{
@@ -366,22 +351,22 @@ namespace APIGeneCare.Repository
                     <div class=""icon"">&#128302;</div>
                     <h2>Thắp Lại Ánh Sáng Cho Hành Trình Của Bạn!</h2>
                     <p>
-                      Xin chào, nhà lữ hành dũng cảm của <strong>GeneCare</strong>!<br><br>
-                      Đôi khi trong hành trình dài, ta cần một ngọn lửa mới để tiếp tục khám phá. Chúng tôi vừa nhận được tín hiệu yêu cầu <strong>khôi phục mật khẩu</strong> cho tài khoản của bạn.<br>
-                      Đừng lo, ánh sáng đang chờ bạn ở phía trước. Một cú chạm nhẹ, bạn sẽ khôi phục sức mạnh, mở ra những điều kỳ diệu phía sau cánh cửa.<br>
-                      Hãy nhấn vào nút dưới đây để bắt đầu tái sinh và tiếp tục hành trình vĩ đại của riêng bạn:
+                      Xin chào, người dùng của <strong>GeneCare</strong>!<br><br>
+                      Đôi khi trong quá trình hoạt động. Chúng tôi vừa nhận được yêu cầu <strong>khôi phục mật khẩu</strong> cho tài khoản của bạn.<br>
+                      Đừng lo lắng đây là mã OTP của bạn.<br>
                     </p>
-                    <a href=""{_fontEndSettings.ReturnAfterResetPassword}email={email}&key={key}"" class=""btn-confirm"">Thắp sáng tài khoản</a>
+                    <a class=""btn-confirm"">{otp}</a>
                     <div class=""footer"">
-                      Nếu bạn không phải người gửi yêu cầu, xin hãy bỏ qua email này như một vì sao băng thoáng qua.<br><br>
+                      Nếu bạn không phải người gửi yêu cầu, xin hãy bỏ qua email này.<br><br>
                       Luôn đồng hành và bảo vệ bạn,<br>
-                      <strong>Đội ngũ GeneCare</strong> – Nơi Mọi Cuộc Hành Trình Khỏe Mạnh Bắt Đầu
+                      <strong>Đội ngũ GeneCare</strong>
                     </div>
                   </div>
                 </body>
                 </html>
                 ";
                 #endregion
+
                 var verifyEmail = await _context.VerifyEmails.Where(x => x.Email.Trim().ToLower() == email.Trim().ToLower()).ToArrayAsync();
 
                 await Task.Run(() => _context.VerifyEmails.RemoveRange(verifyEmail));
@@ -389,7 +374,7 @@ namespace APIGeneCare.Repository
 
                 bool isSave = await Task.Run(() => CreateVerifyEmail(new VerifyEmail
                 {
-                    Key = key,
+                    Otp = otp,
                     Email = email,
                     IsResetPwd = true,
                     CreatedAt = timeNow,
@@ -409,7 +394,7 @@ namespace APIGeneCare.Repository
             }
         }
 
-        public async Task<bool> ConfirmForgetPassword(string email, string key, string password)
+        public async Task<bool> ConfirmForgetPassword(string email, string otp, string password)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -417,7 +402,7 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key &&
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Otp == otp &&
                     x.Email.Trim().ToLower() == email.Trim().ToLower() && x.IsResetPwd).ToArrayAsync();
 
                 if (verifyEmail == null || verifyEmail.Length == 0)
@@ -470,7 +455,7 @@ namespace APIGeneCare.Repository
                 throw;
             }
         }
-        public async Task<bool> ConfirmEmail(string email, string key)
+        public async Task<bool> ConfirmEmail(string email, string otp)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -478,7 +463,7 @@ namespace APIGeneCare.Repository
                 var timeZoneById = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
                 var timeNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneById);
 
-                var verifyEmail = await _context.VerifyEmails.Where(x => x.Key == key &&
+                var verifyEmail = await _context.VerifyEmails.Where(x => x.Otp == otp &&
                     x.Email.Trim().ToLower() == email.Trim().ToLower() && !x.IsResetPwd).ToArrayAsync();
 
                 if (verifyEmail == null || verifyEmail.Length == 0)

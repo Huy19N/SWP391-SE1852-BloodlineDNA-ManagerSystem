@@ -221,14 +221,13 @@ CREATE TABLE PaymentReturnLog(
 
 -- Bảng VerifyEmail
 CREATE TABLE VerifyEmail (
-	[Key] NVARCHAR(255) NOT NULL PRIMARY KEY,
+    OTP VARCHAR(6) NOT NULL,
     Email NVARCHAR(200) NOT NULL,
-	IsResetPwd BIT NOT NULL,
+    IsResetPwd BIT NOT NULL,
     CreatedAt DATETIME NOT NULL,
     ExpiredAt DATETIME NOT NULL,
-    
+    PRIMARY KEY (OTP, Email)
 );
-
 
 -------------------------------------------INSERT DATA---------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES

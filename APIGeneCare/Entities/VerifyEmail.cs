@@ -2,7 +2,7 @@
 
 public partial class VerifyEmail
 {
-    public string Key { get; set; } = null!;
+    public string Otp { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 

@@ -3,7 +3,6 @@ using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace APIGeneCare.Repository
 {

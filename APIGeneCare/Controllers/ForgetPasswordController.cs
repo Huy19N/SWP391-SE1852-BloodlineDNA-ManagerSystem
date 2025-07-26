@@ -46,17 +46,25 @@ namespace APIGeneCare.Controllers
         }
 
         [HttpPut("confirmForgetPassword")]
-        public async Task<IActionResult> ConfirmForgetPassword(string email, string key, string password, string confirmPassword)
+        public async Task<IActionResult> ConfirmForgetPassword(string email, string otp, string password, string confirmPassword)
         {
             try
             {
 
-                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(key))
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(otp))
                 {
                     return BadRequest(new ApiResponse
                     {
                         Success = false,
                         Message = "What are you doing?"
+                    });
+                }
+                if(otp.Trim().Length < 6)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "OTP must have 6 characters!"
                     });
                 }
 
@@ -78,13 +86,13 @@ namespace APIGeneCare.Controllers
                     });
                 }
 
-                bool isConfirm = await _verifyEmailRepository.ConfirmForgetPassword(email, key, password);
+                bool isConfirm = await _verifyEmailRepository.ConfirmForgetPassword(email, otp, password);
                 if (!isConfirm)
                 {
                     return Ok(new ApiResponse
                     {
                         Success = false,
-                        Message = "Key is not available"
+                        Message = "OTP is not available"
                     });
                 }
                 return Ok(new ApiResponse

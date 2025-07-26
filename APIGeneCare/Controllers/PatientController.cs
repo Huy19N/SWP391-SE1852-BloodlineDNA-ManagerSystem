@@ -2,7 +2,6 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace APIGeneCare.Controllers
 {
