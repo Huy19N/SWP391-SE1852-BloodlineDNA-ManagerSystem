@@ -2,7 +2,8 @@ FROM mcr.microsoft.com/mssql/server:2022-latest
 
 # Thiết lập biến môi trường
 ENV ACCEPT_EULA=Y
-ENV SA_PASSWORD=12345   # Khuyến nghị mạnh mật khẩu
+# Khuyến nghị mạnh mật khẩu
+ENV SA_PASSWORD=12345   
 
 # Đặt thư mục làm việc
 WORKDIR /usr/src/app
