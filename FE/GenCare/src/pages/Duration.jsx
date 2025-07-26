@@ -22,49 +22,57 @@ function Duration() {
         const priceList = response.data.data;
 
         const promises = priceList.map(async (item) => {
-          const [serviceRes, durationRes] = await Promise.all([
-            api.get(`Services/GetById/${item.serviceId}`),
-            api.get(`Durations/GetById/${item.durationId}`),
-          ]);
+          try {
+            const [serviceRes, durationRes] = await Promise.all([
+              api.get(`Services/GetById/${item.serviceId}`),
+              api.get(`Durations/GetById/${item.durationId}`),
+            ]);
 
-          return {
-            ...item,
-            service: serviceRes.data.data,
-            duration: durationRes.data.data,
-          };
+            return {
+              ...item,
+              service: serviceRes.data.data,
+              duration: durationRes.data.data,
+            };
+          } catch (e) {
+            console.error("Lỗi khi gọi service/duration với item:", item, e);
+            return null;
+          }
         });
 
-        const fullData = await Promise.all(promises);
+        const fullData = (await Promise.all(promises)).filter(item => item !== null);
 
-        // lọc theo dịch vụ đã chọn
         const normalize = (text) => text?.toLowerCase().normalize("NFD");
+
         const filtered = fullData.filter(
           (entry) =>
-            normalize(entry.service.serviceName) === normalize(selectedService.mainType)
+            normalize(entry.service.serviceName) === normalize(selectedService.mainType) &&
+            normalize(entry.service.serviceType) === normalize(selectedService.testType)
         );
 
         setData(filtered);
       } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
+        console.error("Lỗi khi gọi API ServicePrices:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  const handleSelect = (serviceId, durationId, price) => {
-  const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
+  const handleSelect = (serviceId, durationId,durationName,priceId, price) => {
+    const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
 
-  const updated = {
-    ...prev,
-    serviceId,
-    durationId,
-    price,
+    const updated = {
+      ...prev,
+      serviceId,
+      durationId,
+      durationName,
+      priceId,
+      price,
+    };
+
+    localStorage.setItem("selectedService", JSON.stringify(updated));
+    navigate("/book-appointment");
   };
-
-  localStorage.setItem("selectedService", JSON.stringify(updated));
-  navigate("/book-appointment");
-};
 
   return (
     <div className="container mt-5" style={{ paddingTop: '2rem' }}>
@@ -87,7 +95,7 @@ function Duration() {
             <div key={item.priceId} className="col-md-4 mb-4">
               <div
                 className="card shadow text-dark text-decoration-none"
-                onClick={() => handleSelect(item.service.serviceId, item.duration.durationId,item.price)}
+                onClick={() => handleSelect(item.service.serviceId, item.duration.durationId,item.duration.durationName,item.priceId, item.price)}
               >
                 <div className="card-header bg-info text-white text-center">
                   <h4 className="mb-0">{item.duration.durationName.toUpperCase()} CÓ KẾT QUẢ</h4>

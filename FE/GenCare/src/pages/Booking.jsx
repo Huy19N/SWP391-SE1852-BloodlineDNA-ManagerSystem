@@ -18,6 +18,7 @@ function Booking() {
     method: '',
     serviceId: null,
     durationId: null,
+    price:0,
     user: {
       fullName: '',
       gmail: '',
@@ -68,6 +69,9 @@ function Booking() {
           method: selectedService?.collectionMethod || '',
           serviceId: selectedService?.serviceId || null,
           durationId: selectedService?.durationId || null,
+          durationName: selectedService?.durationName || "", 
+          price: selectedService.price|| 0,
+
           user: {
             userId: user.userId,
             fullName: user.fullName,
@@ -214,12 +218,12 @@ function Booking() {
     //tạo bôking
     const bookingData = {
       userId: parseInt(userId),
-      durationId: selectedService?.duration?.durationId || selectedService?.durationId,
-      serviceId: selectedService?.serviceId,
+      priceId: selectedService?.priceId,   
       methodId: selectedService?.collectionMethodId,
+      resultId: 0, // chưa có kết quả
       appointmentTime: getAppointmentTime(selectedService?.appointmentDay, selectedService?.appointmentSlot),
-      date: new Date().toISOString(),
-      statusId: 1,
+      statusId: 1, 
+       date: new Date().toISOString(),
       patients: [
         {
           patientId: 0,
@@ -263,7 +267,6 @@ function Booking() {
       toast.error("Không thể lấy bookingId để tạo testprocess.");
       return;
     }
-
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
       const fullSteps = [1, 2, 3, 4];
@@ -323,18 +326,33 @@ function Booking() {
 
     <form onSubmit={handleSubmit}>
       {/* Thông tin dịch vụ */}
-      {['serviceType', 'testType', 'timeSlot', 'method'].map((field) => (
-        <div className="mb-3" key={field}>
-          <label className="form-label text-capitalize">{field}</label>
-          <input
-            type="text"
-            name={field}
-            value={formData[field]}
-            readOnly
-            className="form-control bg-light"
-          />
-        </div>
-      ))}
+      <div className="mb-3">
+        <label className="form-label">Loại dịch vụ</label>
+        <input type="text" name="serviceType" value={formData.serviceType} readOnly className="form-control bg-light" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Loại xét nghiệm</label>
+        <input type="text" name="testType" value={formData.testType} readOnly className="form-control bg-light" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Khung giờ</label>
+        <input type="text" name="timeSlot" value={formData.timeSlot} readOnly className="form-control bg-light" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Phương pháp thu mẫu</label>
+        <input type="text" name="method" value={formData.method} readOnly className="form-control bg-light" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Gói dịch vụ</label>
+        <input type="text" name="durationName" value={formData.durationName} readOnly className="form-control bg-light" />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Giá dịch vụ</label>
+        <input type="text" name="price" value={formData.price.toLocaleString("vi-VN", {style: "currency",currency: "VND",}) }
+          readOnly
+          className="form-control bg-light"
+        />
+      </div>
 
       {/* Người đăng ký */}
       <h4 className="text-primary border-bottom pb-2 mt-4">Thông tin người đăng ký</h4>

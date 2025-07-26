@@ -8,7 +8,7 @@ namespace APIGeneCare.Repository
     public class ServicePriceRepository : IServicePriceRepository
     {
         private readonly GeneCareContext _context;
-        public static int PAGE_SIZE { get; set; } = 10;
+        public static int PAGE_SIZE { get; set; } = 100;
         public ServicePriceRepository(GeneCareContext context) => _context = context;
 
         public IEnumerable<ServicePriceDTO> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
