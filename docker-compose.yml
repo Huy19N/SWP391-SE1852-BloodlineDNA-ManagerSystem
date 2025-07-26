@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  database:
+    build:
+      context: ./DataBase
+    container_name: genecare-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=12345
+    ports:
+      - "1433:1433"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./APIGeneCare
+    container_name: genecare-backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=database;Database=GeneCare;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./FE/Genecare
+    container_name: genecare-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

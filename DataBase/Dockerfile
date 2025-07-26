@@ -1,13 +1,12 @@
+ # Sử dụng image chính thức của Microsoft SQL Server 2022 cho Linux
 FROM mcr.microsoft.com/mssql/server:2022-latest
 
-WORKDIR /app
-
-ENV SA_PASSWORD=12345
+# Thiết lập biến môi trường
 ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=12345
 
-COPY GeneCareDataBase.sql ./bd/GeneCareDataBase.sql
-COPY exec.sh ./db/exec.sh
-
+# Mở port SQL Server
 EXPOSE 1433
 
-CMD ["./db/exec.sh"]
+# Nếu muốn khởi tạo dữ liệu, copy file .sql vào đây và dùng entrypoint custom
+# COPY init-db.sql /docker-entrypoint-initdb.d/
