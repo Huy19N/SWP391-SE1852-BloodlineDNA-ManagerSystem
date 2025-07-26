@@ -1,0 +1,35 @@
+# Node modules - sẽ được cài đặt lại trong container
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build output
+build
+dist
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile*
+
+# IDE/editor config
+.vscode
+.idea
+*.swp
+*.swo
+
+# Test coverage and reports
+coverage
+*.lcov
+
+# Env files - chỉ nếu bạn không muốn đưa biến môi trường vào image
+.env
+.env.*
