@@ -22,5 +22,5 @@ jobs:
         run: docker build . --file Dockerfile --tag genecare-backend:latest
 
       - name: Build Frontend Docker image
-        working-directory: ./FE/Genecare
+        working-directory: ./FE/GenCare
         run: docker build . --file Dockerfile --tag genecare-frontend:latest
