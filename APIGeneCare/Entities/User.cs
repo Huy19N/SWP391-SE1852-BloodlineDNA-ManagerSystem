@@ -26,8 +26,6 @@ public partial class User
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-    public virtual ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
-
     public virtual ICollection<LogLogin> LogLogins { get; set; } = new List<LogLogin>();
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();

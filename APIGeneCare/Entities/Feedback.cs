@@ -2,11 +2,7 @@
 
 public partial class Feedback
 {
-    public int FeedbackId { get; set; }
-
-    public int UserId { get; set; }
-
-    public int ServiceId { get; set; }
+    public int BookingId { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -14,7 +10,5 @@ public partial class Feedback
 
     public int Rating { get; set; }
 
-    public virtual Service Service { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public virtual Booking Booking { get; set; } = null!;
 }

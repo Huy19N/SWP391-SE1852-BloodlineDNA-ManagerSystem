@@ -2,6 +2,7 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace APIGeneCare.Controllers
 {
@@ -101,11 +102,11 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("Create")]
-        public ActionResult CreateBooking(BookingDTO booking)
+        public async Task<IActionResult> CreateBooking(BookingDTO booking)
         {
             try
             {
-                var isCreate = _bookingRepository.CreateBooking(booking);
+                var isCreate = await _bookingRepository.CreateBooking(booking);
                 if (isCreate)
                 {
                     return CreatedAtAction(nameof(GetBookingById), new { id = booking.BookingId }, booking);

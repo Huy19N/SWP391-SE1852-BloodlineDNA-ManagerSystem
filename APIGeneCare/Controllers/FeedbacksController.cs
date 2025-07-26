@@ -44,13 +44,68 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all feedback: {ex.Message}");
             }
         }
-
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetFeedbackById(int id)
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllFeedbacks()
         {
             try
             {
-                var feedback = await Task.Run(() => _feedbackRepository.GetFeedbackById(id));
+                var feedbacks = await Task.Run(() => _feedbackRepository.GetAllFeedbacks());
+                if (feedbacks == null || !feedbacks.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all feedback failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all feedback success",
+                    Data = feedbacks
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all feedback: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetByUserId/{userId}")]
+        public async Task<IActionResult> GetAllFeedbacksByUserId(int userId)
+        {
+            try
+            {
+                var feedbacks = await Task.Run(() => _feedbackRepository.GetAllFeedbacksByUserId(userId));
+                if (feedbacks == null || !feedbacks.Any())
+                {
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Get all feedback by user id failed",
+                        Data = null
+                    });
+                }
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all feedback by user id success",
+                    Data = feedbacks
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all feedback by user id: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetFeedbackByBookingId/{id}")]
+        public async Task<IActionResult> GetFeedbackByBookingId(int id)
+        {
+            try
+            {
+                var feedback = await Task.Run(() => _feedbackRepository.GetFeedbackByBookingId(id));
                 if (feedback == null)
                 {
                     return NotFound(new ApiResponse
@@ -72,6 +127,8 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving feedback: {ex.Message}");
             }
         }
+        
+        
         [HttpPost("Create")]
         public ActionResult CreateFeedback(FeedbackDTO feedback)
         {
@@ -80,7 +137,7 @@ namespace APIGeneCare.Controllers
                 var isCreate = _feedbackRepository.CreateFeedback(feedback);
                 if (isCreate)
                 {
-                    return CreatedAtAction(nameof(GetFeedbackById), new { id = feedback.FeedbackId }, feedback);
+                    return CreatedAtAction(nameof(GetFeedbackByBookingId), new { id = feedback.BookingId }, feedback);
                 }
                 else
                 {
@@ -119,12 +176,12 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating feedback: {ex.Message}");
             }
         }
-        [HttpDelete("DeleteById/{id}")]
-        public ActionResult DeleteFeedbackById(int id)
+        [HttpDelete("DeleteFeedbackByBookingId/{id}")]
+        public ActionResult DeleteFeedbackByBookingId(int id)
         {
             try
             {
-                var isDelete = _feedbackRepository.DeleteFeedbackById(id);
+                var isDelete = _feedbackRepository.DeleteFeedbackByBookingId(id);
                 if (isDelete)
                 {
                     return NoContent();

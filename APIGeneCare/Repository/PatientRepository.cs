@@ -2,6 +2,7 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIGeneCare.Repository
 {
@@ -41,28 +42,22 @@ namespace APIGeneCare.Repository
                 HasTestedDna = p.HasTestedDna,
                 Relationship = p.Relationship
             }).SingleOrDefault(p => p.PatientId == id);
-        public int CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        public async Task<int> CreatePatientWithBookingAsync(BookingWithPatient bookingWithPatient)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
             {
                 if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return 0;
-                if (_context.Durations.Find(bookingWithPatient.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
-
-                var servicePrice = _context.ServicePrices
-                    .Where(sp => sp.ServiceId == bookingWithPatient.ServiceId && sp.DurationId == bookingWithPatient.DurationId && !sp.IsDeleted)
-                    .ToList();
-
-                if (servicePrice == null || !servicePrice.Any())
+                var price = await _context.ServicePrices.FirstOrDefaultAsync(sp => sp.PriceId == bookingWithPatient.PriceId && !sp.IsDeleted);
+                if (price == null)
                 {
-                    throw new Exception("Price for this service is deleted");
+                    throw new Exception("Price is deleted");
                 }
 
                 var booking = new Booking
                 {
                     UserId = bookingWithPatient.UserId,
-                    DurationId = bookingWithPatient.DurationId,
-                    ServiceId = bookingWithPatient.ServiceId,
+                    PriceId = bookingWithPatient.PriceId,
                     MethodId = bookingWithPatient.MethodId,
                     AppointmentTime = bookingWithPatient.AppointmentTime,
                     StatusId = bookingWithPatient.StatusId,

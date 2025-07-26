@@ -6,9 +6,7 @@ public partial class Booking
 
     public int? UserId { get; set; }
 
-    public int? DurationId { get; set; }
-
-    public int? ServiceId { get; set; }
+    public int? PriceId { get; set; }
 
     public int? MethodId { get; set; }
 
@@ -20,7 +18,7 @@ public partial class Booking
 
     public DateTime? Date { get; set; }
 
-    public virtual Duration? Duration { get; set; }
+    public virtual Feedback? Feedback { get; set; }
 
     public virtual CollectionMethod? Method { get; set; }
 
@@ -28,9 +26,9 @@ public partial class Booking
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual TestResult? Result { get; set; }
+    public virtual ServicePrice? Price { get; set; }
 
-    public virtual Service? Service { get; set; }
+    public virtual TestResult? Result { get; set; }
 
     public virtual Status? Status { get; set; }
 

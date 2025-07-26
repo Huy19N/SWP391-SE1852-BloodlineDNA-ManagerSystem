@@ -8,9 +8,7 @@ public partial class BookingDTO
 
     public int? UserId { get; set; }
 
-    public int? DurationId { get; set; }
-
-    public int? ServiceId { get; set; }
+    public int? PriceId { get; set; }
 
     public int? MethodId { get; set; }
 

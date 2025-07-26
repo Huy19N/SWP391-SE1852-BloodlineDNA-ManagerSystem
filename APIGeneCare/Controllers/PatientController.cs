@@ -2,6 +2,7 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace APIGeneCare.Controllers
 {
@@ -88,11 +89,11 @@ namespace APIGeneCare.Controllers
             }
         }
         [HttpPost("CreatePatientWithBooking")]
-        public IActionResult CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
+        public async Task<IActionResult> CreatePatientWithBooking(BookingWithPatient bookingWithPatient)
         {
             try
             {
-                var bookingId = _patientRepository.CreatePatientWithBooking(bookingWithPatient);
+                var bookingId = await _patientRepository.CreatePatientWithBookingAsync(bookingWithPatient);
                 if (bookingId > 0)
                 {
                     return Ok(new ApiResponse
