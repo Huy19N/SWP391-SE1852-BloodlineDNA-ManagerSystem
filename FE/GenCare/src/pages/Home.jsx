@@ -52,10 +52,6 @@ function Home() {
               <img src={img4} alt="New York" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="position-absolute top-50 start-50 translate-middle text-center text-white">
-              <h1 className="fw-bold display-4 text-primary">Welcome to GeneCare</h1>
-              <button className="btn btn-primary btn-lg">
-                <Link to='/services' className='text-light text-decoration-none'><i className="bi bi-star-fill"></i> Join</Link>
-              </button>
             </div>
           </div>
 
@@ -71,8 +67,8 @@ function Home() {
       {/* Part 2: Text Advice */}
       <div className="container text-center mt-20 mb-10">
         <h2 className="fw-bold display-6 py-5">
-          We’ll <span className="text-primary">help</span> you<span className="text-primary"> confirm</span><br />
-          if <span className="text-primary">someone</span> is from your <span className="text-primary">hometown</span>
+          Chúng tôi <span className="text-primary">nỗ lực</span> bạn <span className="text-primary"> hài lòng </span><br />
+          Chúng tôi <span className="text-primary">chính xác</span> bạn <span className="text-primary">tuyệt vọng</span>
         </h2>
       </div>
 
@@ -85,27 +81,27 @@ function Home() {
             </div>
             <div className="col-md-6">
               <h2 className="fw-bold mb-4">
-                Here’s why <span className="text-primary">choosing </span>us is the right decision you can <span className="text-primary">trust</span>
+                Đây là lý do tại sao việc <span className="text-primary">chọn chúng tôi </span>là quyết định đúng đắng mà bạn có thể <span className="text-primary">tin tưởng</span>
               </h2>
               <div className="d-flex mb-4">
                 <i className="bi bi-lightbulb-fill text-primary fs-2 me-3"></i>
                 <div>
-                  <h5 className="text-primary fw-bold mb-1">Cutting-Edge DNA Testing Technology</h5>
-                  <p className="mb-0 text-muted">We leverage modern technology to provide highly accurate and reliable DNA testing solutions.</p>
+                  <h5 className="text-primary fw-bold mb-1">Công nghệ kiểm tra ADN tiên tiến</h5>
+                  <p className="mb-0 text-muted">Chúng tôi sử dụng công nghệ hiện đại để cung cấp các phương pháp xét nghiệm ADN chính xác và đáng tin cậy</p>
                 </div>
               </div>
               <div className="d-flex mb-4">
                 <i className="bi bi-emoji-smile text-primary fs-2 me-3"></i>
                 <div>
-                  <h5 className="text-primary fw-bold mb-1">Customer Satisfaction Is Our Priority</h5>
-                  <p className="mb-0 text-muted">Our patients consistently express satisfaction with the quality of care and personalized support they receive.</p>
+                  <h5 className="text-primary fw-bold mb-1">Sự hài lòng của khách hàng là ưu tiên của chúng tôi</h5>
+                  <p className="mb-0 text-muted">Những khách hàng của chúng tôi luôn thể hiện sự hài lòng với chất lượng dịch vụ mà chúng tôi đem đến</p>
                 </div>
               </div>
               <div className="d-flex">
                 <i className="bi bi-people-fill text-primary fs-2 me-3"></i>
                 <div>
-                  <h5 className="text-primary fw-bold mb-1">Trusted Leader in DNA Testing</h5>
-                  <p className="mb-0 text-muted">We are recognized as a trusted and well-known name in the field of DNA testing services.</p>
+                  <h5 className="text-primary fw-bold mb-1">Đội ngũ y bác sĩ đáng tin cậy</h5>
+                  <p className="mb-0 text-muted">Chúng tôi được công nhận là có đội ngũ y bác sĩ đáng tin cậy và nổi tiếng trong lĩnh vực xét nghiệm ADN</p>
                 </div>
               </div>
             </div>
@@ -117,10 +113,10 @@ function Home() {
       <section className="text-center py-5">
         <div className="container">
           <h2 className="fw-bold display-5">
-            Our Process: <span className="text-info">Bioinformatics</span> Software Solution
+            Qui trình của chúng tôi: <span className="text-info">phần mềm </span> đăng ký trực tuyến
           </h2>
           <p className="text-muted">
-            Fully integrated into your workflow to optimize efficiency, reduce costs, and minimize patient risk
+             Tiết kiệm thời gian và chi phí, dễ dàng, giảm thiểu rủi ro và hiệu quả
           </p>
           <div
             className="d-flex justify-content-between align-items-start flex-wrap position-relative mt-5"
@@ -172,7 +168,7 @@ function Home() {
               <p>
                 Với đội ngũ chuyên gia cao cấp nhiều năm kinh nghiệm được đào tạo chuyên nghiệp...
               </p>
-              <a href="#" className="btn btn-danger rounded-pill px-4 mt-3">Contact</a>
+              <a href="#" className="btn btn-danger rounded-pill px-4 mt-3">Liên hệ</a>
             </div>
             <div className="col-md-6 position-relative mt-4 mt-md-0">
               <img src={img3} alt="DNA" className="img-fluid rounded shadow" />
@@ -190,8 +186,8 @@ function Home() {
       {/* Part 6: Our Team */}
       <section className="py-5 bg-white">
         <div className="container text-center">
-          <h6 className="text-muted">Our Team</h6>
-          <h2 className="fw-bold mb-5">Expert Advisors</h2>
+          <h6 className="text-muted">Nhóm của chúng tôi</h6>
+          <h2 className="fw-bold mb-5">Cố vấn chuyên gia</h2>
           <div className="row g-4">
             <div className="col-md-3">
               <div className="card shadow-lg border-0 py-4 px-3">
@@ -273,8 +269,8 @@ function Home() {
               />
             </div>
             <div className="col-md-6 text-center">
-              <h5 className="text-secondary mb-2">THE FEEDBACK FROM OUR CUSTOMER</h5>
-              <h2 className="fw-bold mb-5">What Customer Say</h2>
+              <h5 className="text-secondary mb-2">PHẢN HỒI TỪ KHÁCH HÀNG CỦA CHÚNG TÔI</h5>
+              <h2 className="fw-bold mb-5">Họ đã nói gì?</h2>
               <div id="customerFeedbackCarousel" className="carousel slide" data-bs-ride="carousel">
                 <div className="carousel-inner">
                   <div className="carousel-item active">

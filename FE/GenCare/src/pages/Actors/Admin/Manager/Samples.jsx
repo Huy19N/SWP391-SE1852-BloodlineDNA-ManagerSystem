@@ -95,13 +95,13 @@ function Samples(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Samples
+                Mẫu
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
                     <input
                         type="text"
-                        placeholder="Search Name or Id..."
+                        placeholder="Tìm Tên hoặc Id..."
                         className="form-control"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -110,7 +110,7 @@ function Samples(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Samples
+                        Thêm Mẫu Mới
                     </button>
                 </div>
             </div>
@@ -120,14 +120,14 @@ function Samples(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name Samples</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Tên</th>
+                    {(isAdmin || isManager) ? <th>Hành Động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="3" className="text-center">Loading...</td>
+                    <td colSpan="3" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredSamples.length > 0 ? (
                     filteredSamples.map((sample) => (
@@ -150,7 +150,7 @@ function Samples(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="3" className="text-center">No Samples found.</td>
+                    <td colSpan="3" className="text-center">Không tìm thấy mẫu nào.</td>
                     </tr>
                 )}
                 </tbody>
@@ -159,10 +159,10 @@ function Samples(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New Samples</h4>
+                        <h4 className="mb-3">Tạo Mẫu Mới</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Samples Name</label>
+                                <label className="form-label">Tên Mẫu</label>
                                 <input
                                     type="text"
                                     name="sampleName"
@@ -173,8 +173,8 @@ function Samples(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -186,8 +186,8 @@ function Samples(){
             {editSamples && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Samples ID: {editSamples.sampleId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>ID: {editSamples.sampleId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -202,7 +202,7 @@ function Samples(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>Samples Name:</label>
+                    <label>Tên Mẫu:</label>
                     <input
                     type="text"
                     className="form-control"
@@ -216,14 +216,14 @@ function Samples(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditSamples(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>

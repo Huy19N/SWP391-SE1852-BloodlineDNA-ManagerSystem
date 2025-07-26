@@ -35,18 +35,18 @@ export default function Header(){
                 return (
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Management
+                            Quản Lý
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><NavLink className="dropdown-item" to="/layout">Dashboard</NavLink></li>
-                            <li><NavLink className="dropdown-item" to="/account">Information</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/layout">Thống Kê</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/account">Thông Tin Tài Khoản</NavLink></li>
                             <li><hr className="dropdown-divider" /></li>
                             {localStorage.getItem('token') ? (
                                 <li className="nav-item">
-                                    <button className="btn btn-link nav-link text-dark" onClick={handleLogout}>Logout</button>
+                                    <button className="btn btn-link nav-link text-dark" onClick={handleLogout}>Đăng Xuất</button>
                                 </li>
                             ) : (
-                                <NavLink className="nav-link text-dark" to="/login">Login</NavLink>
+                                <NavLink className="nav-link text-dark" to="/login">Đăng Nhập</NavLink>
                             )}
                         </ul>
                     </li>
@@ -57,18 +57,18 @@ export default function Header(){
                 return (
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Account
+                        Tài Khoản
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><NavLink className="dropdown-item" to="/account">Information</NavLink></li>
-                        <li><NavLink className="dropdown-item" to="/mybooking">My Booking</NavLink></li>
+                        <li><NavLink className="dropdown-item" to="/account">Thông Tin Tài Khoản</NavLink></li>
+                        <li><NavLink className="dropdown-item" to="/mybooking">Lịch Sử Đăng Ký Xét Nghiệm</NavLink></li>
                         <li><hr className="dropdown-divider" /></li>
                         {localStorage.getItem('token') ? (
                                 <li className="nav-item">
-                                    <button className="btn btn-link nav-link text-dark" onClick={handleLogout}>Logout</button>
+                                    <button className="btn btn-link nav-link text-dark" onClick={handleLogout}>Đăng Xuất</button>
                                 </li>
                             ) : (
-                                <NavLink className="nav-link text-dark" to="/login">Login</NavLink>
+                                <NavLink className="nav-link text-dark" to="/login">Đăng Nhập</NavLink>
                             )}
                     </ul>
                 </li>
@@ -78,7 +78,7 @@ export default function Header(){
             // Nếu chưa đăng nhập, hiển thị nút đăng nhập
             return (
                 <li className="nav-item">
-                    <NavLink className="nav-link text-dark" to="/login">Login</NavLink>
+                    <NavLink className="nav-link text-dark" to="/login">Đăng Nhập</NavLink>
                 </li>
             );
         }
@@ -97,16 +97,16 @@ export default function Header(){
                 <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul className="navbar-nav flex-grow-1">
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/">Home</NavLink>
+                            <NavLink className="nav-link text-dark" to="/">Trang Chủ</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/Instruction">Instructions</NavLink>
+                            <NavLink className="nav-link text-dark" to="/Instruction">Hướng dẫn</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/">About</NavLink>
+                            <NavLink className="nav-link text-dark" to="/">Về Chúng Tôi</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/services">Services</NavLink>
+                            <NavLink className="nav-link text-dark" to="/services">Dịch Vụ</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink className="nav-link text-dark" to="/blog">Blog</NavLink>

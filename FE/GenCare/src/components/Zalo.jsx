@@ -15,7 +15,7 @@ export default function Zalo() {
                         </svg>
                     </div>
                     <div id="fcta-zalo-tracking" className="fcta-zalo-text">
-                        Chat ngay
+                        Nhắn ngay
                     </div>
                 </div>
             </div>

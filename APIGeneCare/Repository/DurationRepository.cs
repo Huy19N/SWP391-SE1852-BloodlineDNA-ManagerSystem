@@ -45,12 +45,6 @@ namespace APIGeneCare.Repository
                 if (sortBy.Equals("durationname_desc", StringComparison.CurrentCultureIgnoreCase))
                     allDurations = allDurations.OrderByDescending(d => d.DurationName);
 
-                if (sortBy.Equals("time_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allDurations = allDurations.OrderBy(d => d.Time);
-
-                if (sortBy.Equals("time_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allDurations = allDurations.OrderByDescending(d => d.Time);
-
             }
             #endregion
 
@@ -59,23 +53,22 @@ namespace APIGeneCare.Repository
             {
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
-                Time = d.Time,
+                IsDeleted = d.IsDeleted,
             });
 
         }
         public IEnumerable<DurationDTO> GetAllDurations()
-            => _context.Durations.Select(d => new DurationDTO
+            => _context.Durations.Where(d => !d.IsDeleted).Select(d => new DurationDTO
             {
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
-                Time = d.Time,
+                IsDeleted = d.IsDeleted
             }).ToList();
         public DurationDTO? GetDurationById(int id)
             => _context.Durations.Select(d => new DurationDTO
             {
                 DurationId = d.DurationId,
                 DurationName = d.DurationName,
-                Time = d.Time,
             }).SingleOrDefault(d => d.DurationId == id);
         public bool CreateDuration(DurationDTO duration)
         {
@@ -90,7 +83,6 @@ namespace APIGeneCare.Repository
                 _context.Durations.Add(new Duration
                 {
                     DurationName = duration.DurationName,
-                    Time = duration.Time,
                 });
 
                 _context.SaveChanges();
@@ -121,7 +113,6 @@ namespace APIGeneCare.Repository
                 }
 
                 existingDuration.DurationName = duration.DurationName;
-                existingDuration.Time = duration.Time;
 
                 _context.SaveChanges();
                 transaction.Commit();
@@ -141,7 +132,7 @@ namespace APIGeneCare.Repository
             {
                 var duration = _context.Durations.Find(id);
                 if (duration == null) return false;
-                _context.Durations.Remove(duration);
+                duration.IsDeleted = true;
 
                 _context.SaveChanges();
                 transaction.Commit();

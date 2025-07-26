@@ -6,6 +6,7 @@ import '../css/login.css';
 
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
+  const [dataLoginGoogle, setDataLoginGoogle] = useState([]);
   const containerRef = useRef(null);
   const navigate = useNavigate();
   // Loading state for form submission
@@ -153,13 +154,46 @@ const LoginRegister = () => {
     }
   };
 
+
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await api.get('Auth/GoogleLogin');
+      console.log('Google Login response: ', response.data.data);
+      
+      if (response.status === 200) {
+        // Nếu có data trả về
+        if (response.data.data) {
+          console.log('Google Login response data: ', response.data.data);
+          setDataLoginGoogle(response.data.data);
+          localStorage.setItem('token', response.data.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.data.refreshToken);
+          localStorage.setItem('roleId', response.data.data.role);
+          localStorage.setItem('userId',response.data.data.userId);
+          window.location.href = response.data.data;
+          // toast.success("Đăng nhập thành công!");
+        }
+      } else if (response.status === 204) {
+        // No content nhưng thành công
+        // toast.success("Đăng nhập thành công!");
+        // navigate('/');
+      }
+    } catch (err) {
+      console.error('Google Login error: ', err);
+      toast.error("Đăng nhập bằng Google thất bại!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100" style={{background: 'linear-gradient(90deg,#e2e2e2, #c9d6ff)'}}>
       <div className="auth-container" id="container" ref={containerRef}>
         {/* Login Form */}
         <div className="form-box login">
           <form onSubmit={handleLoginSubmit}>
-            <h1 className="mb-4">Login</h1>
+            <h1 className="mb-4">Đăng nhập</h1>
             
             <div className="input-box mb-4">
               <input 
@@ -184,13 +218,13 @@ const LoginRegister = () => {
               onChange={handleInputChangeLogin}
               type="password" 
               className="form-control custom-input" 
-              placeholder="Password" 
+              placeholder="Mật khẩu" 
               required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
 
             <div className="forgot-link mb-3">
-              <a href="#" className="text-decoration-none">Forgot Password?</a>
+              <a href="#" className="text-decoration-none">Bạn quên mật khẩu ?</a>
             </div>
 
             <button 
@@ -199,13 +233,13 @@ const LoginRegister = () => {
             className="btn custom-btn w-100 mb-3"
             disabled={isLoading}
             >
-              {isLoading ? "Logining...." : "Login"}
+              {isLoading ? "Logining...." : "Đăng nhập"}
             </button>
 
-            <p className="text-center mb-3">or Login with social platforms</p>
+            <p className="text-center mb-3">Hoặc đăng nhập bằng tài khoản google</p>
 
             <div className="social-icons d-flex justify-content-center gap-2">
-              <a href="#" className="social-link">
+              <a className="social-link" onClick={handleGoogleLogin}>
                 <i className="bi bi-google"></i>
               </a>
             </div>
@@ -215,7 +249,7 @@ const LoginRegister = () => {
         {/* Register Form */}
         <div className="form-box register">
           <form onSubmit={handleRegisterSubmit}>
-            <h1 className="mb-4">Register</h1>
+            <h1 className="mb-4">Đăng ký</h1>
             
             <div className="input-box mb-3">
               <input 
@@ -238,7 +272,7 @@ const LoginRegister = () => {
               onChange={handleInputChangeRegister}
               type="password" 
               className="form-control custom-input" 
-              placeholder="Password" 
+              placeholder="Mật khẩu" 
               required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
@@ -251,7 +285,7 @@ const LoginRegister = () => {
               onChange={handleInputChangeRegister}
               type="password" 
               className="form-control custom-input" 
-              placeholder="Confirm Password" 
+              placeholder="Xác nhận mật khẩu" 
               required />
               <i className="bi bi-lock-fill input-icon"></i>
             </div>
@@ -261,13 +295,13 @@ const LoginRegister = () => {
             className="btn custom-btn w-100 mb-3"
             disabled={isLoading}
             >
-              {isLoading ? "Registering...." : "Register"}
+              {isLoading ? "Registering...." : "Đăng ký"}
             </button>
 
-            <p className="text-center mb-3">or Register with social platforms</p>
+            <p className="text-center mb-3">Hoặc đăng ký bằng tài khoản google</p>
 
             <div className="social-icons d-flex justify-content-center gap-2">
-              <a href="#" className="social-link">
+              <a className="social-link" onClick={handleGoogleLogin}>
                 <i className="bi bi-google"></i>
               </a>
             </div>
@@ -277,24 +311,24 @@ const LoginRegister = () => {
         {/* Toggle Box */}
         <div className="toggle-box">
           <div className="toggle-panel toggle-left d-flex flex-column justify-content-center align-items-center text-center">
-            <h1 className="mb-3">Hello, Welcome!</h1>
-            <p className="mb-4">Don't have an account?</p>
+            <h1 className="mb-3">GenCare xin chào!</h1>
+            <p className="mb-4">bạn không có tài Khoản?</p>
             <button 
               className="btn toggle-btn" 
               onClick={handleRegisterClick}
             >
-              Register
+              Đăng ký
             </button>
           </div>
           
           <div className="toggle-panel toggle-right d-flex flex-column justify-content-center align-items-center text-center">
-            <h1 className="mb-3">Welcome Back!</h1>
-            <p className="mb-4">Already have an account?</p>
+            <h1 className="mb-3">GenCare xin chào!</h1>
+            <p className="mb-4">Bạn đã có tài khoản?</p>
             <button 
               className="btn toggle-btn" 
               onClick={handleLoginClick}
             >
-              Login
+              Đăng nhập
             </button>
           </div>
         </div>

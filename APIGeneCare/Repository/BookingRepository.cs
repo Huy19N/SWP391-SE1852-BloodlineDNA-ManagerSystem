@@ -142,7 +142,7 @@ namespace APIGeneCare.Repository
         public bool CreateBooking(BookingDTO booking)
         {
             var timeInfor = TimeZoneInfo.FindSystemTimeZoneById(_appSettings.TimeZoneId);
-            
+
             if (booking == null)
             {
                 return false;
@@ -150,6 +150,16 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (_context.Durations.Find(booking.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
+
+                var servicePrice = _context.ServicePrices
+                    .Where(sp => sp.ServiceId == booking.ServiceId && sp.DurationId == booking.DurationId && !sp.IsDeleted)
+                    .ToList();
+
+                if (servicePrice == null || !servicePrice.Any())
+                {
+                    throw new Exception("Price for this service is deleted");
+                }
                 _context.Bookings.Add(new Booking
                 {
                     UserId = booking.UserId,
@@ -159,7 +169,7 @@ namespace APIGeneCare.Repository
                     ResultId = booking.ResultId,
                     AppointmentTime = booking.AppointmentTime,
                     StatusId = booking.StatusId,
-                    Date = TimeZoneInfo.ConvertTime(booking.Date??DateTime.UtcNow, timeInfor)
+                    Date = TimeZoneInfo.ConvertTime(booking.Date ?? DateTime.UtcNow, timeInfor)
                 });
                 _context.SaveChanges();
                 transaction.Commit();

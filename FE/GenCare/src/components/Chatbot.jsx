@@ -22,18 +22,17 @@ export default function AIChatWidget() {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer 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',
+          //'Authorization': 'Bearer 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',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'tngtech/deepseek-r1t2-chimera:free',
+          model: 'tngtech/deepseek-r1t2-chimera:free', //google/gemma-3-12b-it:free //tngtech/deepseek-r1t2-chimera:free
           messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.content }))
         })
       });
       const data = await res.json();
       const aiReply = data.choices?.[0]?.message?.content || 'Sorry, I could not understand.';
       setMessages(prev => [...prev, { role: 'assistant', content: aiReply }]);
-    // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Error talking to AI.' }]);
     } finally {

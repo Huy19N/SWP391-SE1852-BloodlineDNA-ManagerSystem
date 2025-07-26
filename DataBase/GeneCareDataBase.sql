@@ -22,10 +22,10 @@ CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1,1),
     RoleID INT NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
     FullName NVARCHAR(150),
-	IdentifyID INT,
+	IdentifyID VARCHAR(13),
     [Address] NVARCHAR(500),
     Email NVARCHAR(200) NOT NULL UNIQUE,
-    Phone VARCHAR(20),
+    Phone VARCHAR(12),
     [Password] NVARCHAR(100),
 	LastPwdChange DATETIME NOT NULL DEFAULT GETDATE()
 );
@@ -75,7 +75,7 @@ CREATE TABLE [Service] (
 CREATE TABLE Duration (
     DurationID INT PRIMARY KEY IDENTITY(1,1),
     DurationName NVARCHAR(100),
-    [Time] TIME
+    IsDeleted BIT NOT NULL DEFAULT 0
 );
 
 -- Bảng ServicePrice
@@ -83,7 +83,8 @@ CREATE TABLE ServicePrice (
     PriceID INT PRIMARY KEY IDENTITY(1,1),
     ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
     DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
-    Price INT
+    Price MONEY NOT NULL,
+    IsDeleted BIT NOT NULL DEFAULT 0
 );
 
 -- Bảng CollectionMethod
@@ -110,13 +111,21 @@ CREATE TABLE TestResult (
 CREATE TABLE Booking (
     BookingID INT PRIMARY KEY IDENTITY(1,1),
     UserID INT FOREIGN KEY REFERENCES Users(UserID),
-    DurationID INT FOREIGN KEY REFERENCES Duration(DurationID),
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID),
+    PriceID INT FOREIGN KEY REFERENCES ServicePrice(PriceID),
     MethodID INT FOREIGN KEY REFERENCES CollectionMethod(MethodID),
 	ResultID INT FOREIGN KEY REFERENCES TestResult(ResultID),
     AppointmentTime DATETIME,
     StatusID INT FOREIGN KEY REFERENCES [Status](StatusID),
     [Date] DATETIME
+);
+
+-- Bảng Feedback
+CREATE TABLE Feedback (
+    BookingID INT PRIMARY KEY,
+    CreatedAt DATETIME NOT NULL,
+    Comment NVARCHAR(MAX),
+    Rating INT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
+    CONSTRAINT FK_Feedback_Booking FOREIGN KEY (BookingID) REFERENCES Booking(BookingID)
 );
 
 -- Bảng TestStep
@@ -128,22 +137,14 @@ CREATE TABLE TestStep (
 -- Bảng TestProcess (dùng StepID, StatusID)
 CREATE TABLE TestProcess (
     ProcessID INT PRIMARY KEY IDENTITY(1,1),
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID),
+    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE CASCADE,
     StepID INT FOREIGN KEY REFERENCES TestStep(StepID),
     StatusID INT FOREIGN KEY REFERENCES Status(StatusID),
     Description NVARCHAR(MAX),
     UpdatedAt DATETIME
 );
 
--- Bảng Feedback
-CREATE TABLE Feedback (
-    FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT FOREIGN KEY REFERENCES Users(UserID) NOT NULL,
-    ServiceID INT FOREIGN KEY REFERENCES [Service](ServiceID) NOT NULL,
-    CreatedAt DATETIME NOT NULL,
-    Comment NVARCHAR(MAX),
-    Rating INT NOT NULL
-);
+
 
 -- Bảng Samples
 CREATE TABLE Samples (
@@ -154,12 +155,12 @@ CREATE TABLE Samples (
 -- Bảng Patient
 CREATE TABLE Patient (
     PatientID INT PRIMARY KEY IDENTITY(1,1), 
-    BookingID INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+    BookingID  INT  NOT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE CASCADE,
 	SampleID INT FOREIGN KEY REFERENCES Samples(SampleID),
     FullName NVARCHAR(200) NOT NULL,
     BirthDate DATE NOT NULL,
     Gender NVARCHAR(10) NOT NULL, -- 'Nam', 'Nữ'
-    IdentifyID NVARCHAR(50),
+    IdentifyID VARCHAR(13),
     HasTestedDNA BIT NOT NULL,
     Relationship NVARCHAR(100) -- Quan hệ với người còn lại trong cùng booking
 );
@@ -183,7 +184,7 @@ CREATE TABLE PaymentMethod(
 -- Bảng Payment
 CREATE TABLE Payment (
     PaymentId VARCHAR(200) PRIMARY KEY NOT NULL,
-	BookingId INT FOREIGN KEY REFERENCES Booking(BookingID) NOT NULL,
+	BookingId INT NULL FOREIGN KEY REFERENCES Booking(BookingID) ON DELETE SET NULL,
 	PaymentMethodId BIGINT FOREIGN KEY REFERENCES PaymentMethod(PaymentMethodId) NOT NULL,
 	TransactionStatus NVARCHAR(50),
 	ResponseCode NVARCHAR(50),
@@ -238,26 +239,27 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 go
 INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password, LastPwdChange)
 VALUES 
-(1, N'ThuanCustomer','090909',N'HCM',N't@cus','0909090','123', DATEADD(day, -7, GETDATE())),
-(2, N'ThuanStaff','090909',N'HCM',N't@sta','0909090','123', DATEADD(day, -7, GETDATE())),
-(3, N'ThuanManager','090909',N'HCM',N't@mana','0909090','123', DATEADD(day, -7, GETDATE())),
-(4, N'ThuanAdmin','090909',N'HCM',N't@ad','0909090','123', DATEADD(day, -7, GETDATE()));
+(1, N'ThuanCustomer','097209090921',N'HCM',N't@cus','0909508280','123', DATEADD(day, -7, GETDATE())),
+(2, N'ThuanStaff','09720909092',N'HCM',N't@sta','0909508280','123', DATEADD(day, -7, GETDATE())),
+(3, N'ThuanManager','09720909092',N'HCM',N't@mana','0909508280','123', DATEADD(day, -7, GETDATE())),
+(4, N'ThuanAdmin','09720909092',N'HCM',N't@ad','0909508280','123', DATEADD(day, -7, GETDATE()));
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 
-(N'Dân sự', N'Cha/Mẹ-Con'),
-(N'Dân sự', N'Anh/Chị-Em'),
-(N'Dân sự', N'song sinh'),
-(N'Dân sự', N'Cô/Chú-Cháu'),
-(N'Dân sự', N'Dì/Cậu-Cháu'),
-(N'Dân sự', N'Ông/Bà-Cháu'),
+(N'Dân sự', N'Cha-Con'),
+(N'Dân sự', N'Mẹ-Con'),
+(N'Dân sự', N'Anh-Em'),
+(N'Dân sự', N'Chị-Em'),
+(N'Dân sự', N'Ông-Cháu'),
+(N'Dân sự', N'Bà-Cháu'),
 
-(N'Pháp lý', N'Cha/Mẹ-Con'),
-(N'Pháp lý', N'Anh/Chị-Em'),
-(N'Pháp lý', N'song sinh'),
-(N'Pháp lý', N'Cô/Chú-Cháu'),
-(N'Pháp lý', N'Dì/Cậu-Cháu'),
-(N'Pháp lý', N'Ông/Bà-Cháu');
+(N'Pháp lý', N'Cha-Con'),
+(N'Pháp lý', N'Mẹ-Con'),
+(N'Pháp lý', N'Anh-Em'),
+(N'Pháp lý', N'Chị-Em'),
+(N'Pháp lý', N'Ông-Cháu'),
+(N'Pháp lý', N'Bà-Cháu'),
+(N'Pháp lý', N'Truy vết tội phạm');
 go
 INSERT INTO Duration(DurationName )
 VALUES
@@ -267,12 +269,21 @@ VALUES
 go
 INSERT INTO ServicePrice(ServiceID,DurationID,Price)
 VALUES
-(1,1,2500000),
-(1,2,2000000),
-(1,3,1500000),
-(7,1,3500000),
-(7,2,3000000),
-(7,3,2500000);
+(1,1,2500000),(1,2,2000000),(1,3,1500000),
+(2,1,2500000),(2,2,2000000),(2,3,1500000),
+(3,1,2500000),(3,2,2000000),(3,3,1500000),
+(4,1,2500000),(4,2,2000000),(4,3,1500000),
+(5,1,2500000),(5,2,2000000),(5,3,1500000),
+(6,1,2500000),(6,2,2000000),(6,3,1500000),
+(6,1,2500000),(6,2,2000000),(6,3,1500000),
+
+(7,1,3500000),(7,2,3000000),(7,3,2500000),
+(8,1,3500000),(8,2,3000000),(8,3,2500000),
+(9,1,3500000),(9,2,3000000),(9,3,2500000),
+(10,1,3500000),(10,2,3000000),(10,3,2500000),
+(11,1,3500000),(11,2,3000000),(11,3,2500000),
+(12,1,3500000),(12,2,3000000),(12,3,2500000),
+(13,1,4500000),(13,2,3000000),(13,3,2500000);
 go
 INSERT INTO CollectionMethod (MethodName)
 VALUES
@@ -286,8 +297,7 @@ VALUES
 (N'Chưa thực hiện'),
 (N'Đang thực hiện'),
 (N'Hoàn thành'),
-(N'Đã hủy'),
-(N'Đang chờ duyệt');
+(N'Đã hủy');
 go
 INSERT INTO Samples(SampleName)
  VALUES
@@ -298,13 +308,7 @@ INSERT INTO Samples(SampleName)
 go
 INSERT INTO TestStep(StepName)
   VALUES
-  (N'Chưa thanh toán'),
-  (N'Đã thanh toán'),
-  (N'Xác nhận'),
   (N'Đang gửi bộ kit'),
-  (N'Đã nhận bộ kit'),
-  (N'Đã gửi mẫu'),
-  (N'Đang chờ lấy mẫu'),
   (N'Đã thu mẫu '),
   (N'Đang xét nghiệm'),
   (N'Trả kết quả xét nghiệm');

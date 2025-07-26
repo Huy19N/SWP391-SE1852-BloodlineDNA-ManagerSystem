@@ -4,7 +4,7 @@ public partial class Payment
 {
     public string PaymentId { get; set; } = null!;
 
-    public int BookingId { get; set; }
+    public int? BookingId { get; set; }
 
     public long PaymentMethodId { get; set; }
 
@@ -30,7 +30,7 @@ public partial class Payment
 
     public bool HavePaid { get; set; }
 
-    public virtual Booking Booking { get; set; } = null!;
+    public virtual Booking? Booking { get; set; }
 
     public virtual ICollection<PaymentIpnlog> PaymentIpnlogs { get; set; } = new List<PaymentIpnlog>();
 

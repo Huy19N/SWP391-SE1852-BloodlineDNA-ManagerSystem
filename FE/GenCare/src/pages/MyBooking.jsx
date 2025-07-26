@@ -16,6 +16,10 @@ import { Link } from "react-router-dom";
     const [search, setSearch] = useState("");
     const [detailData, setDetailData] = useState(null);
     const [showOverlay, setShowOverlay] = useState(false);
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+    const [feedbackText, setFeedbackText] = useState("");
+    const [currentBookingId, setCurrentBookingId] = useState(null);
+    const [rating, setRating] = useState(0); 
     const pdfRef = useRef();
 
     const userId = parseInt(localStorage.getItem("userId"));
@@ -29,6 +33,12 @@ import { Link } from "react-router-dom";
             api.get("Durations/GetAllPaging"),
             api.get("Status/GetAllStatus"),
         ]);
+        
+        const dataStatus = resStatus.data.data;
+        console.log(dataStatus);
+        
+        localStorage.setItem("statusId_Complete", dataStatus.find(s => s.statusName === "Hoàn thành")?.statusName);
+
         
         setDataBooking(resBooking.data.data.filter((b) => b.userId === userId));
         setDataService(resService.data.data);
@@ -133,9 +143,37 @@ import { Link } from "react-router-dom";
 
     html2pdf().set(opt).from(pdfRef.current).save();
     };
+
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleOpenFeedback = (bookingId) => {
+    setCurrentBookingId(bookingId);
+    setShowFeedbackModal(true);
+    };
+
+    const handleSubmitFeedback = async () => {
+    if (!feedbackText) {
+        toast.warning("Please enter your feedback.");
+        return;
+    }
+
+    try {
+        await api.post("Feedbacks/Create", {
+        userId: userId,
+        serviceId: dataBooking.find(b => b.bookingId === currentBookingId)?.serviceId || 0,
+        createdAt: new Date().toISOString(),
+        comment: feedbackText,
+        rating: rating,
+    });
+        toast.success("Thank you for your feedback!");
+        setShowFeedbackModal(false);
+        setFeedbackText("");
+    } catch (error) {
+        toast.error("Failed to submit feedback.");
+    }
+};
 
     const filterBookings = dataBooking.filter((booking) => {
         const keyword = search.toLowerCase();
@@ -144,9 +182,12 @@ import { Link } from "react-router-dom";
         getServiceName(booking.serviceId).toLowerCase().includes(keyword) ||
         getStatusName(booking.statusId).toLowerCase().includes(keyword) ||
         booking.appointmentTime?.split("T")[0].toString().includes(keyword) ||
-        getServiceType(booking.serviceId).toLowerCase().includes(keyword)
+        getServiceType(booking.serviceId).toLowerCase().includes(keyword) || 
+        getDurationName(booking.durationId).toLowerCase().includes(keyword)
         );
     });
+
+    const statusId_Complete = localStorage.getItem("statusId_Complete");
 
     return (
         <div className="container mt-5 mb-5 min-vw-100 min-vh-100" style={{background: 'linear-gradient(90deg,#e2e2e2, #c9d6ff)'}}>
@@ -194,7 +235,10 @@ import { Link } from "react-router-dom";
                         <td>{booking.appointmentTime?.split("T")[0]}</td>
                         <td>{getStatusName(booking.statusId)}</td>
                         <td>
-                        <button className="btn btn-sm btn-info" onClick={() => fetchBookingDetail(booking.bookingId)}>View</button>
+                        <button className="btn btn-sm btn-info me-3 ms-3" onClick={() => fetchBookingDetail(booking.bookingId)}>Xem chi tiết</button>
+                        {getStatusName(booking.statusId) === statusId_Complete ? 
+                        <button className="btn btn-sm btn-success" onClick={() => handleOpenFeedback(booking.bookingId)}>Phản hồi</button>
+                        : null}
                         </td>
                     </tr>
                     ))
@@ -283,8 +327,8 @@ import { Link } from "react-router-dom";
                             ) : <p>No patient data</p>}
                         </div>
 
-                        <button className="btn btn-success me-2" onClick={exportToPDF}>Download PDF</button>
-                        <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Close</button>
+                        <button className="btn btn-success me-2" onClick={exportToPDF}>Tải Tệp PDF</button>
+                        <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Đóng</button>
                     </div>
                 </div>
             )}
@@ -384,6 +428,47 @@ import { Link } from "react-router-dom";
 
                 </div>
             </div>
+            )}
+
+            {/* Feedback */}
+            {showFeedbackModal && (
+                <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h3 className="modal-title text-center">Phản Hồi</h3>
+                                <button type="button" className="btn-close" onClick={() => setShowFeedbackModal(false)}></button>
+                            </div>
+                            <div>
+                                <p className="text-center">Cảm Ơn bạn đã tham gia dịch vụ của chúng tôi có phiền không nếu bạn có thể để lại cho chúng tôi một ít cảm nghĩ của bạn về dịch vụ</p>
+                            </div>
+                            <div className="modal-body">
+                                <div className="d-flex justify-content-center mb-3">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                        key={star}
+                                        style={{ fontSize: "24px", cursor: "pointer", color: star <= rating ? "gold" : "gray" }}
+                                        onClick={() => setRating(star)}
+                                        >
+                                        ★
+                                        </span>
+                                    ))}
+                                </div>
+                                <textarea
+                                    className="form-control"
+                                    rows="4"
+                                    value={feedbackText}
+                                    onChange={(e) => setFeedbackText(e.target.value)}
+                                    placeholder="Viết Cảm nghĩ của bạn tại đây..."
+                                />
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setShowFeedbackModal(false)}>Đóng</button>
+                                <button className="btn btn-primary" onClick={handleSubmitFeedback}>Nộp</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div> 
     );

@@ -7,24 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    - name: start sql server tools
-  # You may pin to the exact commit or the version.
-  # uses: sharathck087/sqlserver-github-action@0388868ac6daedd6af4bc64e6067245a48b64498
-  uses: sharathck087/sqlserver-github-action@v1
-  with:
-    # The apps to install
-    install: 
-    # The sa password for the SQL instance
-    sa-password: 12345
-    # Show the log file for the docker container
-    show-log: false
-          
+      - uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+      - name: Start SQL Server using GitHub Action
+        uses: sharathck087/sqlserver-github-action@v1
+        with:
+          sa-password: 12345
+          show-log: false

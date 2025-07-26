@@ -47,6 +47,16 @@ namespace APIGeneCare.Repository
             try
             {
                 if (bookingWithPatient == null || bookingWithPatient.patients == null || !bookingWithPatient.patients.Any()) return 0;
+                if (_context.Durations.Find(bookingWithPatient.DurationId)?.IsDeleted == true) throw new Exception("Duration is deleted");
+
+                var servicePrice = _context.ServicePrices
+                    .Where(sp => sp.ServiceId == bookingWithPatient.ServiceId && sp.DurationId == bookingWithPatient.DurationId && !sp.IsDeleted)
+                    .ToList();
+
+                if (servicePrice == null || !servicePrice.Any())
+                {
+                    throw new Exception("Price for this service is deleted");
+                }
 
                 var booking = new Booking
                 {
