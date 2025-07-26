@@ -33,8 +33,8 @@ function Service(){
             setDataService(dataService);
         }
         catch(error){
-            console.log("Error DataService", error.dataService);
-            toast.error("Failed Loading Data Service");
+            console.log("Lỗi Dữ liệu DATAService", error.dataService);
+            toast.error("Thất bại khi tải dữ liệu dịch vụ!");
         }
         finally{
             setIsLoading(false);
@@ -43,17 +43,17 @@ function Service(){
 
     //API gọi delete services
     const fetchDelete = async (serviceId) => {
-        if(!window.confirm("Are you sure you want to delete this service?")) return;
+        if(!window.confirm("Bạn có muốn xóa dịch vụ này không?")) return;
 
         try{
             await api.delete(`Services/DeleteById/${serviceId}`);
-            toast.success("This user deleted successfully!");
+            toast.success("Dịch vụ này xóa thành công!");
 
             fetchData();
         }
         catch (error){
-            console.log("Delete error", error);
-            toast.error("Failed delete service this!")
+            console.log("Xóa lỗi", error);
+            toast.error("Thất bại xóa dịch vụ này!")
         }
     }
 
@@ -71,13 +71,13 @@ function Service(){
 
         try {
             await api.post('/Services/Create', fromDataService);
-            toast.success("Service created successfully!");
+            toast.success("Tạo dịch vụ này thành công!");
             setShowCreateModal(false);
             setFromDataService({ serviceName: '', serviceType: '', description: '' });
             fetchData();
         } catch (error) {
-            console.error("Error creating service", error);
-            toast.error("Failed to create service");
+            console.error("Lỗi tạo dịch vụ", error);
+            toast.error("Thất bại khi tạo dịch vụ!");
         }
     };
 
@@ -98,13 +98,13 @@ function Service(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Services
+                Dịch Vụ 
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
                     <input
                         type="text"
-                        placeholder="Search Name or Id..."
+                        placeholder="Tìm..."
                         className="form-control"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -113,7 +113,7 @@ function Service(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Add New Service
+                        Tạo Dịch Vụ
                     </button>
                 </div>
             </div>
@@ -123,16 +123,16 @@ function Service(){
                 <thead className="table-primary text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Name Service</th>
-                    <th>Type Service</th>
-                    <th>description</th>
-                    {(isAdmin || isManager) ? <th>Action</th> : null}
+                    <th>Tên Dịch vụ</th>
+                    <th>Loại Dịch Vụ</th>
+                    <th>Mô tả</th>
+                    {(isAdmin || isManager) ? <th>Hành động</th> : null}
                 </tr>
                 </thead>
                 <tbody>
                 {isLoading ? (
                     <tr>
-                    <td colSpan="5" className="text-center">Loading...</td>
+                    <td colSpan="5" className="text-center">Tải...</td>
                     </tr>
                 ) : filteredService.length > 0 ? (
                     filteredService.map((service) => (
@@ -157,7 +157,7 @@ function Service(){
                     ))
                 ) : (
                     <tr>
-                    <td colSpan="5" className="text-center">No Service found.</td>
+                    <td colSpan="5" className="text-center">Không có dịch vụ nào cả.</td>
                     </tr>
                 )}
                 </tbody>
@@ -166,10 +166,10 @@ function Service(){
             {showCreateModal && (
                 <div className="update-overlay">
                     <div className="update-box">
-                        <h4 className="mb-3">Create New Service</h4>
+                        <h4 className="mb-3">Tạo mới dịch vụ</h4>
                         <form onSubmit={handleCreateSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Service Name</label>
+                                <label className="form-label">Tên dịch vụ</label>
                                 <input
                                     type="text"
                                     name="serviceName"
@@ -180,7 +180,7 @@ function Service(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Service Type</label>
+                                <label className="form-label">Loại dịch vụ</label>
                                 <input
                                     type="text"
                                     name="serviceType"
@@ -191,7 +191,7 @@ function Service(){
                                 />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Description</label>
+                                <label className="form-label">Mô tả</label>
                                 <textarea
                                     name="description"
                                     className="form-control"
@@ -201,8 +201,8 @@ function Service(){
                                 />
                             </div>
                             <div className="text-end">
-                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                <button type="submit" className="btn btn-primary">Create</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Hủy</button>
+                                <button type="submit" className="btn btn-primary">Tạo</button>
                             </div>
                         </form>
                     </div>
@@ -214,8 +214,8 @@ function Service(){
             {editService && (
             <div className="update-overlay">
             <div className="update-box">
-                <h4 className="text-center border-bottom text-primary">Update</h4>
-                <h5>Service ID: {editService.serviceId}</h5>
+                <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+                <h5>Mã Dịch vụ: {editService.serviceId}</h5>
                 <form
                 onSubmit={async (e) => {
                     e.preventDefault();
@@ -230,7 +230,7 @@ function Service(){
                 }}
                 >
                 <div className="mb-2">
-                    <label>Name:</label>
+                    <label>Tên Dịch vụ:</label>
                     <input
                     type="text"
                     className="form-control"
@@ -244,7 +244,7 @@ function Service(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Service Type:</label>
+                    <label>Loại Dich vụ:</label>
                     <input
                     type="text"
                     className="form-control"
@@ -256,7 +256,7 @@ function Service(){
                 </div>
 
                 <div className="mb-2">
-                    <label>Description:</label>
+                    <label>Mô tả:</label>
                     <textarea
                     name="description"
                     className="form-control"
@@ -269,14 +269,14 @@ function Service(){
                 </div>
 
                 <button className="btn btn-primary me-2" type="submit">
-                    Save
+                    Lưu
                 </button>
                 <button
                     className="btn btn-secondary"
                     type="button"
                     onClick={() => setEditService(null)}
                 >
-                    Cancel
+                    Hủy
                 </button>
                 </form>
             </div>

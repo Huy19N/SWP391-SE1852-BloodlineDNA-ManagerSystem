@@ -46,7 +46,7 @@ function Account(){
                 <div className="d-flex flex-column justify-content-center align-items-center bg-primary text-white p-4" style={{ width: '35%' }}>
                     <img className="img-fluid img-thumbnail bg-primary border border-0 rounded-circle w-50" src={img1} />
                     <div className="h2 m-4 p-4">
-                        Your Account
+                        Tài Khoản Của Bạn
                     </div>
                 </div>
                 {/* Right side */}
@@ -55,14 +55,14 @@ function Account(){
                         <form>
                             <div className="row">
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">ID User</label>
+                                    <label className="form-label">Mã</label>
                                     <input type="text"
                                            className="form-control"
                                            value={dataUser?.userId || ''}
                                            readOnly/>
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">Role</label>
+                                    <label className="form-label">Vai Trò</label>
                                     <input type="text" 
                                            className="form-control"
                                             value={dataRole?.roleName || ''}
@@ -70,7 +70,7 @@ function Account(){
                                 </div>
 
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">Full Name</label>
+                                    <label className="form-label">Tên Đầy Đủ</label>
                                     <input type="text" 
                                            className="form-control"
                                            value={dataUser?.fullName || ''}
@@ -85,7 +85,7 @@ function Account(){
                                 </div>
 
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">Address</label>
+                                    <label className="form-label">Vị trí</label>
                                     <input type="text" 
                                            className="form-control"
                                            value={dataUser?.address || ''}
@@ -100,14 +100,14 @@ function Account(){
                                 </div>
 
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">Phone</label>
+                                    <label className="form-label">Số Điện Thoại</label>
                                     <input type="text" 
                                            className="form-control"
                                            value={dataUser?.phone?.toString() || ''} 
                                            readOnly/>
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label className="form-label">Password</label>
+                                    <label className="form-label">Mật Khẩu</label>
                                     <input type="password" 
                                            className="form-control"
                                            value={dataUser?.password || ''}
@@ -119,7 +119,7 @@ function Account(){
                             <button className="btn btn-primary mt-3 px-4"
                                     type="button"
                                     onClick={() => setEditUser(dataUser)}>
-                                    Edit
+                                    Chỉnh Sửa
                             </button>
                             </div>
                         </form>
@@ -129,9 +129,9 @@ function Account(){
                 {editUser && (
                 <div className="update-overlay">
                 <div className="update-box">
-                    <h4 className="text-center pb-4 border-bottom border-primary text-primary">EDIT</h4>
-                    <h5>USER ID:    <span className="text-primary">{editUser.userId}</span></h5>
-                    <h5>User EMAIL:   <span className="text-primary">{editUser.email}</span></h5>
+                    <h4 className="text-center pb-4 border-bottom border-primary text-primary">Chỉnh Sửa</h4>
+                    <h5>Mã:    <span className="text-primary">{editUser.userId}</span></h5>
+                    <h5>EMAIL:   <span className="text-primary">{editUser.email}</span></h5>
                     <form
                     onSubmit={async (e) => {
                         e.preventDefault();
@@ -158,7 +158,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Role:</label>
+                        <label>Vai Trò:</label>
                         <input
                         type="text"
                         className="form-control"
@@ -168,7 +168,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Full Name:</label>
+                        <label>Tên Đầy Đủ:</label>
                         <input
                         type="text"
                         className="form-control"
@@ -180,7 +180,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Identify ID:</label>
+                        <label>CCCD:</label>
                         <input
                         type="number"
                         className="form-control"
@@ -192,7 +192,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Address:</label>
+                        <label>Vị Trí:</label>
                         <input
                         type="text"
                         className="form-control"
@@ -204,7 +204,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Phone:</label>
+                        <label>Số Điện Thoại:</label>
                         <input
                         type="number"
                         className="form-control"
@@ -216,7 +216,7 @@ function Account(){
                     </div>
 
                     <div className="mb-2">
-                        <label>Password:</label>
+                        <label>Mật Khẩu:</label>
                         <input
                         type="text"
                         className="form-control"
@@ -228,14 +228,14 @@ function Account(){
                     </div>
 
                     <button className="btn btn-primary me-2" type="submit">
-                        Save
+                        Lưu
                     </button>
                     <button
                         className="btn btn-secondary"
                         type="button"
                         onClick={() => setEditUser(null)}
                     >
-                        Cancel
+                        Hủy
                     </button>
                     </form>
                 </div>

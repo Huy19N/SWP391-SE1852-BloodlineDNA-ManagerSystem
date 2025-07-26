@@ -21,7 +21,6 @@ import Account from './pages/Actors/InforAccount.jsx';
 import MyBooking from './pages/MyBooking.jsx';
 
 import Dashboard from './pages/Actors/Dashboard.jsx';
-import Approve from './pages/Actors/Staff/ApproveForm.jsx';
 import Users from './pages/Actors/Admin/Manager/Users.jsx';
 import Feedbacks from './pages/Actors/Feedbacks.jsx';
 import Layout from './pages/Actors/TotalLayout.jsx';
@@ -30,10 +29,7 @@ import CRUDService from './pages/Actors/Admin/Manager/Services.jsx';
 import CRUDCollectionMethod from './pages/Actors/Admin/Manager/CollectionsMethod.jsx';
 import CRUDDurations from './pages/Actors/Admin/Manager/Durations.jsx';
 import CRUDSamples from './pages/Actors/Admin/Manager/Samples.jsx';
-import CRUDStepTest from './pages/Actors/Admin/Manager/StepTest.jsx';
-import CRUDStatus from './pages/Actors/Admin/Manager/Status.jsx';
 import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
-import CRUDResults from './pages/Actors/Results.jsx';
 import CRUDBlog from './pages/Actors/Blog.jsx';
 
 import Login from './pages/Login.jsx';
@@ -99,17 +95,13 @@ function App() {
           </ProtectedRoute>}>
           <Route index element={<Dashboard/>}/>
           <Route path='dashboard' element={<Dashboard/>}/>
-          <Route path='approve' element={<Approve/>}/>
           <Route path='users' element={<Users/>}/>
           <Route path='dbbooking' element={<DBBooking/>}/>
           <Route path='services' element={<CRUDService/>}/>
           <Route path='collectionmethod' element={<CRUDCollectionMethod/>}/>
           <Route path='durations' element={<CRUDDurations/>}/>
           <Route path='samples' element={<CRUDSamples/>}/>
-          <Route path='steptest' element={<CRUDStepTest/>}/>
-          <Route path='status' element={<CRUDStatus/>}/>
           <Route path='price' element={<CRUDPrice/>}/>
-          <Route path='results' element={<CRUDResults/>}/>
           <Route path='feedback' element={<Feedbacks/>}/>
           <Route path='blog' element={<CRUDBlog/>}/>
         </Route>
@@ -138,7 +130,7 @@ function App() {
       <Route path="/sample-collection-guide" element={<InstructionInforPage type="sample" />} />
       <Route path="/prenatal-dna-testing" element={<InstructionInforPage type="prenatal" />} />
       <Route path="/dna-identification-remains" element={<InstructionInforPage type="remains" />} />
-      <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />      
+      <Route path="/immigration-sponsorship-dna" element={<InstructionInforPage type="immigration" />} />
     </Routes>
     
     {!isAnonymous && <Footer />}

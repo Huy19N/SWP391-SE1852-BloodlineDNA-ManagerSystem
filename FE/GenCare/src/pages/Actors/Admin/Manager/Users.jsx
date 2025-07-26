@@ -45,7 +45,7 @@ function Users(){
 
         }
         catch(error){
-            console.error("Load error:",error);
+            console.error("Tải Lỗi:",error);
             toast.error(error.response.data);
         }
         finally{
@@ -64,11 +64,11 @@ function Users(){
 
     //API gọi delete user
     const fetchDelete = async (userId) => {
-        if(!window.confirm("Are you sure you want to delete this user?")) return;
+        if(!window.confirm("Bạn đồng ý muốn xóa người dùng này chứ?")) return;
 
         try{
             await api.delete(`Users/DeleteById/${userId}`);
-            toast.success("This user deleted successfully!");
+            toast.success("Người dùng xóa thành công!");
 
             const currentUserId = localStorage.getItem('userId');
             if(parseInt(currentUserId) === userId){
@@ -79,8 +79,8 @@ function Users(){
             }
         }
         catch (error){
-            console.log("Delete error", error);
-            toast.error("Failed delete user this!")
+            console.log("Xóa Lỗi", error);
+            toast.error("Thất Bại xóa Người dùng này!")
         }
     }
 
@@ -103,13 +103,13 @@ function Users(){
     return(
         <div className="container mt-5">
         <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-            Users
+            Người dùng
         </div>
         <div className="row mb-3">
             <div className="col-md-4">
                 <input
                     type="text"
-                    placeholder="Search Email or Id..."
+                    placeholder="Tìm..."
                     className="form-control"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -120,16 +120,16 @@ function Users(){
         <table className="table table-bordered table-hover">
             <thead className="table-primary text-center">
             <tr>
-                <th>ID</th>
+                <th>Mã</th>
                 <th>Email</th>
-                <th>Role</th>
-                {isAdmin ? <th>Action</th> : null}
+                <th>Vai trò</th>
+                {isAdmin ? <th>Hành động</th> : null}
             </tr>
             </thead>
             <tbody>
             {isLoading ? (
                 <tr>
-                <td colSpan="4" className="text-center">Loading...</td>
+                <td colSpan="4" className="text-center">Tải...</td>
                 </tr>
             ) : filteredUsers.length > 0 ? (
                 filteredUsers.map((user) => (
@@ -153,7 +153,7 @@ function Users(){
                 ))
             ) : (
                 <tr>
-                <td colSpan="4" className="text-center">No users found.</td>
+                <td colSpan="4" className="text-center">Không có Người dùng nào cả.</td>
                 </tr>
             )}
             </tbody>
@@ -163,9 +163,9 @@ function Users(){
         {editUser && (
         <div className="update-overlay">
         <div className="update-box">
-            <h4 className="text-center border-bottom text-primary">Update</h4>
-            <h5>User ID: {editUser.userId}</h5>
-            <h5>User Email: {editUser.email}</h5>
+            <h4 className="text-center border-bottom text-primary">Cập Nhật</h4>
+            <h5>Mã Người Dùng: {editUser.userId}</h5>
+            <h5>Email: {editUser.email}</h5>
             <form
             onSubmit={async (e) => {
                 e.preventDefault();
@@ -194,20 +194,21 @@ function Users(){
             </div>
 
             <div className="mb-2">
-                <label>Role ID:</label>
+                <label>Vai Trò:</label>
                 <input
                 type="number"
                 className="form-control"
+                placeholder="1: Khách Hàng, 2: Nhân Viên, 3: Quản Lý, 4: Quản Trị Viên"
                 value={editUser.roleId}
                 onChange={(e) =>
                     setEditUser({ ...editUser, roleId: parseInt(e.target.value) })
                 }
                 />
-                <h6 className="">1: Customer, 2: Staff, 3: Manager, 4: Admin</h6>
+                <h6 className="text-danger">Chú ý hãy nhập số theo như trên vào vai trò để thay đổi vai trò của tài khoản này!</h6>
             </div>
 
             <div className="mb-2">
-                <label>Full Name:</label>
+                <label>Tên Dầy Đủ:</label>
                 <input
                 type="text"
                 className="form-control"
@@ -219,7 +220,7 @@ function Users(){
             </div>
 
             <div className="mb-2">
-                <label>Identify ID:</label>
+                <label>CCCD:</label>
                 <input
                 type="number"
                 className="form-control"
@@ -231,7 +232,7 @@ function Users(){
             </div>
 
             <div className="mb-2">
-                <label>Address:</label>
+                <label>Vị trí:</label>
                 <input
                 type="text"
                 className="form-control"
@@ -243,7 +244,7 @@ function Users(){
             </div>
 
             <div className="mb-2">
-                <label>Phone:</label>
+                <label>Số ĐIện Thoại:</label>
                 <input
                 type="number"
                 className="form-control"
@@ -255,7 +256,7 @@ function Users(){
             </div>
 
             <div className="mb-2">
-                <label>Password:</label>
+                <label>Mật Khẩu:</label>
                 <input
                 type="text"
                 className="form-control"
@@ -267,14 +268,14 @@ function Users(){
             </div>
 
             <button className="btn btn-primary me-2" type="submit">
-                Save
+                Lưu
             </button>
             <button
                 className="btn btn-secondary"
                 type="button"
                 onClick={() => setEditUser(null)}
             >
-                Cancel
+                Hủy
             </button>
             </form>
         </div>

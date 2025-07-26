@@ -35,22 +35,8 @@ function Sidebar (){
                         : null}
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="approve">
-                            <i className="bi bi-check-circle-fill me-2"></i> Mẫu Chờ Duyệt Xét Nghiệm
-                        </Link>
-                        </div>
-                        : null}
-                        {isStaff || isManager || isAdmin ?
-                        <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='dbbooking'>
                             <i className="bi bi-box2-fill me-2"></i> Mẫu Xét Nghiệm 
-                        </Link>
-                        </div>
-                        : null}
-                        {isStaff || isManager || isAdmin ?
-                        <div className='mb-2 mt-2 tab_content_1'>
-                        <Link className="nav-link" to="results">
-                            <i class="bi bi-clipboard2-check-fill me-2"></i> Mẫu Kết Quả
                         </Link>
                         </div>
                         : null}
@@ -81,8 +67,6 @@ function Sidebar (){
                             <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> Phương Thức Xét Nghiệm</Link></li>
                             <li><Link className="dropdown-item" to="durations"><i className="bi bi-box me-2"></i> Thời lượng</Link></li>
                             <li><Link className="dropdown-item" to="samples"><i className="bi bi-box me-2"></i> Mẫu</Link></li>
-                            <li><Link className="dropdown-item" to="steptest"><i className="bi bi-box me-2"></i> Các Bước Xét Nghiệm</Link></li>
-                            <li><Link className="dropdown-item" to="status"><i className="bi bi-box me-2"></i> Trạng Thái</Link></li>
                             </ul>
                         )}
                         </div>

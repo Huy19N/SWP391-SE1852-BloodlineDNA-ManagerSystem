@@ -16,7 +16,7 @@ function Dashboard() {
 
 
     //totalmout có chia ra năm tháng và quý và ngày, 1 là năm , 2 là quý , 3 là tháng, 4 là ngày 
-    const type = 1;
+    const type = 2;
     //API user
     const fetchDataUser = async (e) => {
         setIsLoading(true);
@@ -83,7 +83,7 @@ function Dashboard() {
   return (
     <div>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 className="h2">Dashboard</h1>
+                <h1 className="h2">Thống Kê</h1>
             </div>
             <div className="row">
                 <div className="col-md-12">
@@ -99,9 +99,9 @@ function Dashboard() {
                         background: "#f5f8ff",
                         }}
                     >
-                        <h6 className="text-muted">Total Users</h6>
+                        <h6 className="text-muted">Tổng Số Người Dùng</h6>
                         <h3 className="mt-2 fw-bold">
-                        <i class="bi bi-people-fill text-primary fs-4">   </i>{isLoading ? "Loading..." : dataUsers.length}
+                        <i class="bi bi-people-fill text-primary fs-4">   </i>{isLoading ? "Tải..." : dataUsers.length}
                         </h3>
                     </div>
                 </div>
@@ -115,9 +115,9 @@ function Dashboard() {
                         background: "#f5f8ff",
                         }}
                     >
-                        <h6 className="text-muted">Total Booking</h6>
+                        <h6 className="text-muted">Tổng Số Đặt Chỗ</h6>
                         <h3 className="mt-2 fw-bold">
-                        <i class="bi bi-clipboard-check-fill text-primary fs-4"></i>      {isLoading ? "Loading..." : dataBooking.length}
+                        <i class="bi bi-clipboard-check-fill text-primary fs-4"></i>      {isLoading ? "Tải..." : dataBooking.length}
                         </h3>
                     </div>
                 </div>
@@ -131,9 +131,9 @@ function Dashboard() {
                         background: "#f5f8ff",
                         }}
                     >
-                        <h6 className="text-muted">Total Profit</h6>
+                        <h6 className="text-muted">Tổng Doanh Thu</h6>
                         <h3 className="mt-2 fw-bold">
-                        <i class="bi bi-bank text-primary fs-4"></i>      {isLoading ? "Loading..." : dataTotalamount}
+                        <i class="bi bi-bank text-primary fs-4"></i>      {isLoading ? "Tải..." : dataTotalamount}
                         </h3>
                     </div>
                 </div>
