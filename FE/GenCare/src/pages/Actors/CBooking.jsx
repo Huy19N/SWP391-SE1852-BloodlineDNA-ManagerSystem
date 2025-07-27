@@ -32,7 +32,7 @@ function Booking(){
             const [resBooking, resUser, resServicePrice, resStatus, resService] = await Promise.all([
                 api.get('Bookings/GetAll'),
                 api.get('Users/GetAll'),
-                api.get('ServicePrices/GetAllPaging'),
+                api.get('ServicePrices/GetAllServicePrices'),
                 api.get('Status/GetAllStatus'),
                 api.get('Services/GetAllPaging'),
             ]);
@@ -93,7 +93,7 @@ function Booking(){
                 api.get(`CollectionMethod/GetAll`),
                 api.get(`TestStep/getAllTestSteps`),
                 api.get(`TestResults/GetAllPaging`),
-                api.get(`ServicePrices/GetAllPaging`),
+                api.get(`ServicePrices/GetAllServicePrices`),
                 api.get(`Services/GetAllPaging`),
                 api.get(`Durations/GetAllPaging`)
             ]);

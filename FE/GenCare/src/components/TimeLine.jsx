@@ -8,7 +8,7 @@ const TestProgressTimeline = ({ steps, processes }) => {
 
     const isStepCompleted = (stepId) => {
         const process = processes.find(p => p.stepId === stepId);
-        return process?.status?.statusName === "Hoàn thành"; // tùy chỉnh theo tên status
+        return process?.status?.statusName === "Hoàn thành";
     };
 
     return (

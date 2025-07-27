@@ -8,6 +8,7 @@ import img5 from '../assets/girl4.jpg';
 import img6 from '../assets/girl3.jpg';
 import img7 from '../assets/princess.jpg';
 import img8 from '../assets/hime.jpg';
+import img9 from '../assets/doctor1.jpg';
 import logo1 from '../assets/logo1.png';
 import logo2 from '../assets/logo2.png';
 import logo3 from '../assets/logo3.png';
@@ -68,7 +69,7 @@ function Home() {
       <div className="container text-center mt-20 mb-10">
         <h2 className="fw-bold display-6 py-5">
           Chúng tôi <span className="text-primary">nỗ lực</span> bạn <span className="text-primary"> hài lòng </span><br />
-          Chúng tôi <span className="text-primary">chính xác</span> bạn <span className="text-primary">tuyệt vọng</span>
+          Chúng tôi <span className="text-primary">chính xác</span> bạn <span className="text-primary">hi vọng </span>
         </h2>
       </div>
 
@@ -192,7 +193,7 @@ function Home() {
             <div className="col-md-3">
               <div className="card shadow-lg border-0 py-4 px-3">
                 <img
-                  src={img5}
+                  src={img9}
                   alt="TS BS Nguyễn Văn Thành Đạt"
                   className="rounded-circle border border-3 border-danger mx-auto"
                   style={{ width: '120px', height: '120px', objectFit: 'cover' }}
@@ -206,7 +207,7 @@ function Home() {
             <div className="col-md-3">
               <div className="card shadow-lg border-0 py-4 px-3">
                 <img
-                  src={img7}
+                  src={img9}
                   alt="Nguyễn Trần Hiếu Thuận"
                   className="rounded-circle border border-3 border-danger mx-auto"
                   style={{ width: '120px', height: '120px', objectFit: 'cover' }}
@@ -220,7 +221,7 @@ function Home() {
             <div className="col-md-3">
               <div className="card shadow-lg border-0 py-4 px-3">
                 <img
-                  src={img6}
+                  src={img9}
                   alt="TS Huỳnh Trung Kiên"
                   className="rounded-circle border border-3 border-danger mx-auto"
                   style={{ width: '120px', height: '120px', objectFit: 'cover' }}
@@ -234,7 +235,7 @@ function Home() {
             <div className="col-md-3">
               <div className="card shadow-lg border-0 py-4 px-3">
                 <img
-                  src={img8}
+                  src={img9}
                   alt="Nguyễn Gia Huy"
                   className="rounded-circle border border-3 border-danger mx-auto"
                   style={{ width: '120px', height: '120px', objectFit: 'cover' }}
