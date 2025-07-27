@@ -231,17 +231,17 @@ CREATE TABLE VerifyEmail (
 
 -------------------------------------------INSERT DATA---------------------------------------------------------------
 INSERT INTO Role (RoleID, RoleName) VALUES
-(1, N'Customer'),
-(2, N'Staff'),
-(3, N'Manage'),
-(4, N'Admin');
+(1, N'Khách hàng'),
+(2, N'Nhân viên'),
+(3, N'Quản lý'),
+(4, N'Quản trị viên');
 go
 INSERT INTO Users (RoleID,FullName,IdentifyID,Address,Email,Phone,Password, LastPwdChange)
 VALUES 
-(1, N'ThuanCustomer','097209090921',N'HCM',N't@cus','0909508280','123', DATEADD(day, -7, GETDATE())),
-(2, N'ThuanStaff','09720909092',N'HCM',N't@sta','0909508280','123', DATEADD(day, -7, GETDATE())),
-(3, N'ThuanManager','09720909092',N'HCM',N't@mana','0909508280','123', DATEADD(day, -7, GETDATE())),
-(4, N'ThuanAdmin','09720909092',N'HCM',N't@ad','0909508280','123', DATEADD(day, -7, GETDATE()));
+(1, N'ThuanCustomer','097209090921',N'HCM',N't@cus.com','0909508280','123', DATEADD(day, -7, GETDATE())),
+(2, N'ThuanStaff','09720909092',N'HCM',N't@sta.com','0909508280','123', DATEADD(day, -7, GETDATE())),
+(3, N'ThuanManager','09720909092',N'HCM',N't@mana.com','0909508280','123', DATEADD(day, -7, GETDATE())),
+(4, N'ThuanAdmin','09720909092',N'HCM',N't@ad.com','0909508280','123', DATEADD(day, -7, GETDATE()));
 go
 INSERT INTO Service (ServiceName ,ServiceType)
 VALUES 
