@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { format, eachDayOfInterval, addDays, startOfWeek } from "date-fns";
+import { format, eachDayOfInterval, addDays, startOfWeek, isBefore, startOfDay } from "date-fns";
 import { vi } from "date-fns/locale";
 
 
@@ -22,41 +22,45 @@ const generateWeekRanges = (count = 24) => {
 
     currentMonday = addDays(currentMonday, 7);
   }
-
   return weeks;
 };
 
 function BookAppointment() {
   const navigate = useNavigate();
-  const selectedService = JSON.parse(localStorage.getItem('selectedService'));
+  const selectedService = JSON.parse(localStorage.getItem("selectedService"));
 
-  const [selectedSlot, setSelectedSlot] = useState({ date: "" });
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedWeek, setSelectedWeek] = useState(null);
   const [weekOptions] = useState(generateWeekRanges());
+
+  const today = startOfDay(new Date());
+
+  const handleSelect = (date) => {
+    setSelectedDate(date);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!selectedSlot.date) {
-    toast("Vui lòng chọn một ngày.");
-    return;
+    if (!selectedDate) {
+      toast("Vui lòng chọn một ngày.");
+      return;
     }
 
     const updatedService = {
       ...selectedService,
-      appointmentDay: format(selectedSlot.date, "dd/MM/yyyy"),
+      appointmentDay: format(selectedDate, "dd/MM/yyyy"),
     };
 
-    localStorage.setItem('selectedService', JSON.stringify(updatedService));
-    toast(`Bạn đã chọn ngày ${format(selectedSlot.date, "dd/MM/yyyy")}`);
-    navigate('/booking');
+    localStorage.setItem("selectedService", JSON.stringify(updatedService));
+
+    toast(`Bạn đã chọn ngày ${format(selectedDate, "dd/MM/yyyy")}`);
+    navigate("/booking");
   };
 
   const validDays = selectedWeek
     ? eachDayOfInterval({ start: selectedWeek.start, end: selectedWeek.end })
     : [];
-
-  const dayLabels = validDays.map((date) => format(date, 'EEEE', { locale: vi })); // dùng để in thứ tiếng việt
 
   return (
     <div className="container mt-5 p-4 mb-4 rounded shadow" style={{ maxWidth: "900px", backgroundColor: "#f9f9f9" }}>
@@ -74,16 +78,18 @@ function BookAppointment() {
         <label className="form-label">Chọn tuần:</label>
         <select
           className="form-select"
-          value={selectedWeek?.label || ''}
+          value={selectedWeek?.label || ""}
           onChange={(e) => {
-            const week = weekOptions.find(w => w.label === e.target.value);
+            const week = weekOptions.find((w) => w.label === e.target.value);
             setSelectedWeek(week);
-            setSelectedSlot({ date: "" });
+            setSelectedDate("");
           }}
         >
           <option value="">-- Chọn một tuần --</option>
           {weekOptions.map((week) => (
-            <option key={week.label} value={week.label}>{week.label}</option>
+            <option key={week.label} value={week.label}>
+              {week.label}
+            </option>
           ))}
         </select>
       </div>
@@ -95,27 +101,28 @@ function BookAppointment() {
             <table className="table table-bordered text-center align-middle">
               <thead className="table-light">
                 <tr>
-                  <th>Ngày</th>
-                  {dayLabels.map((label, idx) => (
-                    <th key={idx}>{label}</th>
+                  {validDays.map((dateObj, idx) => (
+                    <th key={idx}>{format(dateObj, "EEEE", { locale: vi })}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th>Chọn</th>
                   {validDays.map((dateObj) => {
+                    const isPast = isBefore(dateObj, today);
                     const isSelected =
-                      selectedSlot.date &&
-                      format(selectedSlot.date, 'yyyy-MM-dd') === format(dateObj, 'yyyy-MM-dd');
+                      selectedDate && format(selectedDate, "yyyy-MM-dd") === format(dateObj, "yyyy-MM-dd");
 
                     return (
                       <td
-                        key={format(dateObj, 'yyyy-MM-dd')}
-                        className={`selectable-slot ${isSelected ? "bg-success text-white" : ""}`}
-                        onClick={() => setSelectedSlot({ date: dateObj })}
+                        key={format(dateObj, "yyyy-MM-dd")}
+                        className={`selectable-slot 
+                          ${isSelected ? "bg-success text-white" : ""} 
+                          ${isPast ? "bg-light text-muted" : ""}`}
+                        onClick={() => !isPast && handleSelect(dateObj)}
+                        style={{ cursor: isPast ? "not-allowed" : "pointer" }}
                       >
-                        {isSelected ? "Đã chọn" : "Chọn"}
+                        {isPast ? "Hết hạn" : isSelected ? "Đã chọn" : "Chọn"}
                       </td>
                     );
                   })}
