@@ -1,4 +1,4 @@
-# Node modules - sẽ được cài đặt lại trong container
+# Node modules 
 node_modules
 npm-debug.log
 yarn-debug.log
@@ -30,6 +30,3 @@ Dockerfile*
 coverage
 *.lcov
 
-# Env files - chỉ nếu bạn không muốn đưa biến môi trường vào image
-.env
-.env.*
