@@ -5,7 +5,6 @@ import api from '../config/axios';
 import { parse, format } from 'date-fns';
 
 const userId = localStorage.getItem("userId");
-const DEFAULT_TIME = "08:00";
 
 function Booking() {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ function Booking() {
     testType: '',
     appointmentDay: '',
     method: '',
-    serviceId: null,
     price:0,
     user: {
       fullName: '',
@@ -62,7 +60,6 @@ function Booking() {
           testType: selectedService?.testType || '',
           appointmentDay: selectedService?.appointmentDay || '',
           method: selectedService?.collectionMethod || '',
-          serviceId: selectedService?.serviceId || null,
           durationName: selectedService?.durationName || "", 
           price: selectedService.price|| 0,
 

@@ -62,7 +62,6 @@ function Duration() {
 
     const updated = {
       ...prev,
-      serviceId,
       durationName,
       priceId,
       price,
