@@ -207,7 +207,7 @@ function Booking() {
   const getAppointmentTime = (dayStr) => {
     if (!dayStr) return null;
     const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
-    return format(parsedDate, 'yyyy-MM-dd'); 
+    return format(parsedDate, 'yyyy-MM-dd') + "T00:00:00"; 
   };
 
   try {
