@@ -82,7 +82,7 @@ function Booking() {
       fetchUserData();
     }
   }, [selectedService]);
-
+  //tách dữ liệu input
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('user.')) {
@@ -262,12 +262,8 @@ function Booking() {
         }
       ]
     };
-
+    
     console.log("Dữ liệu gửi đi:", bookingData);
-    if (!formData.user.gmail) {
-    toast.error("Không thể cập nhật vì thiếu email. Vui lòng cập nhật Gmail trong thông tin người dùng.");
-    return;
-    }
     const response = await api.post("Patient/CreatePatientWithBooking", bookingData);
     if (response.data?.data?.bookingId) {
     localStorage.setItem("bookingId", response.data.data.bookingId);
@@ -276,10 +272,6 @@ function Booking() {
     const bookingId = response?.data?.data?.bookingId;
     const methodId = selectedService?.collectionMethodId;
 
-    if (!bookingId) {
-      toast.error("Không thể lấy bookingId để tạo testprocess.");
-      return;
-    }
     //  lấy bước dựa theo colectionmethod
     const getStepsByCollectionMethod = (methodId) => {
       const fullSteps = [1, 2, 3, 4];
@@ -341,27 +333,27 @@ function Booking() {
       {/* Thông tin dịch vụ */}
       <div className="mb-3">
         <label className="form-label">Loại dịch vụ</label>
-        <input type="text" name="serviceType" value={formData.serviceType} readOnly className="form-control bg-light" />
+        <input type="text"  value={formData.serviceType} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Loại xét nghiệm</label>
-        <input type="text" name="testType" value={formData.testType} readOnly className="form-control bg-light" />
+        <input type="text"  value={formData.testType} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Ngày hẹn</label>
-        <input type="text" name="appointmentDay" value={formData.appointmentDay} readOnly className="form-control bg-light" />
+        <input type="text"  value={formData.appointmentDay} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Phương pháp thu mẫu</label>
-        <input type="text" name="method" value={formData.method} readOnly className="form-control bg-light" />
+        <input type="text"  value={formData.method} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Gói dịch vụ</label>
-        <input type="text" name="durationName" value={formData.durationName} readOnly className="form-control bg-light" />
+        <input type="text"  value={formData.durationName} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Giá dịch vụ</label>
-        <input type="text" name="price" value={formData.price.toLocaleString("vi-VN") +"đ"}
+        <input type="text"  value={formData.price.toLocaleString("vi-VN") +"đ"}
           readOnly
           className="form-control bg-light"
         />
@@ -387,7 +379,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">Số điện thoại</label>
-        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange} inputMode="numeric" pattern="\d*" />
+        <input className="form-control" name="user.phone" value={formData.user.phone} onChange={handleChange}  />
       </div>
       
       {/* Người thứ nhất */}
