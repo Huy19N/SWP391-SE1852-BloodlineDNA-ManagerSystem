@@ -26,7 +26,6 @@ import Feedbacks from './pages/Actors/Feedbacks.jsx';
 import Layout from './pages/Actors/TotalLayout.jsx';
 import DBBooking from './pages/Actors/CBooking.jsx';
 import CRUDService from './pages/Actors/Admin/Manager/Services.jsx';
-import CRUDCollectionMethod from './pages/Actors/Admin/Manager/CollectionsMethod.jsx';
 import CRUDDurations from './pages/Actors/Admin/Manager/Durations.jsx';
 import CRUDSamples from './pages/Actors/Admin/Manager/Samples.jsx';
 import CRUDPrice from './pages/Actors/Admin/Manager/ServicesPrice.jsx';
@@ -98,7 +97,6 @@ function App() {
           <Route path='users' element={<Users/>}/>
           <Route path='dbbooking' element={<DBBooking/>}/>
           <Route path='services' element={<CRUDService/>}/>
-          <Route path='collectionmethod' element={<CRUDCollectionMethod/>}/>
           <Route path='durations' element={<CRUDDurations/>}/>
           <Route path='samples' element={<CRUDSamples/>}/>
           <Route path='price' element={<CRUDPrice/>}/>

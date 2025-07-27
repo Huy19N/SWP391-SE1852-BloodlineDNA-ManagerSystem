@@ -64,7 +64,6 @@ function Sidebar (){
                             <ul className="slide-dropdown-content custom-dropdown">
                             <li><Link className="dropdown-item" to="services"><i className="bi bi-box me-2"></i> Dịch vụ</Link></li>
                             <li><Link className="dropdown-item" to="price"><i className="bi bi-box me-2"></i> Giá Dịch Vụ</Link></li>
-                            <li><Link className="dropdown-item" to="collectionmethod"><i className="bi bi-box me-2"></i> Phương Thức Xét Nghiệm</Link></li>
                             <li><Link className="dropdown-item" to="durations"><i className="bi bi-box me-2"></i> Thời lượng</Link></li>
                             <li><Link className="dropdown-item" to="samples"><i className="bi bi-box me-2"></i> Mẫu</Link></li>
                             </ul>
