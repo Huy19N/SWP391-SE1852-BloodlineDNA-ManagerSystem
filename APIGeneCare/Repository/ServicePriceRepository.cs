@@ -3,6 +3,7 @@ using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace APIGeneCare.Repository
@@ -39,6 +40,15 @@ namespace APIGeneCare.Repository
                 Data = pagedData
             };
         }
+        public async Task<IEnumerable<ServicePriceDTO>> GetAllServicePrices()
+            => await _context.ServicePrices.Select(x => new ServicePriceDTO
+            {
+                PriceId = x.PriceId,
+                ServiceId = x.ServiceId,
+                DurationId = x.DurationId,
+                Price = x.Price,
+                IsDeleted = x.IsDeleted
+            }).ToListAsync();
         public ServicePriceDTO? GetServicePriceById(int id)
             => _context.ServicePrices.Select(sp => new ServicePriceDTO
             {

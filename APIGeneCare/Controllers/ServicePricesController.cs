@@ -2,6 +2,7 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace APIGeneCare.Controllers
 {
@@ -47,7 +48,29 @@ namespace APIGeneCare.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all service price: {ex.Message}");
             }
         }
-
+        [HttpGet("GetAllServicePrices")]
+        public async Task<IActionResult> GetAllServicePrices()
+        {
+            try {
+                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePrices());
+                if (servicePrices == null || !servicePrices.Any())
+                    return NotFound(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Not found any service prices"
+                    });
+                return Ok(new ApiResponse
+                {
+                    Success = true,
+                    Message = "Get all serviceprice successful",
+                    Data = servicePrices
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving all service price: {ex.Message}");
+            }
+        }
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetServicePriceById(int id)
         {
