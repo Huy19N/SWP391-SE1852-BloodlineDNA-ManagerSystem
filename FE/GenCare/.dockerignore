@@ -29,4 +29,3 @@ Dockerfile*
 # Test coverage and reports
 coverage
 *.lcov
-
