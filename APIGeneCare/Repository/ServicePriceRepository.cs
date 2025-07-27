@@ -34,7 +34,6 @@ namespace APIGeneCare.Repository
                                        }).ToListAsync();
 
             return new PagingModel() {
-                
                 MaxPage = maxPage,
                 CurrentPage = page,
                 Data = pagedData

@@ -14,7 +14,6 @@ services:
     ports:
       - "7722:7722"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=server=sqlserver;database=GeneCare;User Id=sa;Password=ABC@abc123;TrustServerCertificate=True
     depends_on:
       - sqlserver

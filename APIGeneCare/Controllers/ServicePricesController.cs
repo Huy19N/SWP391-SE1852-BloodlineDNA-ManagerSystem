@@ -48,7 +48,6 @@ namespace APIGeneCare.Controllers
             }
         }
 
-
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetServicePriceById(int id)
         {

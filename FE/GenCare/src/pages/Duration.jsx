@@ -12,10 +12,9 @@ function Duration() {
       try {
         const response = await api.get("ServicePrices/GetAllPaging", {
           params: {
-            typeSearch: "",
             search: "",
-            sortBy: "PriceID",
-            page: 1,
+            itemsPerPage: 1000,
+            page: 1
           },
         });
 

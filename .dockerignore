@@ -1,0 +1,92 @@
+# 1. Version control
+.git/
+.gitignore
+.github/
+.svn/
+.hg/
+
+# 2. IDE and editor files
+.idea/
+.vscode/
+.vs/
+*.swp
+*.swo
+
+# 3. Build outputs and development artifacts
+bin/
+obj/
+dist/
+build/
+out/
+debug/
+
+# 4. Node.js specific
+node_modules/
+npm-debug.log
+yarn-debug.log
+
+# 5. Test and coverage artifacts
+test/
+tests/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.test
+*.coverage
+
+# 6. Environment and secrets
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.crt
+config.local.*
+*.local.yml
+
+# 7. Temporary and local files
+tmp/
+temp/
+*.tmp
+.local/
+local/
+
+# 8. Documentation and markdown
+docs/
+*.md
+README*
+
+# 9. Docker and Compose files
+Dockerfile*
+docker-compose*
+
+# 10. Project-specific
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+*.vscode/
+*.vsidx
+*.dtbcache.v2
+*.futdcache.v2
+*.backup.json
+*.suppress
+*.metadata.v9.bin
+*.projects.v9.bin
+*.strings.v9.bin
+
+# 11. Miscellaneous
+*.log
+*.bak
+*.old
+*.orig
+
+# 12. Backup and skipped directories
+backup/
+
+# 13. Exclude lock files from ignore (as per instructions)
+# (Do not add *.lock to this file)
+
+# End of .dockerignore

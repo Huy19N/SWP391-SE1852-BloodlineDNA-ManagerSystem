@@ -1,0 +1,66 @@
+services:
+  csharp-apigenecare:
+    build:
+      context: ./APIGeneCare
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres-db  # API likely needs a database
+    networks:
+      - genecare-net
+    ports:
+      - "8080:8080"  # Exposed in Dockerfile
+    # env_file: ./APIGeneCare/.env  # Uncomment if .env file exists
+
+  csharp-genecare:
+    build:
+      context: ./GeneCare
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres-db  # Web app likely needs a database
+    networks:
+      - genecare-net
+    ports:
+      - "8081:80"  # Exposed in Dockerfile, mapped to 8081 for developer convenience
+    # env_file: ./GeneCare/.env  # Uncomment if .env file exists
+
+  js-gencare:
+    build:
+      context: ./FE/GenCare
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    networks:
+      - genecare-net
+    ports:
+      - "3000:80"  # Nginx serves static files on 80, mapped to 3000 for local dev
+    env_file: ./FE/GenCare/.env
+
+  postgres-db:
+    image: postgres:latest
+    restart: unless-stopped
+    networks:
+      - genecare-net
+    environment:
+      POSTGRES_USER: genecare
+      POSTGRES_PASSWORD: genecare
+      POSTGRES_DB: genecare
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U genecare"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Expose port only if you need to connect from host
+    # ports:
+    #   - "5432:5432"
+
+networks:
+  genecare-net:
+    driver: bridge
+
+volumes:
+  pgdata:
+    # Persistent storage for PostgreSQL
