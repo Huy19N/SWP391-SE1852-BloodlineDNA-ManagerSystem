@@ -21,12 +21,12 @@ namespace APIGeneCare.Controllers
         {
             try
             {
-                if (page <= 0)
+                if (page <= 0 || itemsPerPage <1)
                 {
                     return BadRequest(new ApiResponse
                     {
                         Success = false,
-                        Message = "Page must > 0"
+                        Message = "Page must > 0 and itemsPerPage >= 1"
                     });
                 }
                 var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePricesPaging(search, page, itemsPerPage));
