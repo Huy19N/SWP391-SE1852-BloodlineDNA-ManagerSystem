@@ -271,7 +271,7 @@ namespace APIGeneCare.Repository
                 StringBuilder url = new StringBuilder(_googleLoginSettings.ReturnAfterLogin);
                 if (token is TokenModel)
                 {
-                    url.Append($"?AccessToken={token.AccessToken}&RefreshToken={token.RefreshToken}$roleId={userRefeshToken.RoleId}");
+                    url.Append($"?AccessToken={token.AccessToken}&RefreshToken={token.RefreshToken}$roleId={userRefeshToken.RoleId}$userId={userRefeshToken.UserId}");
                 }
 
                 return url.ToString();
