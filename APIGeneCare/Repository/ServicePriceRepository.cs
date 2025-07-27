@@ -103,6 +103,20 @@ namespace APIGeneCare.Repository
             using var transaction = _context.Database.BeginTransaction();
             try
             {
+                if (servicePrice.Price == existingServicePrice.Price && !servicePrice.IsDeleted)
+                {
+                    existingServicePrice.IsDeleted = false;
+                    foreach(var x in _context.ServicePrices.Where(s => s.ServiceId ==  servicePrice.ServiceId && 
+                                                                        s.DurationId == servicePrice.DurationId && 
+                                                                        s.PriceId != servicePrice.PriceId).ToList())
+                    {
+                        x.IsDeleted = true;
+                    }
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+
+                }
                 existingServicePrice.IsDeleted = true;
                 _context.ServicePrices.Add(new ServicePrice
                 {

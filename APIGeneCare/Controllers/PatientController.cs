@@ -105,13 +105,13 @@ namespace APIGeneCare.Controllers
                         return BadRequest(new ApiResponse
                         {
                             Success = false,
-                            Message = "A person in this form have Name is empty"
+                            Message = "Name must not empty and not contain number"
                         });
                     if (string.IsNullOrEmpty(x.Relationship) || !Regex.IsMatch(x.Relationship, @"\d"))
                         return BadRequest(new ApiResponse
                         {
                             Success = false,
-                            Message = "A person in this form Relationship must not empty and not contain number"
+                            Message = "Relationship must not empty and not contain number"
                         });
 
                 }
