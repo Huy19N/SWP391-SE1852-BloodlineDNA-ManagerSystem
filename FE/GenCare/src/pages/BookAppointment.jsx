@@ -67,7 +67,7 @@ function BookAppointment() {
       {selectedService && (
         <p className="fs-4 text-center">
           Bạn đã chọn <strong>{selectedService.mainType}</strong> - <strong>{selectedService.testType}</strong> <br />
-          Loại xét nghiệm <strong>{selectedService.testType}</strong> và gói <strong>{selectedService.durationId}</strong>
+          Loại xét nghiệm <strong>{selectedService.testType}</strong> và gói <strong>{selectedService.durationName}</strong>
         </p>
       )}
 

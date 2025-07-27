@@ -5,6 +5,7 @@ import api from '../config/axios';
 import { parse, format } from 'date-fns';
 
 const userId = localStorage.getItem("userId");
+const DEFAULT_TIME = "08:00";
 
 function Booking() {
   const navigate = useNavigate();
@@ -174,12 +175,11 @@ function Booking() {
     return ;
   }
 
-const getAppointmentTime = (dayStr) => {
-      if (!dayStr) return null;
-      const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
-      const dateTimeString = `${format(parsedDate, 'yyyy-MM-dd')}T${DEFAULT_TIME}:00`;
-      return new Date(dateTimeString).toISOString();
-    };
+  const getAppointmentTime = (dayStr) => {
+    if (!dayStr) return null;
+    const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
+    return format(parsedDate, 'yyyy-MM-dd'); 
+  };
 
   try {
     // cập nhật user
