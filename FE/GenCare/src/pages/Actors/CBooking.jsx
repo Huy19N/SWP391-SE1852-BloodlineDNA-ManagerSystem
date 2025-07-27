@@ -9,7 +9,6 @@ function Booking(){
     const [dataServicesPrice, setDataServicesPrice] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
     const [dataService, setDataService] = useState([]);
-    const [dataDuration, setDataDuration] = useState([]);
     const [showOverlay, setShowOverlay] = useState(false);
     const [detailData, setDetailData] = useState(null);
     const [newResultSummary, setNewResultSummary] = useState('');
@@ -30,13 +29,12 @@ function Booking(){
         setIsLoading(true);
 
         try{
-            const [resBooking, resUser, resServicePrice, resStatus, resService, resDuration] = await Promise.all([
+            const [resBooking, resUser, resServicePrice, resStatus, resService] = await Promise.all([
                 api.get('Bookings/GetAll'),
                 api.get('Users/GetAll'),
                 api.get('ServicePrices/GetAllPaging'),
                 api.get('Status/GetAllStatus'),
                 api.get('Services/GetAllPaging'),
-                api.get('Durations/GetAllPaging')
             ]);
             const dataStatus = resStatus.data.data;
             const statusId_NotPay = dataStatus.find(s => s.statusId === 1)?.statusId;
@@ -47,7 +45,6 @@ function Booking(){
             setDataServicesPrice(resServicePrice.data.data);
             setDataStatus(resStatus.data.data);
             setDataService(resService.data.data);
-            setDataDuration(resDuration.data.data);
         }
         catch(error){
             toast.error("Error Data!");
@@ -222,17 +219,17 @@ function Booking(){
         try {
             setIsLoading(true);
 
-            // 1. Gửi yêu cầu tạo kết quả mới
+            //  Gửi yêu cầu tạo kết quả mới
             const res = await api.post('TestResults/Create', {
                 resultSummary: newResultSummary,
                 date: newResultDate,
                 bookingId: detailData.booking.bookingId
             });
 
-            // 2. Cố gắng lấy resultId trực tiếp
+            //  Cố gắng lấy resultId trực tiếp
             let newResultId = res.data?.resultId;
 
-            // 3. Nếu không có resultId => Fallback bằng GetAllPaging
+            // Nếu không có resultId => Fallback bằng GetAllPaging
             if (!newResultId || newResultId <= 0) {
                 const resResults = await api.get('TestResults/GetAllPaging', {
                     params: { bookingId: detailData.booking.bookingId }
@@ -253,7 +250,7 @@ function Booking(){
                 }
             }
 
-            // 4. Gán resultId mới vào booking
+            // Gán resultId mới vào booking
             const b = detailData.booking;
             await api.put('Bookings/Update', {
                 bookingId: b.bookingId,
@@ -267,7 +264,7 @@ function Booking(){
 
             toast.success("Tạo và gán kết quả thành công!");
 
-            // 5. Cập nhật lại UI
+            // Cập nhật lại UI
             setDetailData(prev => ({
                 ...prev,
                 booking: {
@@ -300,19 +297,19 @@ function Booking(){
 
 
 
-    const handleUpdateResult = async () => {
-        try {
-            await api.put("TestResults/Update", {
-                ...detailData.booking.result,
-                resultSummary: detailData.booking.result.resultSummary,
-                date: detailData.booking.result.date
-            });
-            toast.success("Cập nhật kết quả thành công!");
-            fetchBookingDetail(detailData.booking.bookingId);
-        } catch (error) {
-            toast.error("Lỗi cập nhật kết quả!");
-        }
-    };
+    // const handleUpdateResult = async () => {
+    //     try {
+    //         await api.put("TestResults/Update", {
+    //             ...detailData.booking.result,
+    //             resultSummary: detailData.booking.result.resultSummary,
+    //             date: detailData.booking.result.date
+    //         });
+    //         toast.success("Cập nhật kết quả thành công!");
+    //         fetchBookingDetail(detailData.booking.bookingId);
+    //     } catch (error) {
+    //         toast.error("Lỗi cập nhật kết quả!");
+    //     }
+    // };
 
     const handleDeleteResult = async () => {
         if (!window.confirm("Bạn có chắc muốn xóa kết quả này không?")) return;
