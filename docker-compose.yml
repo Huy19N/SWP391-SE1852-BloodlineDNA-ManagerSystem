@@ -1,36 +1,30 @@
-version: '3.8'
-
 services:
-  database:
-    build:
-      context: ./DataBase
-    container_name: genecare-db
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=ABC@abc123
+  frontend:
+    build: ./FE/GenCare
     ports:
-      - "1433:1433"
+      - "5173:5173"
+    environment:
+      - REACT_APP_API_URL=http://backend:7722/api
+    depends_on:
+      - backend
     restart: unless-stopped
 
   backend:
-    build:
-      context: ./APIGeneCare
-    container_name: genecare-backend
+    build: ./APIGeneCare
+    ports:
+      - "7722:7722"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=database;Database=GeneCare;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
-    ports:
-      - "8080:8080"
+      - ConnectionStrings__DefaultConnection=server=sqlserver;database=GeneCare;User Id=sa;Password=ABC@abc123;TrustServerCertificate=True
     depends_on:
-      - database
+      - sqlserver
     restart: unless-stopped
 
-  frontend:
-    build:
-      context: ./FE/GenCare
-    container_name: genecare-frontend
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "ABC@abc123"
+      ACCEPT_EULA: "Y"
     ports:
-      - "5173:80"
-    depends_on:
-      - backend
+      - "1433:1433"
     restart: unless-stopped
