@@ -52,6 +52,16 @@ namespace APIGeneCare.Controllers
         {
             try
             {
+                if(testResult.Date == null)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Date test result can not empty"
+                    });
+                }
+                
+
                 var isCreate = _testResultRepository.CreateTestResults(testResult);
                 if (isCreate)
                 {

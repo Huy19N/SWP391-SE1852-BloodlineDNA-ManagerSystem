@@ -2,6 +2,7 @@
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace APIGeneCare.Controllers
 {
@@ -92,6 +93,28 @@ namespace APIGeneCare.Controllers
         {
             try
             {
+                foreach(var x in bookingWithPatient.patients)
+                {
+                    if (DateTime.Parse(x.BirthDate.ToString()) >= DateTime.Now)
+                        return BadRequest(new ApiResponse
+                        {
+                            Success = false,
+                            Message = "A person in this form have birthday greater than now!"
+                        });
+                    if (string.IsNullOrWhiteSpace(x.FullName) || !Regex.IsMatch(x.FullName, @"\d"))
+                        return BadRequest(new ApiResponse
+                        {
+                            Success = false,
+                            Message = "A person in this form have Name is empty"
+                        });
+                    if (string.IsNullOrEmpty(x.Relationship) || !Regex.IsMatch(x.Relationship, @"\d"))
+                        return BadRequest(new ApiResponse
+                        {
+                            Success = false,
+                            Message = "A person in this form Relationship must not empty and not contain number"
+                        });
+
+                }
                 var bookingId = await _patientRepository.CreatePatientWithBookingAsync(bookingWithPatient);
                 if (bookingId > 0)
                 {
