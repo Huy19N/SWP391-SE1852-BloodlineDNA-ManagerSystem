@@ -101,13 +101,13 @@ namespace APIGeneCare.Controllers
                             Success = false,
                             Message = "A person in this form have birthday greater than now!"
                         });
-                    if (string.IsNullOrWhiteSpace(x.FullName) || !Regex.IsMatch(x.FullName, @"\d"))
+                    if (string.IsNullOrWhiteSpace(x.FullName) || Regex.IsMatch(x.FullName, @"\d"))
                         return BadRequest(new ApiResponse
                         {
                             Success = false,
                             Message = "Name must not empty and not contain number"
                         });
-                    if (string.IsNullOrEmpty(x.Relationship) || !Regex.IsMatch(x.Relationship, @"\d"))
+                    if (string.IsNullOrEmpty(x.Relationship) || Regex.IsMatch(x.Relationship, @"\d"))
                         return BadRequest(new ApiResponse
                         {
                             Success = false,
