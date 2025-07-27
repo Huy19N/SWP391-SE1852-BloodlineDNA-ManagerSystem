@@ -127,6 +127,10 @@ function Booking() {
     toast.error("Vui lòng điền đầy đủ thông tin người đăng ký.");
     return ;
   }
+  if (/\d/.test(fullName)) {
+  toast.error("Họ và tên người đăng ký không được chứa số.");
+  return;
+}
 
   const cccdRegex = /^\d{11}$/;
   if (!cccdRegex.test(String(cccd).trim())) {
@@ -144,6 +148,11 @@ function Booking() {
   if (!person1.fullName || !person1.birthDate || !person1.gender || !person1.hasTestedDna || !person1.sampleID || !person1.relationToPerson2) {
     toast.error("Vui lòng điền đầy đủ thông tin người thứ nhất!");
     return ;
+  }
+
+  if (/\d/.test(person1.fullName)) {
+  toast.error("Tên người thứ nhất không được chứa số.");
+  return;
   }
 
   const birthDate1 = new Date(person1.birthDate);
@@ -173,6 +182,10 @@ function Booking() {
   if (!person2.fullName || !person2.birthDate || !person2.gender || !person2.hasTestedDna || !person2.sampleID || !person2.relationToPerson1) {
     toast.error("Vui lòng điền đầy đủ thông tin người thứ hai!");
     return ;
+  }
+  if (/\d/.test(person2.fullName)) {
+  toast.error("Tên người thứ hai không được chứa số.");
+  return;
   }
 
   const birthDate2 = new Date(person2.birthDate);
