@@ -62,10 +62,10 @@ const LoginRegister = () => {
 
   if (accessToken && refreshToken && roleId && userId) {
     // Lưu thông tin vào localStorage
-    localStorage.setItem("token", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-    localStorage.setItem("roleId", roleId);
-    localStorage.setItem("userId", userId);
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('roleId', roleId);
+    localStorage.setItem('userId', userId);
 
     toast.success("Đăng nhập bằng Google thành công!");
     navigate("/"); // chuyển về trang chủ
