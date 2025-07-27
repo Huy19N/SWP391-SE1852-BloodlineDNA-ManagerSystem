@@ -337,7 +337,7 @@ function Booking(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary">
-                Danh Sách Đặt Chỗ
+                Danh Sách Lịch Hẹn
             </div>
 
             <div className="row mb-3">

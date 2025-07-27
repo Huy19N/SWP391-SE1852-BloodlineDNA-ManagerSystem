@@ -36,14 +36,14 @@ function Sidebar (){
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='dbbooking'>
-                            <i className="bi bi-box2-fill me-2"></i> Mẫu Xét Nghiệm 
+                            <i className="bi bi-box2-fill me-2"></i> Lịch Hẹn 
                         </Link>
                         </div>
                         : null}
                         {isStaff || isManager || isAdmin ?
                         <div className='mb-2 mt-2 tab_content_1'>
                         <Link className="nav-link" to='blog'>
-                            <i className="bi bi-journal-text me-2"></i> Blogs
+                            <i className="bi bi-journal-text me-2"></i> Bài Đăng
                         </Link>
                         </div>
                         : null}
