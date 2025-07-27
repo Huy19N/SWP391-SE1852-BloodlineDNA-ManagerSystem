@@ -108,9 +108,9 @@ function Duration() {
                         </td>
                       </tr>
                       <tr><td></td><td>Kết quả bảo mật tuyệt đối</td></tr>
-                      <tr><td></td><td>Độ chính xác &gt; 99.9999%</td></tr>
+                      <tr><td></td><td>Độ chính xác &gt; 99,99%</td></tr>
                       <tr><td></td><td>Miễn phí xét nghiệm mở rộng nếu không huyết thống</td></tr>
-                      <tr><td></td><td>Thu mẫu tại nhà MIỄN PHÍ</td></tr>
+                      <tr><td></td><td>MIỄN PHÍ thu mẫu tại nhà và tự thu mẫu tại nhà </td></tr>
                       <tr><td></td><td>Không phụ thu thêm phí mẫu đặc biệt</td></tr>
                     </tbody>
                   </table>
