@@ -7,7 +7,7 @@ function Feedbacks(){
     const [isLoading, setIsLoading] = useState(false);
     const [dataFeedbacks, setDataFeedbacks] = useState([]);
     const [dataUsers, setDataUsers] = useState([]);
-    const [dataService, setDataService] = useState([]);
+    const [dataBooking, setDataBooking] = useState([]);
     const [search,setSearch] = useState('');
     const [detailData, setDetailData] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -22,32 +22,29 @@ function Feedbacks(){
         setIsLoading(true);
 
         try{
-            const [resService, resUser, resFeedbacks] = await Promise.all([
-                api.get('Services/GetAllPaging'),
+            const [resUser, resFeedbacks, resBooking] = await Promise.all([
                 api.get('Users/GetAll'),
-                api.get('Feedbacks/GetAllPaging')
+                api.get('Feedbacks/GetAll'),
+                api.get('Bookings/GetAll')
             ]);
 
-            const dataService = resService.data.data;
             const dataUser = resUser.data.data;
             const dataFeedback = resFeedbacks.data.data;
+            const dataBooking = resBooking.data.data;
 
-            console.log("dataService", dataService);
             console.log("dataUser", dataUser);
             console.log("dataFeedback", dataFeedback);
 
-            setDataService(dataService);
             setDataUsers(dataUser);
-            setDataFeedbacks(dataFeedback)
+            setDataFeedbacks(dataFeedback);
+            setDataBooking(dataBooking);
         }
         catch(error){
 
             if (error.response && error.response.status === 404) {
-                setDataService([]); // Gán rỗng để vẫn hiển thị UI
-                setDataUsers([]); // Hoặc tùy ý
-                setDataFeedbacks([]); // Hoặc tùy ý
+                setDataUsers([]);
+                setDataFeedbacks([]);
             }
-            console.log("Lỗi  DataService", error.dataService);
             console.log("Lỗi  dataUser", error.dataUser);
             console.log("Lỗi dataFeedback", error.dataFeedback);
             toast.error("Thất bại tải dữ liệu phản hồi!");
@@ -58,25 +55,26 @@ function Feedbacks(){
     }
 
     //API gọi delete Feedback
-    const fetchDelete = async (feedbackId) => {
+    const fetchDelete = async (bookingId) => {
         if(!window.confirm("Bạn có chắc là muốn xóa phản hồi này?")) return;
 
         try{
-            await api.delete(`Feedbacks/DeleteById/${feedbackId}`);
+            await api.delete(`Feedbacks/DeleteFeedbackByBookingId/${bookingId}`);
             toast.success("Xóa phản hồi này thành công!");
 
             fetchData();
         }
         catch (error){
             console.log("Lỗi Xóa", error);
-            toast.error("Thất bại xóa phản hồi này!")
+            toast.error("Thất bại xóa phản hồi này!");
         }
     }
 
-    const fetchFeedbackDetail = async (feedbackId) => {
+    const fetchFeedbackDetail = async (bookingId) => {
     try {
-        const res = await api.get(`Feedbacks/GetById/${feedbackId}`);
+        const res = await api.get(`Feedbacks/GetFeedbackByBookingId/${bookingId}`);
         const feedback = res.data.data;
+        console.log("detail", feedback);
         setDetailData(feedback);
         setShowCreateModal(true);
     } catch (err) {
@@ -89,31 +87,20 @@ function Feedbacks(){
         fetchData();
     }, []);
 
-    const getServiceName = (serviceId) => {
-        const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceName : 'Trống';
-    };
 
-    const getServiceType = (serviceId) => {
-        const service = dataService.find(u => u.serviceId === serviceId);
-        return service ? service.serviceType : 'Trống';
-    };
-
-    const getUsername = (userId) => {
-        const user = dataUsers.find(u => u.userId === userId);
-        return user ? user.fullName : 'trống';
+    const getUsername = (bookingID) => {
+        const booking = dataBooking.find(u => u.bookingId === bookingID);
+        const user = dataUsers.find(s => s.userId === booking?.userId);
+        return user?.fullName || 'Trống';
     };
     
     //Filter 
     const filteredFeedbacks = dataFeedbacks.filter((feedback) => {
         const keyword = search.toLowerCase();
         return (
-            feedback.feedbackId.toString().includes(keyword) ||
-            feedback.createdAt.toString().includes(keyword) ||
+            feedback.bookingId.toString().includes(keyword) ||
             feedback.rating.toString().includes(keyword) ||
-            getServiceName(feedback.serviceId).toLowerCase().includes(keyword) ||
-            getServiceType(feedback.serviceId).toLowerCase().includes(keyword) ||
-            getUsername(feedback.userId).toLowerCase().includes(keyword)
+            getUsername(feedback.bookingId).toLowerCase().includes(keyword)
         );
     });
 
@@ -142,8 +129,6 @@ function Feedbacks(){
                 <tr>
                     <th>Mã</th>
                     <th>Tên Người Dùng</th>
-                    <th>Tên Dịch Vụ</th>
-                    <th>Loại Dịch Vụ</th>
                     <th>Ngày</th>
                     <th>Đáng Giá</th>
                     {(isAdmin || isManager) ? <th>Hành Động</th> : null}
@@ -156,21 +141,19 @@ function Feedbacks(){
                     </tr>
                 ) : filteredFeedbacks.length > 0 ? (
                     filteredFeedbacks.map((feedback) => (
-                    <tr key={feedback.feedbackId}>
-                        <td>{feedback.feedbackId}</td>
-                        <td>{getUsername(feedback.userId)}</td>
-                        <td>{getServiceName(feedback.serviceId)}</td>
-                        <td>{getServiceType(feedback.serviceId)}</td>
+                    <tr key={feedback.bookingId}>
+                        <td>{feedback.bookingId}</td>
+                        <td>{getUsername(feedback.bookingId)}</td>
                         <td>{feedback.createdAt?.split("T")[0]}</td>
                         <td>{feedback.rating}</td>
                         {(isAdmin || isManager) && (
                         <td>
                         <button className="btn btn-info ms-3 me-3"
-                                onClick={() => fetchFeedbackDetail(feedback.feedbackId)}>
+                                onClick={() => fetchFeedbackDetail(feedback.bookingId)}>
                             <i className="bi bi-pencil-square fs-4"></i>
                             </button>{/*xem va update feedback*/}
                         <button className="btn btn-danger"
-                                onClick={() => fetchDelete(feedback.feedbackId)}>
+                                onClick={() => fetchDelete(feedback.bookingId)}>
                             <i className="bi bi-trash3-fill fs-4"></i>
                             </button>{/*xoa feedback*/}
                         </td>
@@ -194,17 +177,12 @@ function Feedbacks(){
 
                 <div className="mb-3">
                     <label className="form-label"><strong>Mã</strong></label>
-                    <input type="text" className="form-control" readOnly value={detailData.feedbackId} />
+                    <input type="text" className="form-control" readOnly value={detailData.bookingId} />
                 </div>
 
                 <div className="mb-3">
                     <label className="form-label"><strong>Người Dùng</strong></label>
-                    <input type="text" className="form-control" readOnly value={getUsername(detailData.userId)} />
-                </div>
-
-                <div className="mb-3">
-                    <label className="form-label"><strong>Dịch Vụ</strong></label>
-                    <input type="text" className="form-control" readOnly value={`${getServiceName(detailData.serviceId)} (${getServiceType(detailData.serviceId)})`} />
+                    <input type="text" className="form-control" readOnly value={getUsername(detailData.bookingId)} />
                 </div>
 
                 <div className="mb-3">

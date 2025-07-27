@@ -175,26 +175,32 @@ import { Link } from "react-router-dom";
     };
 
     const handleSubmitFeedback = async () => {
-    if (!feedbackText) {
-        toast.warning("Làm ơn nhập phản hồi của bạn.");
-        return;
-    }
+        if (!feedbackText) {
+            toast.warning("Làm ơn nhập phản hồi của bạn.");
+            return;
+        }
 
-    try {
-        await api.post("Feedbacks/Create", {
-        userId: userId,
-        serviceId: dataBooking.find(b => b.bookingId === currentBookingId)?.serviceId || 0,
-        createdAt: new Date().toISOString(),
-        comment: feedbackText,
-        rating: rating,
-    });
-        toast.success("Cảm ơn bạn đã đưa ra lời khuyên cho chúng tôi!");
-        setShowFeedbackModal(false);
-        setFeedbackText("");
-    } catch (error) {
-        toast.error("Thất bại tạo phản hồi.");
-    }
-};
+        if (rating === 0) {
+        toast.warning("Vui lòng chọn đánh giá sao.");
+        return;
+        }
+
+        try {
+            await api.post("Feedbacks/Create", {
+            bookingId: currentBookingId,
+            createdAt: new Date().toISOString(),
+            comment: feedbackText,
+            rating: rating,
+        });
+            toast.success("Cảm ơn bạn đã đưa ra lời khuyên cho chúng tôi!");
+            setShowFeedbackModal(false);
+            setFeedbackText("");
+            setRating(0);
+            setCurrentBookingId(null);
+        } catch (error) {
+            toast.error("Thất bại tạo phản hồi.");
+        }
+    };
 
     const filterBookings = dataBooking.filter((booking) => {
         const keyword = search.toLowerCase();
@@ -212,7 +218,7 @@ import { Link } from "react-router-dom";
 
     return (
         <div className="container mt-5 mb-5 min-vw-100 min-vh-100" style={{background: 'linear-gradient(90deg,#e2e2e2, #c9d6ff)'}}>
-            <h2 className="text-primary border-bottom border-primary pb-2 mb-4">My Booking</h2>
+            <h2 className="text-primary border-bottom border-primary pb-2 mb-4">Lịch sử đặt Của Tôi</h2>
 
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -327,7 +333,7 @@ import { Link } from "react-router-dom";
                                     <th>Giới Tính</th>
                                     <th>CCCD</th>
                                     <th>Mẫu</th>
-                                    <th>Mỗi Quan Hệ Dự Đoán</th>
+                                    <th>Mối Quan Hệ</th>
                                     <th>Đã Xét Nghiệm Chưa</th>
                                     </tr>
                                 </thead>
@@ -349,8 +355,9 @@ import { Link } from "react-router-dom";
                                 </table>
                             ) : <p>Không Có dữ liệu.</p>}
                         </div>
-                        
+                        {detailData.booking.status?.statusName === "Hoàn thành" &&(
                         <button className="btn btn-success me-2" onClick={exportToPDF}>Tải Tệp PDF</button>
+                        )}
                         <button className="btn btn-danger float-end" onClick={() => setShowOverlay(false)}>Đóng</button>
                     </div>
                 </div>
@@ -404,7 +411,7 @@ import { Link } from "react-router-dom";
                                 <th>Giới Tính</th>
                                 <th>CCCD</th>
                                 <th>Mẫu</th>
-                                <th>Mối Quan Hệ Dự Đoán</th>
+                                <th>Mối Quan Hệ</th>
                                 <th>Đã Xét Nghiệm Chưa</th>
                             </tr>
                             </thead>

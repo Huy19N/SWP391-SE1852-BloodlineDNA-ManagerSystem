@@ -11,6 +11,8 @@ function ServicesPrice(){
     const [search,setSearch] = useState('');
     const [editServicesPrice,setEditServicesPrice] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [fromDataServicesPrice, setFromDataServicesPrice] = useState({
         serviceId: '',
         durationId: '',
@@ -23,38 +25,33 @@ function ServicesPrice(){
     const isAdmin = roleid === '4';
     const isManager = roleid === '3';
 
-    const fetchData = async (e) => {
+    const fetchData = async () => {
         setIsLoading(true);
-
-        try{
+        try {
             const [resServicePrices, resService, resDuration] = await Promise.all([
-                 api.get('ServicePrices/GetAllPaging'),
-                 api.get('Services/GetAllPaging'),
-                 api.get(`Durations/GetAllPaging`)
+                api.get('ServicePrices/GetAllPaging', {
+                    params: {
+                        page: currentPage
+                    }
+                }),
+                api.get('Services/GetAllPaging'),
+                api.get('Durations/GetAllPaging')
             ]);
-            const dataServicesPrice = resServicePrices.data.data;
-            const dataService = resService.data.data;
-            const dataDuration = resDuration.data.data;
 
-            console.log("ServicesPrice", dataServicesPrice);
-            console.log("dataService", dataService);
-            console.log("dataDuration", dataDuration);
+            const dataServicesPrice = resServicePrices.data.data;
+            const totalPageFromApi = resServicePrices.data.page || 1;
+            console.log("totalPage", totalPageFromApi);
 
             setDataServicesPrice(dataServicesPrice);
-            setDataService(dataService);
-            setDataDuration(dataDuration);
-
-        }
-        catch(error){
-            console.log("Lỗi Dữ liệu ServicePrice", error.dataServicesPrice);
-            console.log("Lỗi Dữ liệu Service", error.dataService);
-            console.log("Lỗi Dữ liệu Duration", error.dataDuration);
-            toast.error("THất bại tải dữ liệu Services Price!");
-        }
-        finally{
+            setDataService(resService.data.data);
+            setDataDuration(resDuration.data.data);
+            setTotalPages(totalPageFromApi);
+        } catch (error) {
+            toast.error("Thất bại tải dữ liệu Services Price!");
+        } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     //API gọi delete ServicesPrice
     const fetchDelete = async (priceId) => {
@@ -74,7 +71,7 @@ function ServicesPrice(){
 
     useEffect (() => {
         fetchData();
-    }, []);
+    }, [currentPage, search]);
 
     const handleCreateChange = (e) => {
     const { name, value } = e.target;
@@ -198,6 +195,25 @@ function ServicesPrice(){
                 )}
                 </tbody>
             </table>
+
+            <div className="d-flex justify-content-center align-items-center mt-3">
+                <button
+                    className="btn btn-secondary me-2"
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    Trang trước
+                </button>
+                <span>Trang {currentPage} / {totalPages}</span>
+                <button
+                    className="btn btn-secondary ms-2"
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    Trang sau
+                </button>
+            </div>
+
             {/* Thêm service price*/}
             {showCreateModal && (
                 <div className="update-overlay">
