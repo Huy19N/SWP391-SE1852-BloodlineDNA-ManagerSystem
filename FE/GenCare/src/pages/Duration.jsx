@@ -38,7 +38,7 @@ function Duration() {
           }
         });
 
-        const fullData = (await Promise.all(promises)).filter(item => item !== null);
+        const fullData = (await Promise.all(promises)).filter(item => item !== null && item.isDeleted === false);
 
         const normalize = (text) => text?.toLowerCase().normalize("NFD");
 

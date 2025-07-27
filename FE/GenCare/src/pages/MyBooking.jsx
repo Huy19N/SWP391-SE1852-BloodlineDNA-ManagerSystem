@@ -33,7 +33,7 @@ import { Link } from "react-router-dom";
             api.get("Services/GetAllPaging"),
             api.get("Durations/GetAllPaging"),
             api.get("Status/GetAllStatus"),
-            api.get("ServicePrices/GetAllPaging"),
+            api.get("ServicePrices/GetAllServicePrices"),
         ]);
         
         const dataStatus = resStatus.data.data;
@@ -101,7 +101,7 @@ import { Link } from "react-router-dom";
             api.get(`CollectionMethod/GetAll`),
             api.get(`TestStep/getAllTestSteps`),
             api.get(`TestResults/GetAllPaging`),
-            api.get(`ServicePrices/GetAllPaging`),
+            api.get(`ServicePrices/GetAllServicePrices`),
         ]);
 
         const booking = resBooking.data.data;

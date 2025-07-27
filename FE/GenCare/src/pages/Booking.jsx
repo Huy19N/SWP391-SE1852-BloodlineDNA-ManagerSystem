@@ -146,11 +146,22 @@ function Booking() {
     return ;
   }
 
-  const year1 = new Date(person1.birthDate).getFullYear();
-  const now = new Date().getFullYear();
-  if (year1 < 1890 || year1 > now) {
+  const birthDate1 = new Date(person1.birthDate);
+  const today = new Date();
+  // Kiểm tra ngày sinh hợp lệ
+  if (isNaN(birthDate1.getTime())) {
+    toast.error("Ngày sinh của người thứ nhất không hợp lệ.");
+    return;
+  }
+
+  if (birthDate1.getFullYear() < 1890) {
     toast.error("Năm sinh của người thứ nhất không hợp lệ. Phải từ 1890 đến hiện tại.");
-    return ;
+    return;
+  }
+
+  if (birthDate1 > today) {
+    toast.error("Ngày sinh của người thứ nhất không được lớn hơn ngày hiện tại.");
+    return;
   }
 
   if (/\d/.test(person1.relationToPerson2)) {
@@ -164,10 +175,18 @@ function Booking() {
     return ;
   }
 
-  const year2 = new Date(person2.birthDate).getFullYear();
-  if (year2 < 1890 || year2 > now) {
+  const birthDate2 = new Date(person2.birthDate);
+  if (isNaN(birthDate2.getTime())) {
+    toast.error("Ngày sinh của người thứ hai không hợp lệ.");
+    return;
+  }
+  if (birthDate2.getFullYear() < 1890) {
     toast.error("Năm sinh của người thứ hai không hợp lệ. Phải từ 1890 đến hiện tại.");
-    return ;
+    return;
+  }
+  if (birthDate2 > today) {
+    toast.error("Ngày sinh của người thứ hai không được lớn hơn ngày hiện tại.");
+    return;
   }
 
   if (/\d/.test(person2.relationToPerson1)) {
