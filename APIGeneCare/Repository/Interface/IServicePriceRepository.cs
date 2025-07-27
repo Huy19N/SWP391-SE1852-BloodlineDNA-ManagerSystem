@@ -1,10 +1,11 @@
-﻿using APIGeneCare.Model.DTO;
+﻿using APIGeneCare.Model;
+using APIGeneCare.Model.DTO;
 
 namespace APIGeneCare.Repository.Interface
 {
     public interface IServicePriceRepository
     {
-        IEnumerable<ServicePriceDTO> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page);
+        Task<PagingModel> GetAllServicePricesPaging(string? search, int page, int itemPerPage);
         ServicePriceDTO? GetServicePriceById(int id);
         bool CreateServicePrice(ServicePriceDTO servicePrice);
         bool UpdateServicePrice(ServicePriceDTO servicePrice);

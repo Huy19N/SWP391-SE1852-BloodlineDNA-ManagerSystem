@@ -2,92 +2,43 @@
 using APIGeneCare.Model;
 using APIGeneCare.Model.DTO;
 using APIGeneCare.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace APIGeneCare.Repository
 {
     public class ServicePriceRepository : IServicePriceRepository
     {
         private readonly GeneCareContext _context;
-        public static int PAGE_SIZE { get; set; } = 100;
         public ServicePriceRepository(GeneCareContext context) => _context = context;
 
-        public IEnumerable<ServicePriceDTO> GetAllServicePricesPaging(string? typeSearch, string? search, string? sortBy, int? page)
+        public async Task<PagingModel> GetAllServicePricesPaging(string? search, int page, int itemPerPage)
         {
-            var allServicePrices = _context.ServicePrices.AsQueryable();
-            #region Search by type
-            if (!String.IsNullOrWhiteSpace(typeSearch) && !String.IsNullOrWhiteSpace(search))
-            {
-                if (typeSearch.Equals("priceid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int priceid))
-                    {
-                        allServicePrices = _context.ServicePrices.Where(sp => sp.PriceId == priceid);
-                    }
-                }
+            var query = _context.ServicePrices.Where(x => x.ServiceId.ToString().Contains(search??"") ||
+                                                         x.Price.ToString().Contains(search??"") || 
+                                                         x.DurationId.ToString().Contains(search??"") ||
+                                                         x.PriceId.ToString().Contains(search??""));
 
-                if (typeSearch.Equals("serviceid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int serviceid))
-                    {
-                        allServicePrices = _context.ServicePrices.Where(sp => sp.ServiceId == serviceid);
-                    }
-                }
+            int totalRecords = await query.CountAsync();
 
-                if (typeSearch.Equals("durationid", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int durationid))
-                    {
-                        allServicePrices = _context.ServicePrices.Where(sp => sp.DurationId == durationid);
-                    }
-                }
+            int maxPage = (int)Math.Ceiling((double)totalRecords / itemPerPage);
 
-                if (typeSearch.Equals("price", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (int.TryParse(search, out int price))
-                    {
-                        allServicePrices = _context.ServicePrices.Where(sp => sp.Price == price);
-                    }
-                }
-            }
-            #endregion
-            #region Sort by
-            if (!String.IsNullOrWhiteSpace(sortBy))
-            {
-                if (sortBy.Equals("priceid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderBy(sp => sp.PriceId);
+            var pagedData = await query.Skip((page - 1) * itemPerPage)
+                                       .Take(itemPerPage)
+                                       .Select(sp => new ServicePriceDTO{
+                                           PriceId = sp.PriceId,
+                                           ServiceId = sp.ServiceId,
+                                           DurationId = sp.DurationId,
+                                           Price = sp.Price,
+                                           IsDeleted = sp.IsDeleted
+                                       }).ToListAsync();
 
-                if (sortBy.Equals("priceid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderByDescending(sp => sp.ServiceId);
-
-                if (sortBy.Equals("serviceid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderBy(sp => sp.ServiceId);
-
-                if (sortBy.Equals("serviceid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderByDescending(sp => sp.ServiceId);
-
-                if (sortBy.Equals("durationid_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderBy(sp => sp.DurationId);
-
-                if (sortBy.Equals("durationid_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderByDescending(sp => sp.DurationId);
-
-                if (sortBy.Equals("price_asc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderBy(sp => sp.ServiceId);
-
-                if (sortBy.Equals("price_desc", StringComparison.CurrentCultureIgnoreCase))
-                    allServicePrices = allServicePrices.OrderByDescending(sp => sp.ServiceId);
-
-            }
-            #endregion
-            var result = PaginatedList<ServicePrice>.Create(allServicePrices, page ?? 1, PAGE_SIZE);
-            return result.Select(sp => new ServicePriceDTO
-            {
-                PriceId = sp.PriceId,
-                ServiceId = sp.ServiceId,
-                DurationId = sp.DurationId,
-                Price = sp.Price,
-                IsDeleted = sp.IsDeleted,
-            });
+            return new PagingModel() {
+                
+                MaxPage = maxPage,
+                CurrentPage = page,
+                Data = pagedData
+            };
         }
         public ServicePriceDTO? GetServicePriceById(int id)
             => _context.ServicePrices.Select(sp => new ServicePriceDTO

@@ -15,17 +15,22 @@ namespace APIGeneCare.Controllers
 
         [HttpGet("GetAllPaging")]
         public async Task<IActionResult> GetAllServicePricesPaging(
-            [FromQuery] string? typeSearch,
             [FromQuery] string? search,
-            [FromQuery] string? sortBy,
-            [FromQuery] int? page)
+            [FromQuery] int page,
+            [FromQuery] int itemsPerPage)
         {
             try
             {
-                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePricesPaging(
-                    typeSearch, search,
-                    sortBy, page));
-                if (servicePrices == null || !servicePrices.Any())
+                if (page <= 0)
+                {
+                    return BadRequest(new ApiResponse
+                    {
+                        Success = false,
+                        Message = "Page must > 0"
+                    });
+                }
+                var servicePrices = await Task.Run(() => _servicePriceRepository.GetAllServicePricesPaging(search, page, itemsPerPage));
+                if (servicePrices == null)
                 {
                     return NotFound(new ApiResponse
                     {
@@ -34,12 +39,7 @@ namespace APIGeneCare.Controllers
                         Data = null
                     });
                 }
-                return Ok(new ApiResponse
-                {
-                    Success = true,
-                    Message = "Get all service price Success",
-                    Data = servicePrices
-                });
+                return Ok(servicePrices);
 
             }
             catch (Exception ex)
