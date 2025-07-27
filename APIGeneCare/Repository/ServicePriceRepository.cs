@@ -104,6 +104,14 @@ namespace APIGeneCare.Repository
             try
             {
                 if (servicePrice == null) return false;
+                var existingServicePrice = _context.ServicePrices
+                    .FirstOrDefault(sp => sp.ServiceId == servicePrice.ServiceId && sp.DurationId == servicePrice.DurationId && !sp.IsDeleted);
+                if (existingServicePrice != null)
+                {
+                    existingServicePrice.IsDeleted = true;
+                    _context.ServicePrices.Update(existingServicePrice);
+                    _context.SaveChanges();
+                }
 
                 _context.ServicePrices.Add(new ServicePrice
                 {
