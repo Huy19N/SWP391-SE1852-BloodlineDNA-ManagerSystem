@@ -57,8 +57,8 @@ const LoginRegister = () => {
   const params = new URLSearchParams(window.location.search);
   const accessToken = params.get("AccessToken");
   const refreshToken = params.get("RefreshToken");
-  const roleId = params.get("RoleId");
-  const userId = params.get("UserId");
+  const roleId = params.get("roleId");
+  const userId = params.get("userId");
 
   if (accessToken && refreshToken && roleId && userId) {
     // Lưu thông tin vào localStorage

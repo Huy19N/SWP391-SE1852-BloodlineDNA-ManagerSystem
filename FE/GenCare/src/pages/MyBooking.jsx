@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
     const [isLoading, setIsLoading] = useState(false);
     const [dataBooking, setDataBooking] = useState([]);
     const [dataService, setDataService] = useState([]);
+    const [dataServicesPrice, setDataServicesPrice] = useState([]);
     const [dataDuration, setDataDuration] = useState([]);
     const [dataStatus, setDataStatus] = useState([]);
     const [resStepsAll, setResStepsAll] = useState([]);
@@ -27,11 +28,12 @@ import { Link } from "react-router-dom";
     const fetchData = async () => {
         setIsLoading(true);
         try {
-        const [resBooking, resService, resDuration, resStatus] = await Promise.all([
+        const [resBooking, resService, resDuration, resStatus, resServicePrice] = await Promise.all([
             api.get("Bookings/GetAll"),
             api.get("Services/GetAllPaging"),
             api.get("Durations/GetAllPaging"),
             api.get("Status/GetAllStatus"),
+            api.get("ServicePrices/GetAllPaging"),
         ]);
         
         const dataStatus = resStatus.data.data;
@@ -44,6 +46,7 @@ import { Link } from "react-router-dom";
         setDataService(resService.data.data);
         setDataDuration(resDuration.data.data);
         setDataStatus(resStatus.data.data);
+        setDataServicesPrice(resServicePrice.data.data);
         } catch (error) {
         toast.error("Thất bại tải dữ liệu đặt chỗ");
         } finally {
@@ -51,10 +54,25 @@ import { Link } from "react-router-dom";
         }
     };
 
-    const getServiceName = (id) => dataService.find((s) => s.serviceId === id)?.serviceName || "Trống";
-    const getServiceType = (id) => dataService.find((s) => s.serviceId === id)?.serviceType || "Trống";
-    const getDurationName = (id) => dataDuration.find((d) => d.durationId === id)?.durationName || "Trống";
     const getStatusName = (id) => dataStatus.find((s) => s.statusId === id)?.statusName || "Trống";
+
+    const getServiceName = (priceID) => {
+        const price = dataServicesPrice.find(u => u.priceId === priceID);
+        const service = dataService.find(s => s.serviceId === price?.serviceId);
+        return service?.serviceName || 'Trống';
+    };
+
+    const getServiceType = (priceID) => {
+        const price = dataServicesPrice.find(u => u.priceId === priceID);
+        const service = dataService.find(s => s.serviceId === price?.serviceId);
+        return service?.serviceType || 'Trống';
+    };
+
+    const getDurationName = (priceID) => {
+        const price = dataServicesPrice.find(p => p.priceId === priceID);
+        const duration = dataDuration.find(d => d.durationId === price?.durationId);
+        return duration?.durationName || 'Trống';
+    };
 
     const fetchBookingDetail = async (bookingId) => {
         try {
@@ -69,7 +87,8 @@ import { Link } from "react-router-dom";
             resDurationAll,
             resMethodAll, 
             resStepsAll, 
-            resResults
+            resResults,
+            resServicePrice
         ] = await Promise.all([
             api.get(`Bookings/GetById/${bookingId}`),
             api.get(`Users/GetAll`),
@@ -81,16 +100,18 @@ import { Link } from "react-router-dom";
             api.get(`Durations/GetAllPaging`),
             api.get(`CollectionMethod/GetAll`),
             api.get(`TestStep/getAllTestSteps`),
-            api.get(`TestResults/GetAllPaging`)
+            api.get(`TestResults/GetAllPaging`),
+            api.get(`ServicePrices/GetAllPaging`),
         ]);
 
         const booking = resBooking.data.data;
         const step = resStepsAll.data.data;
         const user = resUserAll.data.data.find(u => u.userId === booking.userId);
-        const service = resServiceAll.data.data.find(s => s.serviceId === booking.serviceId);
+        const price = resServicePrice.data.data.find(p => p.priceId === booking.priceId);
+        const service = resServiceAll.data.data.find(s => s.serviceId === price?.serviceId);
         const status = resStatusAll.data.data.find(s => s.statusId === booking.statusId);
         const method = resMethodAll.data.data.find(m => m.methodId === booking.methodId);
-        const duration = resDurationAll.data.data.find(d => d.durationId === booking.durationId);
+        const duration = resDurationAll.data.data.find(d => d.durationId === price?.durationId);
         const result = resResults.data.find(r => r.resultId === booking.resultId);
 
         const sampleMap = {};
@@ -229,9 +250,9 @@ import { Link } from "react-router-dom";
                     filterBookings.map((booking) => (
                     <tr key={booking.bookingId}>
                         <td>#{booking.bookingId}</td>
-                        <td>{getServiceName(booking.serviceId)}</td>
-                        <td>{getServiceType(booking.serviceId)}</td>
-                        <td>{getDurationName(booking.durationId)}</td>
+                        <td>{getServiceName(booking.priceId)}</td>
+                        <td>{getServiceType(booking.priceId)}</td>
+                        <td>{getDurationName(booking.priceId)}</td>
                         <td>{booking.appointmentTime?.split("T")[0]}</td>
                         <td>{getStatusName(booking.statusId)}</td>
                         <td>
