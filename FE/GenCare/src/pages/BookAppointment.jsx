@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { format, eachDayOfInterval, addDays, startOfWeek } from "date-fns";
 import { vi } from "date-fns/locale";
 
-const timeSlots = ["slot 1", "slot 2", "slot 3", "slot 4"];
 
 // Tạo danh sách tuần bắt đầu từ thứ 2 (hiển thị 24 tuần)
 const generateWeekRanges = (count = 24) => {
@@ -31,31 +30,25 @@ function BookAppointment() {
   const navigate = useNavigate();
   const selectedService = JSON.parse(localStorage.getItem('selectedService'));
 
-  const [selectedSlot, setSelectedSlot] = useState({ date: "", slot: "" });
+  const [selectedSlot, setSelectedSlot] = useState({ date: "" });
   const [selectedWeek, setSelectedWeek] = useState(null);
   const [weekOptions] = useState(generateWeekRanges());
-
-  const handleSelect = (date, slot) => {
-    setSelectedSlot({ date, slot });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!selectedSlot.date || !selectedSlot.slot) {
-      toast("Vui lòng chọn một ngày và khung giờ.");
-      return;
+    if (!selectedSlot.date) {
+    toast("Vui lòng chọn một ngày.");
+    return;
     }
 
     const updatedService = {
       ...selectedService,
       appointmentDay: format(selectedSlot.date, "dd/MM/yyyy"),
-      appointmentSlot: selectedSlot.slot,
     };
 
     localStorage.setItem('selectedService', JSON.stringify(updatedService));
-
-    toast(`Bạn đã chọn ${selectedSlot.slot} vào ngày ${format(selectedSlot.date, "dd/MM/yyyy")}`);
+    toast(`Bạn đã chọn ngày ${format(selectedSlot.date, "dd/MM/yyyy")}`);
     navigate('/booking');
   };
 
@@ -63,7 +56,7 @@ function BookAppointment() {
     ? eachDayOfInterval({ start: selectedWeek.start, end: selectedWeek.end })
     : [];
 
-  const dayLabels = validDays.map((date) => format(date, 'EEEE', { locale: vi })); 
+  const dayLabels = validDays.map((date) => format(date, 'EEEE', { locale: vi })); // dùng để in thứ tiếng việt
 
   return (
     <div className="container mt-5 p-4 mb-4 rounded shadow" style={{ maxWidth: "900px", backgroundColor: "#f9f9f9" }}>
@@ -85,7 +78,7 @@ function BookAppointment() {
           onChange={(e) => {
             const week = weekOptions.find(w => w.label === e.target.value);
             setSelectedWeek(week);
-            setSelectedSlot({ date: "", slot: "" });
+            setSelectedSlot({ date: "" });
           }}
         >
           <option value="">-- Chọn một tuần --</option>
@@ -95,46 +88,43 @@ function BookAppointment() {
         </select>
       </div>
 
-      {/* Bảng chọn thời gian */}
+      {/* Bảng chọn ngày */}
       <div className="table-responsive">
         {selectedWeek ? (
           <div className="table-responsive mt-3">
             <table className="table table-bordered text-center align-middle">
               <thead className="table-light">
                 <tr>
-                  <th></th>
+                  <th>Ngày</th>
                   {dayLabels.map((label, idx) => (
                     <th key={idx}>{label}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {timeSlots.map((slot) => (
-                  <tr key={slot}>
-                    <th>{slot}</th>
-                    {validDays.map((dateObj) => {
-                      const isSelected =
-                        selectedSlot.date &&
-                        selectedSlot.slot === slot &&
-                        format(selectedSlot.date, 'yyyy-MM-dd') === format(dateObj, 'yyyy-MM-dd');
+                <tr>
+                  <th>Chọn</th>
+                  {validDays.map((dateObj) => {
+                    const isSelected =
+                      selectedSlot.date &&
+                      format(selectedSlot.date, 'yyyy-MM-dd') === format(dateObj, 'yyyy-MM-dd');
 
-                      return (
-                        <td
-                          key={format(dateObj, 'yyyy-MM-dd') + slot}
-                          className={`selectable-slot ${isSelected ? "bg-success text-white" : ""}`}
-                          onClick={() => handleSelect(dateObj, slot)}
-                        >
-                          {isSelected ? "Đã chọn" : "Chọn"}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
+                    return (
+                      <td
+                        key={format(dateObj, 'yyyy-MM-dd')}
+                        className={`selectable-slot ${isSelected ? "bg-success text-white" : ""}`}
+                        onClick={() => setSelectedSlot({ date: dateObj })}
+                      >
+                        {isSelected ? "Đã chọn" : "Chọn"}
+                      </td>
+                    );
+                  })}
+                </tr>
               </tbody>
             </table>
           </div>
         ) : (
-          <h5 className=" text-center mt-4">Vui lòng chọn một tuần để xem các khung giờ.</h5>
+          <h5 className="text-center mt-4">Vui lòng chọn một tuần để xem các ngày.</h5>
         )}
       </div>
 

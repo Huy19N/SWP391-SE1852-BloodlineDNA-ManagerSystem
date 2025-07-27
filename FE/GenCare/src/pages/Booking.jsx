@@ -9,15 +9,13 @@ const userId = localStorage.getItem("userId");
 function Booking() {
   const navigate = useNavigate();
 
-
   const [selectedService, setSelectedService] = useState({});
   const [formData, setFormData] = useState({
     serviceType: '',
     testType: '',
-    timeSlot: '',
+    appointmentDay: '',
     method: '',
     serviceId: null,
-    durationId: null,
     price:0,
     user: {
       fullName: '',
@@ -47,10 +45,6 @@ function Booking() {
   // Lấy selectedService từ localStorage
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("selectedService")) || {};
-    setSelectedService(data);
-  }, []);
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("selectedService")) || {};
     console.log("selectedService trong localStorage:", data);
     setSelectedService(data);
   }, []);
@@ -65,10 +59,9 @@ function Booking() {
           ...prev,
           serviceType: selectedService?.mainType || '',
           testType: selectedService?.testType || '',
-          timeSlot: `${selectedService?.appointmentDay || ''} - ${selectedService?.appointmentSlot || ''}`,
+          appointmentDay: selectedService?.appointmentDay || '',
           method: selectedService?.collectionMethod || '',
           serviceId: selectedService?.serviceId || null,
-          durationId: selectedService?.durationId || null,
           durationName: selectedService?.durationName || "", 
           price: selectedService.price|| 0,
 
@@ -181,7 +174,12 @@ function Booking() {
     return ;
   }
 
-
+const getAppointmentTime = (dayStr) => {
+      if (!dayStr) return null;
+      const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
+      const dateTimeString = `${format(parsedDate, 'yyyy-MM-dd')}T${DEFAULT_TIME}:00`;
+      return new Date(dateTimeString).toISOString();
+    };
 
   try {
     // cập nhật user
@@ -199,21 +197,7 @@ function Booking() {
     };
     await api.put(`Users/Update/${userId}`, updatedUser);
 
-    const getAppointmentTime = (dayStr, slotStr) => {
-    const timeMap = {
-    'slot 1': '08:00',
-    'slot 2': '10:00',
-    'slot 3': '13:00',
-    'slot 4': '15:00',
-    };
 
-  const time = timeMap[slotStr] || '08:00';
-  const parsedDate = parse(dayStr, 'dd/MM/yyyy', new Date());
-
-  //ghép ngày và giờ lại thành chuỗi 
-  const dateTimeString = format(parsedDate, 'yyyy-MM-dd') + 'T' + time + ':00';
-  return new Date(dateTimeString).toISOString();
-  };
     
     //tạo bôking
     const bookingData = {
@@ -221,7 +205,7 @@ function Booking() {
       priceId: selectedService?.priceId,   
       methodId: selectedService?.collectionMethodId,
       resultId: 0, // chưa có kết quả
-      appointmentTime: getAppointmentTime(selectedService?.appointmentDay, selectedService?.appointmentSlot),
+      appointmentTime: getAppointmentTime(selectedService?.appointmentDay),
       statusId: 1, 
        date: new Date().toISOString(),
       patients: [
@@ -307,7 +291,7 @@ function Booking() {
           fullName: formData.user.fullName,
           email: formData.user.gmail
         },
-        appointmentTime: `${selectedService?.appointmentDay} - ${selectedService?.appointmentSlot}`
+        appointmentTime: `${selectedService?.appointmentDay}`
       }
     });
 
@@ -335,8 +319,8 @@ function Booking() {
         <input type="text" name="testType" value={formData.testType} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
-        <label className="form-label">Khung giờ</label>
-        <input type="text" name="timeSlot" value={formData.timeSlot} readOnly className="form-control bg-light" />
+        <label className="form-label">Ngày hẹn</label>
+        <input type="text" name="appointmentDay" value={formData.appointmentDay} readOnly className="form-control bg-light" />
       </div>
       <div className="mb-3">
         <label className="form-label">Phương pháp thu mẫu</label>
@@ -348,7 +332,7 @@ function Booking() {
       </div>
       <div className="mb-3">
         <label className="form-label">Giá dịch vụ</label>
-        <input type="text" name="price" value={formData.price.toLocaleString("vi-VN", {style: "currency",currency: "VND",}) }
+        <input type="text" name="price" value={formData.price.toLocaleString("vi-VN") +"đ"}
           readOnly
           className="form-control bg-light"
         />

@@ -58,13 +58,12 @@ function Duration() {
     fetchData();
   }, []);
 
-  const handleSelect = (serviceId, durationId,durationName,priceId, price) => {
+  const handleSelect = (serviceId,durationName,priceId, price) => {
     const prev = JSON.parse(localStorage.getItem("selectedService")) || {};
 
     const updated = {
       ...prev,
       serviceId,
-      durationId,
       durationName,
       priceId,
       price,
@@ -95,7 +94,7 @@ function Duration() {
             <div key={item.priceId} className="col-md-4 mb-4">
               <div
                 className="card shadow text-dark text-decoration-none"
-                onClick={() => handleSelect(item.service.serviceId, item.duration.durationId,item.duration.durationName,item.priceId, item.price)}
+                onClick={() => handleSelect(item.service.serviceId,item.duration.durationName,item.priceId, item.price)}
               >
                 <div className="card-header bg-info text-white text-center">
                   <h4 className="mb-0">{item.duration.durationName.toUpperCase()} CÓ KẾT QUẢ</h4>
