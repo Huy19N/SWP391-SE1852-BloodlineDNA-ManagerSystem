@@ -179,7 +179,7 @@ namespace APIGeneCare.Repository
                 existingBooking.MethodId = booking.MethodId;
                 existingBooking.ResultId = booking.ResultId;
                 existingBooking.Date = booking.Date;
-
+                
                 _context.SaveChanges();
                 transaction.Commit();
                 return true;
