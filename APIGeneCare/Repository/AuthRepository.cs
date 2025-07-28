@@ -196,14 +196,16 @@ namespace APIGeneCare.Repository
 
                 var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://oauth2.googleapis.com/token")
                 {
+                    
+
                     Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    {"code", code},
-                    {"client_id", clientId},
-                    {"client_secret", clientSecret},
-                    {"redirect_uri", redirectUrl},
-                    {"grant_type", "authorization_code"}
-                })
+                    {
+                        {"code", code},
+                        {"client_id", clientId},
+                        {"client_secret", clientSecret},
+                        {"redirect_uri", redirectUrl},
+                        {"grant_type", "authorization_code"}
+                    })
                 };
 
                 using var httpClient = new HttpClient();
@@ -271,7 +273,7 @@ namespace APIGeneCare.Repository
                 StringBuilder url = new StringBuilder(_googleLoginSettings.ReturnAfterLogin);
                 if (token is TokenModel)
                 {
-                    url.Append($"?AccessToken={token.AccessToken}&RefreshToken={token.RefreshToken}$roleId={userRefeshToken.RoleId}&userId={userRefeshToken.UserId}");
+                    url.Append($"?AccessToken={token.AccessToken}&RefreshToken={token.RefreshToken}&roleId={userRefeshToken.RoleId}&userId={userRefeshToken.UserId}");
                 }
 
                 return url.ToString();
