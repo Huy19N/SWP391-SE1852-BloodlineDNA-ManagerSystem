@@ -4,6 +4,7 @@ import img2 from '../assets/staff.jpg';
 import img3 from '../assets/test1.jpg';
 import img4 from '../assets/test2.jpg';
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import api from "../config/axios.js";
@@ -95,9 +96,14 @@ function Blog() {
                   <div className="p-4 flex-grow-1">
                     <h5 className="text-xl font-bold mb-2">{blog.title}</h5>
                     <p className="text-sm text-gray-700 mb-3">
-                      {blog.description || blog.content?.substring(0, 75) + "..."}
+                      {blog.content?.substring(0, 75) + "..."}
                     </p>
-                    <a href={`/blog/${blog.id}`} className="btn btn-primary mt-auto">Read More</a>
+                      <Link
+                        to={`/blog/${blog.blogId}`}
+                        className="btn btn-primary mt-auto"
+                      >
+                        Read More
+                      </Link>
                   </div>
                 </div>
               </div>

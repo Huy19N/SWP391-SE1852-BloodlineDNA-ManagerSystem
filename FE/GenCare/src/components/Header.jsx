@@ -109,7 +109,7 @@ export default function Header(){
                             <NavLink className="nav-link text-dark" to="/services">Dịch Vụ</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link text-dark" to="/blog">Blog</NavLink>
+                            <NavLink className="nav-link text-dark" to="/blog">Bài đăng</NavLink>
                         </li>
 						<li className="nav-item">
                             {handleLogin()}

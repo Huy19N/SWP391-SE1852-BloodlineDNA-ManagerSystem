@@ -13,6 +13,7 @@ import CivilServices from './pages/CivilServices.jsx';
 import CollectionMethod from './pages/CollectionMethod.jsx';
 import Duration from './pages/Duration.jsx';
 import Blog from './pages/Blog.jsx';
+import BlogDetail from './pages/BlogDetail.jsx';
 
 import BookAppointment from './pages/BookAppointment.jsx';
 import Booking from './pages/Booking.jsx';
@@ -64,7 +65,9 @@ function App() {
       <Route path="/legal-services" element={<LegalServices />} />
       <Route path="/civil-services" element={<CivilServices />} />
       <Route path="/collection-method" element={<CollectionMethod/>} />
+
       <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:id" element={<BlogDetail />} />
 
       
        <Route path="/duration" element={

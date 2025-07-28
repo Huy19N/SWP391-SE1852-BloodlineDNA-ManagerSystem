@@ -112,7 +112,7 @@ function Blog(){
     return (
         <div className="container mt-5">
             <div className="h2 pb-2 mb-4 text-primary border-bottom border-primary ">
-                Danh Sách về Blog
+                Danh Sách Bài Đăng
             </div>
             <div className="row mb-3">
                 <div className="col-md-4">
@@ -127,7 +127,7 @@ function Blog(){
 
                 <div className="col-md-4">
                     <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}> 
-                        Thêm Blog mới
+                        Thêm Bài Đăng Mới
                     </button>
                 </div>
             </div>

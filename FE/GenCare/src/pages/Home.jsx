@@ -130,27 +130,27 @@ function Home() {
           >
             <div className="text-center" style={{ width: '15%' }}>
               <i className="bi bi-person-check-fill fs-1 text-info"></i>
-              <p className="mt-2">Provider decision<br />support</p>
+              <p className="mt-2">Cần xét nghiệm<br />DNA</p>
             </div>
             <i className="bi bi-arrow-right-circle fs-1 text-info"></i>
             <div className="text-center" style={{ width: '15%' }}>
               <i className="bi bi-calendar3 fs-1 text-info"></i>
-              <p className="mt-2">Make <br />Appointment</p>
+              <p className="mt-2">Đặt lịch <br />hẹn</p>
             </div>
             <i className="bi bi-arrow-right-circle fs-1 text-info"></i>
             <div className="text-center" style={{ width: '15%' }}>
               <i className="bi bi-droplet-fill fs-1 text-info"></i>
-              <p className="mt-2">Collection of<br />DNA sample</p>
+              <p className="mt-2">Thu Thập<br />Mẫu</p>
             </div>
             <i className="bi bi-arrow-right-circle fs-1 text-info"></i>
             <div className="text-center" style={{ width: '15%' }}>
               <i className="bi bi-pc-display fs-1 text-info"></i>
-              <p className="mt-2">DNA<br />Processed</p>
+              <p className="mt-2">Xử lý<br />DNA</p>
             </div>
             <i className="bi bi-arrow-right-circle fs-1 text-info"></i>
             <div className="text-center" style={{ width: '15%' }}>
               <i className="bi bi-bar-chart-line-fill fs-1 text-info"></i>
-              <p className="mt-2">Real-time<br />analytics</p>
+              <p className="mt-2">Báo cáo dữ liệu<br />thời gian thực</p>
             </div>
           </div>
         </div>
@@ -161,8 +161,8 @@ function Home() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-6">
-              <h6 className="fw-bold text-muted">About</h6>
-              <h2 className="fw-bold mb-4">GenCare-DNA<br />Diagnostic Center</h2>
+              <h6 className="fw-bold text-muted">Về chúng tôi</h6>
+              <h2 className="fw-bold mb-4">GenCare-DNA<br />Trung tâm chuẩn đoán</h2>
               <p>
                 Trung tâm DNA TESTINGS tự hào là một trong những đơn vị chuyên xét nghiệm ADN ở TP. Hồ Chí Minh và Hà Nội...
               </p>

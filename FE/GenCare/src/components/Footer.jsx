@@ -43,7 +43,7 @@ function Footer(){
 
                     
                     <div className="col-md-4 col-lg-4 col-xl-4 mx-auto mb-4">
-                    <h6 className="text-uppercase fw-bold mb-4">Newsletter</h6>
+                    <h6 className="text-uppercase fw-bold mb-4">Cổng thông tin liên quan</h6>
                         <div>
                             <a href="#" className="me-3 text-reset"><i className="bi bi-facebook fs-4"></i></a>
                             <a href="#" className="me-3 text-reset"><i className="bi bi-instagram fs-4"></i></a>
