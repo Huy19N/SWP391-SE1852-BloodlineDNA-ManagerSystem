@@ -259,7 +259,8 @@ function Booking(){
                 methodId: b.methodId,
                 appointmentTime: b.appointmentTime,
                 statusId: b.statusId,
-                resultId: newResultId
+                resultId: newResultId,
+                date: b.date
             });
 
             toast.success("Tạo và gán kết quả thành công!");
