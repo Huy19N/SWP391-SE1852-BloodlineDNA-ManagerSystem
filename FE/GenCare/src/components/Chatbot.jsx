@@ -22,7 +22,7 @@ export default function AIChatWidget() {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
-          //'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer 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',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -31,10 +31,10 @@ export default function AIChatWidget() {
         })
       });
       const data = await res.json();
-      const aiReply = data.choices?.[0]?.message?.content || 'Sorry, I could not understand.';
+      const aiReply = data.choices?.[0]?.message?.content || 'Xin lỗi, Tôi không hiểu bạn.';
       setMessages(prev => [...prev, { role: 'assistant', content: aiReply }]);
     } catch (err) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Error talking to AI.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Lỗi khi nói với AI.' }]);
     } finally {
       setLoading(false);
     }
@@ -44,30 +44,30 @@ export default function AIChatWidget() {
     <div className="chat-container">
       {isOpen && (
         <div className="chat-box">
-          <div className="chat-header">AI Chat Support</div>
+          <div className="chat-header">Hỗ trợ nhắn tin với AI</div>
           <div className="chat-messages">
             {messages.map((msg, idx) => (
               <div key={idx} className={`chat-message ${msg.role}`}>
                 {msg.content}
               </div>
             ))}
-            {loading && <div className="chat-message assistant">Think...</div>}
+            {loading && <div className="chat-message assistant">Nghĩ...</div>}
           </div>
           <div className="chat-input">
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSend()}
-              placeholder="Type your message..."
+              placeholder="Nhập tin nhắn Của bạn..."
             />
-            <button onClick={handleSend}>Send</button>
+            <button onClick={handleSend}>Gửi</button>
           </div>
         </div>
       )}
 
       <div className="ai-chat-button" onClick={toggleChat}>
         <div className="ai-chat-label">
-          AI Chat
+          Nhắn tin với AI
         </div>
         <div className="ai-chat-icon">
           <img src={img1} alt="Chat" />
