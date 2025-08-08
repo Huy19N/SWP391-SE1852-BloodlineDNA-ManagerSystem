@@ -1,3 +1,4 @@
+
 html {
   font-size: 14px;
 }
@@ -441,6 +442,124 @@ span#fcta-zalo-tracking {
     left: 120%;
   }
 }
+/* sidebar */
+.sidebar-dark {
+  background-color: #0f172a; /* màu nền sidebar */
+}
 
+.nav-link-custom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link-custom:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #fff;
+}
+
+.nav-link-custom.active {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+/* OTPmodal */
+/* Nền modal */
+.otp-modal .modal-content {
+  background-color: #0D1117;
+  border-radius: 20px;
+  border: none;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+}
+
+/* Icon ổ khóa */
+.otp-lock-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.otp-lock-svg {
+  width: 64px;
+  height: 64px;
+  color: #3B82F6;
+  filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.7));
+}
+
+/* Tiêu đề & subtitle */
+.otp-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.otp-subtitle {
+  font-size: 0.9rem;
+  color: #9CA3AF;
+  margin-bottom: 1.5rem;
+}
+
+/* Input OTP */
+.otp-input-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.otp-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: #161B22;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  outline: none;
+}
+
+.otp-input:focus {
+  border: 2px solid #3B82F6;
+}
+
+/* Nút */
+.otp-button {
+  width: 100%;
+  background-color: #3B82F6;
+  border: none;
+  padding: 0.6rem;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Resend */
+.otp-resend {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #9CA3AF;
+}
+
+.otp-resend-link {
+  color: #3B82F6;
+  cursor: pointer;
+}
+
+.otp-resend-link:hover {
+  text-decoration: underline;
+}
 
 
