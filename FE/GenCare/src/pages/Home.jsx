@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import img1 from '../assets/ServicesHome.jpg';
-import img2 from '../assets/staff.jpg';
+import img2 from '../assets/dna2.jpg';
 import img3 from '../assets/test1.jpg';
 import img4 from '../assets/test2.jpg';
 import img5 from '../assets/girl4.jpg';
 import img6 from '../assets/girl3.jpg';
-import img7 from '../assets/princess.jpg';
-import img8 from '../assets/hime.jpg';
 import img9 from '../assets/doctor1.jpg';
+import img10 from '../assets/dna3.jpg';
 import logo1 from '../assets/logo1.png';
 import logo2 from '../assets/logo2.png';
 import logo3 from '../assets/logo3.png';
 import logo4 from '../assets/logo4.png';
 import logo5 from '../assets/logo5.jpg';
 import * as bootstrap from 'bootstrap';
+import Text from "../components/Text";
+import TypewriterText from '../components/typewriter';
+import Videotext from '../components/video-text';
 
 function Home() {
   // Initialize Bootstrap carousels on component mount
@@ -41,10 +43,10 @@ function Home() {
 
           <div className="carousel-inner">
             <div className="carousel-item active position-relative w-100" style={{ aspectRatio: '16/6' }}>
-              <img src={img1} alt="Los Angeles" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img2} alt="Los Angeles" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="carousel-item position-relative w-100" style={{ aspectRatio: '16/6' }}>
-              <img src={img2} alt="Chicago" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+              <img src={img10} alt="Chicago" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
             </div>
             <div className="carousel-item position-relative w-100" style={{ aspectRatio: '16/6' }}>
               <img src={img3} alt="New York" className="d-block position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
@@ -62,15 +64,15 @@ function Home() {
           <button className="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
             <span className="carousel-control-next-icon"></span>
           </button>
+          <div className="position-absolute top-50 start-50 translate-middle z-10 text-center">
+            <Videotext />
+          </div>
         </div>
       </div>
 
       {/* Part 2: Text Advice */}
       <div className="container text-center mt-20 mb-10">
-        <h2 className="fw-bold display-6 py-5">
-          Chúng tôi <span className="text-primary">nỗ lực</span> bạn <span className="text-primary"> hài lòng </span><br />
-          Chúng tôi <span className="text-primary">chính xác</span> bạn <span className="text-primary">hi vọng </span>
-        </h2>
+        <Text/>
       </div>
 
       {/* Part 3: Why Choose Us */}
@@ -88,21 +90,27 @@ function Home() {
                 <i className="bi bi-lightbulb-fill text-primary fs-2 me-3"></i>
                 <div>
                   <h5 className="text-primary fw-bold mb-1">Công nghệ kiểm tra ADN tiên tiến</h5>
-                  <p className="mb-0 text-muted">Chúng tôi sử dụng công nghệ hiện đại để cung cấp các phương pháp xét nghiệm ADN chính xác và đáng tin cậy</p>
+                  <p className="mb-0 text-muted">
+                    <TypewriterText text="Chúng tôi sử dụng công nghệ hiện đại để cung cấp các phương pháp xét nghiệm ADN chính xác và đáng tin cậy" />
+                  </p>
                 </div>
               </div>
               <div className="d-flex mb-4">
                 <i className="bi bi-emoji-smile text-primary fs-2 me-3"></i>
                 <div>
                   <h5 className="text-primary fw-bold mb-1">Sự hài lòng của khách hàng là ưu tiên của chúng tôi</h5>
-                  <p className="mb-0 text-muted">Những khách hàng của chúng tôi luôn thể hiện sự hài lòng với chất lượng dịch vụ mà chúng tôi đem đến</p>
+                  <p className="mb-0 text-muted">
+                    <TypewriterText text="Những khách hàng của chúng tôi luôn thể hiện sự hài lòng với chất lượng dịch vụ mà chúng tôi đem đến" />
+                  </p>
                 </div>
               </div>
               <div className="d-flex">
                 <i className="bi bi-people-fill text-primary fs-2 me-3"></i>
                 <div>
                   <h5 className="text-primary fw-bold mb-1">Đội ngũ y bác sĩ đáng tin cậy</h5>
-                  <p className="mb-0 text-muted">Chúng tôi được công nhận là có đội ngũ y bác sĩ đáng tin cậy và nổi tiếng trong lĩnh vực xét nghiệm ADN</p>
+                  <p className="mb-0 text-muted">
+                    <TypewriterText text="Chúng tôi được công nhận là có đội ngũ y bác sĩ đáng tin cậy và nổi tiếng trong lĩnh vực xét nghiệm ADN" />
+                  </p>
                 </div>
               </div>
             </div>
@@ -114,7 +122,7 @@ function Home() {
       <section className="text-center py-5">
         <div className="container">
           <h2 className="fw-bold display-5">
-            Qui trình của chúng tôi: <span className="text-info">phần mềm </span> đăng ký trực tuyến
+            Quy trình của chúng tôi: <span className="text-info">Phần mềm </span> đăng ký trực tuyến
           </h2>
           <p className="text-muted">
              Tiết kiệm thời gian và chi phí, dễ dàng, giảm thiểu rủi ro và hiệu quả
@@ -257,7 +265,7 @@ function Home() {
             <div className="col-md-6 position-relative mb-5 mb-md-0">
               <img src={img3} alt="DNA" className="img-fluid rounded shadow" style={{ transform: 'translateX(-8%)' }} />
               <img
-                src={img4}
+                src={img10}
                 alt="DNA"
                 className="img-fluid rounded shadow position-absolute img-overlay"
                 style={{ width: '50%', top: '-30px', right: 0, transform: 'translateX(-138%)' }}

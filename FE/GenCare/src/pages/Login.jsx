@@ -67,6 +67,8 @@ const LoginRegister = () => {
     localStorage.setItem('roleId', roleId);
     localStorage.setItem('userId', userId);
 
+    console.log(localStorage.getItem('token'));
+    console.log(localStorage.getItem('roleId'));
     toast.success("Đăng nhập bằng Google thành công!");
     navigate("/"); // chuyển về trang chủ
   }
